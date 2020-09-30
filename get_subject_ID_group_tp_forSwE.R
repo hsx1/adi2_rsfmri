@@ -1,10 +1,11 @@
 library(dplyr)
 library(tidyr)
 
+IG_only = 1
+
 setwd("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/")
 
 files=read.table("scans_PCC_CC_z.txt")
-
 #split info from path in txt
 for (i in 1:nrow(files)){
   #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
@@ -29,7 +30,17 @@ final[is.na(final$IG),"IG"]=0
 final[final$condition=="KG","KG"]=1
 final[is.na(final$KG),"KG"]=0
 
+# Model specification incl. design matrix for IG only
+if (IG_only == 1){
+  final <- final[final$condition=="IG",]
+  setwd("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/IG_only/")
+}else {
+  setwd("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/")
+}
 
+# directory load scans
+write.table(final$scan_dir, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='scans.txt')
 # Modified SwE type - Visits: tp.txt
 final$tp=as.factor(final$tp)
 levels(final$tp)=c(1,2,3)
@@ -151,3 +162,4 @@ write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
 write.table(final$meanFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='meanFD.txt')
 rm(df_long, i, tmp)
+
