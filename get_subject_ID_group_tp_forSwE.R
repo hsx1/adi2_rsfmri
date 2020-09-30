@@ -13,6 +13,7 @@ for (i in 1:nrow(files)){
   files[i,"scan_dir"]=paste0(strsplit(toString(files[i,1]),'/')[[1]][1:8], sep = "/", collapse="")
   files[i,"tp"]=strsplit(toString(tmp),'_')[[1]][2]
   files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
+  files[i,"subj.Nr"]=substr(files$subj.ID[i],4,6)
 }
 files$V1 <- NULL
 
@@ -54,6 +55,8 @@ write.table(final$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
 # Subjects
 write.table(final$subj.ID, col.names=FALSE, row.names=FALSE,
             file='subjID.txt')
+write.table(final$subj.Nr, col.names=FALSE, row.names=FALSE,
+            file='subjNr.txt')
 
 ##  Covariates
 # nuisance covariates

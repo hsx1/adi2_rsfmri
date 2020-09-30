@@ -10,8 +10,8 @@
 % ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
 %
 % Define the *MODEL* you want to test
-% 'grouptime': FC ~ group + time + group*time
 % 'bmi': FC ~ avgBMI + BMIcgn
+% 'bmiIG': FC ~ avgBMI + BMIcgn - only for the intercention group
 %
 % Specify the model further with an integer for *covariate definition*
 % 21: Model1_bmi_cage_sex_meanFD
@@ -30,7 +30,7 @@
 % of parametric estimation. It will automatically run all relevant contrast 
 % of the model (as defined in the script).
 % NOTE: the contrast implemented in the script are optimized for 
-% 'Model1_group_timef_cage_sex_meanFD' and 'Model1_bmi_cage_sex_meanFD'.
+% 'Model1_bmi_cage_sex_meanFD'.
 % 
 % When using WILD_BOOT = true, you must specify which kind of inference
 % is used for bootstrapping:
@@ -52,20 +52,25 @@
 
 %% ========================================================================
 % please define parameters (default as comment (%) behind each variable)
-INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
 OUT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/'; %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
-COVARIATES = [11];  % [11,12,21,22]; 
+COVARIATES = [21];  % [11,12,21,22]; 
+INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
 ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-ROI_PREP = {ROI_PREP{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
+ROI_PREP = {ROI_PREP{[4, 6, 12, 14]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
 WILD_BOOT = false; %true
 INFERENCE_TYPE = {'voxel'}; %{'voxel','cluster','tfce'};
 
 ONLY_DISPLAY = false; %false
-OVERWRITE = true; %false
+OVERWRITE = false; %false
 
 % please do NOT change
-MODEL = {'bmi'};
+MODEL = {'bmiIG'}; %{'bmi','bmiIG'}
+
+% =========================================================================
+if strcmp(MODEL,'bmiIG')
+    INFO_DIR = fullfile(INFO_DIR, 'IG_only');
+end
 
 %% ========================================================================
 addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
@@ -74,6 +79,7 @@ addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
 % loop over all models, only all covariates, all inference types for
 % wild_boot = true
 for i = 1:length(MODEL)
+    covariates = COVARIATES;
     for j = 1:length(covariates)
         for k = 1:length(INFERENCE_TYPE)
             RunSwe(INFO_DIR, OUT_DIR, MODEL{i}, covariates(j), ROI_PREP, WILD_BOOT, INFERENCE_TYPE{k}, ONLY_DISPLAY, OVERWRITE);
@@ -135,22 +141,19 @@ for crun = 1:nrun
         % manually type in contrasts (issue: see below)
     else
         % non-parametric estimation with Wild-Bootstrap
-        for wild_con = 1:3
-            % for 'bmi' model, there is only two contrasts
-            if not(strcmp(MODEL,'bmi') && wild_con == 3)
-                % check if analysis has run already
-                [out_folder, exist_already] = create_out_folder(OUT_DIR, MODEL, ROI_PREP{crun}, COVARIATES, wild_con, INFERENCE_TYPE);
-                clear matlabbatch
-                [matlabbatch,location_SwE_mat] = SpecifyModel(ROI_PREP{crun}, MODEL, COVARIATES, out_folder, INFO_DIR, wild_con, INFERENCE_TYPE); 
-                if ONLY_DISPLAY
-                    spm('defaults', 'FMRI');
-                    matlabbatch = DisplayResults(location_SwE_mat);
-                    spm_jobman('run', matlabbatch);
-                elseif not(exist_already)
-                    spm('defaults', 'FMRI');
-                    matlabbatch = RunModel(matlabbatch, location_SwE_mat);
-                    spm_jobman('run', matlabbatch);
-                end
+        for wild_con = 1:2
+            % check if analysis has run already
+            [out_folder, exist_already] = create_out_folder(OUT_DIR, MODEL, ROI_PREP{crun}, COVARIATES, wild_con, INFERENCE_TYPE);
+            clear matlabbatch
+            [matlabbatch,location_SwE_mat] = SpecifyModel(ROI_PREP{crun}, MODEL, COVARIATES, out_folder, INFO_DIR, wild_con, INFERENCE_TYPE); 
+            if ONLY_DISPLAY
+                spm('defaults', 'FMRI');
+                matlabbatch = DisplayResults(location_SwE_mat);
+                spm_jobman('run', matlabbatch);
+            elseif not(exist_already)
+                spm('defaults', 'FMRI');
+                matlabbatch = RunModel(matlabbatch, location_SwE_mat);
+                spm_jobman('run', matlabbatch);
             end
         end
     end
@@ -244,22 +247,10 @@ else
     % .. Type of SwE (0 = U-SwE (recommended))
     matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
-    if strcmp(MODEL,'bmi')
-        if wild_con == 1
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 1 0 0 0 0];
-        elseif wild_con == 2
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 0 1 0 0 0];
-        end
-    elseif strcmp(MODEL,'grouptime')
-        if wild_con == 1
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [1 1 1 -1 -1 -1 0 0 0];
-        elseif wild_con == 2
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_F.WB_F_con = [-1 0 1 -1 0 1 0 0 0;
-                                                                                    0 -1 1 0 -1 1 0 0 0];
-        elseif wild_con == 3
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_F.WB_F_con = [-1 0 1 1 0 -1 0 0 0; 
-                                                                                    0 -1 1 0 1 -1 0 0 0];
-        end
+    if wild_con == 1
+        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 1 0 0 0 0];
+    elseif wild_con == 2
+        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 0 1 0 0 0];
     end
     %  .. Inference Type (voxelwise, clusterwise, TFCE)
     if strcmp(INFERENCE_TYPE,'voxel')
@@ -293,15 +284,7 @@ end
 function [out_folder, exist_already] = create_out_folder(OUT_DIR, MODEL, one_roi_prep, COVARIATES, wild_con, INFERENCE_TYPE)
 % Creates output folder and returns path to output folder as string.
 
-if COVARIATES == 11
-    model_name = 'Model1_group_timef_cage_sex_meanFD';
-elseif COVARIATES == 12
-    model_name = 'Model2_group_timef_cage_sex';
-elseif COVARIATES == 13
-    model_name = 'Model4_group_timec_cage_sex_meanFD';
-elseif COVARIATES == 14
-    model_name = 'Model5_group_timec_cage';
-elseif COVARIATES == 21
+if COVARIATES == 21
     model_name = 'Model1_bmi_cage_sex_meanFD';
 elseif COVARIATES == 22
     model_name = 'Model2_bmi_cage_sex';
@@ -317,10 +300,10 @@ if wild_con
     end 
 end
 
-if strcmp(MODEL,'bmi')
+if strcmp(MODEL,'bmiIG')
+    parent_folder = 'Models_BMIIG';
+else
     parent_folder = 'Models_BMI';
-elseif strcmp(MODEL,'grouptime')
-    parent_folder = 'Models_GroupTime';
 end
 
 out_folder = fullfile(OUT_DIR, parent_folder, one_roi_prep, model_name);
@@ -338,68 +321,30 @@ end
 function cov = create_design_matrix(MODEL, COVARIATES)
 % creates a design matrix cov as a struct compatible with the matlabbatch
 
-if strcmp(MODEL,'bmi')
-    % Prepare regressors
-    [avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
-    if COVARIATES == 21 || COVARIATES == 22 
-    % Intercept
-    cov(1).c = ones(106,1);
-    cov(1).cname = 'Intercept';
-
-    % Covariates of interest
-    cov(2).c = avgBMIc; cov(2).cname = 'avgBMI_centered';
-    cov(3).c = cgnBMI; cov(3).cname = 'cgnBMI';
+% Prepare regressors
+% Intercept
+length_intercept = length(readmatrix('subjNr'));
+cov(1).c = ones(length_intercept,1);
+cov(1).cname = 'Intercept';
+    
+% Covariates of interest    
+[avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
+if COVARIATES == 21 || COVARIATES == 22 
+    cov(2).c = avgBMIc; 
+    cov(2).cname = 'avgBMI_centered';
+    cov(3).c = cgnBMI; 
+    cov(3).cname = 'cgnBMI';
 
     % Nuisance Covariates
     age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-    cov(4).c = age; cov(4).cname = 'age';
-    cov(5).c = readmatrix('Sex.txt'); cov(5).cname = 'sex';
+    cov(4).c = age; 
+    cov(4).cname = 'age';
+    cov(5).c = readmatrix('Sex.txt'); 
+    cov(5).cname = 'sex';
         
-        % Covariates (Design matrix, Model1)
-        if COVARIATES == 21
-            cov(6).c = readmatrix('logmeanFD.txt'); cov(6).cname = 'meanFD';
-        end
-    end
- 
-elseif strcmp(MODEL,'grouptime')
-    % Intercept is implicitely modeled by the group means
-    if COVARIATES == 11 || COVARIATES == 12 
-        %% Covariates (Design matrix for factorial time)
-        % IG bl, fu and fu2
-        cov(1).c = readmatrix('IG_bl.txt'); cov(1).cname = 'IG bl';
-        cov(2).c = readmatrix('IG_fu.txt'); cov(2).cname = 'IG fu';
-        cov(3).c = readmatrix('IG_fu2.txt'); cov(3).cname = 'IG fu2';
-        % KG bl, fu and fu2
-        cov(4).c = readmatrix('KG_bl.txt'); cov(4).cname = 'KG bl';
-        cov(5).c = readmatrix('KG_fu.txt'); cov(5).cname = 'KG fu';
-        cov(6).c = readmatrix('KG_fu2.txt'); cov(6).cname = 'KG fu2';
-        
-        % Covariates (Design matrix)
-        age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-        cov(7).c = age; cov(7).cname = 'age';
-        cov(8).c = readmatrix('Sex.txt'); cov(8).cname = 'sex';
-        if COVARIATES == 11
-            % Covariates (Design matrix, Model1)
-            cov(9).c = readmatrix('logmeanFD.txt'); cov(9).cname = 'meanFD';
-        end
-    elseif COVARIATES == 13 || COVARIATES == 14 
-        %% Covariates (Design matrix for continuous time)
-        % IG
-        cov(1).c = readmatrix('group_IG.txt'); cov(1).cname = 'IG';
-        % KG
-        cov(2).c = readmatrix('group_KG.txt'); cov(2).cname = 'KG';
-        % time points IG
-        cov(3).c = readmatrix('tp_IG.txt'); cov(3).cname = 'time_c_IG';
-        % time points KG
-        cov(4).c = readmatrix('tp_KG.txt'); cov(4).cname = 'time_c_KG'; 
-        
-        % Covariates (Design matrix)
-        cov(5).c = readmatrix('Age.txt'); cov(5).cname = 'age';
-        cov(6).c = readmatrix('Sex.txt'); cov(6).cname = 'sex';
-        if COVARIATES == 13
-            % Covariates (Design matrix, Model3)
-            cov(7).c = readmatrix('logmeanFD.txt'); cov(7).cname = 'meanFD';
-        end
+    % Covariates (Design matrix, Model1)
+    if COVARIATES == 21
+        cov(6).c = readmatrix('logmeanFD.txt'); cov(6).cname = 'meanFD';
     end
 end
 

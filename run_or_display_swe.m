@@ -376,13 +376,15 @@ function cov = create_design_matrix(MODEL, COVARIATES)
 
 if strcmp(MODEL,'bmi')
     % Prepare regressors
-    [avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
-    if COVARIATES == 21 || COVARIATES == 22 
+
     % Intercept
-    cov(1).c = ones(106,1);
+    length_intercept = length(readmatrix('subjNr'));
+    cov(1).c = ones(length_intercept,1);
     cov(1).cname = 'Intercept';
 
     % Covariates of interest
+    [avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
+    if COVARIATES == 21 || COVARIATES == 22 
     cov(2).c = avgBMIc; cov(2).cname = 'avgBMI_centered';
     cov(3).c = cgnBMI; cov(3).cname = 'cgnBMI';
 
