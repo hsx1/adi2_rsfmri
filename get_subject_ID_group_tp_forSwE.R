@@ -9,9 +9,11 @@ files=read.table("scans_PCC_CC_z.txt")
 for (i in 1:nrow(files)){
   #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
   tmp=strsplit(toString(files[i,1]),'/')[[1]][8]
+  files[i,"scan_dir"]=paste0(strsplit(toString(files[i,1]),'/')[[1]][1:8], sep = "/", collapse="")
   files[i,"tp"]=strsplit(toString(tmp),'_')[[1]][2]
   files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
 }
+files$V1 <- NULL
 
 #load group info and merge with path info
 info_file=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv")
@@ -27,10 +29,23 @@ final[is.na(final$IG),"IG"]=0
 final[final$condition=="KG","KG"]=1
 final[is.na(final$KG),"KG"]=0
 
+
+# Modified SwE type - Visits: tp.txt
 final$tp=as.factor(final$tp)
 levels(final$tp)=c(1,2,3)
 write.table(final$tp, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='tp.txt')
+# Modified SwE type - Groups: group.txt
+final$group[final$condition == "IG"] = 1
+final$group[final$condition == "KG"] = 2
+write.table(final$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='group.txt')
+# Subjects
+write.table(final$subj.ID, col.names=FALSE, row.names=FALSE,
+            file='subjID.txt')
+
+##  Covariates
+# nuisance covariates
 write.table(final$Age_BL, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='Age.txt')
 final$Sex=as.factor(final$Sex)
@@ -39,26 +54,18 @@ write.table(final$Sex, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='Sex.txt')
 write.table(log10(final$meanFD), col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='logmeanFD.txt')
-write.table(final$subj.ID, col.names=FALSE, row.names=FALSE,
-            file='subjID.txt')
-final$group[final$condition == "IG"] = 1
-final$group[final$condition == "KG"] = 2
-write.table(final$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
-            file='group.txt')
-
-##Now for covariates.
+# for covariates of interest
 write.table(final$IG, col.names=FALSE,row.names=FALSE, quote=FALSE,
             file='group_IG.txt')
 write.table(final$KG, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='group_KG.txt')
 
-##reverse again for time covariates -> linear modeling of time for each group.
+# linear modeling of time for each group
 final$tp_cov=final$tp
 levels(final$tp_cov)=c(-1,0,1)
 final[final$KG==1,"tp_cov"]=0
 write.table(final$tp_cov, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='tp_IG.txt')
-
 final[,"tp_cov"]=final$tp
 levels(final$tp_cov)=c(-1,0,1)
 final[final$IG==1,"tp_cov"]=0

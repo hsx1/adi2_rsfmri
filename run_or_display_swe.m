@@ -64,7 +64,7 @@ ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',
 ROI_PREP = {ROI_PREP{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
 WILD_BOOT = true; %true
-INFERENCE_TYPE = {'voxel'}; %{'voxel','cluster','tfce'};
+INFERENCE_TYPE = {'cluster','tfce'}; %{'voxel','cluster','tfce'};
 
 ONLY_DISPLAY = false; %false
 OVERWRITE = true; %false
@@ -90,7 +90,7 @@ for i = 1:length(MODEL)
 end
 
 %% ========================================================================
-function display_message(COVARIATES, WILD_BOOT)
+function display_message(COVARIATES)
 % displays message according to the COVARIATES, that define the model
 if COVARIATES == 11
     fprintf('%s\n',...
