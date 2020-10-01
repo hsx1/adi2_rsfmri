@@ -11,7 +11,7 @@ for (i in 1:nrow(files)){
   files[i,"scan_dir"]=paste0(strsplit(toString(files[i,1]),'/')[[1]][1:8], sep = "/", collapse="")
   files[i,"tp"]=strsplit(toString(tmp),'_')[[1]][2]
   files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
-  files[i,"subj.Nr"]=substr(files$subj.ID[i],4,6)
+  files[i,"subj.Nr"]=as.numeric(substr(files$subj.ID[i],4,6))
 }
 files$V1 <- NULL
 
@@ -32,7 +32,7 @@ final[is.na(final$KG),"KG"]=0
 # preparation of variables
 final$group[final$condition == "IG"] = 1
 final$group[final$condition == "KG"] = 2
-final$logmeanFD <- final$log10(final$meanFD)
+final$logmeanFD <- log10(final$meanFD)
 
 save_txt_for_swe <- function(final, IG_only){
   # Model specification incl. design matrix for IG only
@@ -51,7 +51,6 @@ save_txt_for_swe <- function(final, IG_only){
   levels(final$tp)=c(1,2,3)
   write.table(final$tp, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='tp.txt')
-  levels(final$tp)=c("bl","fu","fu2")
   # Modified SwE type - Groups: group.txt
   write.table(final$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='group.txt')
@@ -124,6 +123,7 @@ save_txt_for_swe <- function(final, IG_only){
   }
   
   # compute centered avgBMI (avgFD) and cgnBMI(cgnFD)
+  levels(final$tp)=c("bl","fu","fu2")
   df_wide <- tidyr::pivot_wider(data = final,
                                 id_cols = "subj.ID",
                                 names_from = "tp",
@@ -176,9 +176,10 @@ save_txt_for_swe <- function(final, IG_only){
 }
 
 
-# save txt first only IG (under different directory as specified in the function)
-save_txt_for_swe(final, IG_only = TRUE)
+
 # then save txt for all groups and return the final dataframe
 final = save_txt_for_swe(final, IG_only = FALSE)
+# save txt first only IG (under different directory as specified in the function)
+save_txt_for_swe(final, IG_only = TRUE)
 
 
