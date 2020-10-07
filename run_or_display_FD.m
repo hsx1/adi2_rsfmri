@@ -1,4 +1,4 @@
-%% ========================================================================
+% ========================================================================
 %% Define parameters
 %
 % Use string for stating *ROI and preprocessing step* and z-transform in
@@ -10,11 +10,12 @@
 % ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
 %
 % Define the *MODEL* you want to test
-% 'fd': FC ~ avgBMI + BMIcgn + avgBMI + BMIcgn + age + sex
-% 'fdIG': FC ~ avgBMI + BMIcgn + avgBMI + BMIcgn + age + sex - only for the intercention group
+% 'fd': FC ~ (avgBMI + BMIcgn +) avgFD + FDcgn + age + sex
+% 'fdIG': FC ~ (avgBMI + BMIcgn) + avgFD + FDcgn + age + sex - only for the intercention group
 %
 % Specify the model further with an integer for *covariate definition*
-% 31: Model1_FD_cage_sex
+% 31: Model1_bmi_fd_cage_sex
+% 32: Model2_fd_cage_sex
 %
 % Use string to define *output directory*, e.g. OUT_DIR = 
 % '/data/hu_heinrichs/Documents/Swe_results/';
@@ -295,6 +296,8 @@ function [out_folder, exist_already] = create_out_folder(OUT_DIR, MODEL, one_roi
 
 if COVARIATES == 31
     model_name = 'Model1_bmi_fd_cage_sex';
+elseif COVARIATES == 32
+    model_name = 'Model3_fd_cage_sex';
 end
 
 if wild_con
@@ -329,34 +332,31 @@ function cov = create_design_matrix(MODEL, COVARIATES)
 % creates a design matrix cov as a struct compatible with the matlabbatch
 
 % Prepare regressors
-% Intercept
-length_intercept = length(readmatrix('subjNr'));
-cov(1).c = ones(length_intercept,1);
-cov(1).cname = 'Intercept';
-
 % Covariates of interest    
 [avgFDc, cgnFD] = swe_splitCovariate(readmatrix('logmeanFD.txt'), readmatrix('subjNr'));
 [avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
 
-% Prepare regressors
+% Prepare regressors (regressor count = r)
+r = 1;
 % Intercept
 length_intercept = length(readmatrix('subjNr'));
-cov(1).c = ones(length_intercept,1);
-cov(1).cname = 'Intercept';
+cov(r).c = ones(length_intercept,1); cov(r).cname = 'Intercept'; r = r+1;
 
 % Covariates of interest    
-cov(2).c = avgBMIc; cov(2).cname = 'avgBMI_centered';
-cov(3).c = cgnBMI; cov(3).cname = 'cgnBMI';
-cov(4).c = avgFDc; cov(4).cname = 'avgFD_centered';
-cov(5).c = cgnFD; cov(5).cname = 'cgnFD';
+if COVARIATES == 31
+    cov(r).c = avgBMIc; cov(r).cname = 'avgBMI_centered'; r = r+1;
+    cov(r).c = cgnBMI; cov(r).cname = 'cgnBMI'; r = r+1;
+end
+cov(r).c = avgFDc; cov(r).cname = 'avgFD_centered'; r = r+1;
+cov(r).c = cgnFD; cov(r).cname = 'cgnFD'; r = r+1;
 
 if COVARIATES == 31
     % Nuisance Covariates
     age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-    cov(6).c = age; cov(6).cname = 'age';
-    cov(7).c = readmatrix('Sex.txt'); cov(7).cname = 'sex';
+    cov(r).c = age; cov(r).cname = 'age'; r = r+1;
+    cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
 end
-
+r = 0;
 end
 
 %% ------------------------------------------------------------------------
