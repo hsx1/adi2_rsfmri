@@ -16,6 +16,7 @@
 % Specify the model further with an integer for *covariate definition*
 % 21: Model1_bmi_cage_sex_meanFD
 % 22: Model2_bmi_cage_sex
+% 23: Model2_bmi
 %
 % Use string to define *output directory*, e.g. OUT_DIR = 
 % '/data/hu_heinrichs/Documents/Swe_results/';
@@ -53,19 +54,17 @@
 %% ========================================================================
 % please define parameters (default as comment (%) behind each variable)
 OUT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/'; %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
-COVARIATES = [21];  % [11,12,21,22]; 
 INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
+MODEL = {'bmiIG'}; %{'bmi','bmiIG'}
+COVARIATES = [21];  % [21,22]; 
 ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-ROI_PREP = {ROI_PREP{[4, 6, 12, 14]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
+ROI_PREP = {ROI_PREP{[14]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
-WILD_BOOT = false; %true
+WILD_BOOT = false; %false
 INFERENCE_TYPE = {'voxel'}; %{'voxel','cluster','tfce'};
 
-ONLY_DISPLAY = false; %false
+ONLY_DISPLAY = true; %false
 OVERWRITE = false; %false
-
-% please do NOT change
-MODEL = {'bmiIG'}; %{'bmi','bmiIG'}
 
 % =========================================================================
 if strcmp(MODEL,'bmiIG')
@@ -88,7 +87,7 @@ for i = 1:length(MODEL)
 end
 
 %% ========================================================================
-function display_message(COVARIATES, WILD_BOOT)
+function display_message(COVARIATES)
 % displays message according to the COVARIATES, that define the model
 if COVARIATES == 21
     fprintf('%s\n',...
@@ -247,10 +246,20 @@ else
     % .. Type of SwE (0 = U-SwE (recommended))
     matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
+    c01 = [0 1 0 0 0 0];
+    c02 = [0 0 1 0 0 0];
+    % if model without covariates, shorten contrasts
+    s = 0;
+    if COVARIATES == 22
+        s = 1;
+    elseif COVARIATES == 23
+        s = 3;
+    end
+    
     if wild_con == 1
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 1 0 0 0 0];
+        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
     elseif wild_con == 2
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 0 1 0 0 0];
+        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
     end
     %  .. Inference Type (voxelwise, clusterwise, TFCE)
     if strcmp(INFERENCE_TYPE,'voxel')
@@ -301,7 +310,7 @@ if wild_con
 end
 
 if strcmp(MODEL,'bmiIG')
-    parent_folder = 'Models_BMIIG';
+    parent_folder = 'Models_BMI_onlyIG';
 else
     parent_folder = 'Models_BMI';
 end
@@ -330,17 +339,13 @@ cov(1).cname = 'Intercept';
 % Covariates of interest    
 [avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
 if COVARIATES == 21 || COVARIATES == 22 
-    cov(2).c = avgBMIc; 
-    cov(2).cname = 'avgBMI_centered';
-    cov(3).c = cgnBMI; 
-    cov(3).cname = 'cgnBMI';
+    cov(2).c = avgBMIc; cov(2).cname = 'avgBMI_centered';
+    cov(3).c = cgnBMI; cov(3).cname = 'cgnBMI';
 
     % Nuisance Covariates
     age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-    cov(4).c = age; 
-    cov(4).cname = 'age';
-    cov(5).c = readmatrix('Sex.txt'); 
-    cov(5).cname = 'sex';
+    cov(4).c = age; cov(4).cname = 'age';
+    cov(5).c = readmatrix('Sex.txt'); cov(5).cname = 'sex';
         
     % Covariates (Design matrix, Model1)
     if COVARIATES == 21

@@ -58,16 +58,16 @@
 % please define parameters (default as comment (%) behind each variable)
 INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
 OUT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/'; %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
-MODEL = {'grouptime'}; % {'grouptime','bmi'};
-COVARIATES = [11];  % [11,12,21,22]; 
+MODEL = {'bmi'}; % {'grouptime','bmi'};
+COVARIATES = [21];  % [11,12,21,22]; 
 ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
 ROI_PREP = {ROI_PREP{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
-WILD_BOOT = true; %true
-INFERENCE_TYPE = {'cluster','tfce'}; %{'voxel','cluster','tfce'};
+WILD_BOOT = false; %true
+INFERENCE_TYPE = {'voxel'}; %{'voxel','cluster','tfce'};
 
-ONLY_DISPLAY = false; %false
-OVERWRITE = true; %false
+ONLY_DISPLAY = true; %false
+OVERWRITE = false; %false
 
 
 %% ========================================================================
@@ -280,21 +280,33 @@ else
     % .. Type of SwE (0 = U-SwE (recommended))
     matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
+    s = 0;
     if strcmp(MODEL,'bmi')
+        c01 = [0 1 0 0 0 0];
+        c02 = [0 0 1 0 0 0];
+        if COVARIATES == 22
+            s = 1;
+        end
+        
         if wild_con == 1
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 1 0 0 0 0];
+            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
         elseif wild_con == 2
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [0 0 1 0 0 0];
+            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
         end
     elseif strcmp(MODEL,'grouptime')
+        c01 = [1 1 1 -1 -1 -1 0 0 0];
+        c02 = [-1 0 1 -1 0 1 0 0 0; 0 -1 1 0 -1 1 0 0 0];
+        c03 = [-1 0 1 1 0 -1 0 0 0; 0 -1 1 0 1 -1 0 0 0];
+        if COVARIATES == 12
+            s = 1;
+        end
+        
         if wild_con == 1
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = [1 1 1 -1 -1 -1 0 0 0];
+            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
         elseif wild_con == 2
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_F.WB_F_con = [-1 0 1 -1 0 1 0 0 0;
-                                                                                    0 -1 1 0 -1 1 0 0 0];
+            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_F.WB_F_con = c02(:,1:end-s);
         elseif wild_con == 3
-            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_F.WB_F_con = [-1 0 1 1 0 -1 0 0 0; 
-                                                                                    0 -1 1 0 1 -1 0 0 0];
+            matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_F.WB_F_con = c03(:,1:end-1);
         end
     end
     %  .. Inference Type (voxelwise, clusterwise, TFCE)
@@ -418,7 +430,7 @@ elseif strcmp(MODEL,'grouptime')
         cov(8).c = readmatrix('Sex.txt'); cov(8).cname = 'sex';
         if COVARIATES == 11
             % Covariates (Design matrix, Model1)
-            cov(9).c = readmatrix('logmeanFD.txt'); cov(9).cname = 'meanFD';
+            cov(9).c = readmatrix('logmeanFD.txt'); cov(9).cname = 'logmeanFD';
         end
     elseif COVARIATES == 13 || COVARIATES == 14 
         %% Covariates (Design matrix for continuous time)
