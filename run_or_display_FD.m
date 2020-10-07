@@ -13,7 +13,8 @@
 % 'fd': FC ~ (avgBMI + BMIcgn +) avgFD + FDcgn + age + sex
 % 'fdIG': FC ~ (avgBMI + BMIcgn) + avgFD + FDcgn + age + sex - only for the intercention group
 %
-% Specify the model further with an integer for *covariate definition*
+% Specify the model further with an integer for *covariate definition*,
+% here: inclusion of avgBMI and BMIcgn
 % 31: Model1_bmi_fd_cage_sex
 % 32: Model2_fd_cage_sex
 %
@@ -53,7 +54,7 @@
 %% ========================================================================
 % please define parameters (default as comment (%) behind each variable)
 OUT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/'; %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
-COVARIATES = [31];  % [31, 3]; 
+COVARIATES = [32];  % [31, 32]; 
 INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
 ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
 ROI_PREP = {ROI_PREP{[4, 6, 12, 14]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
@@ -62,10 +63,10 @@ WILD_BOOT = false; %true
 INFERENCE_TYPE = {'voxel','cluster','tfce'}; %{'voxel','cluster','tfce'};
 
 ONLY_DISPLAY = true; %false
-OVERWRITE = true; %false
+OVERWRITE = false; %false
 
 % please do NOT change
-MODEL = {'fdIG'}; %{'fd','fdIG'}
+MODEL = {'fd','fdIG'}; %{'fd','fdIG'}
 
 % =========================================================================
 if strcmp(MODEL,'fdIG')
@@ -98,6 +99,12 @@ if COVARIATES == 31
     'BMIcgn [0 1 0 0 0 0]',...
     'avgFD [0 0 1 0 0 0]',...
     'FDcgn [0 0 0 1 0 0]')
+elseif COVARIATES == 32
+    fprintf('%s\n',...
+    'Model2_fd_cage_sex: In case of parametric estimation',...
+    'please type in the following contrasts for all runs',...
+    'avgFD [1 0 0 0]',...
+    'FDcgn [0 1 0 0]')
 end
 
 end
@@ -297,7 +304,7 @@ function [out_folder, exist_already] = create_out_folder(OUT_DIR, MODEL, one_roi
 if COVARIATES == 31
     model_name = 'Model1_bmi_fd_cage_sex';
 elseif COVARIATES == 32
-    model_name = 'Model3_fd_cage_sex';
+    model_name = 'Model2_fd_cage_sex';
 end
 
 if wild_con
@@ -350,13 +357,13 @@ end
 cov(r).c = avgFDc; cov(r).cname = 'avgFD_centered'; r = r+1;
 cov(r).c = cgnFD; cov(r).cname = 'cgnFD'; r = r+1;
 
-if COVARIATES == 31
-    % Nuisance Covariates
-    age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-    cov(r).c = age; cov(r).cname = 'age'; r = r+1;
-    cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
-end
+% Nuisance Covariates
+age = readmatrix('Age.txt'); age = age - mean(age); % centered age
+cov(r).c = age; cov(r).cname = 'age'; r = r+1;
+cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
+
 r = 0;
+
 end
 
 %% ------------------------------------------------------------------------

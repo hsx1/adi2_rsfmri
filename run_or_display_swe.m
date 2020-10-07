@@ -59,9 +59,9 @@
 INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
 OUT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/'; %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
 MODEL = {'bmi'}; % {'grouptime','bmi'};
-COVARIATES = [21];  % [11,12,21,22]; 
+COVARIATES = [22];  % [11,12,21,22]; 
 ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-ROI_PREP = {ROI_PREP{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
+ROI_PREP = {ROI_PREP{[4, 6, 12, 14]}}; % {ROI_PREP{[4, 6, 12, 14]}} or  {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
 WILD_BOOT = false; %true
 INFERENCE_TYPE = {'voxel'}; %{'voxel','cluster','tfce'};
@@ -396,7 +396,6 @@ if strcmp(MODEL,'bmi')
 
     % Covariates of interest
     [avgBMIc, cgnBMI] = swe_splitCovariate(readmatrix('BMI.txt'), readmatrix('subjNr'));
-    if COVARIATES == 21 || COVARIATES == 22 
     cov(2).c = avgBMIc; cov(2).cname = 'avgBMI_centered';
     cov(3).c = cgnBMI; cov(3).cname = 'cgnBMI';
 
@@ -405,35 +404,34 @@ if strcmp(MODEL,'bmi')
     cov(4).c = age; cov(4).cname = 'age';
     cov(5).c = readmatrix('Sex.txt'); cov(5).cname = 'sex';
         
-        % Covariates (Design matrix, Model1)
-        if COVARIATES == 21
-            cov(6).c = readmatrix('logmeanFD.txt'); cov(6).cname = 'meanFD';
-        end
+    % Covariates (Design matrix, Model1)
+    if COVARIATES == 21
+        cov(6).c = readmatrix('logmeanFD.txt'); cov(6).cname = 'meanFD';
     end
  
 elseif strcmp(MODEL,'grouptime')
     % Intercept is implicitely modeled by the group means
-    elseif COVARIATES == 11|| COVARIATES == 12
-    %% Covariates (Design matrix for factorial time)
-    % IG bl, fu and fu2
-    r = 1;
-    cov(r).c = readmatrix('IG_bl.txt'); cov(r).cname = 'IG bl'; r = r+1;
-    cov(r).c = readmatrix('IG_fu.txt'); cov(r).cname = 'IG fu'; r = r+1;
-    cov(r).c = readmatrix('IG_fu2.txt'); cov(r).cname = 'IG fu2'; r = r+1;
-    % KG bl, fu and fu2
-    cov(r).c = readmatrix('KG_bl.txt'); cov(r).cname = 'KG bl'; r = r+1;
-    cov(r).c = readmatrix('KG_fu.txt'); cov(r).cname = 'KG fu'; r = r+1;
-    cov(r).c = readmatrix('KG_fu2.txt'); cov(r).cname = 'KG fu2'; r = r+1;
-        
-    % Covariates (Design matrix)
-    age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-    cov(r).c = age; cov(7).cname = 'age'; r = r+1;
-    cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
-    if COVARIATES == 11
-        % Covariates (Design matrix, Model1)
-        cov(r).c = readmatrix('logmeanFD.txt'); cov(r).cname = 'logmeanFD'; r = r+1;
-    end
-    r = 0;
+    if COVARIATES == 11|| COVARIATES == 12
+        %% Covariates (Design matrix for factorial time)
+        % IG bl, fu and fu2
+        r = 1;
+        cov(r).c = readmatrix('IG_bl.txt'); cov(r).cname = 'IG bl'; r = r+1;
+        cov(r).c = readmatrix('IG_fu.txt'); cov(r).cname = 'IG fu'; r = r+1;
+        cov(r).c = readmatrix('IG_fu2.txt'); cov(r).cname = 'IG fu2'; r = r+1;
+        % KG bl, fu and fu2
+        cov(r).c = readmatrix('KG_bl.txt'); cov(r).cname = 'KG bl'; r = r+1;
+        cov(r).c = readmatrix('KG_fu.txt'); cov(r).cname = 'KG fu'; r = r+1;
+        cov(r).c = readmatrix('KG_fu2.txt'); cov(r).cname = 'KG fu2'; r = r+1;
+
+        % Covariates (Design matrix)
+        age = readmatrix('Age.txt'); age = age - mean(age); % centered age
+        cov(r).c = age; cov(7).cname = 'age'; r = r+1;
+        cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
+        if COVARIATES == 11
+            % Covariates (Design matrix, Model1)
+            cov(r).c = readmatrix('logmeanFD.txt'); cov(r).cname = 'logmeanFD'; r = r+1;
+        end
+        r = 0;
     elseif COVARIATES == 13 || COVARIATES == 14 
         %% Covariates (Design matrix for continuous time)
         r = 1;
