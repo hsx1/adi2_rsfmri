@@ -413,42 +413,45 @@ if strcmp(MODEL,'bmi')
  
 elseif strcmp(MODEL,'grouptime')
     % Intercept is implicitely modeled by the group means
-    if COVARIATES == 11 || COVARIATES == 12 
-        %% Covariates (Design matrix for factorial time)
-        % IG bl, fu and fu2
-        cov(1).c = readmatrix('IG_bl.txt'); cov(1).cname = 'IG bl';
-        cov(2).c = readmatrix('IG_fu.txt'); cov(2).cname = 'IG fu';
-        cov(3).c = readmatrix('IG_fu2.txt'); cov(3).cname = 'IG fu2';
-        % KG bl, fu and fu2
-        cov(4).c = readmatrix('KG_bl.txt'); cov(4).cname = 'KG bl';
-        cov(5).c = readmatrix('KG_fu.txt'); cov(5).cname = 'KG fu';
-        cov(6).c = readmatrix('KG_fu2.txt'); cov(6).cname = 'KG fu2';
+    elseif COVARIATES == 11|| COVARIATES == 12
+    %% Covariates (Design matrix for factorial time)
+    % IG bl, fu and fu2
+    r = 1;
+    cov(r).c = readmatrix('IG_bl.txt'); cov(r).cname = 'IG bl'; r = r+1;
+    cov(r).c = readmatrix('IG_fu.txt'); cov(r).cname = 'IG fu'; r = r+1;
+    cov(r).c = readmatrix('IG_fu2.txt'); cov(r).cname = 'IG fu2'; r = r+1;
+    % KG bl, fu and fu2
+    cov(r).c = readmatrix('KG_bl.txt'); cov(r).cname = 'KG bl'; r = r+1;
+    cov(r).c = readmatrix('KG_fu.txt'); cov(r).cname = 'KG fu'; r = r+1;
+    cov(r).c = readmatrix('KG_fu2.txt'); cov(r).cname = 'KG fu2'; r = r+1;
         
-        % Covariates (Design matrix)
-        age = readmatrix('Age.txt'); age = age - mean(age); % centered age
-        cov(7).c = age; cov(7).cname = 'age';
-        cov(8).c = readmatrix('Sex.txt'); cov(8).cname = 'sex';
-        if COVARIATES == 11
-            % Covariates (Design matrix, Model1)
-            cov(9).c = readmatrix('logmeanFD.txt'); cov(9).cname = 'logmeanFD';
-        end
+    % Covariates (Design matrix)
+    age = readmatrix('Age.txt'); age = age - mean(age); % centered age
+    cov(r).c = age; cov(7).cname = 'age'; r = r+1;
+    cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
+    if COVARIATES == 11
+        % Covariates (Design matrix, Model1)
+        cov(r).c = readmatrix('logmeanFD.txt'); cov(r).cname = 'logmeanFD'; r = r+1;
+    end
+    r = 0;
     elseif COVARIATES == 13 || COVARIATES == 14 
         %% Covariates (Design matrix for continuous time)
+        r = 1;
         % IG
-        cov(1).c = readmatrix('group_IG.txt'); cov(1).cname = 'IG';
+        cov(r).c = readmatrix('group_IG.txt'); cov(r).cname = 'IG'; r = r+1;
         % KG
-        cov(2).c = readmatrix('group_KG.txt'); cov(2).cname = 'KG';
+        cov(r).c = readmatrix('group_KG.txt'); cov(r).cname = 'KG'; r = r+1;
         % time points IG
-        cov(3).c = readmatrix('tp_IG.txt'); cov(3).cname = 'time_c_IG';
+        cov(r).c = readmatrix('tp_IG.txt'); cov(r).cname = 'time_c_IG'; r = r+1;
         % time points KG
-        cov(4).c = readmatrix('tp_KG.txt'); cov(4).cname = 'time_c_KG'; 
+        cov(r).c = readmatrix('tp_KG.txt'); cov(r).cname = 'time_c_KG'; r = r+1;
         
         % Covariates (Design matrix)
-        cov(5).c = readmatrix('Age.txt'); cov(5).cname = 'age';
-        cov(6).c = readmatrix('Sex.txt'); cov(6).cname = 'sex';
+        cov(r).c = readmatrix('Age.txt'); cov(r).cname = 'age'; r = r+1;
+        cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;
         if COVARIATES == 13
             % Covariates (Design matrix, Model3)
-            cov(7).c = readmatrix('logmeanFD.txt'); cov(7).cname = 'meanFD';
+            cov(r).c = readmatrix('logmeanFD.txt'); cov(r).cname = 'meanFD'; r = r+1;
         end
     end
 end
