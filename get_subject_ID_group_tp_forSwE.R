@@ -219,7 +219,6 @@ save_txt_for_swe <- function(IG_only, only2tp){
 }
 
 
-
 # then save txt for all groups and return the final dataframe
 save_txt_for_swe(IG_only = FALSE, only2tp = FALSE)
 # save txt first only IG (under different directory as specified in the function)
