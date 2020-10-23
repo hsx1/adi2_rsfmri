@@ -1,2 +1,2 @@
 # Ignore absolute paths
-working_dir*
+abs_path*
