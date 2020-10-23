@@ -65,8 +65,8 @@ for crun = 1:nrun
         % parametric estimation
         param.wild_con = false;
         % check if analysis has been conducted already
-        fprintf('Create output folder...\n')
         [out_folder, exist_already] = create_out_folder(param, crun);
+        fprintf('If necessary create output folder\n %s ...\n',out_folder)
         clear matlabbatch
         fprintf('Specify Model...\n')
         [matlabbatch,location_SwE_mat] = SpecifyModel(param, crun, out_folder);
@@ -87,8 +87,8 @@ for crun = 1:nrun
         for wild_con = 1:4
             param.wild_con = wild_con;
             % check if analysis has run already
-            fprintf('Create output folder...\n')
             [out_folder, exist_already] = create_out_folder(param, crun);
+            fprintf('If necessary create output folder\n %s...\n',out_folder)
             clear matlabbatch
             fprintf('Specify Model...\n')
             [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder); 
@@ -102,6 +102,8 @@ for crun = 1:nrun
                 spm('defaults', 'FMRI');
                 matlabbatch = RunModel(matlabbatch, location_SwE_mat);
                 spm_jobman('run', matlabbatch);
+            else
+                fprintf('... model already estimated or error in parameter definitions.\n')
             end
         end
     end

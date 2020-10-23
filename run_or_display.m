@@ -1,5 +1,10 @@
 %% Define parameters
-%
+% _Input_: Relevant directories (INFO_DIR, OUT_DIR, MASK_DIR), model 
+% definition (MODEL, COVARIATES), target region (ROI), estimation and 
+% inference specifics (MASK, WILD_BOOT, INFERENCE) and action aguments 
+% (DISPLAY_ONLY, OVERWRITE)
+% _Output_: saves SwE.mat and contrast imagies (*.nii)
+% 
 % Use string for stating *ROI and preprocessing step* and z-transform in
 % in the following format, e.g. ROI_PREP = 'PCC_min_z' or 'NAcc_aroma'.
 % ROI_PREP must be in a cell array of multiple or a single cell!
@@ -16,7 +21,7 @@
 % 'fd': FC ~ (avgBMI + BMIcgn +) avgFD + FDcgn + age + sex
 % 'fdIG': FC ~ (avgBMI + BMIcgn) + avgFD + FDcgn + age + sex - only for the intercention group
 %
-% Specify the model further with an integer for *covariate definition*
+% Specify the model further with an integer for *COVARIATES definition*
 % 11: group-timef-age-sex-meanFD
 % 12: group-timef-age-sex
 % 13: group-timec-age-sex-meanFD
@@ -63,22 +68,22 @@ param.INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Seco
 param.MASK_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Brain_masks/';
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {roi_prep{[4, 6, 12, 14]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
+param.ROI_PREP = {roi_prep{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
-param.MODEL = {'fd','fdIG'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'}
-param.COVARIATES = [31, 32]; % [11, 12];                    % [21, 22];                % [31, 32]; 
+param.MODEL = {'grouptime'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'}
+param.COVARIATES = [11]; % [11, 12];                    % [21, 22];                % [31, 32]; 
 
 % define masking and type of inference
-param.MASK = 'gm';                  % 'brain' or 'gm'
-param.WILD_BOOT = true;             % false
+param.MASK = 'brain';                  % 'brain' or 'gm'
+param.WILD_BOOT = false;             % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
-param.ONLY_DISPLAY = false;         % false
+param.ONLY_DISPLAY = true;         % false
 param.OVERWRITE = false;            % false
 
 % set path for spm and path with my functions
