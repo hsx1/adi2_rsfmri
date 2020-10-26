@@ -12,6 +12,7 @@ for i = 1:length(param.MODEL)
         end
     end
 end
+spm('Quit')
 
 %% ========================================================================
 function display_message(COVARIATES)
@@ -112,6 +113,7 @@ for crun = 1:nrun
                 spm('defaults', 'FMRI');
                 matlabbatch = DisplayResults(location_SwE_mat);
                 spm_jobman('run', matlabbatch);
+                pause(param.VIEWSEC)
             elseif not(exist_already)
                 fprintf('Estimate model...\n')
                 spm('defaults', 'FMRI');
@@ -127,7 +129,7 @@ for crun = 1:nrun
 % currently not possible to automate contrasts and save results
 % https://github.com/NISOx-BDI/SwE-toolbox/issues/135
 end
-%spm('Quit')
+fprinf('...done.')
 
 end
 

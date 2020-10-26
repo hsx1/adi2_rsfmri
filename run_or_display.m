@@ -63,9 +63,11 @@
 %% ========================================================================
 
 % create a struct, with all important parameters
-param.OUT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/'; %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
-param.INFO_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/';
-param.MASK_DIR = '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Brain_masks/';
+ABS_DIR = readcell("abs_path.txt");
+ABS_DIR = ABS_DIR{1};
+param.OUT_DIR = fullfile(ABS_DIR,'/Results/Project2_resting_state/connectivity/Analysis/'); %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
+param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/');
+param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
 param.ROI_PREP = {roi_prep{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
@@ -85,6 +87,7 @@ param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = true;         % false
 param.OVERWRITE = false;            % false
+param.VIEWSEC = 1; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
 addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
