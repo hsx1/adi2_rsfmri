@@ -61,10 +61,11 @@
 % results will only then change, if OVERWRITE is set on true.
 % define relevant input and output directories
 %% ========================================================================
-
-% create a struct, with all important parameters
+% import absolute path for project
 ABS_DIR = readcell("abs_path.txt");
 ABS_DIR = ABS_DIR{1};
+
+% create a struct, with all important parameters
 param.OUT_DIR = fullfile(ABS_DIR,'/Results/Project2_resting_state/connectivity/Analysis/'); %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
 param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/');
 param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');

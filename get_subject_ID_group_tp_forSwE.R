@@ -2,10 +2,18 @@ library(dplyr)
 library(tidyr)
 
 save_txt_for_swe <- function(IG_only, only2tp){
-  parentdir <- "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files"
+  # save original working directory 
+  original_wd <- getwd()
+  
+  # import absolute path
+  abs_path <- read.csv("abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
+  
+  # set working directory
+  swe_path <- "Analysis/Project2_resting_state/seed-based/Second_level /SwE_files"
+  parentdir <- file.path(abs_path, swe_path, fsep = .Platform$file.sep)[1]
   setwd(parentdir)
   
-  files=read.table("scans_PCC_CC_z.txt")
+  files=read.table("../SwE_files/scans_PCC_CC_z.txt")
   #split info from path in txt
   for (i in 1:nrow(files)){
     #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
@@ -17,8 +25,8 @@ save_txt_for_swe <- function(IG_only, only2tp){
   }
   files$V1 <- NULL
   
-  #load group info and merge with path info
-  info_file=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv")
+  #load group info and merge with path info 
+  info_file=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
   group_info=info_file[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
   condition=merge(files, group_info[!is.na(group_info$condition),], by=c("subj.ID","tp"))
   
@@ -215,6 +223,9 @@ save_txt_for_swe <- function(IG_only, only2tp){
               file='cgnFD.txt')
   write.table(final$meanFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='meanFD.txt')
+  # reset to original working directory
+  setwd(original_wd)
+  
   return(final)
 }
 
@@ -223,5 +234,3 @@ save_txt_for_swe <- function(IG_only, only2tp){
 save_txt_for_swe(IG_only = FALSE, only2tp = FALSE)
 # save txt first only IG (under different directory as specified in the function)
 # save_txt_for_swe(IG_only = TRUE)
-
-
