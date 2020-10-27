@@ -62,7 +62,7 @@
 % define relevant input and output directories
 %% ========================================================================
 % import absolute path for project
-ABS_DIR = readcell("abs_path.txt");
+ABS_DIR = readcell("abs_path.csv");
 ABS_DIR = ABS_DIR{1};
 
 % create a struct, with all important parameters
@@ -71,7 +71,7 @@ param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/S
 param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {roi_prep{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
+param.ROI_PREP = {roi_prep{[6]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
@@ -79,20 +79,20 @@ param.ROI_PREP = {roi_prep{[4]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
 param.MODEL = {'grouptime'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'}
-param.COVARIATES = [11]; % [11, 12];                    % [21, 22];                % [31, 32]; 
+param.COVARIATES = [11];        % [11, 12];                    % [21, 22];                % [31, 32]; -
 
 % define masking and type of inference
-param.MASK = 'brain';                  % 'brain' or 'gm'
+param.MASK = 'gm';                  % 'brain' or 'gm'
 param.WILD_BOOT = false;             % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = true;         % false
 param.OVERWRITE = false;            % false
-param.VIEWSEC = 1; % for ONLY_DISPLAY: seconds you want to view the results
+param.VIEWSEC = 2; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
 addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
-addpath('/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /adi_analysis')
+addpath('/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript')
 
 % use function to run or display models
 if param.COVARIATES(1) < 20

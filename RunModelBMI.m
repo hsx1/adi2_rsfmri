@@ -12,18 +12,18 @@ for i = 1:length(param.MODEL)
         end
     end
 end
-spm('Quit')
+%spm('Quit')
 
 %% ========================================================================
-function display_message(COVARIATES)
+function display_message(param)
 % displays message according to the COVARIATES, that define the model
-if COVARIATES == 21
+if param.COVARIATES == 21
     fprintf('%s\n',...
     'Model1_BMI_meanFD_cage_sex: In case of parametric estimation',...
     'please type in the following contrasts for all runs',...
     'avgBMI [0 1 0 0 0 0]',...
     'BMIcgn [0 0 1 0 0 0]')
-elseif COVARIATES == 22
+elseif param.COVARIATES == 22
     fprintf('%s\n',...
     'Model2_BMI_cage_sex: In case of parametric estimation',...
     'please type in the following contrasts for all runs',...
@@ -45,7 +45,7 @@ param.INFERENCE_TYPE = param.INFERENCE_TYPE(k);
 
 
 if param.ONLY_DISPLAY && not(param.WILD_BOOT)
-    display_message(param.COVARIATES)
+    display_message(param)
     % wait so displayed information can be read
     pause(7)
 end
@@ -76,6 +76,7 @@ for crun = 1:nrun
             matlabbatch = DisplayResults(location_SwE_mat);
             spm_jobman('run', matlabbatch);
             pause(param.VIEWSEC)
+            save("xSwE.mat")
         elseif not(exist_already) || param.OVERWRITE
             fprintf('Estimate model...\n')
             spm('defaults', 'FMRI'); 
@@ -100,6 +101,8 @@ for crun = 1:nrun
                 spm('defaults', 'FMRI');
                 matlabbatch = DisplayResults(location_SwE_mat);
                 spm_jobman('run', matlabbatch);
+                pause(param.VIEWSEC)
+                save("xSwE.mat")
             elseif not(exist_already)
                 fprintf('Estimate model...\n')
                 spm('defaults', 'FMRI');
