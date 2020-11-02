@@ -31,14 +31,17 @@
 % 31: bmi-fd-age-sex
 % 32: fd-age-sex
 %
+% Specify directories relativ to project folder. The absolute path to the
+% project folder should be specified in a file called "abs_path.csv".
+%
 % Use string to define *output directory*, e.g. OUT_DIR = 
-% '/data/hu_heinrichs/Documents/Swe_results/';
+% '/Documents/Swe_results/';
 % The SwE.mat and output files will be saved under the OUT_DIR in a folder 
 % named after roi_prep with a subfolder for the model will be created.
 %
 % INFO_DIR is the *directory containing all txt files* needed for the 
 % regressors that will be entered in model according to the model 
-% specification, e.g. '/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/'
+% specification, e.g. '/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/'
 %
 % WILD_BOOT if set on true will use non-parametri Wild Bootstrap instead 
 % of parametric estimation. It will automatically run all relevant contrast 
@@ -60,6 +63,9 @@
 % If DISPLAY_ONLY is set on false and the model has been estimated, the
 % results will only then change, if OVERWRITE is set on true.
 % define relevant input and output directories
+% Especially for results of non-parametric estimation, you need to specify
+% how long you want to look at the results in VIEWSEC. Alternatively you
+% can also set breakpoints in the funtion scripts.
 %% ========================================================================
 % import absolute path for project
 ABS_DIR = readcell("abs_path.csv");
@@ -71,24 +77,24 @@ param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/S
 param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {roi_prep{[6]}}; % {ROI_PREP{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_cc'}
+param.ROI_PREP = {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
-param.MODEL = {'grouptime'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'}
-param.COVARIATES = [11];        % [11, 12];                    % [21, 22];                % [31, 32]; -
+param.MODEL = {'fdIG'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'}
+param.COVARIATES = [32];        % [11, 12];                    % [21, 22];                % [31, 32]; -
 
 % define masking and type of inference
-param.MASK = 'gm';                  % 'brain' or 'gm'
+param.MASK = 'brain';                  % 'brain' or 'gm'
 param.WILD_BOOT = false;             % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = true;         % false
 param.OVERWRITE = false;            % false
-param.VIEWSEC = 2; % for ONLY_DISPLAY: seconds you want to view the results
+param.VIEWSEC = 3; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
 addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
