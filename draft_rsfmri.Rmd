@@ -201,9 +201,13 @@ In regard to the exploratory expeditions on subsamples, consistent with previous
 
 ## Further investigation of the effect of FD
 
-<!-- Brain mask: FD --> Surprisingly, 
+<!-- Brain mask: FD --> To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed a model that entailed both of the predictors as covariates of interest and only age and sex as nuisance covariates. 
+Surprisingly, there was no significant effect neither for the total sample, nor for the intervention group only<!-- or for  the first two time points only -->.
+
 <!-- GM mask: FD -->
 
+<!-- Neurovault --> 
+Contrasts images are published on NeuroVault: ......
 
 
 ## Target regions of the default mode and reward network
@@ -228,4 +232,4 @@ To summarize, there were few significant co-activation emerged from the marginal
 <!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased with after a meal while dietary patients showed an increase [@Lepping_2015]. 
 
 <!-- Incomplete data --> how many had three/ two/ one time point?
-
+\newpage
