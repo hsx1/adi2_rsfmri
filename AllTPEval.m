@@ -261,7 +261,7 @@ function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
 
-parent_folder = 'Network_tests';
+parent_folder = 'Network_allTP';
 
 if strcmp(param.MASK, 'gm')
     mask_def = 'gm';

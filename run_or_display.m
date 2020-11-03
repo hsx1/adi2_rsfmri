@@ -32,6 +32,8 @@
 % 22: bmi-age-sex
 % 31: bmi-fd-age-sex
 % 32: fd-age-sex
+% 41: network-age-sex
+% 42: network-meanFD-age-sex
 %
 % Specify directories relativ to project folder. The absolute path to the
 % project folder should be specified in a file called "abs_path.csv".
@@ -79,23 +81,23 @@ param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/S
 param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {'PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
+param.ROI_PREP = {'PCC_cc_z','PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
-param.MODEL = {'alltp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [];        % [11, 12];                    % [21, 22];                % [31, 32];  % []    % []
+param.MODEL = {'singletp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [41, 42];        % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
 
 % define masking and type of inference
 param.MASK = 'brain';                  % 'brain' or 'gm'
-param.WILD_BOOT = false;             % false
+param.WILD_BOOT = false;            % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = false;         % false
-param.OVERWRITE = true;            % false
+param.OVERWRITE = false;             % false
 param.VIEWSEC = 3; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
