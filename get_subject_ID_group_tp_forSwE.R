@@ -1,7 +1,10 @@
 library(dplyr)
 library(tidyr)
 
-save_txt_for_swe <- function(IG_only, only2tp){
+save_txt_for_swe <- function(group = "BL", tp = "all"){
+  # group = IG/KG/both
+  # tp = BL/FU/FU2/BLFU/FUFU2/all
+  
   # save original working directory 
   original_wd <- getwd()
   
@@ -70,51 +73,68 @@ save_txt_for_swe <- function(IG_only, only2tp){
   final[is.na(final$IG_fu),"IG_fu"]=0
   final[is.na(final$IG_bl),"IG_bl"]=0
   
-    final[final$tp=="fu2"&final$KG==1,"KG_fu2"]=1
-    final[final$tp=="fu"&final$KG==1,"KG_fu"]=1
-    final[final$tp=="bl"&final$KG==1,"KG_bl"]=1
-    final[is.na(final$KG_fu2),"KG_fu2"]=0
-    final[is.na(final$KG_fu),"KG_fu"]=0
-    final[is.na(final$KG_bl),"KG_bl"]=0
+  final[final$tp=="fu2"&final$KG==1,"KG_fu2"]=1
+  final[final$tp=="fu"&final$KG==1,"KG_fu"]=1
+  final[final$tp=="bl"&final$KG==1,"KG_bl"]=1
+  final[is.na(final$KG_fu2),"KG_fu2"]=0
+  final[is.na(final$KG_fu),"KG_fu"]=0
+  final[is.na(final$KG_bl),"KG_bl"]=0
   
   levels(final$tp)=c("bl","fu","fu2")
 
 # Modify Design matrix for subsamples -------------------------------------
-
+  
   # Model specification incl. design matrix for different options
-  if (only2tp == TRUE){
-    # only BL and FU - both groups
-    output_dir <- file.path(parentdir, "only2tp")
+  # selection of groups
+  if (group == "both") {
+    # total: both groups
+    output_dir <- parentdir
+  }else if (group == "IG") {
+    output_dir <- file.path(parentdir, "IG_only")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final[final$condition=="IG",]
+  }else if (group == "KG") {
+    output_dir <- file.path(parentdir, "KG_only")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final[final$condition=="KG",]
+  }
+  
+  # selection of time points
+  if (tp == "all"){
+    output_dir <- file.path(output_dir, "total")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final
+  }else if (tp == "BL"){
+    output_dir <- file.path(output_dir, "onlyBL")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final[final$tp == "bl",]
+  }else if (tp == "FU"){
+    output_dir <- file.path(output_dir, "onlyFU")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final[final$tp == "fu",]
+  }else if (tp == "FU2"){
+    output_dir <- file.path(output_dir, "onlyFU2")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final[final$tp == "fu2",]
+  }else if (tp == "BLFU"){
+    output_dir <- file.path(output_dir, "only2tp")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp != "fu2",]
-    if (IG_only == TRUE){
-      # only BL and FU - only IG
-      if (!dir.exists(output_dir)) {dir.create(output_dir)}
-      output_dir <- file.path(parentdir, "only2tp/IG_only")
-      setwd(output_dir)
-      final <- final[final$condition=="IG",]
-    }
-  }else if (only2tp == FALSE){
-    # all time points
-    if (IG_only == TRUE){
-      # only IG
-      output_dir <- file.path(parentdir, "IG_only")
-      if (!dir.exists(output_dir)) {dir.create(output_dir)}
-      setwd(output_dir)
-      final <- final[final$condition=="IG",]
-    }else{
-      # total: both groups
-      output_dir <- file.path(parentdir, "total")
-      if (!dir.exists(output_dir)) {dir.create(output_dir)}
-      setwd(output_dir)
-    }
+  }else if (tp == "FUFU2"){
+    output_dir <- file.path(output_dir, "only2tp_fu")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
+    final <- final[final$tp != "fu2",]
   }
-  
+
   # directory load scans
-  final[final$tp =="bl","scan_dir"]
-  nrow(final[final$tp =="fu",])
-  nrow(final[final$tp =="fu2",])
   write.table(final$scan_dir, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='scans.txt')
   # Modified SwE type - Visits: tp.txt
@@ -143,86 +163,100 @@ save_txt_for_swe <- function(IG_only, only2tp){
   write.table(final$KG, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='group_KG.txt')
   
-  #######################################
-  # Different model with time as factor #
-  #######################################
-  
-  write.table(final$tp_IG, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='tp_IG.txt')
-  write.table(final$tp_KG, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='tp_KG.txt')
-  write.table(final$IG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
-              file='IG_fu2.txt')
-  write.table(final$IG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
-              file='IG_fu.txt')
-  write.table(final$IG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
-              file='IG_bl.txt')
-
-    write.table(final$KG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
-              file='KG_fu2.txt')
-    write.table(final$KG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
-              file='KG_fu.txt')
-    write.table(final$KG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
-              file='KG_bl.txt')
-
-  
-  # compute centered avgBMI (avgFD) and cgnBMI(cgnFD)
-  df_wide <- tidyr::pivot_wider(data = final,
-                                id_cols = "subj.ID",
-                                names_from = "tp",
-                                values_from = c("tp","BMI","logmFD")
-  )
-  
-  if (only2tp == TRUE) {s = 2} else {s = 1}
-  
-  BMI_vector <- c("BMI_fu2", "BMI_fu", "BMI_bl")
-  FD_vector <- c("logmFD_fu2", "logmFD_fu", "logmFD_bl")
-  df_wide$avgBMI <- apply(df_wide[, BMI_vector[s:3]],
-                          MARGIN = 1,
-                          FUN = mean,
-                          na.rm = TRUE)
-  df_wide$avgFD <- apply(df_wide[, FD_vector[s:3]],
-                         MARGIN = 1,
-                         FUN = mean,
-                         na.rm = TRUE)
-  
-  if (only2tp == TRUE) {order_vector = c(3,2)} else {order_vector = c(4, 2, 3)}
-  df_long <- tidyr::pivot_longer(
-    data = df_wide,
-    cols = all_of(order_vector), # bl, fu, fu2 (maintain original order)
-    # CAREFUL: Order according to dataframe final
-    names_to = "tp_tp",
-    values_to = "tp",
-    values_drop_na = TRUE
-  )
-  all(df_long$tp == final$tp) # check if order correct
-  
-  head(final[,c("subj.ID","tp")])
-  head(df_long[,c("subj.ID","tp")])
-  
-  
-  df_long$cgnBMI <- final$BMI - df_long$avgBMI
-  df_long$avgBMIc <- df_long$avgBMI - mean(df_long$avgBMI,na.rm=TRUE)
-  final$avgBMIc <- df_long$avgBMIc
-  final$cgnBMI <- df_long$cgnBMI
-  
-  df_long$cgnFD <- final$logmFD - df_long$avgFD
-  df_long$avgFDc <- df_long$avgFD - mean(df_long$avgFD,na.rm=TRUE)
-  final$avgFDc <- df_long$avgFDc
-  final$cgnFD <- df_long$cgnFD
-  
-  write.table(final$avgBMIc, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='avgBMIc.txt')
-  write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='cgnBMI.txt')
+  # other important variables
   write.table(final$BMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='BMI.txt')
-  write.table(final$avgFDc, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='avgFDc.txt')
-  write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='cgnFD.txt')
   write.table(final$meanFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='meanFD.txt')
+  
+  # ----------------------------------------------------------------------------
+  # Different model with time as factor
+  # ----------------------------------------------------------------------------
+  
+  write.table(final$tp_IG, col.names=FALSE, row.names=FALSE,quote=FALSE,
+            file='tp_IG.txt')
+  write.table(final$tp_KG, col.names=FALSE, row.names=FALSE,quote=FALSE,
+            file='tp_KG.txt')
+  write.table(final$IG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='IG_fu2.txt')
+  write.table(final$IG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='IG_fu.txt')
+  write.table(final$IG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='IG_bl.txt')
+
+  write.table(final$KG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='KG_fu2.txt')
+  write.table(final$KG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='KG_fu.txt')
+  write.table(final$KG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
+            file='KG_bl.txt')
+
+  # ----------------------------------------------------------------------------
+  # Extra analysis steps (also better implmented in Matlab)
+  # ----------------------------------------------------------------------------
+    
+  if ((group == "all" | group == "IG") & (tp == "all" | tp == "BLFU")) {
+      # compute centered avgBMI (avgFD) and cgnBMI(cgnFD)
+      df_wide <- tidyr::pivot_wider(
+        data = final,
+        id_cols = "subj.ID",
+        names_from = "tp",
+        values_from = c("tp", "BMI", "logmFD")
+      )
+      
+      if (tp == "BLFU") {s = 2} else {s = 1}
+      
+      BMI_vector <- c("BMI_fu2", "BMI_fu", "BMI_bl")
+      FD_vector <- c("logmFD_fu2", "logmFD_fu", "logmFD_bl")
+      df_wide$avgBMI <- apply(df_wide[, BMI_vector[s:3]],
+                              MARGIN = 1,
+                              FUN = mean,
+                              na.rm = TRUE)
+      df_wide$avgFD <- apply(df_wide[, FD_vector[s:3]],
+                             MARGIN = 1,
+                             FUN = mean,
+                             na.rm = TRUE)
+      
+      if (tp == "BLFU") {
+        order_vector = c(3, 2)
+      } else {
+        order_vector = c(4, 2, 3)
+      }
+    
+      df_long <- tidyr::pivot_longer(
+        data = df_wide,
+        cols = all_of(order_vector), # bl, fu, fu2 (maintain original order)
+        # CAREFUL: Order according to dataframe final
+        names_to = "tp_tp",
+        values_to = "tp",
+        values_drop_na = TRUE
+      )
+      all(df_long$tp == final$tp) # check if order correct
+      
+      head(final[, c("subj.ID", "tp")])
+      head(df_long[, c("subj.ID", "tp")])
+      
+      
+      df_long$cgnBMI <- final$BMI - df_long$avgBMI
+      df_long$avgBMIc <- df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
+      final$avgBMIc <- df_long$avgBMIc
+      final$cgnBMI <- df_long$cgnBMI
+      
+      df_long$cgnFD <- final$logmFD - df_long$avgFD
+      df_long$avgFDc <- df_long$avgFD - mean(df_long$avgFD, na.rm = TRUE)
+      final$avgFDc <- df_long$avgFDc
+      final$cgnFD <- df_long$cgnFD
+      
+      write.table(final$avgBMIc, col.names=FALSE, row.names=FALSE,quote=FALSE,
+              file='avgBMIc.txt')
+      write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
+              file='cgnBMI.txt')
+      write.table(final$avgFDc, col.names=FALSE, row.names=FALSE,quote=FALSE,
+              file='avgFDc.txt')
+      write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
+              file='cgnFD.txt')
+  }
+
   # reset to original working directory
   setwd(original_wd)
   
@@ -231,6 +265,6 @@ save_txt_for_swe <- function(IG_only, only2tp){
 
 
 # then save txt for all groups and return the final dataframe
-save_txt_for_swe(IG_only = FALSE, only2tp = FALSE)
+save_txt_for_swe(group = "all", tp = "all")
 # save txt first only IG (under different directory as specified in the function)
 # save_txt_for_swe(IG_only = TRUE)
