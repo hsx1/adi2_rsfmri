@@ -20,6 +20,8 @@
 % 'bmi2tp': FC ~ avgBMI + BMIcgn - only for BL and FU1
 % 'fd': FC ~ (avgBMI + BMIcgn +) avgFD + FDcgn + age + sex
 % 'fdIG': FC ~ (avgBMI + BMIcgn) + avgFD + FDcgn + age + sex - only for the intercention group
+% 'alltp'
+% 'singletp'
 %
 % Specify the model further with an integer for *COVARIATES definition*
 % 11: group-timef-age-sex-meanFD
@@ -77,23 +79,23 @@ param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/S
 param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
+param.ROI_PREP = {'PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
-param.MODEL = {'fdIG'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'}
-param.COVARIATES = [32];        % [11, 12];                    % [21, 22];                % [31, 32]; -
+param.MODEL = {'alltp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [];        % [11, 12];                    % [21, 22];                % [31, 32];  % []    % []
 
 % define masking and type of inference
 param.MASK = 'brain';                  % 'brain' or 'gm'
 param.WILD_BOOT = false;             % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
-param.ONLY_DISPLAY = true;         % false
-param.OVERWRITE = false;            % false
+param.ONLY_DISPLAY = false;         % false
+param.OVERWRITE = true;            % false
 param.VIEWSEC = 3; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
@@ -101,10 +103,17 @@ addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
 addpath('/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript')
 
 % use function to run or display models
-if param.COVARIATES(1) < 20
-    RunModelGroupTime(param)
-elseif param.COVARIATES(1) < 30
-    RunModelBMI(param)
-elseif param.COVARIATES(1) < 40
-    RunModelFD(param)
+if strcmp(param.MODEL,'singletp')
+    SingleTPEval(param)
+elseif strcmp(param.MODEL,'alltp')
+    AllTPEval(param)
+else
+    % for all other models
+    if param.COVARIATES(1) < 20
+        RunModelGroupTime(param)
+    elseif param.COVARIATES(1) < 30
+        RunModelBMI(param)
+    elseif param.COVARIATES(1) < 40
+        RunModelFD(param)
+    end
 end

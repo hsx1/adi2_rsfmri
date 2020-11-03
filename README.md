@@ -4,8 +4,7 @@ Necessary files for analysis of Project 2 with the ADI cohort. This repository c
 
 `run_or_display.m`: analysis script; conducts analysis as specified in the beginning of the script - for non-parametric estimation it will run or display all contrasts in a loop. To use script read > How to run analysis < below.
 
-`RunModelGroupTime.m`, `RunModelBMI.m` and `RunModelFD.m` are functions called
-by `run_or_display.m`
+`RunModelGroupTime.m`, `RunModelBMI.m` and `RunModelFD.m` as well as 'AllTPEval.m' and 'SingleTPEval' are functions called by `run_or_display.m`
 
 `draft_rsfmri` - Rproject, Rmarkdown and PDF document for the draft.
 
