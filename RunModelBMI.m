@@ -79,6 +79,11 @@ for crun = 1:nrun
             save("xSwE.mat")
         elseif not(exist_already) || param.OVERWRITE
             fprintf('Estimate model...\n')
+            % delete existing files in folder if existent
+            if exist_already 
+                rmdir(out_folder,'s'); % delete former dir
+                mkdir(out_folder); % create new empty one
+            end
             spm('defaults', 'FMRI'); 
             matlabbatch = RunModel(matlabbatch, location_SwE_mat);
             spm_jobman('run', matlabbatch);

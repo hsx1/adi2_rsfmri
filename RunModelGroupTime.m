@@ -111,6 +111,11 @@ for crun = 1:nrun
             save("xSwE.mat")
         elseif not(exist_already) || param.OVERWRITE
             fprintf('Estimate model...\n')
+            % delete existing files in folder if existent
+            if exist_already
+                rmdir(out_folder,'s'); % delete former dir
+                mkdir(out_folder); % create new empty one
+            end
             spm('defaults', 'FMRI'); 
             matlabbatch = RunModel(matlabbatch, location_SwE_mat);
             spm_jobman('run', matlabbatch);
@@ -222,9 +227,10 @@ matlabbatch{1}.spm.tools.swe.smodel.masking.tm.tm_none = 1;
 matlabbatch{1}.spm.tools.swe.smodel.masking.im = 1;
 % .. Explicit Mask
 if strcmp(param.MASK,'brain')
-    mask_path = {fullfile(param.MASK_DIR,'MNI_resampled_brain_mask.nii,1')};
+    mask_path = {fullfile(param.MASK_DIR, param.MASK_B)};
 elseif strcmp(param.MASK,'gm')
-    mask_path = {fullfile(param.MASK_DIR,'mni_icbm152_gm_tal_nlin_sym_09a.nii,1')};
+    % mask_path = {fullfile(param.MASK_DIR,'mni_icbm152_gm_tal_nlin_sym_09a.nii,1')};
+    mask_path = {fullfile(param.MASK_DIR, param.MASK_GM)};
 end
 
 matlabbatch{1}.spm.tools.swe.smodel.masking.em = mask_path;

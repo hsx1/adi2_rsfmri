@@ -2,7 +2,7 @@
 % _Input_: Relevant directories (INFO_DIR, OUT_DIR, MASK_DIR), model 
 % definition (MODEL, COVARIATES), target region (ROI), estimation and 
 % inference specifics (MASK, WILD_BOOT, INFERENCE) and action aguments 
-% (DISPLAY_ONLY, OVERWRITE)
+% (DISPLAY_ONLY, OVERWRITE); MASKS are further specified 
 % _Output_: saves SwE.mat and contrast imagies (*.nii)
 % 
 % Use string for stating *ROI and preprocessing step* and z-transform in
@@ -74,31 +74,34 @@
 % import absolute path for project
 ABS_DIR = readcell("abs_path.csv");
 ABS_DIR = ABS_DIR{1};
-
 % create a struct, with all important parameters
 param.OUT_DIR = fullfile(ABS_DIR,'/Results/Project2_resting_state/connectivity/Analysis/'); %'/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/preliminary_analysis/'; 
 param.INFO_DIR = fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/');
 param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/Brain_masks/');
+% file names of masks
+param.MASK_GM = 'mni_icbm152_gm_tal_nlin_sym_09a_resampl_bin.nii,1';
+param.MASK_B = 'MNI_resampled_brain_mask.nii,1';
+
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {'PCC_cc_z','PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
+param.ROI_PREP = {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
-param.MODEL = {'singletp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [41, 42];        % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
+param.MODEL = {'grouptime','grouptime2tp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [11, 12];        % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
 
 % define masking and type of inference
-param.MASK = 'brain';                  % 'brain' or 'gm'
+param.MASK = 'gm';                  % 'brain' or 'gm'
 param.WILD_BOOT = false;            % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = false;         % false
-param.OVERWRITE = false;             % false
-param.VIEWSEC = 3; % for ONLY_DISPLAY: seconds you want to view the results
+param.OVERWRITE = true;             % false
+param.VIEWSEC = 1; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
 addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
@@ -119,3 +122,12 @@ else
         RunModelFD(param)
     end
 end
+
+
+param.MODEL = {'bmi','bmiIG','bmi2tp'}; 
+param.COVARIATES = [21, 22]; 
+RunModelBMI(param)
+
+param.MODEL = {'fd','fdIG'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [32];  
+RunModelFD(param)
