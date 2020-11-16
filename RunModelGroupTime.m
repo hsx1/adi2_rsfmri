@@ -79,7 +79,7 @@ param.COVARIATES = param.COVARIATES(j);
 param.INFERENCE_TYPE = param.INFERENCE_TYPE(k);
 
 
-if param.ONLY_DISPLAY && not(param.WILD_BOOT)
+if param.ONLY_DISPLAY && not(param.WILD_BOOT) % strcmp(param.ACTION, 'display')
     display_message(param)
     % wait so displayed information can be read
     pause(7)
@@ -103,13 +103,13 @@ for crun = 1:nrun
         clear matlabbatch
         fprintf('Specify Model...\n')
         [matlabbatch,location_SwE_mat] = SpecifyModel(param, crun, out_folder);
-        if param.ONLY_DISPLAY
+        if param.ONLY_DISPLAY % strcmp(param.ACTION,'display')
             fprintf('Display Results...\n')
             spm('defaults', 'FMRI'); 
             matlabbatch = DisplayResults(location_SwE_mat);
             spm_jobman('run', matlabbatch);
             pause(param.VIEWSEC) 
-        elseif not(exist_already) || param.OVERWRITE
+        elseif not(exist_already) || param.OVERWRITE % strcmp(param.ACTION,'overwrite')
             fprintf('Estimate model...\n')
             % delete existing files in folder if existent
             if exist_already
@@ -133,14 +133,14 @@ for crun = 1:nrun
             clear matlabbatch
             fprintf('Specify Model...\n')
             [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder); 
-            if param.ONLY_DISPLAY
+            if param.ONLY_DISPLAY % strcmp(param.ACTION,'display')
                 fprintf('Display Results...\n')
                 spm('defaults', 'FMRI');
                 matlabbatch = DisplayResults(location_SwE_mat);
                 spm_jobman('run', matlabbatch);
                 pause(param.VIEWSEC)
                 save("xSwE.mat")
-            elseif not(exist_already) || param.OVERWRITE
+            elseif not(exist_already) || param.OVERWRITE % strcmp(param.ACTION,'overwrite')
                 fprintf('Estimate model...\n')
                 % delete existing files in folder if existent
                 if exist_already
@@ -289,6 +289,7 @@ smodel.globalm.glonorm = 1;
 
 %% save model specification in matlabbatch
 matlabbatch{1}.spm.tools.swe.smodel = smodel;
+% for SwE 2.1.1: matlabbatch{1}.swe.smodel = smodel; (??)
 
 %% Output folder ----------------------------------------------------------
 location_SwE_mat = fullfile(out_folder, 'SwE.mat');

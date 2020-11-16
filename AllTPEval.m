@@ -50,7 +50,7 @@ param.INFERENCE_TYPE = param.INFERENCE_TYPE(k);
 
 
 
-if param.ONLY_DISPLAY && not(param.WILD_BOOT)
+if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
     display_message(param.COVARIATES)
     % wait so displayed information can be read
     pause(3)
@@ -78,7 +78,7 @@ for crun = 1:nrun
             matlabbatch = DisplayResults(location_SwE_mat);
             spm_jobman('run', matlabbatch);
             pause(param.VIEWSEC)
-        elseif not(exist_already) || param.OVERWRITE
+        elseif not(exist_already) || param.OVERWRITE %strcmp(param.ACTION,'overwrite')
             fprintf('Estimate model...\n')
             % delete existing files in folder if existent
             if exist_already 
@@ -100,7 +100,7 @@ for crun = 1:nrun
             clear matlabbatch
             fprintf('Specify Model...\n')
             [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder); 
-            if param.ONLY_DISPLAY
+            if param.ONLY_DISPLAY %strcmp(param.ACTION,'display')
                 fprintf('Display Results...\n')
                 spm('defaults', 'FMRI');
                 matlabbatch = DisplayResults(location_SwE_mat);
@@ -137,61 +137,47 @@ cd(param.INFO_DIR)
 
 %% Directory to save SwE file
 % save directory of (new) folder
-matlabbatch{1}.spm.tools.swe.smodel.dir = {out_folder};
+smodel.dir = {out_folder};
 
 %% Load Scans -------------------------------------------------------------
 % constructing cell array with the scans (FC maps per subject and time point)
 scans_dir = readcell(fullfile(param.INFO_DIR,'scans.txt'), 'Delimiter',' ','Whitespace',"'");
 roi_prep = param.ROI_PREP{crun};
-if contains(roi_prep, 'gsr')
-    % special case if preprocessing is 'gsr'
-    if endsWith(roi_prep,'_z')
-        FC_files = strcat(lower(roi_prep(1:end-5)),'cc_gsr_seed_correlation_z_trans.nii');
-    else
-        FC_files = strcat(lower(roi_prep(1:end-3)),'cc_gsr_seed_correlation_trans.nii');
-    end
-else
-    if endsWith(param.ROI_PREP{crun},'_z')
-        FC_files = strcat(lower(roi_prep(1:end-2)),'_seed_correlation_z_trans.nii');
-    else
-        FC_files = strcat(lower(roi_prep),'_seed_correlation_trans.nii');
-    end
-end
-scans_of_roi = fullfile(scans_dir, roi_prep, FC_files);
+scans_of_roi = create_scans_list(scans_dir, roi_prep);
 
 % load scans to matlabbatch
-matlabbatch{1}.spm.tools.swe.smodel.scans = scans_of_roi;
+smodel.scans = scans_of_roi;
                                          
 %% SwE type ---------------------------------------------------------------
 % .Modified
 % .. Define Groups
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.groups = readmatrix('group.txt');
+smodel.type.modified.groups = readmatrix('group.txt');
 
 % ..Visits
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.visits = readmatrix('tp.txt');
+smodel.type.modified.visits = readmatrix('tp.txt');
 
 % small sample adjustment (4 = type C2)
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.ss = 4;
+smodel.type.modified.ss = 4;
 % degrees of freedom type (3 = approx III)
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.dof_mo = 3;
+smodel.type.modified.dof_mo = 3;
 
 %% Subjects ---------------------------------------------------------------
-matlabbatch{1}.spm.tools.swe.smodel.subjects = readmatrix('subjNr.txt');
+smodel.subjects = readmatrix('subjNr.txt');
 
 %% Covariates (Design matrix) ---------------------------------------------
 % desgin matrix for model estimation
 cov = create_design_matrix(param);
-matlabbatch{1}.spm.tools.swe.smodel.cov = cov;
+smodel.cov = cov;
   
 %% Masking ----------------------------------------------------------------
 %% Multiple Covariates (none)
-matlabbatch{1}.spm.tools.swe.smodel.multi_cov = struct('files', {});
+smodel.multi_cov = struct('files', {});
 
 %% Masking (none)
 % .Threshold masking
-matlabbatch{1}.spm.tools.swe.smodel.masking.tm.tm_none = 1;
+smodel.masking.tm.tm_none = 1;
 % ..Implicit Mask (no)
-matlabbatch{1}.spm.tools.swe.smodel.masking.im = 1;
+smodel.masking.im = 1;
 % .. Explicit Mask
 if strcmp(param.MASK,'brain')
     mask_path = {fullfile(param.MASK_DIR,'MNI_resampled_brain_mask.nii,1')};
@@ -199,19 +185,19 @@ elseif strcmp(param.MASK,'gm')
     mask_path = {fullfile(param.MASK_DIR,'mni_icbm152_gm_tal_nlin_sym_09a.nii,1')};
 end
 
-matlabbatch{1}.spm.tools.swe.smodel.masking.em = mask_path;
+smodel.masking.em = mask_path;
 %% Non-parametric Wild Bootstrap ------------------------------------------
 % . No
 if ~param.wild_con
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_no = 0;
+    smodel.WB.WB_no = 0;
 else
     % . Yes
     % .. Small sample adjustments for WB resampling (4 = type C2)
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_ss = 4;
+    smodel.WB.WB_yes.WB_ss = 4;
     % .. Number of bootstraps
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_nB = 999;
+    smodel.WB.WB_yes.WB_nB = 999;
     % .. Type of SwE (0 = U-SwE (recommended))
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_SwE = 0;
+    smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
     c01 = [0 1 0 0 0 0 0];
     c02 = [0 0 1 0 0 0 0];
@@ -224,36 +210,39 @@ else
     end
     
     if param.wild_con == 1
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
     elseif param.wild_con == 2
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
     elseif param.wild_con == 3 && param.COVARIATES == 31
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c03(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c03(1:end-s);
     elseif param.wild_con == 4 && param.COVARIATES == 31
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c04(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c04(1:end-s);
     end
     %  .. Inference Type (voxelwise, clusterwise, TFCE)
     if strcmp(param.INFERENCE_TYPE,'voxel')
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_voxelwise = 0;
+        smodel.WB.WB_yes.WB_infType.WB_voxelwise = 0;
     elseif strcmp(param.INFERENCE_TYPE,'cluster')
         % cluster-forming threshold (default)
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_clusThresh = 0.001;
+        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
+        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_clusThresh = 0.001;
     elseif strcmp(INFERENCE_TYPE,'tfce')
         % E and H values as default (strongly recommended)
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_E = 0.5;
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_H = 2;
+        smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_E = 0.5;
+        smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_H = 2;
     end
 end
 
 %% Other ------------------------------------------------------------------
 % Global calculation - Omit
-matlabbatch{1}.spm.tools.swe.smodel.globalc.g_omit = 1;
+smodel.globalc.g_omit = 1;
 % Global normalisation
 %.Overall grand mean scaling - No
-matlabbatch{1}.spm.tools.swe.smodel.globalm.gmsca.gmsca_no = 0;
+smodel.globalm.gmsca.gmsca_no = 0;
 % . Normalisation - None
-matlabbatch{1}.spm.tools.swe.smodel.globalm.glonorm = 1;
+smodel.globalm.glonorm = 1;
+
+%% save model specification in matlabbatch
+matlabbatch{1}.spm.tools.swe.smodel = smodel;
 
 %% Output folder ----------------------------------------------------------
 location_SwE_mat = fullfile(out_folder, 'SwE.mat');
@@ -327,6 +316,27 @@ end
 
 r = 0;
 
+end
+
+%% ------------------------------------------------------------------------
+function [scans_of_roi] = create_scans_list(scans_dir, roi_prep)
+% creates a list of scans as input for swe model specification "Scans" from
+% directory of scans and regions of interest
+if contains(roi_prep, 'gsr')
+    % special case if preprocessing is 'gsr'
+    if endsWith(roi_prep,'_z')
+        FC_files = strcat(lower(roi_prep(1:end-5)),'cc_gsr_seed_correlation_z_trans.nii');
+    else
+        FC_files = strcat(lower(roi_prep(1:end-3)),'cc_gsr_seed_correlation_trans.nii');
+    end
+else
+    if endsWith(roi_prep,'_z')
+        FC_files = strcat(lower(roi_prep(1:end-2)),'_seed_correlation_z_trans.nii');
+    else
+        FC_files = strcat(lower(roi_prep),'_seed_correlation_trans.nii');
+    end
+end
+scans_of_roi = fullfile(scans_dir, roi_prep, FC_files);
 end
 
 %% ------------------------------------------------------------------------
