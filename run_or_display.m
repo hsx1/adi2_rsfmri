@@ -70,8 +70,10 @@
 % Especially for results of non-parametric estimation, you need to specify
 % how long you want to look at the results in VIEWSEC. Alternatively you
 % can also set breakpoints in the funtion scripts.
+
 %% ========================================================================
 % import absolute path for project
+% SET PATH TO code_and_manuscript FOLDER AS CURRENT DIRECTORY !!
 ABS_DIR = readcell("abs_path.csv");
 ABS_DIR = ABS_DIR{1};
 % create a struct, with all important parameters
@@ -84,50 +86,42 @@ param.MASK_B = 'MNI_resampled_brain_mask.nii,1';
 
 % define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
+param.ROI_PREP = {roi_prep{[12,14]}}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 
-param.MODEL = {'grouptime','grouptime2tp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [11, 12];        % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
+param.MODEL = {'singletp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [42];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
 
 % define masking and type of inference
-param.MASK = 'gm';                  % 'brain' or 'gm'
-param.WILD_BOOT = false;            % false
+param.MASK = 'brain';               % 'brain' or 'gm'
+param.WILD_BOOT = false;             % false
 param.INFERENCE_TYPE = {'voxel'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
-param.ONLY_DISPLAY = false;         % false
-param.OVERWRITE = true;             % false
-param.VIEWSEC = 1; % for ONLY_DISPLAY: seconds you want to view the results
+param.ONLY_DISPLAY = true;         % false
+param.OVERWRITE = true;            % false
+param.VIEWSEC = 2; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
-addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
-addpath('/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript')
+addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer')) % for spm/ swe toolbox
+addpath(fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript')) % for functions
 
 % use function to run or display models
 if strcmp(param.MODEL,'singletp')
-    SingleTPEval(param)
+    SingleTPEvalAge(param)
 elseif strcmp(param.MODEL,'alltp')
     AllTPEval(param)
 else
     % for all other models
     if param.COVARIATES(1) < 20
-        RunModelGroupTime(param)
+        RunModelGroupTime(param);
     elseif param.COVARIATES(1) < 30
-        RunModelBMI(param)
+        RunModelBMI(param);
     elseif param.COVARIATES(1) < 40
-        RunModelFD(param)
+        RunModelFD(param);
     end
 end
 
-
-param.MODEL = {'bmi','bmiIG','bmi2tp'}; 
-param.COVARIATES = [21, 22]; 
-RunModelBMI(param)
-
-param.MODEL = {'fd','fdIG'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [32];  
-RunModelFD(param)

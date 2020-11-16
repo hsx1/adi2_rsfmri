@@ -1,7 +1,7 @@
 library(dplyr)
 library(tidyr)
 
-save_txt_for_swe <- function(group = "BL", tp = "all"){
+save_txt_for_swe <- function(group = "all", tp = "all"){
   # group = IG/KG/both
   # tp = BL/FU/FU2/BLFU/FUFU2/all
   
@@ -85,10 +85,10 @@ save_txt_for_swe <- function(group = "BL", tp = "all"){
 # Modify Design matrix for subsamples -------------------------------------
   
   # Model specification incl. design matrix for different options
+  output_dir <- parentdir
   # selection of groups
   if (group == "both") {
     # total: both groups
-    output_dir <- parentdir
   }else if (group == "IG") {
     output_dir <- file.path(parentdir, "IG_only")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}

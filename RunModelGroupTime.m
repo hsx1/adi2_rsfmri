@@ -12,7 +12,8 @@ for i = 1:length(param.MODEL)
         end
     end
 end
-spm('Quit')
+fprintf("Enter > spm('Quit') < to exit.")
+%spm('Quit')
 
 %% ========================================================================
 function display_message(param)
@@ -107,8 +108,7 @@ for crun = 1:nrun
             spm('defaults', 'FMRI'); 
             matlabbatch = DisplayResults(location_SwE_mat);
             spm_jobman('run', matlabbatch);
-            pause(param.VIEWSEC)
-            save("xSwE.mat")
+            pause(param.VIEWSEC) 
         elseif not(exist_already) || param.OVERWRITE
             fprintf('Estimate model...\n')
             % delete existing files in folder if existent
@@ -140,8 +140,13 @@ for crun = 1:nrun
                 spm_jobman('run', matlabbatch);
                 pause(param.VIEWSEC)
                 save("xSwE.mat")
-            elseif not(exist_already)
+            elseif not(exist_already) || param.OVERWRITE
                 fprintf('Estimate model...\n')
+                % delete existing files in folder if existent
+                if exist_already
+                    rmdir(out_folder,'s'); % delete former dir
+                    mkdir(out_folder); % create new empty one
+                end
                 spm('defaults', 'FMRI');
                 matlabbatch = RunModel(matlabbatch, location_SwE_mat);
                 spm_jobman('run', matlabbatch);
@@ -172,25 +177,16 @@ cd(param.INFO_DIR)
 % save directory of (new) folder
 matlabbatch{1}.spm.tools.swe.smodel.dir = {out_folder};
 
+% cifti + gifti additional information (SwE 2.2.1)
+smodel.ciftiAdditionalInfo.ciftiGeomFile = struct('brainStructureLabel', {}, 'geomFile', {}, 'areaFile', {});
+smodel.ciftiAdditionalInfo.volRoiConstraint = 0;
+smodel.giftiAdditionalInfo.areaFileForGiftiInputs = {};
+
 %% Load Scans -------------------------------------------------------------
 % constructing cell array with the scans (FC maps per subject and time point)
 scans_dir = readcell(fullfile(param.INFO_DIR,'scans.txt'), 'Delimiter',' ','Whitespace',"'");
 roi_prep = param.ROI_PREP{crun};
-if contains(roi_prep, 'gsr')
-    % special case if preprocessing is 'gsr'
-    if endsWith(roi_prep,'_z')
-        FC_files = strcat(lower(roi_prep(1:end-5)),'cc_gsr_seed_correlation_z_trans.nii');
-    else
-        FC_files = strcat(lower(roi_prep(1:end-3)),'cc_gsr_seed_correlation_trans.nii');
-    end
-else
-    if endsWith(param.ROI_PREP{crun},'_z')
-        FC_files = strcat(lower(roi_prep(1:end-2)),'_seed_correlation_z_trans.nii');
-    else
-        FC_files = strcat(lower(roi_prep),'_seed_correlation_trans.nii');
-    end
-end
-scans_of_roi = fullfile(scans_dir, roi_prep, FC_files);
+scans_of_roi = create_scans_list(scans_dir, roi_prep);
 
 % load scans to matlabbatch
 matlabbatch{1}.spm.tools.swe.smodel.scans = scans_of_roi;
@@ -395,6 +391,27 @@ elseif param.COVARIATES == 13 || param.COVARIATES == 14
     end
 end
 r = 0;
+end
+
+%% ------------------------------------------------------------------------
+function [scans_of_roi] = create_scans_list(scans_dir, roi_prep)
+% creates a list of scans as input for swe model specification "Scans" from
+% directory of scans and regions of interest
+if contains(roi_prep, 'gsr')
+    % special case if preprocessing is 'gsr'
+    if endsWith(roi_prep,'_z')
+        FC_files = strcat(lower(roi_prep(1:end-5)),'cc_gsr_seed_correlation_z_trans.nii');
+    else
+        FC_files = strcat(lower(roi_prep(1:end-3)),'cc_gsr_seed_correlation_trans.nii');
+    end
+else
+    if endsWith(roi_prep,'_z')
+        FC_files = strcat(lower(roi_prep(1:end-2)),'_seed_correlation_z_trans.nii');
+    else
+        FC_files = strcat(lower(roi_prep),'_seed_correlation_trans.nii');
+    end
+end
+scans_of_roi = fullfile(scans_dir, roi_prep, FC_files);
 end
 
 %% ------------------------------------------------------------------------

@@ -103,8 +103,7 @@ if param.ONLY_DISPLAY == false
     fmri_est.write_residuals = 0;
     fmri_est.method.Classical = 1;
     matlabbatch{2}.spm.stats.fmri_est = fmri_est;
-
-elseif param.ONLY_DISPLAY == true
+    
     %% Contrast manager
     con.spmmat = {fullfile(out_folder,'SPM.mat')};
     con.consess{1}.tcon.name = 'mean';
@@ -112,6 +111,8 @@ elseif param.ONLY_DISPLAY == true
     con.consess{1}.tcon.sessrep = 'none';
     con.delete = 0;
     matlabbatch{3}.spm.stats.con = con;
+
+elseif param.ONLY_DISPLAY == true
 
     %% Results
     results.spmmat = {fullfile(out_folder,'SPM.mat')};
@@ -124,7 +125,8 @@ elseif param.ONLY_DISPLAY == true
     results.conspec.mask.none = 1;
     results.units = 1;
     results.export{1}.ps = true;
-    matlabbatch{4}.spm.stats.results = results;
+    matlabbatch{1}.spm.stats.results = results; % matlabbatch{4} if done in one step with analysis
+
 end
 
 end

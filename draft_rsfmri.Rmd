@@ -115,14 +115,12 @@ tab_sample
 ## Sample and study design
 
 <!-- STUDY DESIGN --> The ADIPOSITAS-Study conducted in the Charité Berlin is a observational, prospective and longitudinal design described in detail by @Prehn_2020. Data collection is still ongoing but only data available in April 2019 is used.
-the procedures followed were in accordance with the Helsinki Declaration. This study was registered at clinicaltrials.gov as NCT01554228 and described in more detailed in the preregistration under [https://osf.io/mzyxv](https://osf.io/mzyxv).
-
+The procedures followed were in accordance with the Helsinki Declaration. This study was registered at clinicaltrials.gov as NCT01554228 and described in more detailed in the preregistration under [https://osf.io/mzyxv](https://osf.io/mzyxv).
 <!-- RECRUITEMENT, INCLUSION/EXCLUSION CRITERIA --> Participants were recruited from the Center for Bariatric and Metabolic Surgery if they were between age $18$ and $70$ and fulfilled the inclusion criteria. These were, in accordance with BARS guidelines, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease). 
-<!-- Exclusion criteria --> Participants with a history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$) were excluded from the study. <!-- Frage: Ausschluss bei head movement? ADI009_fu2 nicht enthalten (siehe Readme preprocessing) -->
-
-<!-- DESCRIPTIVE STATISTICS --> The analysis was done only on morbidly obese individuals with fMRI data (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; mean age = `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range: `r min(subj_df$Age_BL)` to `r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list control (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing all subjects that have received MRI. 
+Participants with a history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$) were excluded from the study. <!-- Frage: Ausschluss bei head movement? ADI009_fu2 nicht enthalten (siehe Readme preprocessing) -->
 Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery or after the baseline appointment but not all participants have complete data for all time points (see Table \@ref(tab:tabdescr)). `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for only one time point.
-Analyses were performed on all participants that provided at least one data point (detailed information on data availability in \@ref(tab:tabsample)).
+The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing only subjects that have received MRI. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data availability in \@ref(tab:tabsample)).
+<!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (`r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
 ```{r baseline characteristics, include=FALSE}
 dfBL <- save_txt_for_swe(group = "all", tp = "BL")
 
@@ -157,7 +155,7 @@ p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) +
   )
 tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
-Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group, except for the distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`).
+Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`).
 <!-- Details about surgeries --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
 ```{r tabdescr, echo=FALSE}
 
@@ -184,11 +182,9 @@ tab_descr <-
 tab_descr
 
 ```
-
-<!-- Study procedure -->
+<!-- STUDY PROCEDURE -->
 Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for STANDARDIZED?? breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 
-<!-- Figures zu BMI über die Zeit in den Gruppen. -->
 ```{r fig_BMIdescr, fig.asp = 1, fig.width = 5}
 # BMI over time each group
 fig_BMIdescr <-
@@ -248,21 +244,18 @@ Then, we will transform the connectivity maps into MNI space with a non-linear w
 
 ### Quality Assessment
 
-<!-- exclusion criteria --> Participants in which head motion artifacts affected the T1-weighted image preprocessing (e.g. caused Freesurfer to fail or perform very poorly, i.e. rated "Failed" according to @Klapwijk_2019) were excluded because a subject's motion is highly similar across scans and we thus suspect the fMRI data to also suffer from motion artifacts in these subjects. 
-As the expected average head motion is high [@Hodgson_2016] we did not exclude any other participants based on head motion estimates because it is difficult to determine a critical threshold in this sample. 
-<!-- motion correction --> We therefore apply best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitor the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. As quality checks statistical analysis were performed on both with and without global signal regression, considering the controversial discussion about GSR introducing negative correlations and spatial bias into connectivity data [@Ciric_2017; @Murphy_2017].
-Additionally, mean framewise displacement (FD) was extracted from 6 translational/rotational motion parameters of the whole time series according to @Power_2012 and log-transformed and examined within and separate from the main models.
+<!-- EXCLUSION CRITERIA --> Participants in which head motion artifacts affected the T1-weighted image preprocessing (e.g. caused Freesurfer to fail or perform very poorly, i.e. rated "Failed" according to @Klapwijk_2019) were excluded because a subject's motion is highly similar across scans and we thus suspect the fMRI data to also suffer from motion artifacts in these subjects. 
+As the expected average head motion is high [@Hodgson_2016], we did not exclude any other participants based on head motion estimates because it is difficult to determine a critical threshold in this sample. 
+<!-- MOTION CORRECTION --> We therefore apply best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitor the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. As quality checks statistical analysis were performed on both with and without global signal regression, considering the controversial discussion about GSR introducing negative correlations and spatial bias into connectivity data [@Ciric_2017; @Murphy_2017].
+Additionally, mean framewise displacement (FD) was extracted from 6 translational/rotational motion parameters of the whole time series according to @Power_2012, log-transformed and examined within and separate from the main models.
 
 ### Outcomes
-<!-- MEASURES AND COVARIATES -->
-<!-- Computation of whole brain FC --> The main outcome measure was the aggregated functional connectivity (FC) values for the two ROI NAcc and PCC.
+<!-- MEASURES AND COVARIATES --> The main outcome measure was the aggregated functional connectivity (FC) values for the two ROI NAcc and PCC.
 
 ## Analysis
 
 Statistical analysis were performed in MATLAB using the sandwich estimator (SwE) toolbox 2.2.1 [@Guillaume_2014] as implemented in SPM12 and R version 3.6.1 [@team2013r].
 During analyses, beyond an implicit mask, the the MNI ICBM 2009a Nonlinear Symmetric brain masks [http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009) were re-sampled t0 3 x 3 x 3 mm$^3$, then binarized at threshold $0.5$ and used as explicit mask.
-
-<!-- es waren ja mehr als 2, nämlich 2 (group vs bmi) * 2 (mit/ohne logFD) * 2 (ACC/PC) *2 (CC + GSR) *2 (brain mask + GM mask), versuch das alles hier zu nennen, damit man sich später besser zurechtfindet -->
 
 <!-- Model setup --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$. 
 These were examined each for correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $16$ a priori planned analyses.
@@ -323,22 +316,35 @@ Unthresholded maps for the t-tests as well as contrasts of average BMI and chang
 \newpage
 # Discussion
 
-<!-- SUPPORT OF ORIGINAL HYPOTHESIS -->
-<!-- SIMILARITY OF RESULTS -->
-<!-- INTERPRETATION -->
-<!-- GENERALIZABILITY -->
-<!-- IMPLICATIONS -->
-
-<!-- Description of analyses carried out --> Marginal models were used to adequately capture longitudinal trends in resting state connectivity of in an intervention group and the waiting control group.
-
-With the model on group-time-interaction, we primarily investiage whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? --> 
+<!-- summary -->
+With the model on group-time-interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? --> 
 The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
 
-<!-- Problem head motion --> Based on concerns expressed in the literature, we tried to closely inspect and rigorously control for the influence of head motion. The presence of multicollinearity of our predictors has been established. As described in @Monti_2011 in the presence of multicollinearity, the unique contribution of the regressor for the prediction cannot be disentangled. Confidence in $\beta$ estimates will suffers and estimated can be erratic, depending on which regressors included in the model. 
+<!-- SUPPORT OF ORIGINAL HYPOTHESIS -->
+
+<!-- SIMILARITY OF RESULTS -->
+<!-- Discuss mixed effect model -->
+
+<!-- INTERPRETATION -->
+
+<!-- GENERALIZABILITY -->
+
+<!-- IMPLICATIONS -->
+<!-- Relevance of rsfMRI as biomarker -->
+<!-- Consideration of head motion as covariate -->
+
+Marginal models were used to adequately capture longitudinal trends in resting state connectivity of in an intervention group and the waiting control group.
+
+
+
+<!-- Problem head motion --> Based on concerns expressed in the literature [@], we tried to closely inspect and rigorously control for the influence of head motion. The presence of multicollinearity of our predictors has been established before. As described in @Monti_2011 in the presence of multicollinearity, the unique contribution of the regressor for the prediction cannot be disentangled. Confidence in $\beta$ estimates will suffers and estimates can behave erratic depending on which regressors included in the model.
+
 
 To summarize, there were few significant co-activation that emerged from the marginal models. Co-activation was locally highly specific and (NOT???) in accordance with our hypothesis regarding network activity changes. Ventures to verify effects by recalculating with non-parametric Wild bootstrap revealed that effects were not robust across estimation procedures. This suggests that significant results are likely to be false positive.
 
 <!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased with after a meal while dietary patients showed an increase [@Lepping_2015]. 
+
+<!-- For all patients included, conservative obesity treatment had failed, e.g. behavioral diet intervention. As shown before, patients who were successful in behavioral diet increased connectivity in the default mode network. This might be indicative for self-referent information processing. -->
 
 # Code availability
 
