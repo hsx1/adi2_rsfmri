@@ -106,7 +106,8 @@ param.OVERWRITE = true;            % false
 param.VIEWSEC = 2; % for ONLY_DISPLAY: seconds you want to view the results
 
 % set path for spm and path with my functions
-addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer')) % for spm/ swe toolbox
+addpath('/data/u_heinrichs_software/MATLAB/spm12/') % swe version 2.2.1
+%addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer')) % swe version 2.1.1
 addpath(fullfile(ABS_DIR,'/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript')) % for functions
 
 % use function to run or display models
