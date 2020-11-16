@@ -138,7 +138,7 @@ cd(param.INFO_DIR)
 
 %% Directory to save SwE file
 % save directory of (new) folder
-matlabbatch{1}.spm.tools.swe.smodel.dir = {out_folder};
+smodel.dir = {out_folder};
 
 % cifti + gifti additional information (SwE 2.2.1)
 smodel.ciftiAdditionalInfo.ciftiGeomFile = struct('brainStructureLabel', {}, 'geomFile', {}, 'areaFile', {});
@@ -152,38 +152,38 @@ roi_prep = param.ROI_PREP{crun};
 scans_of_roi = create_scans_list(scans_dir, roi_prep);
 
 % load scans to matlabbatch
-matlabbatch{1}.spm.tools.swe.smodel.scans = scans_of_roi;
+smodel.scans = scans_of_roi;
                                          
 %% SwE type ---------------------------------------------------------------
 % .Modified
 % .. Define Groups
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.groups = readmatrix('group.txt');
+smodel.type.modified.groups = readmatrix('group.txt');
 
 % ..Visits
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.visits = readmatrix('tp.txt');
+smodel.type.modified.visits = readmatrix('tp.txt');
 
 % small sample adjustment (4 = type C2)
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.ss = 4;
+smodel.type.modified.ss = 4;
 % degrees of freedom type (3 = approx III)
-matlabbatch{1}.spm.tools.swe.smodel.type.modified.dof_mo = 3;
+smodel.type.modified.dof_mo = 3;
 
 %% Subjects ---------------------------------------------------------------
-matlabbatch{1}.spm.tools.swe.smodel.subjects = readmatrix('subjNr.txt');
+smodel.subjects = readmatrix('subjNr.txt');
 
 %% Covariates (Design matrix) ---------------------------------------------
 % desgin matrix for model estimation
 cov = create_design_matrix(param);
-matlabbatch{1}.spm.tools.swe.smodel.cov = cov;
+smodel.cov = cov;
   
 %% Masking ----------------------------------------------------------------
 %% Multiple Covariates (none)
-matlabbatch{1}.spm.tools.swe.smodel.multi_cov = struct('files', {});
+smodel.multi_cov = struct('files', {});
 
 %% Masking (none)
 % .Threshold masking
-matlabbatch{1}.spm.tools.swe.smodel.masking.tm.tm_none = 1;
+smodel.masking.tm.tm_none = 1;
 % ..Implicit Mask (yes)
-matlabbatch{1}.spm.tools.swe.smodel.masking.im = 1;
+smodel.masking.im = 1;
 % .. Explicit Mask
 if strcmp(param.MASK,'brain')
     mask_path = {fullfile(param.MASK_DIR, param.MASK_B)};
@@ -192,19 +192,19 @@ elseif strcmp(param.MASK,'gm')
     mask_path = {fullfile(param.MASK_DIR, param.MASK_GM)};
 end
 
-matlabbatch{1}.spm.tools.swe.smodel.masking.em = mask_path;
+smodel.masking.em = mask_path;
 %% Non-parametric Wild Bootstrap ------------------------------------------
 % . No
 if ~param.wild_con
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_no = 0;
+    smodel.WB.WB_no = 0;
 else
     % . Yes
     % .. Small sample adjustments for WB resampling (4 = type C2)
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_ss = 4;
+    smodel.WB.WB_yes.WB_ss = 4;
     % .. Number of bootstraps
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_nB = 999;
+    smodel.WB.WB_yes.WB_nB = 999;
     % .. Type of SwE (0 = U-SwE (recommended))
-    matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_SwE = 0;
+    smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
     c01 = [0 1 0 0 0 0 0];
     c02 = [0 0 1 0 0 0 0];
@@ -217,36 +217,39 @@ else
     end
     
     if param.wild_con == 1
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
     elseif param.wild_con == 2
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
     elseif param.wild_con == 3 && param.COVARIATES == 31
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c03(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c03(1:end-s);
     elseif param.wild_con == 4 && param.COVARIATES == 31
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c04(1:end-s);
+        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c04(1:end-s);
     end
     %  .. Inference Type (voxelwise, clusterwise, TFCE)
     if strcmp(param.INFERENCE_TYPE,'voxel')
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_voxelwise = 0;
+        smodel.WB.WB_yes.WB_infType.WB_voxelwise = 0;
     elseif strcmp(param.INFERENCE_TYPE,'cluster')
         % cluster-forming threshold (default)
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_clusThresh = 0.001;
+        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
+        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_clusThresh = 0.001;
     elseif strcmp(INFERENCE_TYPE,'tfce')
         % E and H values as default (strongly recommended)
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_E = 0.5;
-        matlabbatch{1}.spm.tools.swe.smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_H = 2;
+        smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_E = 0.5;
+        smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_H = 2;
     end
 end
 
 %% Other ------------------------------------------------------------------
 % Global calculation - Omit
-matlabbatch{1}.spm.tools.swe.smodel.globalc.g_omit = 1;
+smodel.globalc.g_omit = 1;
 % Global normalisation
 %.Overall grand mean scaling - No
-matlabbatch{1}.spm.tools.swe.smodel.globalm.gmsca.gmsca_no = 1;
+smodel.globalm.gmsca.gmsca_no = 1;
 % . Normalisation - None
-matlabbatch{1}.spm.tools.swe.smodel.globalm.glonorm = 1;
+smodel.globalm.glonorm = 1;
+
+%% save model specification in matlabbatch
+matlabbatch{1}.spm.tools.swe.smodel = smodel;
 
 %% Output folder ----------------------------------------------------------
 location_SwE_mat = fullfile(out_folder, 'SwE.mat');
