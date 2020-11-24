@@ -1,11 +1,14 @@
 ---
-title: "Manuscript_rsfMRI"
+title: "Effects of bariatric surger and weight loss on resting-state functional connectivity"
 author:
-- xx [1][2][3]
-- xx [2]
+- xxx [1]
+- xxx [1][2]
+- xxx [1][2][3]
+- xxx [1][2]
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
   2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
   Day Clinic for Cognitive Neurology, University Clinic Leipzig
+
 output:
   bookdown::pdf_book: 
     fig_caption: yes
@@ -17,24 +20,32 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r "Package loading", include=FALSE}
+```{r "environment setup", include=FALSE}
+
+# load packages
 library(plyr)
 library(dplyr)
 library(tidyr)
-library(knitr)
 library(kableExtra)
 library(ggplot2)
-library(RColorBrewer)
-# library(haven)
-library(psych)
-library(patchwork)
-library(lsr) 
-library(wesanderson)
+library(patchwork) # API for sequentially building up a plot (similar to gridExtra and cowplot)
 #library(cowplot)
-knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=4)
+library(RColorBrewer)
+library(psych)
+#library(lsr) # 
+
+
+#library(wesanderson) # colour palette
+#library(haven)
+
+
+
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex") 
 # put the path to this file here (working directory for Rmarkdown):
 opts_knit$set(root.dir = getwd())
+
 ```
 \newpage
 # Abstract
@@ -52,7 +63,7 @@ Yet, little is known about the potential beneficial effects of bariatric surgery
 <!-- Default mode network --> 
 
 
-<!-- H1 Reward network --> In this study, we aim to investigate possible dynamics of within-reward network connectivity before and after bariatric surgery. Moreover, we will explore whether the changes in functional connectivity are associated with the amount of weight lost after bariatric surgery treatment in obesity.
+<!-- H1 Reward network --> In this study, we aim to investigate possible dynamics of within-reward network connectivity before and after bariatric surgery. Moreover, we will explore whether the changes in functional connectivity are associated with the amount of weight lost after bariatric surgery treatment in obesity to explore a potential gradient link.
 <!-- H2 Default mode network --> In addition, we will investigate potential changes in within-network functional connectivity after surgery in other resting-state networks such as default mode network (DMN). Functional connectivity of this network has been shown to be linked to obesity [@Beyer_2017] and altered after bariatric surgery [@Olivo_2016].
 
 <!-- to read in literature -->
@@ -62,8 +73,6 @@ Roux-en-Y gastric bypass (RYGB) is the most common procedure, as it not only res
 ... 
 group effect because direct effect of intervention surgery -> rsfmri (cares lessfreq, less preoccupation with hunger, less/more reward sensitivity) vs. sugery -> BMI -> rsfmri (neural signalling, fatty tissue)
 ...
-possibly leading to 
-Adipose tissue, gut hormones and gut microbiota may play a mediating role effects for the interaction between body weight and (brian) 
 
 \newpage
 # Methods
@@ -75,6 +84,7 @@ final = save_txt_for_swe(group = "all", tp = "all")
 # sample size
 #nrow(subj_df)
 subj_idx <- match(unique(final$subj.ID), final$subj.ID) # indices of first row of each subject
+subj_df <- final[subj_idx,] # df with unique subjects
 
 # completed time points
 freqtable <- as.data.frame(table(final$subj.ID))
@@ -87,11 +97,14 @@ tp3 <- as.character(freqtable$Var1[freqtable$Freq == 3])
 tp1_tab <- table(subset(final, subj.ID %in% tp1)$tp, subset(final, subj.ID %in% tp1)$condition)
 tp2_tab <- table(subset(final, subj.ID %in% tp2)$tp, subset(final, subj.ID %in% tp2)$condition)[c(1,3),]
 tp3_tab <- table(subset(final, subj.ID %in% tp3)$tp, subset(final, subj.ID %in% tp3)$condition)[1,]
-tab_sample <- data.frame(rbind(tp1_tab, tp2_tab, tp3_tab))
-rownames(tab_sample) <- c("only 0","only 6","only 12","0 and 6","6 and 12","complete data")
+total_datapoints <- c(sum(final$group==1),sum(final$group==2))
+total_subjects <- plyr::count(final[subj_idx,"group"])$freq
+tab_sample <- data.frame(rbind(tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints))
+rm(tp1,tp2,tp3,tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints)
+rownames(tab_sample) <- c("count: only 0","count: only 6","count: only 12","count: 0 and 6","count: 6 and 12","count: complete data","total number of subjects","total data points")
+colnames(tab_sample) <- c("BARS","NBARS")
 
 # distribution of condition and sex
-subj_df <- final[subj_idx,]
 subj_df$Sex <- plyr::mapvalues(subj_df$Sex, from = c("-1", "1"), to = c("f", "m"))
 cs <- addmargins(table(subj_df$Sex,subj_df$condition))
 
@@ -110,7 +123,6 @@ tab_sample <-
     caption = "Distribution of data points at months after intervention")
 tab_sample
 ```
-## Study design
 
 ## Sample and study design
 
@@ -120,7 +132,7 @@ The procedures followed were in accordance with the Helsinki Declaration. This s
 Participants with a history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$) were excluded from the study. <!-- Frage: Ausschluss bei head movement? ADI009_fu2 nicht enthalten (siehe Readme preprocessing) -->
 Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery or after the baseline appointment but not all participants have complete data for all time points (see Table \@ref(tab:tabdescr)). `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for only one time point.
 The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing only subjects that have received MRI. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data availability in \@ref(tab:tabsample)).
-<!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (`r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
+<!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
 ```{r baseline characteristics, include=FALSE}
 dfBL <- save_txt_for_swe(group = "all", tp = "BL")
 
@@ -156,7 +168,7 @@ p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) +
 tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
 Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`).
-<!-- Details about surgeries --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
+<!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
 ```{r tabdescr, echo=FALSE}
 
 # table for descriptive statistics
@@ -185,7 +197,10 @@ tab_descr
 <!-- STUDY PROCEDURE -->
 Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for STANDARDIZED?? breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 
-```{r fig_BMIdescr, fig.asp = 1, fig.width = 5}
+```{r fig_BMIdescr, fig.align='center', out.width="90%"}
+# eval = TRUE, fig.asp = 0.7, fig.width = 6
+condition.labs <- c("BARS","NBARS") 
+names(condition.labs) <- c("IG","KG")
 # BMI over time each group
 fig_BMIdescr <-
   ggplot(final, aes(
@@ -202,7 +217,7 @@ fig_BMIdescr <-
     size = 2,
     color = c(rep("#00305E", 3), rep("#C00045", 3))
   ) +
-  facet_grid(. ~ condition) + xlab("time points")
+  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
 fig_BMIdescr +
   scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
   scale_color_manual(
@@ -219,14 +234,14 @@ fig_BMIdescr +
   )
 ```
 
-## fMRI data acquisition
+## fMRI acquisition
 
 MRI images were retrieved with a 12-channel head coil of a 3 Tesla Siemens Trio system.
 <!-- MRI --> T1-weighted anatomical images were acquired as described in @Prehn_2020 (with MPRAGE, TR = 1900 ms, TE = 2.52 ms, a = 9, voxel size = 1 x 1 x 1 mm$^3$, 192 sagital slices).
 <!-- rsfMRI --> Resting state gradient echo were acquired in 34 slices at an 90$^\circ$ flip angel with a repetition time (TR) of 2.3 s and echo time (TE) of 30 ms; image matrix = 64 x 64 voxel with in-plane resolution of 3 mm x 3 mm and a slice thickness of 4 mm, 150 volumes<!-- dimension = [60;72;60] ??? -->. The total acquisition time was 5:45 minutes. Field map or phase-encode reversed images were not acquired.
 Participants were instructed to close their eyes but to remain awake during scanning.
 
-## Data preproceessing
+## Pre-proceessing
 
 Data preprocessing was conducted with FSL and Freesurfer using a nipype (version 14.0.2) workflow implemented in python 2.7. 
 The preprocessing workflow included anatomical, functional and diffusion-weighted imaging preprocessing and wrapped modules from FSL version 6.0.1<!-- ?! -->, Freesurfer version 6.0.0p1, ANTS <!-- version?! and so on-->. Details have been published on [github]()
@@ -250,30 +265,32 @@ As the expected average head motion is high [@Hodgson_2016], we did not exclude 
 Additionally, mean framewise displacement (FD) was extracted from 6 translational/rotational motion parameters of the whole time series according to @Power_2012, log-transformed and examined within and separate from the main models.
 
 ### Outcomes
+
 <!-- MEASURES AND COVARIATES --> The main outcome measure was the aggregated functional connectivity (FC) values for the two ROI NAcc and PCC.
 
 ## Analysis
 
 Statistical analysis were performed in MATLAB using the sandwich estimator (SwE) toolbox 2.2.1 [@Guillaume_2014] as implemented in SPM12 and R version 3.6.1 [@team2013r].
-During analyses, beyond an implicit mask, the the MNI ICBM 2009a Nonlinear Symmetric brain masks [http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009) were re-sampled t0 3 x 3 x 3 mm$^3$, then binarized at threshold $0.5$ and used as explicit mask.
+During analyses an implicit mask and an explicit mask were used. Therefore, the MNI ICBM 2009a Nonlinear Symmetric brain mask [http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$.
 
-<!-- Model setup --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$. 
+<!-- MODEL SETIP --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$. 
 These were examined each for correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $16$ a priori planned analyses.
 Initially, analyses were run with a brain mask but after post hoc considerations detailed below, models were re-run with a grey matter mask which reduced the number of tests (voxels of interest) from $52378$ to $29451$. As a result a total of $32$ different analyses were performed.
 Computation with the grey matter mask were exploratory and deviate from the preregistration.
 
-<!-- Description marginal model --> The marginal model set up with the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accomodates any repeated measurement covariance structures. We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size and therefore accommodating for heteroscedasticity.
+<!-- Description marginal model --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
 
-<!-- Design matrix, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because did not assume strict linearity for the increase in connectivity and sought to increase power to detect specific trends. The resulting flexible factorial design contained one regressor for each time point per group. For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014.
+<!-- Design matrix, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because did not assume strict linearity for the increase in connectivity and sought to increase power to detect specific trends. The resulting flexible factorial design <!-- check: difference from full factorial or other? --> contained one regressor for each time point per group. For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014.
 With a model containing average BMI and longitudinal change per subject, we investigated potential effects .............. on the complete sample and subsequently in a exploratory fashion for the intervention group only as the effect of longitudinal change in BMI was expected to be driven by this subsample.
-<!-- Nuisance covariates --> Age, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points. However, as change in FD and change in BMI share variance [@Beyer_2019]. Hence, inclusion of log mean FD may be disputed and done optionally.
+<!-- Nuisance covariates --> Age at baseline, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points. As change in FD and change in BMI share variance [@Beyer_2019], the inclusion of log mean FD may be disputed and done optionally.
 <!-- Post hoc analyses  --> For that reason, we performed each analysis separately one with mean FD and without. Differences in results will be reported. For a better understanding of the unique contribution of average and longitudinal change FD measures, we employed a third post hoc model to disentangle the effects: $FC = between-subject FD + within-subject FD$. These post-hoc analyses deviate from the preregistration and should be considered to be exploratory.
 
-<!-- Inference --> All parametric inferences on activation were drawn based on False Discovery Rate (FDR) adjusted p-values $\leq 0.05$. As collinearity may cause problems we calculated an approximation of the variance inflation factor (VIF) which was shown to be minimal for all models except the third exploratory. Here, there was minor variance inflation for longitudinal change in both BMI and FD was moderately positively correlated. <!-- Problem(?): correlation not does not consider multilevel - compute linear mixed model -->
-<!-- Ensure robustness of inference --> To ensure robustness of our results, we computed estimates with non-parametric test using wild bootstrap with an unrestricted SwE on all contrasts of interest for voxelwise inference, p-values were FDR-corrected for $\alpha = 5%$.
-In contrast to the parametric estimation, bootstrap is adapted to use family-wise error correction, and unlike permutation based framework appropriate <!-- ??? clarify why--> for longitudinal data.
+<!-- Inference --> All parametric inferences on activation were drawn based on False Discovery Rate (FDR) adjusted p-values $\leq 0.05$. To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for voxelwise inference, p-values were FDR-corrected for $\alpha = 5%$.
+In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate <!-- ??? clarify why--> for longitudinal data.
 
-\newpage
+
+
+
 # Results
 
 ## Manipulation check 
@@ -313,27 +330,63 @@ Surprisingly, there was no significant effect neither for the total sample, nor 
 <!-- Neurovault --> 
 Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
 
-\newpage
+
+
+
 # Discussion
 
-<!-- summary -->
-With the model on group-time-interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? --> 
+<!-- SUMMARY
+-->
+<!-- general --> Building on the evidence for post-surgery changes in functional activity, this study explored the longitudinal relationship between surgery-induced weight loss and functional integrity in target networks indicated by resting-state functional connectivity. Over the course of one year we collected neuroimaging and anthropometric data from `r cs["Sum","IG"]` morbidly obese patients undergoing bariatric surgery and compared them to the longitudinal data of  `r cs["Sum","KG"]` patients on the waiting list.
+<!-- model specific --> With the model on group-time-interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? --> 
 The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
 
-<!-- SUPPORT OF ORIGINAL HYPOTHESIS -->
+<!-- SUPPORT OF ORIGINAL HYPOTHESIS 
+-->
 
-<!-- SIMILARITY OF RESULTS -->
-<!-- Discuss mixed effect model -->
+<!-- 
+SIMILARITY OF RESULTS -->
+Our results are not consistent with the present literature. Although there are few studies investigating the impact of bariatric surgery on functional connectivity at resting state, the present articles do significant changes in network activation [@;@;@]. 
+<!-- publication bias -->
 
-<!-- INTERPRETATION -->
+<!-- 
+INTERPRETATION -->
+<!-- absence of evidence --> However, hypotheses about the plasticity functional networks following bariatric surgery could not be validated. Due to the shortcomings of the inferential paradigm used, our null findings may either put conclusions drawn from previous research into question or may neither provide evidence for the presence nor the absence of the effect.
+<!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased after a meal while dietary patients showed an increase [@Lepping_2015]. 
 
-<!-- GENERALIZABILITY -->
+<!-- 
+GENERALIZABILITY -->
 
-<!-- IMPLICATIONS -->
+<!-- advantage:  --> 
+
+<!-- no RCT --> Common challenge in medical intervention studies is the difficulty to draw causal inference about the effect of interventions such as surgeries because randomization is often unethical or unfeasible as done in randomized control trials.
+<!-- different conclusion from other studies --> To isolate the effect of the surgical intervention to a maximum possible extent, the intervention group has to be comparable to a control group in regard  to predisposition. Studies comparing the sample of bariatric patients to lean individuals or behavioral dieters may have investigated risk or contributing factors to the condition or other dispositional difference between groups, e.g. in cognitive control, openness or responsiveness to behavioral interventions [@;@]. However, they provide insufficient evidence to directly evaluate impact of the surgical procedure.
+<!-- prospective intervention control study --> Prospective non-randomization trial study design are secondary to randomized control trials in regard to internal control.  By establishing temporality, longitudinal measurements support the validity of conclusions about the effects of the surgery. Contrasting pre- and post-surgery measures change while controlling for individual variance.  The waiting list control group equivalent in BMI, treatment history and  treatment recommendation allows controlling for concurrent factors [@Thiese_2014]. Incorporating these consideration, our study aimed at a higher internal validity for conclusions about the effects of bariatric surgery on functional connectivity. 
+
+<!-- advantage: representative sample --> Size and composition of our sample did not allow separate analyses for the sexes. The disproportionate sex distribution is reflective prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
+
+<!-- mention larger sample size --> 
+
+<!-- mixed effect model -->
+
+We re-ran analyses with a flexible factorial model as implemented in SPM to estimate the group-time-interaction while controlling for variance on subject-level as done exemplarily by @McFarquhar_2019. Thereby, 
+<!-- demonstrated / we ruled out gross missspecification in retrieving estimates from the Sandwich estimator. -->
+
+@McFarquhar_2019 demonstrated that specifying complex multi-level models with standard neuroimaging software packages such as SPM and FSL can be quite difficult if done appropriately. 
+From the necessity to include subject effect, the necessity of using a overparamaterized design arises.
+
+
+Not only do  but modeling between-subjects and within-subject nuisance covariates demands caution and becomes even more complex when using multiple within-subject covariates.
+....
+In both models, the variation between subjects was modeled and therefore ...
+
+Opposed to flexible factorial models for analysis of variance, where each individual is modelled separately, models are parsimonious and preserver more degrees of freedom.
+
+<!-- 
+IMPLICATIONS -->
+
 <!-- Relevance of rsfMRI as biomarker -->
 <!-- Consideration of head motion as covariate -->
-
-Marginal models were used to adequately capture longitudinal trends in resting state connectivity of in an intervention group and the waiting control group.
 
 
 
@@ -342,7 +395,7 @@ Marginal models were used to adequately capture longitudinal trends in resting s
 
 To summarize, there were few significant co-activation that emerged from the marginal models. Co-activation was locally highly specific and (NOT???) in accordance with our hypothesis regarding network activity changes. Ventures to verify effects by recalculating with non-parametric Wild bootstrap revealed that effects were not robust across estimation procedures. This suggests that significant results are likely to be false positive.
 
-<!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased with after a meal while dietary patients showed an increase [@Lepping_2015]. 
+
 
 <!-- For all patients included, conservative obesity treatment had failed, e.g. behavioral diet intervention. As shown before, patients who were successful in behavioral diet increased connectivity in the default mode network. This might be indicative for self-referent information processing. -->
 
@@ -404,6 +457,7 @@ tspag  +
     legend.position = "top"
 )
 ```
+
 ```{r expample plots, eval=FALSE}
 # example plots for interaction effect (arbitrary variables for illustration purposes)
 ggplot(final, aes(x=tp, y=BMI, group=condition, color=condition)) +
