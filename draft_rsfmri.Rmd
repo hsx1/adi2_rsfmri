@@ -8,7 +8,6 @@ author:
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
   2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
   Day Clinic for Cognitive Neurology, University Clinic Leipzig
-
 output:
   bookdown::pdf_book: 
     fig_caption: yes
@@ -19,6 +18,16 @@ bibliography: "bibliography.bib"
 editor_options: 
   chunk_output_type: console
 ---
+```{r "To do", include=FALSE}
+
+# [ ] Introduction
+# [ ] Discussion
+# [ ] hervorheben, was von Präregistrierung abweicht
+# [ ] brain images mit nilearn plotting tools einbinden
+# [x] Figure zu weight loss
+# [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
+
+```
 
 ```{r "environment setup", include=FALSE}
 
@@ -53,26 +62,55 @@ opts_knit$set(root.dir = getwd())
 \newpage
 # Introduction
 
-<!-- BARS & weight loss --> Besides metabolic dysfunctions, obesity has been consistently associated with reduced gray matter volume, less intact white matter structure and reduced cognitive function [@Beyer_2019; @Zhang_2018]. 
-On the other hand, dietary interventions such as caloric restriction and related metabolic improvements and weight loss have been suggested to improve neuronal plasticity and cognitive performance [@Witte_2009; @Zhang_2018].
+Over the past decades, the global burden of obesity has increasingly been confronted as a matter of urgency by research.
 
-<!-- BARS --> Bariatric surgery is one promising option to combat morbid obesity, as it rapidly improves weight status, metabolic dysfunctions and co-morbidities, such as diabetes. 
-Yet, little is known about the potential beneficial effects of bariatric surgery on brain structure and function in this population, in particular with regard to hedonic motivations for food, which play a fundamental role in weight relapse.
+Besides metabolic dysfunctions, obesity has been consistently associated with reduced gray matter volume, less intact white matter structure and reduced cognitive function [@Beyer_2019; @Zhang_2018]. On the other hand, dietary interventions such as caloric restriction and related metabolic improvements and weight loss have been suggested to improve neuronal plasticity and cognitive performance [@Witte_2009; @Zhang_2018; @Veronese_2017].
+Behavioral intervention require ... and often fail to yield the desired success regarding weight loss, especially in in morbid obesity [@]. There are alternative interventions at hand.
+<!-- bars -->
+Bariatric surgery is one promising option to combat morbid obesity, as it rapidly improves weight status, metabolic dysfunctions and co-morbidities, such as diabetes. Roux-en-Y gastric bypass (RYGB) is the most common procedure, as it not only restricts the food intake by reducing stomach volume, but also affects the absorption of macronutrients and the hormonal profile [@]. Other common procedures are vertical sleeve gastrectomy (VSG) and gastric banding (GB) which only restrict food consumption. 
+<!-- Potential mechanisms? -->
+Precise mechanisms are yet to be elucidated, but as a first step, a comprehensive understanding of the concurrent physiological changes underlying weight loss and recovery is needed to better infer potential mechanisms and support interventions proven to be effective. <!-- / immitate interventions that have been proven effective with less invasive alternatives -->
 
-<!-- Reward network --> In lean participants, food valuation processes in decision-making have been linked to brain activity and activity within the reward network, including ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
+<!-- Reward network -->
+Little is known about the potential beneficial effects of bariatric surgery on brain function in this population, in particular with regard to hedonic motivations for food, which play a fundamental role in weight relapse.
+<!-- mechanism reward and appetite, overating -->
+Besides malabsorption and restricted food ingestion, patients report post-surgical changes in food preferences and eating behavior. Those psychophysiological and behavioral effects may be related to post-surgical changes in visceral sensory perceptions and endocrinological signaling. Corresponding information is processed by the fronto-mesolimbic system and affects appetite and reward signalling which a sustainable weight loss [@Mulla_2017, @Nudel_2019].
+
+Several studies have demonstrated differences in resting-state activity in reward regions depending on weight status.
+
+Obese individuals exhibited increased connectivity between frontal and mesolimbic regions and weaker connectivity within regions of the mesolimbic system (encompassing limbic and striatal regions). These differences seemed to normalize, as trends reversed when looking at the resting state of obese individuals after compared to before the surgery [@Duan_2020].
+
+<!-- saliency and reward -->
+In lean participants, food valuation processes in decision-making have been linked to brain activity and activity within the reward network, including ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
+
+Studies concerning such processes following a surgical intervention are inconclusive.
+
+<!-- important differences in the response to visual food-related cues between thin and reduced-obese individuals that place the latter group at an increased risk of  -->
+
+<!-- Though there exists strong evidence for important differences in the .. between lean or normal-weight individuals and obese individuals, few studies have investigated the ... and even fewer compared reduced-obese individuals reduced-obese individuals -->
+<!-- [@Garcia_Garcia_2012] -->
+
 <!-- Default mode network --> 
 
+Weight regulation and energy expenditure is dependent on a complex interplay of homeostatic signal and internal sensory processing. Obesity may be cause or effect of a decompensation of the psychophysiological system that ensures homeostasis.
+The default mode network is commonly associated with processing of self-referent as well as introspective information, such as hunger sensation [@;@] and appetite [@Tregellas_2011]. <!-- parietal activation correlated with appetite measures after an overnight fast [@Tregellas_2011]. --> It is mainly composed of the posterior cingulate cortex (PCC)/ Precuneus (PC), the medial prefrontal cortex (MPFC) and inferior and lateral parietal cortex (IPC, LPC; approx. BA 39) [@Raichle_2015]. The right ventral anterior cingulate cortex (VACC), superior frontal cortex (SFC), and inferior temporal cortex (ITC) show weaker but also reliable association with the PCC over the course of one year. Even broader conceptions count left VACC, middle temporal gyrus (MTG), and parahippocampal cortex, although associations with the PCC are not as stable [@Chou_2012].
+<!-- difference lean obese --> 
+Functional connectivity of this network has been shown to be linked to BMI [@Beyer_2017] and altered after bariatric surgery [@Olivo_2016]. Generally, studies show an increased activation in the default mode network, especially in the precuneus and posterior cingulate cortex (PCC) in obese individuals [@Kullmann_2011; @].
+A longitudinal study that confirmed the stronger connectivity (of PCC with anterior STG and anterior temporal fusiform gyrus and the Precuneus with the anterior STG). However, default mode connectivity in these regions seemed weakened over the course of one year. Because differences between lean controls and obese individuals that existed prebariatric surgery were no longer detectable 1 year after the surgery, the authors argue for a normalization in functional connectivity<!-- and PCC/PC connectivity with anterior STG are most affected by the surgery -->[@Olivo_2017].
+This is consistent with other findings of reduction of functional connectivity of these and other regions of the default mode network, such as the VMPFC [@Li_2018] <!-- with the dorsolateral prefrontal cortex (DLPFC) --> after the surgery.
 
-<!-- H1 Reward network --> In this study, we aim to investigate possible dynamics of within-reward network connectivity before and after bariatric surgery. Moreover, we will explore whether the changes in functional connectivity are associated with the amount of weight lost after bariatric surgery treatment in obesity to explore a potential gradient link.
-<!-- H2 Default mode network --> In addition, we will investigate potential changes in within-network functional connectivity after surgery in other resting-state networks such as default mode network (DMN). Functional connectivity of this network has been shown to be linked to obesity [@Beyer_2017] and altered after bariatric surgery [@Olivo_2016].
+<!-- argument: FC ~ BMI --> The exact mechanisms of how bariatric surgery affects functional plasticity needs to be investigated. Among patients undergoing surgery, change in BMI was negatively correlated with the changes in connectivity of the default mode network, namely between the PCC/precuneus and the DLPFC [@Li_2018].
 
-<!-- to read in literature -->
-<!-- something about surgeries -->
-Roux-en-Y gastric bypass (RYGB) is the most common procedure, as it not only restricts the food intake by reducing stomach volume, but also affects the absorption of nutrients and hormonal profile [@]. Other common procedures are vertical sleeve gastrectomy (VSG) and gastric banding (GB) which only restrict food consumption.
+On the other hand, connectivity also served as a predictor of weight loss after surgery.
+On the other hand, there are also indicators of reduced functional integrity, e.g. for the anterior cingulate cortex (ACC) at resting state compared to lean individuals [@Kullmann_2011].
 
-... 
-group effect because direct effect of intervention surgery -> rsfmri (cares lessfreq, less preoccupation with hunger, less/more reward sensitivity) vs. sugery -> BMI -> rsfmri (neural signalling, fatty tissue)
-...
+
+<!-- novelty statement --> As described previously, several studies have investigated the effects of bariatric surgery on the intrinsic functional connectivity in patients. Yet, to our knowledge there is no quasi-experimental study, comparing patients that only differs in regard to the intervention, i.e. undergoing bariatric surgery, over an extended time period.
+<!-- hypotheses --> In this study, we aim to bridge this gap and investigate possible dynamics of within-reward network connectivity before and after bariatric surgery. Moreover, we will explore whether the changes in functional connectivity are associated with the amount of weight lost after bariatric surgery treatment in obesity to explore a potential gradient link. In addition, we will investigate potential changes in within-network functional connectivity after surgery in other resting-state networks such as default mode network (DMN).
+Participants are measured at baseline, at 6 months and at 24 months to capture both phases of rapid weight-loss and maintenance as expected from non-surgical interventions [@Shai_2008].
+
+<!-- group effect because direct effect of intervention surgery -> rsfmri (cares lessfreq, less preoccupation with hunger, less/more reward sensitivity) vs. sugery -> BMI -> rsfmri (neural signalling, fatty tissue) -->
+
 
 \newpage
 # Methods
@@ -128,10 +166,11 @@ tab_sample
 
 <!-- STUDY DESIGN --> The ADIPOSITAS-Study conducted in the Charité Berlin is a observational, prospective and longitudinal design described in detail by @Prehn_2020. Data collection is still ongoing but only data available in April 2019 is used.
 The procedures followed were in accordance with the Helsinki Declaration. This study was registered at clinicaltrials.gov as NCT01554228 and described in more detailed in the preregistration under [https://osf.io/mzyxv](https://osf.io/mzyxv).
-<!-- RECRUITEMENT, INCLUSION/EXCLUSION CRITERIA --> Participants were recruited from the Center for Bariatric and Metabolic Surgery if they were between age $18$ and $70$ and fulfilled the inclusion criteria. These were, in accordance with BARS guidelines, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease). 
+<!-- RECRUITEMENT, INCLUSION/EXCLUSION CRITERIA --> Participants were recruited from the Center for Bariatric and Metabolic Surgery if they were between age $18$ and $70$ and fulfilled the inclusion criteria. These were, in accordance with BARS guidelines, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease)[@Mechanick_2013]. 
 Participants with a history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$) were excluded from the study. <!-- Frage: Ausschluss bei head movement? ADI009_fu2 nicht enthalten (siehe Readme preprocessing) -->
 Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery or after the baseline appointment but not all participants have complete data for all time points (see Table \@ref(tab:tabdescr)). `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for only one time point.
 The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing only subjects that have received MRI. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data availability in \@ref(tab:tabsample)).
+
 <!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
 ```{r baseline characteristics, include=FALSE}
 dfBL <- save_txt_for_swe(group = "all", tp = "BL")
@@ -244,16 +283,19 @@ Participants were instructed to close their eyes but to remain awake during scan
 ## Pre-proceessing
 
 Data preprocessing was conducted with FSL and Freesurfer using a nipype (version 14.0.2) workflow implemented in python 2.7. 
-The preprocessing workflow included anatomical, functional and diffusion-weighted imaging preprocessing and wrapped modules from FSL version 6.0.1<!-- ?! -->, Freesurfer version 6.0.0p1, ANTS <!-- version?! and so on-->. Details have been published on [github]()
+The preprocessing workflow included anatomical, functional and diffusion-weighted imaging preprocessing and wrapped modules from FSL version 6.0.1<!-- ?! -->, Freesurfer version 6.0.0p1, ANTS <!-- version?! and so on-->. Details have been published on github [https//:.???.com]()
 <!-- anatomical preprocessing write something about anatomical preprocessing (Freesurfer etc.) here --> 
-
 The T1-weighted image was segmented to remove non-brain tissue and together with the functional images normalized to a default brain template from the Monteal Neurological Institute (MNI) space. Functional images were smoothed with an $0$ mm FWHM Gaussian kernel.
 
 <!-- minimal functional preprocessing --> Preprocessing pipeline included removal of first four volumes and a transformation of the blood oxygen level dependent (BOLD) time series into the subject's anatomical space. This transform combines parameters from motion correction (FSL's MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL's FUGUE) and coregistration to the subject's anatomical template space (using Freesurfer's bbregister and the transform from individual to longitudinal template space in Freesurfer's longitudinal processing stream).
 
 <!-- Aroma + CC/ + GSR --> Volumes were further preprocessed with ICA-AROMA and compCor (CC) and, optionally, with a subsequent global signal regression (GSR) [@Ciric_2017; @Parkes_2018] to reduce the effect of physiological noise and head motion on the connectivity estimates.
 As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but is known to introduces spatial dependency and spurious correlations, we performed GSR after ICA-AROMA in a separate sensitivity analysis.
+
+### Seed region of interest (ROI)
 <!-- Regions of interest (definition and transformation into freesurfer long space) -->
+
+### Connectivity maps
 <!-- coregistration + normalization --> Voxel-wise seed-based connectivity maps in the individual subject's space (which was coregistered to the Freesurfer longitudinally preprocessed timepoint (more details)) were calculated using Pearson's correlation between average seed time series from pre-defined ROIs within the reward network (Nucleus accumbens, NAcc) and the DMN (precuneus, PCC). Subsequently, r-to-z transform was applied to the correlation to obtain normally distributed functional connectivity (using nilearn, nipype and python). 
 Then, we will transform the connectivity maps into MNI space with a non-linear warp derived from anatomical preprocessing of the longitudinally preprocessed timepoints (using ANTS).
 
@@ -266,14 +308,14 @@ Additionally, mean framewise displacement (FD) was extracted from 6 translationa
 
 ### Outcomes
 
-<!-- MEASURES AND COVARIATES --> The main outcome measure was the aggregated functional connectivity (FC) values for the two ROI NAcc and PCC.
+The main outcome measure was the aggregated functional connectivity (FC) values for the two ROI NAcc and PCC.
 
 ## Analysis
 
 Statistical analysis were performed in MATLAB using the sandwich estimator (SwE) toolbox 2.2.1 [@Guillaume_2014] as implemented in SPM12 and R version 3.6.1 [@team2013r].
 During analyses an implicit mask and an explicit mask were used. Therefore, the MNI ICBM 2009a Nonlinear Symmetric brain mask [http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$.
 
-<!-- MODEL SETIP --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$. 
+<!-- MODEL SETUP --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$. 
 These were examined each for correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $16$ a priori planned analyses.
 Initially, analyses were run with a brain mask but after post hoc considerations detailed below, models were re-run with a grey matter mask which reduced the number of tests (voxels of interest) from $52378$ to $29451$. As a result a total of $32$ different analyses were performed.
 Computation with the grey matter mask were exploratory and deviate from the preregistration.
@@ -302,7 +344,7 @@ In contrast to the parametric estimation, Wild Bootstrap avoids any parametric d
 
 <!-- Brain mask: Group*Time Interaction -->
 There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc as was hypothesized. Nor was there a significant main effect for any of the covariates of interest (time, group) in voxelwise inference with FDR correction. Results obtained for parametric estimation and non-parametric wild bootstrap did not differ.
-When reducing the number of nuisance covariates by leaving out mean FD, connectivity was found between the PCC with one other voxel. In the connectivity maps only corrected with AROMA-CC co-activation of voxel $x,y,z = 18,42,30$ [mm]) yielded $Z = 4.72$ ($q_{FDRcorr} = 0.040$). However, verification of the effect with non-parametric bootstrapping failed to yield significant ($p_{FWEcorr} = 0.061$; $q_{FDRcorr} = 0.999$)<!-- but FWE-corr sig?!, ich bin mir nicht ganz sicher, ob wir das überhaupt erwähnen wollen ... -->.
+When reducing the number of nuisance covariates by leaving out mean FD, connectivity was found between the PCC with one other voxel. In the connectivity maps only corrected with AROMA-CC co-activation of voxel $x,y,z = 18,42,30$ [mm] yielded $Z = 4.72$ ($q_{FDRcorr} = 0.040$). However, verification of the effect with non-parametric bootstrapping failed to yield significant ($p_{FWEcorr} = 0.061$; $q_{FDRcorr} = 0.999$)<!-- but FWE-corr sig?!, ich bin mir nicht ganz sicher, ob wir das überhaupt erwähnen wollen ... -->.
 There was no other significant co-activation for any other region of interest for neither of the preprocessing variants.
 
 <!-- GM mask: Group*Time Interaction -->
@@ -335,73 +377,67 @@ Unthresholded maps for the t-tests as well as contrasts of average BMI and chang
 
 # Discussion
 
-<!-- SUMMARY
--->
+<!-- SUMMARY -->
+Utilizing resting-state functional MRI on morbidly obese individuals that either underwent or awaited bariatric surgery over the course of one year.
 <!-- general --> Building on the evidence for post-surgery changes in functional activity, this study explored the longitudinal relationship between surgery-induced weight loss and functional integrity in target networks indicated by resting-state functional connectivity. Over the course of one year we collected neuroimaging and anthropometric data from `r cs["Sum","IG"]` morbidly obese patients undergoing bariatric surgery and compared them to the longitudinal data of  `r cs["Sum","KG"]` patients on the waiting list.
 <!-- model specific --> With the model on group-time-interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? --> 
 The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
 
-<!-- SUPPORT OF ORIGINAL HYPOTHESIS 
--->
+<!-- SUPPORT OF ORIGINAL HYPOTHESIS -->
+<!-- false positive -->
+To summarize, there were few significant co-activation that emerged from the marginal models. Co-activation was locally highly specific and (NOT???) in accordance with our hypothesis regarding network activity changes. Given the multiplicity of of models resulting from variations of inspected networks and sensitivity analysis for different preprocessing and correction approached, the obtained significant correlations between seed regions and voxels are likely to be false positive. Ventures to verify effects by re-calculating with non-parametric Wild bootstrap confirmed supported presumption as effects were not robust across estimation procedures.
 
-<!-- 
-SIMILARITY OF RESULTS -->
+
+<!-- SIMILARITY OF RESULTS -->
 Our results are not consistent with the present literature. Although there are few studies investigating the impact of bariatric surgery on functional connectivity at resting state, the present articles do significant changes in network activation [@;@;@]. 
 <!-- publication bias -->
 
-<!-- 
-INTERPRETATION -->
+<!-- INTERPRETATION -->
 <!-- absence of evidence --> However, hypotheses about the plasticity functional networks following bariatric surgery could not be validated. Due to the shortcomings of the inferential paradigm used, our null findings may either put conclusions drawn from previous research into question or may neither provide evidence for the presence nor the absence of the effect.
 <!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased after a meal while dietary patients showed an increase [@Lepping_2015]. 
 
-<!-- 
-GENERALIZABILITY -->
+<!-- GENERALIZABILITY -->
+<!-- advantage: prospective intervention control study --> 
+Common challenge in medical intervention studies is the difficulty to draw causal inference about the effect of interventions such as surgeries because randomization is often unethical or unfeasible as done in randomized control trials. To isolate the effect of the surgical intervention to a maximum possible extent, the intervention group has to be comparable to a control group in regard  to predisposition. Studies comparing the sample of bariatric patients to lean individuals or behavioral dieters may have investigated risk or contributing factors to the condition or other dispositional difference between groups, e.g. in cognitive control, openness or responsiveness to behavioral interventions [@;@]. However, they provide insufficient evidence to directly evaluate impact of the surgical procedure. Prospective non-randomization trial study design are secondary to randomized control trials in regard to internal control. By establishing temporality, longitudinal measurements support the validity of conclusions about the effects of the surgery. Contrasting pre- and post-surgery measures change while controlling for individual variance. The waiting list control group equivalent in BMI, treatment history and  treatment recommendation allows controlling for concurrent factors [@Thiese_2014]. Incorporating these consideration, our study aimed at a higher internal validity for conclusions about the effects of bariatric surgery on functional connectivity. 
 
-<!-- advantage:  --> 
-
-<!-- no RCT --> Common challenge in medical intervention studies is the difficulty to draw causal inference about the effect of interventions such as surgeries because randomization is often unethical or unfeasible as done in randomized control trials.
-<!-- different conclusion from other studies --> To isolate the effect of the surgical intervention to a maximum possible extent, the intervention group has to be comparable to a control group in regard  to predisposition. Studies comparing the sample of bariatric patients to lean individuals or behavioral dieters may have investigated risk or contributing factors to the condition or other dispositional difference between groups, e.g. in cognitive control, openness or responsiveness to behavioral interventions [@;@]. However, they provide insufficient evidence to directly evaluate impact of the surgical procedure.
-<!-- prospective intervention control study --> Prospective non-randomization trial study design are secondary to randomized control trials in regard to internal control.  By establishing temporality, longitudinal measurements support the validity of conclusions about the effects of the surgery. Contrasting pre- and post-surgery measures change while controlling for individual variance.  The waiting list control group equivalent in BMI, treatment history and  treatment recommendation allows controlling for concurrent factors [@Thiese_2014]. Incorporating these consideration, our study aimed at a higher internal validity for conclusions about the effects of bariatric surgery on functional connectivity. 
-
-<!-- advantage: representative sample --> Size and composition of our sample did not allow separate analyses for the sexes. The disproportionate sex distribution is reflective prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
+<!-- advantage: representative sample --> 
+Size and composition of our sample did not allow separate analyses for the sexes. The disproportionate sex distribution is reflective prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
 
 <!-- mention larger sample size --> 
 
 <!-- mixed effect model -->
-
 We re-ran analyses with a flexible factorial model as implemented in SPM to estimate the group-time-interaction while controlling for variance on subject-level as done exemplarily by @McFarquhar_2019. Thereby, 
 <!-- demonstrated / we ruled out gross missspecification in retrieving estimates from the Sandwich estimator. -->
-
 @McFarquhar_2019 demonstrated that specifying complex multi-level models with standard neuroimaging software packages such as SPM and FSL can be quite difficult if done appropriately. 
 From the necessity to include subject effect, the necessity of using a overparamaterized design arises.
-
 
 Not only do  but modeling between-subjects and within-subject nuisance covariates demands caution and becomes even more complex when using multiple within-subject covariates.
 ....
 In both models, the variation between subjects was modeled and therefore ...
-
 Opposed to flexible factorial models for analysis of variance, where each individual is modelled separately, models are parsimonious and preserver more degrees of freedom.
 
-<!-- 
-IMPLICATIONS -->
-
+<!-- IMPLICATIONS -->
 <!-- Relevance of rsfMRI as biomarker -->
 <!-- Consideration of head motion as covariate -->
-
-
-
-<!-- Problem head motion --> Based on concerns expressed in the literature [@], we tried to closely inspect and rigorously control for the influence of head motion. The presence of multicollinearity of our predictors has been established before. As described in @Monti_2011 in the presence of multicollinearity, the unique contribution of the regressor for the prediction cannot be disentangled. Confidence in $\beta$ estimates will suffers and estimates can behave erratic depending on which regressors included in the model.
-
-
-To summarize, there were few significant co-activation that emerged from the marginal models. Co-activation was locally highly specific and (NOT???) in accordance with our hypothesis regarding network activity changes. Ventures to verify effects by recalculating with non-parametric Wild bootstrap revealed that effects were not robust across estimation procedures. This suggests that significant results are likely to be false positive.
-
-
+<!-- Problem head motion --> 
+Based on concerns expressed in the literature [@], we tried to closely inspect and rigorously control for the influence of head motion. The presence of multicollinearity of our predictors has been established before. As described in @Monti_2011 in the presence of multicollinearity, the unique contribution of the regressor for the prediction cannot be disentangled. Confidence in $\beta$ estimates will suffers and estimates can behave erratic depending on which regressors included in the model.
 
 <!-- For all patients included, conservative obesity treatment had failed, e.g. behavioral diet intervention. As shown before, patients who were successful in behavioral diet increased connectivity in the default mode network. This might be indicative for self-referent information processing. -->
 
 # Code availability
 
 All code is available in the github repository [https://github.com/hsx1/adi2_rsfmri](https://github.com/hsx1/adi2_rsfmri). The code includes script for data preparation and analysis of different models.
+
+# Declaration of interest
+# Funding
+# Acknowledgments
+# Author Contributions
+
+Stud conception and design
+Aqcuisiiton of data:
+Analysis andinterpretation of data: 
+Frafting of manuscript: 
+Ciritical revision: 
 
 \newpage
 # References
