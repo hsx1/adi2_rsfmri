@@ -1,2 +1,4 @@
 # Ignore absolute paths
 abs_path*
+.Rproj.user
+*.bib.bak
