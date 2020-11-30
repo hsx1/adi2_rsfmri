@@ -20,13 +20,13 @@ editor_options:
 ---
 ```{r "To do", include=FALSE}
 
+# [ ] Evaluate SPM model comparison (more activation in SPM..)
 # [ ] Introduction
 # [ ] Discussion
 # [ ] hervorheben, was von Präregistrierung abweicht
 # [ ] brain images mit nilearn plotting tools einbinden
 # [x] Figure zu weight loss
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [ ] SPM model comparison
 
 ```
 
@@ -42,12 +42,9 @@ library(patchwork) # API for sequentially building up a plot (similar to gridExt
 #library(cowplot)
 library(RColorBrewer)
 library(psych)
-#library(lsr) # 
-
-
+#library(lsr) 
 #library(wesanderson) # colour palette
 #library(haven)
-
 
 
 library(knitr)
@@ -74,7 +71,6 @@ Bariatric surgery is one promising option to combat morbid obesity, as it rapidl
 Other widely used procedures are vertical sleeve gastrectomy (VSG) and gastric banding (GB) which only restrict food consumption. <!-- mehr zu Veränderung in Gasto-intestinaler Physiologie -->
 
 
-
 <!-- Neural mechanisms/concurrent plasticity? -->
 Precise mechanisms are yet to be elucidated. As a first step, a comprehensive understanding of the concurrent physiological changes underlying weight loss and recovery is needed. This will inform inferences about potential mechanisms and either support interventions proven to be effective or ideally allow imitating them will less invasive alternatives.
 
@@ -94,10 +90,7 @@ Obese individuals exhibited increased connectivity between frontal and mesolimbi
 
 On the other hand, BMI prior to the surgery was associated with changes in connectivity [@Duan_2020].
 
-<!-- saliency and reward -->
-
-
-Studies concerning such processes following a surgical intervention are inconclusive.
+s concerning such processes following a surgical intervention are inconclusive.
 
 <!-- important differences in the response to visual food-related cues between thin and reduced-obese individuals that place the latter group at an increased risk of  -->
 
@@ -422,17 +415,16 @@ Size and composition of our sample did not allow separate analyses for the sexes
 <!-- mention larger sample size --> 
 
 <!-- mixed effect model -->
-Due to the limitation of the traditional ANOVA framework (with respect to the spherity assumption, handling missing data, handling continuous data), often more modern models such as mixed-effect models and marginal models are recommended [@Chen_2013;@Guillaume_2014;@McFarquhar_2019].
+Due to the limitation of the traditional ANOVA framework (with respect to the spherity assumption, handling missing data, handling continuous data), it is often recommended to use modern models such as mixed-effect models and marginal models [@Chen_2013;@Guillaume_2014;@McFarquhar_2019].
 @McFarquhar_2019 demonstrated that specifying complex multi-level models and deriving the correct contrast weights with standard neuroimaging software packages such as SPM and FSL can be quite tedious and complicated if done appropriately. However, <!-- to rule out gross missspecification in the SwE model,  -->for the purpose of comparison, we re-ran the analysis for the group-time-interaction with age and sex as nuisance covariates.
 <!-- (FD is time-varying... schwierig) with a simplified model without nuisance covariates in SPM12. We opted for a simplified model because different nuisance covariates, time-invariant or time-varying, create additional complications. -->
-An advantage of the group-time interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time".
+An advantage of the group-time interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time" assuming unequal group variances.
+<!-- vastly different - different implicit masks? -->
+Differences could be attributed to different corrections for non-spherity and assumptions on voxel covariance structures. Detailed comparisons between SPM12, SwE, and other software packages have been described elsewhere [@McFarquhar_2016].
+<!-- conclusion??? -->
+Opposed to flexible factorial models, where each individual is modelled separately, models are parsimonious and preserve more degrees of freedom.
 
-Differences may arise due to adjustments to non-spherity, but to rule out any further differences due to correction procedure, both models were evaluated with an uncorrected $p < 0.01$. Estimation was carried out via restricted maximum likelihood for $166$ voxels to correct for non-spherity. Concernes about comparability have been expressed with other toolboxed have been expressed elsewhere [@McFarquhar_2019].
 
-Estimates retrieved with the Sandwich estimator ... comparable with 
-In both models, the retrieved estimates between subjects was modeled and therefore ...
-
-Opposed to flexible factorial models for analysis of variance, where each individual is modelled separately, models are parsimonious and preserve more degrees of freedom. Furthermore, 
 
 <!-- IMPLICATIONS -->
 <!-- Relevance of rsfMRI as biomarker -->
