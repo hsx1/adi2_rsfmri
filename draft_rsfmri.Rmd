@@ -73,7 +73,8 @@ Bariatric surgery is one promising option to combat morbid obesity, as it rapidl
 Other widely used procedures are vertical sleeve gastrectomy (VSG) and gastric banding (GB) which only restrict food consumption. <!-- mehr zu Veränderung in Gasto-intestinaler Physiologie -->
 
 
-<!-- Potential mechanisms? -->
+
+<!-- Neural mechanisms/concurrent plasticity? -->
 Precise mechanisms are yet to be elucidated. As a first step, a comprehensive understanding of the concurrent physiological changes underlying weight loss and recovery is needed. This will inform inferences about potential mechanisms and either support interventions proven to be effective or ideally allow imitating them will less invasive alternatives.
 
 Recently, research focuses have slowly shifted to investigate brain metabolism structural and functional changes after surgery.
@@ -82,14 +83,16 @@ Recently, research focuses have slowly shifted to investigate brain metabolism s
 <!-- Reward network -->
 Little is known about the potential beneficial effects of bariatric surgery on brain function in the obese population, in particular with regard to hedonic motivations for food, which play a fundamental role in weight relapse.
 <!-- mechanism reward and appetite, overating -->
-Besides malabsorption and restricted food ingestion, patients report post-surgical changes in food preferences and eating behavior. Those psychophysiological and behavioral effects may be related to post-surgical changes in visceral sensory perceptions and endocrinological signaling. Corresponding information is processed by the fronto-mesolimbic system and affects appetite and reward signalling which a sustainable weight loss [@Mulla_2017, @Nudel_2019].
-
-Several studies have demonstrated differences in resting-state activity in reward regions depending on weight status.
-
+Besides malabsorption and restricted food ingestion, patients report post-surgical changes in food preferences and eating behavior. Those psychophysiological and behavioral effects may be related to post-surgical changes in visceral sensory perceptions and endocrinological signaling. Corresponding information is processed by the fronto-mesolimbic system and affects appetite and reward signalling which may influence weight regulation [@Mulla_2017, @Nudel_2019].
+The reward network entailing the ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) has been linked to food valuation processes in deciision-making in lean individuals [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
+<!-- study results -->
+Accordingly, several studies have found differences in resting-state activity in reward regions depending on weight status.
 Obese individuals exhibited increased connectivity between frontal and mesolimbic regions and weaker connectivity within regions of the mesolimbic system (encompassing limbic and striatal regions). These differences seemed to normalize, as trends reversed when looking at the resting state of obese individuals after compared to before the surgery [@Duan_2020].
 
+On the other hand, BMI prior to the surgery was associated with changes in connectivity [@Duan_2020].
+
 <!-- saliency and reward -->
-In lean participants, food valuation processes in decision-making have been linked to brain activity and activity within the reward network, including ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
+
 
 Studies concerning such processes following a surgical intervention are inconclusive.
 
