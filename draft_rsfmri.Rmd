@@ -26,6 +26,7 @@ editor_options:
 # [ ] brain images mit nilearn plotting tools einbinden
 # [x] Figure zu weight loss
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
+# [ ] SPM model comparison
 
 ```
 
@@ -84,9 +85,11 @@ Recently, research focuses have slowly shifted to investigate brain metabolism s
 Little is known about the potential beneficial effects of bariatric surgery on brain function in the obese population, in particular with regard to hedonic motivations for food, which play a fundamental role in weight relapse.
 <!-- mechanism reward and appetite, overating -->
 Besides malabsorption and restricted food ingestion, patients report post-surgical changes in food preferences and eating behavior. Those psychophysiological and behavioral effects may be related to post-surgical changes in visceral sensory perceptions and endocrinological signaling. Corresponding information is processed by the fronto-mesolimbic system and affects appetite and reward signalling which may influence weight regulation [@Mulla_2017, @Nudel_2019].
-The reward network entailing the ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) has been linked to food valuation processes in deciision-making in lean individuals [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
-<!-- study results -->
-Accordingly, several studies have found differences in resting-state activity in reward regions depending on weight status.
+<!-- results in lean -->
+The reward network entailing the ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) has been linked to food valuation processes in decision-making in lean individuals [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
+<!-- results in obese longitudinal -->
+Similarly, several studies have found differences in resting-state activity in reward regions depending on weight status.
+
 Obese individuals exhibited increased connectivity between frontal and mesolimbic regions and weaker connectivity within regions of the mesolimbic system (encompassing limbic and striatal regions). These differences seemed to normalize, as trends reversed when looking at the resting state of obese individuals after compared to before the surgery [@Duan_2020].
 
 On the other hand, BMI prior to the surgery was associated with changes in connectivity [@Duan_2020].
@@ -305,7 +308,7 @@ The T1-weighted image was segmented to remove non-brain tissue and together with
 As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but is known to introduces spatial dependency and spurious correlations, we performed GSR after ICA-AROMA in a separate sensitivity analysis.
 
 ### Seed region of interest (ROI)
-<!-- Regions of interest (definition and transformation into freesurfer long space) -->
+<!-- Regions of interest (definition and transformation into freesurfer long space) --> Seed regions were ... mm spheres in the precuneus (MNI: x,y,z = x,x,x) associated with the default mode network, and the Nucleus Accumbens (MNI: x,y,z = x,x,x) by averaging the time series across voxels.
 
 ### Connectivity maps
 <!-- coregistration + normalization --> Voxel-wise seed-based connectivity maps in the individual subject's space (which was coregistered to the Freesurfer longitudinally preprocessed timepoint (more details)) were calculated using Pearson's correlation between average seed time series from pre-defined ROIs within the reward network (Nucleus accumbens, NAcc) and the DMN (precuneus, PCC). Subsequently, r-to-z transform was applied to the correlation to obtain normally distributed functional connectivity (using nilearn, nipype and python). 
@@ -407,26 +410,29 @@ Our results are not consistent with the present literature. Although there are f
 <!-- INTERPRETATION -->
 <!-- absence of evidence --> However, hypotheses about the plasticity functional networks following bariatric surgery could not be validated. Due to the shortcomings of the inferential paradigm used, our null findings may either put conclusions drawn from previous research into question or may neither provide evidence for the presence nor the absence of the effect.
 <!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased after a meal while dietary patients showed an increase [@Lepping_2015]. 
+prandrial state is a relevant factor when investigating spontaneous brain activity [@Wiemerslage_2016]. putamine, insula
 
 <!-- GENERALIZABILITY -->
 <!-- advantage: prospective intervention control study --> 
 Common challenge in medical intervention studies is the difficulty to draw causal inference about the effect of interventions such as surgeries because randomization is often unethical or unfeasible as done in randomized control trials. To isolate the effect of the surgical intervention to a maximum possible extent, the intervention group has to be comparable to a control group in regard  to predisposition. Studies comparing the sample of bariatric patients to lean individuals or behavioral dieters may have investigated risk or contributing factors to the condition or other dispositional difference between groups, e.g. in cognitive control, openness or responsiveness to behavioral interventions [@;@]. However, they provide insufficient evidence to directly evaluate impact of the surgical procedure. Prospective non-randomization trial study design are secondary to randomized control trials in regard to internal control. By establishing temporality, longitudinal measurements support the validity of conclusions about the effects of the surgery. Contrasting pre- and post-surgery measures change while controlling for individual variance. The waiting list control group equivalent in BMI, treatment history and  treatment recommendation allows controlling for concurrent factors [@Thiese_2014]. Incorporating these consideration, our study aimed at a higher internal validity for conclusions about the effects of bariatric surgery on functional connectivity. 
 
-<!-- advantage: representative sample --> 
+<!-- advantage: Nucleus Accumbensrepresentative sample --> 
 Size and composition of our sample did not allow separate analyses for the sexes. The disproportionate sex distribution is reflective prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
 
 <!-- mention larger sample size --> 
 
 <!-- mixed effect model -->
-We re-ran analyses with a flexible factorial model as implemented in SPM to estimate the group-time-interaction while controlling for variance on subject-level as done exemplarily by @McFarquhar_2019. Thereby, 
-<!-- demonstrated / we ruled out gross missspecification in retrieving estimates from the Sandwich estimator. -->
-@McFarquhar_2019 demonstrated that specifying complex multi-level models with standard neuroimaging software packages such as SPM and FSL can be quite difficult if done appropriately. 
-From the necessity to include subject effect, the necessity of using a overparamaterized design arises.
+Due to the limitation of the traditional ANOVA framework (with respect to the spherity assumption, handling missing data, handling continuous data), often more modern models such as mixed-effect models and marginal models are recommended [@Chen_2013;@Guillaume_2014;@McFarquhar_2019].
+@McFarquhar_2019 demonstrated that specifying complex multi-level models and deriving the correct contrast weights with standard neuroimaging software packages such as SPM and FSL can be quite tedious and complicated if done appropriately. However, <!-- to rule out gross missspecification in the SwE model,  -->for the purpose of comparison, we re-ran the analysis for the group-time-interaction with age and sex as nuisance covariates.
+<!-- (FD is time-varying... schwierig) with a simplified model without nuisance covariates in SPM12. We opted for a simplified model because different nuisance covariates, time-invariant or time-varying, create additional complications. -->
+An advantage of the group-time interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time".
 
-Not only do  but modeling between-subjects and within-subject nuisance covariates demands caution and becomes even more complex when using multiple within-subject covariates.
-....
-In both models, the variation between subjects was modeled and therefore ...
-Opposed to flexible factorial models for analysis of variance, where each individual is modelled separately, models are parsimonious and preserver more degrees of freedom.
+Differences may arise due to adjustments to non-spherity, but to rule out any further differences due to correction procedure, both models were evaluated with an uncorrected $p < 0.01$. Estimation was carried out via restricted maximum likelihood for $166$ voxels to correct for non-spherity. Concernes about comparability have been expressed with other toolboxed have been expressed elsewhere [@McFarquhar_2019].
+
+Estimates retrieved with the Sandwich estimator ... comparable with 
+In both models, the retrieved estimates between subjects was modeled and therefore ...
+
+Opposed to flexible factorial models for analysis of variance, where each individual is modelled separately, models are parsimonious and preserve more degrees of freedom. Furthermore, 
 
 <!-- IMPLICATIONS -->
 <!-- Relevance of rsfMRI as biomarker -->
