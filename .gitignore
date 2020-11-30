@@ -2,3 +2,5 @@
 abs_path*
 .Rproj.user
 *.bib.bak
+*.bib.sav
+.RData
