@@ -352,7 +352,7 @@ In contrast to the parametric estimation, Wild Bootstrap avoids any parametric d
 
 <!-- Brain mask: Group*Time Interaction -->
 There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc as was hypothesized. Nor was there a significant main effect for any of the covariates of interest (time, group) in voxelwise inference with FDR correction. Results obtained for parametric estimation and non-parametric wild bootstrap did not differ.
-When reducing the number of nuisance covariates by leaving out mean FD, connectivity was found between the PCC with one other voxel. In the connectivity maps only corrected with AROMA-CC co-activation of voxel $x,y,z = 18,42,30$ [mm] yielded $Z = 4.72$ ($q_{FDRcorr} = 0.040$). However, verification of the effect with non-parametric bootstrapping failed to yield significant ($p_{FWEcorr} = 0.061$; $q_{FDRcorr} = 0.999$)<!-- but FWE-corr sig?!, ich bin mir nicht ganz sicher, ob wir das überhaupt erwähnen wollen ... -->.
+When reducing the number of nuisance covariates by leaving out mean FD, connectivity was found between the PCC with one other voxel. In the connectivity maps only corrected with AROMA-CC co-activation of voxel $x,y,z = 18,42,30$ [mm] yielded $Z = 4.72$ ($q_{FDRcorr} = 0.040$). However, verification of the effect with non-parametric bootstrapping failed to yield significant ($p_{\mathrm{FWEcorr}} = 0.061$; $q_{FDRcorr} = 0.999$)<!-- but FWE-corr sig?!, ich bin mir nicht ganz sicher, ob wir das überhaupt erwähnen wollen ... -->.
 There was no other significant co-activation for any other region of interest for neither of the preprocessing variants.
 
 <!-- GM mask: Group*Time Interaction -->
