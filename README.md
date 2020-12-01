@@ -1,6 +1,6 @@
 # adi2_rsfmri
 
-## Contributors: Hannah Heinrichs, Frauke Beyer
+## Contributors: Hannah Sophie Heinrichs, Frauke Beyer
 
 ## About
 
