@@ -14,7 +14,7 @@ output:
     always_allow_html: true
     number_sections: yes
     toc: yes
-bibliography: "bibliography.bib" 
+bibliography: "bibliography.bib"
 editor_options: 
   chunk_output_type: console
 ---
