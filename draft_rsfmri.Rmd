@@ -33,21 +33,22 @@ editor_options:
 ```{r "environment setup", include=FALSE}
 
 # load packages
-library(plyr)
-library(dplyr)
-library(tidyr)
-library(kableExtra)
-library(ggplot2)
-library(patchwork) # API for sequentially building up a plot (similar to gridExtra and cowplot)
+library(car) # version 3.0.9
+library(plyr) # version 1.8.6
+library(dplyr) # version 1.0.2
+library(tidyr) # version 1.1.2
+library(kableExtra) # version 1.2.1
+library(ggplot2) # version 3.3.2
+library(patchwork) # version 1.0.1; API for sequentially building up a plot (similar to gridExtra and cowplot)
 #library(cowplot)
-library(RColorBrewer)
-library(psych)
+library(RColorBrewer) # version 1.1.2
+library(psych) # version 2.0.8
 #library(lsr) 
 #library(wesanderson) # colour palette
 #library(haven)
 
 
-library(knitr)
+library(knitr) # version 1.30
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex") 
 # put the path to this file here (working directory for Rmarkdown):
@@ -203,7 +204,7 @@ p <- ggplot(data=dfBL, aes(group = condition, x=Age_BL, fill=condition)) +
     values = c("#00305E77", "#C0004577"),
     labels = c("intervention", "control")) +
   theme_bw()
-tab_age <- describeBy(data=dfBL, x=dfBL$Age_BL, group=dfBL$condition, mat=T)
+tab_age <- psych::describeBy(data=dfBL, x=dfBL$Age_BL, group=dfBL$condition, mat=T)
 # Sex
 p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) + 
   geom_bar(position = "dodge") +
