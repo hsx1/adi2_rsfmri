@@ -1,5 +1,5 @@
-library(dplyr)
-library(tidyr)
+library(dplyr) # version 1.0.2
+library(tidyr) # version 1.1.2
 
 save_txt_for_swe <- function(group = "all", tp = "all"){
   # group = IG/KG/both
