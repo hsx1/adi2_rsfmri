@@ -1,6 +1,10 @@
 # adi2_rsfmri
 
-Necessary files for analysis of Project 2 with the ADI cohort. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the draft.
+## Contributors: Hannah Heinrichs, Frauke Beyer
+
+## About
+
+Project 2 of the ADI study is about potential changes in resting state functional connectivity induced by bariatric surgery. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the draft.
 
 `run_or_display.m`: analysis script; conducts analysis as specified in the beginning of the script - for non-parametric estimation it will run or display all contrasts in a loop. To use script read > How to run analysis < below.
 
