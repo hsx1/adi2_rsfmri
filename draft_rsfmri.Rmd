@@ -105,7 +105,7 @@ Functional connectivity of this network has been shown to be linked to BMI [@Bey
 A longitudinal study that confirmed the stronger connectivity (of PCC with anterior STG and anterior temporal fusiform gyrus and the Precuneus with the anterior STG). However, default mode connectivity in these regions seemed weakened over the course of one year. Because differences between lean controls and obese individuals that existed prebariatric surgery were no longer detectable 1 year after the surgery, the authors argue for a normalization in functional connectivity<!-- and PCC/PC connectivity with anterior STG are most affected by the surgery -->[@Olivo_2017].
 This is consistent with other findings of reduction of functional connectivity of these and other regions of the default mode network, such as the VMPFC [@Li_2018] <!-- with the dorsolateral prefrontal cortex (DLPFC) --> after the surgery.
 
-<!-- argument: FC ~ BMI --> The exact mechanisms of how bariatric surgery affects functional plasticity needs to be investigated. Among patients undergoing surgery, change in BMI was negatively correlated with the changes in connectivity of the default mode network, namely between the PCC/precuneus and the DLPFC [@Li_2018].
+The exact mechanisms of how bariatric surgery affects functional plasticity needs to be investigated. Among patients undergoing surgery, change in BMI was negatively correlated with the changes in connectivity of the default mode network, namely between the PCC/precuneus and the DLPFC [@Li_2018].
 
 On the other hand, connectivity also served as a predictor of weight loss after surgery.
 
