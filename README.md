@@ -1,6 +1,6 @@
 # adi2_rsfmri
 
-## Contributors: Hannah Heinrichs, Frauke Beyer
+## Contributors: Hannah Sophie Heinrichs, Frauke Beyer
 
 ## About
 
@@ -15,7 +15,7 @@ Project 2 of the ADI study is about potential changes in resting state functiona
 `get_subject_ID_group_tp_forSwE.R` - R file for descriptive analysis
 
 
-## How to run the analysis
+## How to run the analysis in MATLAB
 
 (1) General
 
@@ -43,3 +43,10 @@ Project 2 of the ADI study is about potential changes in resting state functiona
 4. Inference type: >> voxelwise <<
 5. P value adjustment to control: >> FDR <<
 6. P value (FDR): >> 0.05 <<
+
+## How to create the script in RMarkdown
+
+* open `draft_rsfmri.Rmd`
+* check if packages are installed and package versions are consistent
+* set working director to folder with cloned repository with `setwd()`
+* Knit markdown document to PDF
