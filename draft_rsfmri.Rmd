@@ -1,10 +1,12 @@
 ---
 title: "Effects of bariatric surger and weight loss on resting-state functional connectivity"
 author:
-- xxx [1]
-- xxx [1][2]
-- xxx [1][2][3]
-- xxx [1][2]
+- Hannah Heinrichs* [1]
+- Frauke Beyer* [1][2]
+- Kerstin Prehn 
+- Agnes Floel 
+- Arno Villringer [1][2][3]
+- A. Veronica Witte [1][2][3]
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
   2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
   Day Clinic for Cognitive Neurology, University Clinic Leipzig
@@ -31,6 +33,9 @@ editor_options:
 ```
 
 ```{r "environment setup", include=FALSE}
+
+#set wd (change depending on user)
+setwd("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/")
 
 # load packages
 library(plyr)
@@ -59,6 +64,16 @@ opts_knit$set(root.dir = getwd())
 
 \newpage
 # Introduction
+<!--Suggested Order of Introduction
+1. Obesity is a major health concern. [... some more details about metabolic and mortality risk, especially related to morbid obesity ...] More and more recognized, midlie obesity also impacts later cognitive decline and dementia risk.
+Obesity has been associated with differences in brain structure and function.
+Regarding structural alterations, longitudinal studies have indicated that higher body mass index is related to increased cortial thinning in midlife (path through life study), potentially mediated by inflammation or glucose dysregulation... Similarly, white matter microstructure and may be related to adverse metabolic effects (lampe)
+Differences in brain function in obesity have been reported in the reward network during task-based fMRI, highlighting the role of reward processing in obesity development and maintainance.
+Resting state fMRI studies have also shown differences in connectivity in diverse brain networks, including reward and salience network, visual networks and the default mode network. In part, these differences have been related to metabolic and behavioral differences, yet there may be an important confounding due to head motion.
+In this study, we aim to investigate the impact of bariatric surery on..
+-->
+
+
 
 <!-- obesity and interventions -->
 Over the past decades, the global burden of obesity has increasingly been confronted as a matter of urgency by research.
@@ -180,6 +195,10 @@ Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surge
 The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing only subjects that have received MRI. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data availability in \@ref(tab:tabsample)).
 
 <!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
+```{r test wd}
+print(getwd())
+```
+
 ```{r baseline characteristics, include=FALSE}
 dfBL <- save_txt_for_swe(group = "all", tp = "BL")
 
@@ -205,7 +224,7 @@ p <- ggplot(data=dfBL, aes(group = condition, x=Age_BL, fill=condition)) +
     values = c("#00305E77", "#C0004577"),
     labels = c("intervention", "control")) +
   theme_bw()
-tab_age <- describeBy(data=dfBL, x=dfBL$Age_BL, group=dfBL$condition, mat=T)
+tab_age <- describeBy(x=dfBL$Age_BL, group=dfBL$condition, mat=T)
 # Sex
 p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) + 
   geom_bar(position = "dodge") +
@@ -214,7 +233,7 @@ p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) +
   )
 tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
-Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`).
+Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). 
 <!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
 ```{r tabdescr, echo=FALSE}
 

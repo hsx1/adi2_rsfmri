@@ -16,6 +16,7 @@ save_txt_for_swe <- function(group = "all", tp = "all"){
   parentdir <- file.path(abs_path, swe_path, fsep = .Platform$file.sep)[1]
   setwd(parentdir)
   
+
   files=read.table("../SwE_files/scans_PCC_CC_z.txt")
   #split info from path in txt
   for (i in 1:nrow(files)){
