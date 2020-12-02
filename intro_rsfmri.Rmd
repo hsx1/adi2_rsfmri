@@ -8,27 +8,11 @@ author:
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
   2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
   Day Clinic for Cognitive Neurology, University Clinic Leipzig
-output:
-  bookdown::pdf_book: 
-    fig_caption: yes
-    always_allow_html: true
-    number_sections: yes
-    toc: yes
-bibliography: "bibliography.bib"
-editor_options: 
+output: word_document
+editor_options:
   chunk_output_type: console
+bibliography: bibliography.bib
 ---
-```{r "To do", include=FALSE}
-
-# [ ] Evaluate SPM model comparison (more activation in SPM..)
-# [ ] Introduction
-# [ ] Discussion
-# [ ] hervorheben, was von Präregistrierung abweicht
-# [ ] brain images mit nilearn plotting tools einbinden
-# [x] Figure zu weight loss
-# [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-
-```
 
 ```{r "environment setup", include=FALSE}
 
