@@ -1,6 +1,10 @@
 # adi2_rsfmri
 
-Necessary files for analysis of Project 2 with the ADI cohort. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the draft.
+## Contributors: Hannah Sophie Heinrichs, Frauke Beyer
+
+## About
+
+Project 2 of the ADI study is about potential changes in resting state functional connectivity induced by bariatric surgery. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the draft.
 
 `run_or_display.m`: analysis script; conducts analysis as specified in the beginning of the script - for non-parametric estimation it will run or display all contrasts in a loop. To use script read > How to run analysis < below.
 
@@ -11,7 +15,7 @@ Necessary files for analysis of Project 2 with the ADI cohort. This repository c
 `get_subject_ID_group_tp_forSwE.R` - R file for descriptive analysis
 
 
-## How to run the analysis
+## How to run the analysis in MATLAB
 
 (1) General
 
@@ -39,3 +43,10 @@ Necessary files for analysis of Project 2 with the ADI cohort. This repository c
 4. Inference type: >> voxelwise <<
 5. P value adjustment to control: >> FDR <<
 6. P value (FDR): >> 0.05 <<
+
+## How to create the script in RMarkdown
+
+* open `draft_rsfmri.Rmd`
+* check if packages are installed and package versions are consistent
+* set working director to folder with cloned repository with `setwd()`
+* Knit markdown document to PDF
