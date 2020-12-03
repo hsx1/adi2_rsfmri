@@ -240,7 +240,7 @@ The T1-weighted image was segmented to remove non-brain tissue and together with
 As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but is known to introduces spatial dependency and spurious correlations, we performed GSR after ICA-AROMA in a separate sensitivity analysis.
 
 ### Seed region of interest (ROI)
-<!-- Regions of interest (definition and transformation into freesurfer long space) --> Seed regions were ... mm spheres in the precuneus (MNI: x,y,z = x,x,x) associated with the default mode network, and the Nucleus Accumbens (MNI: x,y,z = x,x,x) by averaging the time series across voxels.
+<!-- Regions of interest (definition and transformation into freesurfer long space) --> Seed regions were ... mm spheres in the precuneus ((MNI)X,Y,Z = x,x,x) associated with the default mode network, and the Nucleus Accumbens (x,x,x) by averaging the time series across voxels.
 
 ### Connectivity maps
 <!-- coregistration + normalization --> Voxel-wise seed-based connectivity maps in the individual subject's space (which was coregistered to the Freesurfer longitudinally preprocessed timepoint (more details)) were calculated using Pearson's correlation between average seed time series from pre-defined ROIs within the reward network (Nucleus accumbens, NAcc) and the DMN (precuneus, PCC). Subsequently, r-to-z transform was applied to the correlation to obtain normally distributed functional connectivity (using nilearn, nipype and python). 
@@ -295,7 +295,7 @@ When reducing the number of nuisance covariates by leaving out mean FD, connecti
 There was no other significant co-activation for any other region of interest for neither of the preprocessing variants.
 
 <!-- GM mask: Group*Time Interaction -->
-Parametric and non-parametric significance test for the model testing for group-time-interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the group-time-interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{FDRcorr} = 0.998$)<!-- also FWE-corr n.s -->.
+Parametric and non-parametric significance test for the model testing for group-time-interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the group-time-interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{\mathrm{FDRcorr}} = 0.998$)<!-- also FWE-corr n.s -->.
 
 
 ## Effect of BMI
