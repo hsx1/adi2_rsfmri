@@ -4,3 +4,6 @@ abs_path*
 *.bib.bak
 *.bib.sav
 .RData
+*.pdf
+*.docx
+.Rhistory
