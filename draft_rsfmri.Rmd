@@ -1,5 +1,5 @@
 ---
-title: "Effects of bariatric surger and weight loss on resting-state functional connectivity"
+title: "Effects of bariatric surgery and weight loss on resting state functional connectivity"
 author:
 - Hannah Heinrichs* [1]
 - Frauke Beyer* [1][2]
@@ -303,31 +303,55 @@ fig_BMIdescr +
 
 ## fMRI acquisition
 
-MRI images were retrieved with a 12-channel head coil of a 3 Tesla Siemens Trio system.
-<!-- MRI --> T1-weighted anatomical images were acquired as described in @Prehn_2020 (with MPRAGE, TR = 1900 ms, TE = 2.52 ms, a = 9, voxel size = 1 x 1 x 1 mm$^3$, 192 sagital slices).
-<!-- rsfMRI --> Resting state gradient echo were acquired in 34 slices at an 90$^\circ$ flip angel with a repetition time (TR) of 2.3 s and echo time (TE) of 30 ms; image matrix = 64 x 64 voxel with in-plane resolution of 3 mm x 3 mm and a slice thickness of 4 mm, 150 volumes<!-- dimension = [60;72;60] ??? -->. The total acquisition time was 5:45 minutes. Field map or phase-encode reversed images were not acquired.
+MRI images were retrieved with a 12-channel head coil of a 3 Tesla Trio, Siemens (Erlangen) with syngo B17 software.
+<!-- MRI --> T1-weighted anatomical images were acquired as described in @Prehn_2020 (with MPRAGE, repetition time (TR) = 1900 ms, echo time (TE) = 2.52 ms, flip angle = 9°, voxel size = 1 x 1 x 1 mm$^3$, 192 sagital slices).
+<!-- rsfMRI --> Resting state echo-planar imaging  was acquired with a TR of 2.3 s and TE of 30 ms. The image matrix was 64 x 64 with an in-plane resolution of 3 mm x 3 mm and 34 slices with a slice thickness of 4 mm. 150 volumes were acquired, resulting in a total acquisition time of 5:45 minutes. Additionally, a gradient echo field map with a TE difference of 2.46 ms was acquired to correct for field inhomogeneties.
 Participants were instructed to close their eyes but to remain awake during scanning.
 
 ## Pre-proceessing
 
-Data preprocessing was conducted with FSL and Freesurfer using a nipype (version 14.0.2) workflow implemented in python 2.7. 
-The preprocessing workflow included anatomical, functional and diffusion-weighted imaging preprocessing and wrapped modules from FSL version 6.0.1<!-- ?! -->, Freesurfer version 6.0.0p1, ANTS <!-- version?! and so on-->. Details have been published on github [https//:.???.com]()
-<!-- anatomical preprocessing write something about anatomical preprocessing (Freesurfer etc.) here --> 
-The T1-weighted image was segmented to remove non-brain tissue and together with the functional images normalized to a default brain template from the Monteal Neurological Institute (MNI) space. Functional images were smoothed with an $0$ mm FWHM Gaussian kernel.
+Imaging data was conducted using AFNI 19.1.05, ANTS '2.3.1', FSL '6.0.1' and FreeSurfer '6.0.0p1', wrapped in a nipype workflow (version 1.2.0) in Python 2.7.15.
+The preprocessing workflow included modules to process anatomical, functional and diffusion-weighted imaging in parallel. The workflow can be found on [github](https://github.com/fBeyer89/ADI_preproc/).
+### Anatomical preprocessing
+Within the module for anatomical preprocessing, the T1-weighted images were first processed by FreeSurfer's cross-sectional pipeline [@fs_cross]. Then, Freesurfer's longitudinal stream was applied to all cross-sectional runs [@fs_long]. Here, white matter (WM) and cerebral spinal fluid (CSF) masks were derived based on FreeSurfer's `aseg.mgz` segmentation file for quality control of rs preprocessing.  
+The skull-stripped brain (`brainmask.mgz`) was then coregistered to the MNI152 1x1x1x mm template using ANTS [@antsref]. The following parameters were used for rigid [metric: mutual information, number of iterations: [1000, 500, 250, 100]], affine [metric: mutual information, number of iterations: [1000, 500, 250, 100]] and SyN: [metric: cross-correlation, iterations: [100, 70, 50, 20]] registration steps with shrink factors [8, 4, 2, 1], and smoothing sigmas=[3, 2, 1, 0] for each step. 
+In the preregistration it was only mentioned that longitudinal FreeSurfer would be used, but no details regarding the exact analysis.
+                                      
 
-<!-- minimal functional preprocessing --> Preprocessing pipeline included removal of first four volumes and a transformation of the blood oxygen level dependent (BOLD) time series into the subject's anatomical space. This transform combines parameters from motion correction (FSL's MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL's FUGUE) and coregistration to the subject's anatomical template space (using Freesurfer's bbregister and the transform from individual to longitudinal template space in Freesurfer's longitudinal processing stream).
+##Functional preprocessing
+### Minimal functional preprocessing 
+The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transforms derived from the latter three steps were combined into one transformation. 
+For further analysis and ICA-AROMA processing, the data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
+This part of the analysis was described like "After removing the first four volumes, transforms for motion correction (FSL’s MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL’s FUGUE) and coregistration to the subject’s individual anatomical space (using FREESURFER’s bbregister) are calculated." in the preregistration.
+The resulting fMRI data is termed "minimally preprocessed" in the following.
+### ICA-AROMA preprocessing
+We used ICA-AROMA for fMRI denoising as it provides an acceptable trade-off between the mitigation of motion- FC correlation and the introduction of a distance-dependence on motion-FC relationship [@Parkes_2018]. The minimally preprocessed data was processed with independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the overall timeseries. 
+As recommended in the original paper, we performed regression of WM and CSF signal on the ICA-AROMA result. We used CompCor to estimate 5 variance components from a combined WM and CSF mask, which was further eroded using `fslmaths -nan -thr 0.99 -ero -bin` [@Behzadi_2007;@Muschelli_2014]. After regression of these nuisance components from the data, we performed high-pass filtering at 0.01 Hz.
+This analysis was described in the preregistration as "Then we will employ state-of-the art nuisance regression (ICA-AROMA and CompCor regression of white matter and CSF signal to reduce the effect of physiological noise and head motion on the connectivity estimates."
+### Global Signal regression
+[@Ciric_2017] showed that GSR is very efficient in removing the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. Previously, we reported on head motion differences between groups over time in this study [@Beyer_2020], and thus it was very important to minimize the motion-FC correlation. The global signal was derived from the average of all voxels in the brain mask. Then, we regressed WM and CSF CompCor components along with the GS from the ICA-AROMA fMRI data and high-pass filtered the resulting file as above.
+In the preregistration we stated " As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but introduces spatial dependency and spurious correlations, we perform GSR after ICA-AROMA in a separate sensitivity analysis."
 
-<!-- Aroma + CC/ + GSR --> Volumes were further preprocessed with ICA-AROMA and compCor (CC) and, optionally, with a subsequent global signal regression (GSR) [@Ciric_2017; @Parkes_2018] to reduce the effect of physiological noise and head motion on the connectivity estimates.
-As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but is known to introduces spatial dependency and spurious correlations, we performed GSR after ICA-AROMA in a separate sensitivity analysis.
-
-### Seed region of interest (ROI)
-<!-- Regions of interest (definition and transformation into freesurfer long space) --> Seed regions were ... mm spheres in the precuneus (MNI: x,y,z = x,x,x) associated with the default mode network, and the Nucleus Accumbens (MNI: x,y,z = x,x,x) by averaging the time series across voxels.
-
-### Connectivity maps
-<!-- coregistration + normalization --> Voxel-wise seed-based connectivity maps in the individual subject's space (which was coregistered to the Freesurfer longitudinally preprocessed timepoint (more details)) were calculated using Pearson's correlation between average seed time series from pre-defined ROIs within the reward network (Nucleus accumbens, NAcc) and the DMN (precuneus, PCC). Subsequently, r-to-z transform was applied to the correlation to obtain normally distributed functional connectivity (using nilearn, nipype and python). 
-Then, we will transform the connectivity maps into MNI space with a non-linear warp derived from anatomical preprocessing of the longitudinally preprocessed timepoints (using ANTS).
+### Functional connectivity
+To derive reward and DMN functional connectivity maps, we used Nucleus Accumbens (Nacc) and precuneus as seed ROIs, respectively. Based on FreeSurfer's `aseg.mgz` and Desikan-Killiany parcellation, we created seed masks using `mri_binarize` (thresholded for NAcc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used `NiftiLabelsMasker` and `NiftiMasker` to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson's correlation between them with `numpy.dot`, performed r-to-z transform and saved the resulting correlation maps for each processing mode (min, aroma+cc, aroma+gsr). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived during anatomical preprocessing.
 
 ### Quality Assessment
+<!-- from Prereg --> 
+
+We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion. 
+
+Whole brain FC maps will be calculated using Pearson’s correlation between average seed time series and whole brain timeseries on the subject level (using nilearn). After transforming from r-to-Z, we will transform the images into Freesurfer longitudinal space, using /mri/transforms/_to_.lta). Then, will calculate difference maps between BL-FU1 (confirmatory hypothesis), BL-FU2, FU1-FU2 (exploratory hypotheses). These images will be transformed into MNI space (using ANTS non-linear registration from the longitudinal template to MNI space) for statistical analysis.
+Aggregated FC values will be calculated using Pearson’s correlation of average seed time series from pre-defined in the longitudinal template space. Aggregated values will be extracted for the reward and the default mode network. 
+
+Quality control:
+- Freesurfer segmentations and surfaces will be visually controlled and corrected according to published recommendations, if necessary.
+- Participants who cannot be correctly preprocessed due to (uncorrectable) artifacts in the T1-weighted or resting-state fMRI will be excluded.
+-  We will first perfom the analysis with all participants who were correctly preprocessed. In a sensitivity analysis, participants with mean FD larger than the average mean FD + 2 standard deviations will be excluded.
+
+We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion. 
+
+-	Anthropometry: body mass index, % body fat from bioelectrical impedance measurement 
+-	Grouping variable is intervention versus control group
 
 <!-- EXCLUSION CRITERIA --> Participants in which head motion artifacts affected the T1-weighted image preprocessing (e.g. caused Freesurfer to fail or perform very poorly, i.e. rated "Failed" according to @Klapwijk_2019) were excluded because a subject's motion is highly similar across scans and we thus suspect the fMRI data to also suffer from motion artifacts in these subjects. 
 As the expected average head motion is high [@Hodgson_2016], we did not exclude any other participants based on head motion estimates because it is difficult to determine a critical threshold in this sample. 
