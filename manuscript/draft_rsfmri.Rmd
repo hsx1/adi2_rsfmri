@@ -18,6 +18,7 @@ bibliography: "bibliography.bib"
 editor_options: 
   chunk_output_type: console
 ---
+
 ```{r "To do", include=FALSE}
 
 # [ ] Evaluate SPM model comparison (more activation in SPM..)
@@ -53,7 +54,6 @@ knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2
 options(knitr.table.format = "latex") 
 # put the path to this file here (working directory for Rmarkdown):
 opts_knit$set(root.dir = getwd())
-
 ```
 # Abstract
 
@@ -63,8 +63,8 @@ opts_knit$set(root.dir = getwd())
 # Methods
 
 ```{r Load data, include=FALSE}
-source("get_subject_ID_group_tp_forSwE.R")
-final = save_txt_for_swe(group = "all", tp = "all")
+source("code/get_subject_ID_group_tp_forSwE.R")
+final = txt_for_swe(group = "all", tp = "all")
 
 # sample size
 #nrow(subj_df)
@@ -120,7 +120,7 @@ The current sample is the subsample of $69$ subjects that were originally enroll
 
 <!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
 ```{r baseline characteristics, include=FALSE}
-dfBL <- save_txt_for_swe(group = "all", tp = "BL")
+dfBL <- txt_for_swe(group = "all", tp = "BL")
 
 # distributions per group
 # BMI 

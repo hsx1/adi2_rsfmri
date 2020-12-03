@@ -9,7 +9,7 @@ txt_for_swe <- function(group = "all", tp = "all"){
   original_wd <- getwd()
   
   # import absolute path
-  abs_path <- read.csv("../code/abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
+  abs_path <- read.csv("abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
   
   # set working directory
   swe_path <- "Analysis/Project2_resting_state/seed-based/Second_level /SwE_files"
