@@ -1,7 +1,7 @@
 library(dplyr) # version 1.0.2
 library(tidyr) # version 1.1.2
 
-save_txt_for_swe <- function(group = "all", tp = "all"){
+txt_for_swe <- function(group = "all", tp = "all"){
   # group = IG/KG/both
   # tp = BL/FU/FU2/BLFU/FUFU2/all
   
@@ -9,7 +9,7 @@ save_txt_for_swe <- function(group = "all", tp = "all"){
   original_wd <- getwd()
   
   # import absolute path
-  abs_path <- read.csv("abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
+  abs_path <- read.csv("../code/abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
   
   # set working directory
   swe_path <- "Analysis/Project2_resting_state/seed-based/Second_level /SwE_files"
@@ -265,6 +265,6 @@ save_txt_for_swe <- function(group = "all", tp = "all"){
 
 
 # then save txt for all groups and return the final dataframe
-save_txt_for_swe(group = "all", tp = "all")
-# save txt first only IG (under different directory as specified in the function)
-# save_txt_for_swe(IG_only = TRUE)
+txt_for_swe(group = "all", tp = "all")
+# txt first only IG (under different directory as specified in the function)
+# txt_for_swe(IG_only = TRUE)
