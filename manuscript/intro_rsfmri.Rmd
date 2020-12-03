@@ -13,8 +13,7 @@ editor_options:
   chunk_output_type: console
 bibliography: bibliography.bib
 ---
-
-```{r "environment setup", include=FALSE}
+```{r "load packages", include=FALSE}
 
 # load packages
 library(car) # version 3.0.9
@@ -30,15 +29,17 @@ library(psych) # version 2.0.8
 #library(lsr) 
 #library(wesanderson) # colour palette
 #library(haven)
-
-
 library(knitr) # version 1.30
+```
+
+```{r "knit setup"}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex") 
-# put the path to this file here (working directory for Rmarkdown):
-opts_knit$set(root.dir = getwd())
-
+# set working directory of knit (RMarkdown) to directory of Rproj
+opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+setwd(knitr::opts_knit$get("root.dir"))
 ```
+
 # Abstract
 
 \newpage
