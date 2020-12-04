@@ -65,14 +65,7 @@ opts_knit$set(root.dir = getwd())
 
 \newpage
 # Introduction
-<!--Suggested Order of Introduction
-1. Obesity is a major health concern. [... some more details about metabolic and mortality risk, especially related to morbid obesity ...] More and more recognized, midlie obesity also impacts later cognitive decline and dementia risk.
-Obesity has been associated with differences in brain structure and function.
-Regarding structural alterations, longitudinal studies have indicated that higher body mass index is related to increased cortial thinning in midlife (path through life study), potentially mediated by inflammation or glucose dysregulation... Similarly, white matter microstructure and may be related to adverse metabolic effects (lampe)
-Differences in brain function in obesity have been reported in the reward network during task-based fMRI, highlighting the role of reward processing in obesity development and maintainance.
-Resting state fMRI studies have also shown differences in connectivity in diverse brain networks, including reward and salience network, visual networks and the default mode network. In part, these differences have been related to metabolic and behavioral differences, yet there may be an important confounding due to head motion.
-In this study, we aim to investigate the impact of bariatric surery on..
--->
+
 
 
 
@@ -333,20 +326,20 @@ This analysis was described in the preregistration as "Then we will employ state
 In the preregistration we stated " As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but introduces spatial dependency and spurious correlations, we perform GSR after ICA-AROMA in a separate sensitivity analysis."
 
 ### Functional connectivity
-To derive reward and DMN functional connectivity maps, we used Nucleus Accumbens (Nacc) and precuneus as seed ROIs, respectively. Based on FreeSurfer's `aseg.mgz` and Desikan-Killiany parcellation, we created seed masks using `mri_binarize` (thresholded for NAcc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used `NiftiLabelsMasker` and `NiftiMasker` to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson's correlation between them with `numpy.dot`, performed r-to-z transform and saved the resulting correlation maps for each processing mode (min, aroma+cc, aroma+gsr). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived during anatomical preprocessing.
+To derive reward and DMN functional connectivity maps, we used Nucleus Accumbens (Nacc) and precuneus as seed ROIs, respectively. Based on FreeSurfer's `aseg.mgz` and Desikan-Killiany parcellation, we created seed masks using `mri_binarize` (thresholded for NAcc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used `NiftiLabelsMasker` and `NiftiMasker` to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson's correlation between them with `numpy.dot`, performed r-to-z transform and saved the resulting correlation maps for each processing mode (minimally preprocessed, aroma+cc, aroma+gsr). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived with ANTS during anatomical preprocessing.
 
 ### Quality Assessment
 <!-- from Prereg --> 
-
+#### Anatomical Quality control:
+- Freesurfer segmentations and surfaces will be visually controlled and corrected according to published recommendations, if necessary.
+- Participants who cannot be correctly preprocessed due to (uncorrectable) artifacts in the T1-weighted or resting-state fMRI will be excluded.
+-  We will first perfom the analysis with all participants who were correctly preprocessed. In a sensitivity analysis, participants with mean FD larger than the average mean FD + 2 standard deviations will be excluded.
 We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion. 
 
 Whole brain FC maps will be calculated using Pearson’s correlation between average seed time series and whole brain timeseries on the subject level (using nilearn). After transforming from r-to-Z, we will transform the images into Freesurfer longitudinal space, using /mri/transforms/_to_.lta). Then, will calculate difference maps between BL-FU1 (confirmatory hypothesis), BL-FU2, FU1-FU2 (exploratory hypotheses). These images will be transformed into MNI space (using ANTS non-linear registration from the longitudinal template to MNI space) for statistical analysis.
 Aggregated FC values will be calculated using Pearson’s correlation of average seed time series from pre-defined in the longitudinal template space. Aggregated values will be extracted for the reward and the default mode network. 
 
-Quality control:
-- Freesurfer segmentations and surfaces will be visually controlled and corrected according to published recommendations, if necessary.
-- Participants who cannot be correctly preprocessed due to (uncorrectable) artifacts in the T1-weighted or resting-state fMRI will be excluded.
--  We will first perfom the analysis with all participants who were correctly preprocessed. In a sensitivity analysis, participants with mean FD larger than the average mean FD + 2 standard deviations will be excluded.
+
 
 We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion. 
 
