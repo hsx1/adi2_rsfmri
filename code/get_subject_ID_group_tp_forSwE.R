@@ -1,7 +1,7 @@
 library(dplyr) # version 1.0.2
 library(tidyr) # version 1.1.2
 
-txt_for_swe <- function(group = "all", tp = "all"){
+get_txt_for_swe <- function(group = "all", tp = "all"){
   # group = IG/KG/both
   # tp = BL/FU/FU2/BLFU/FUFU2/all
   
@@ -11,14 +11,9 @@ txt_for_swe <- function(group = "all", tp = "all"){
   # import absolute path
   abs_path <- read.csv("abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
   
-  # set working directory
-  swe_path <- "Analysis/Project2_resting_state/seed-based/Second_level /SwE_files"
-  parentdir <- file.path(abs_path, swe_path, fsep = .Platform$file.sep)[1]
-  setwd(parentdir)
   
-
   files=read.table("../SwE_files/scans_PCC_CC_z.txt")
-  #split info from path in txt
+  # split info from path in txt
   for (i in 1:nrow(files)){
     #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
     tmp=strsplit(toString(files[i,1]),'/')[[1]][8]
@@ -37,8 +32,7 @@ txt_for_swe <- function(group = "all", tp = "all"){
   final=plyr::join(files,condition)
   rm(files, group_info, info_file, condition, tmp, i)
   
-
-# preparation of covariates -----------------------------------------------
+# preparation of covariates ----------------------------------------------------
   
   #coding "IG" "KG"
   final[final$condition=="IG","IG"]=1
@@ -52,8 +46,8 @@ txt_for_swe <- function(group = "all", tp = "all"){
   final$logmFD <- log10(final$meanFD)
   
   final$tp=as.factor(final$tp)
-  final$visits=final$tp
-  levels(final$visits)=c(1,2,3)
+  final$visit=final$tp
+  levels(final$visit)=c(1,2,3)
   final$tp_cov=final$tp
   levels(final$tp_cov)=c(-1,0,1)
   
@@ -138,8 +132,8 @@ txt_for_swe <- function(group = "all", tp = "all"){
   # directory load scans
   write.table(final$scan_dir, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='scans.txt')
-  # Modified SwE type - Visits: tp.txt
-  write.table(final$visits, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  # Modified SwE type - visit: tp.txt
+  write.table(final$visit, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='tp.txt')
   # Modified SwE type - Groups: group.txt
   write.table(final$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
@@ -261,11 +255,10 @@ txt_for_swe <- function(group = "all", tp = "all"){
   # reset to original working directory
   setwd(original_wd)
   
-  return(final)
 }
 
 
 # then save txt for all groups and return the final dataframe
-txt_for_swe(group = "all", tp = "all")
+get_txt_for_swe(group = "all", tp = "all")
 # txt first only IG (under different directory as specified in the function)
-# txt_for_swe(IG_only = TRUE)
+# get_txt_for_swe(IG_only = TRUE)
