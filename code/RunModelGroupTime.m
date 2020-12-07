@@ -86,7 +86,7 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) % strcmp(param.ACTION, 'display')
 end
 
 if strcmp(param.MODEL,'grouptime2tp')
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'only2tp');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'BLFU');
 else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'total');
 end
