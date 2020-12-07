@@ -338,10 +338,10 @@ Participants in which head motion artifacts affected the T1-weighted image prepr
 We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion. 
 
 
-Whole brain FC maps will be calculated using Pearson’s correlation between average seed time series and whole brain timeseries on the subject level (using nilearn). After transforming from r-to-Z, we will transform the images into Freesurfer longitudinal space, using /mri/transforms/_to_.lta). Then, will calculate difference maps between BL-FU1 (confirmatory hypothesis), BL-FU2, FU1-FU2 (exploratory hypotheses). These images will be transformed into MNI space (using ANTS non-linear registration from the longitudinal template to MNI space) for statistical analysis.
-Aggregated FC values will be calculated using Pearson’s correlation of average seed time series from pre-defined in the longitudinal template space. Aggregated values will be extracted for the reward and the default mode network.
-
-
+Quality control:
+- Freesurfer segmentations and surfaces will be visually controlled and corrected according to published recommendations, if necessary.
+- Participants who cannot be correctly preprocessed due to (uncorrectable) artifacts in the T1-weighted or resting-state fMRI will be excluded.
+-  We will first perfom the analysis with all participants who were correctly preprocessed. In a sensitivity analysis, participants with mean FD larger than the average mean FD + 2 standard deviations will be excluded.
 
 We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion.
 

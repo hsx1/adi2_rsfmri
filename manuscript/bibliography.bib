@@ -5,7 +5,46 @@
   title  = {The SwE Toolbox: a Toolbox for the Analysis of Longitudinal and Repeated Measures Neuroimaging Data},
   year   = {2014},
   file   = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Guillaume_2014 - The SwE Toolbox_ a Toolbox for the Analysis of Longitudinal and Repeated Measures Neuroimaging Data.pdf:PDF},
-  groups = {marginal model},
+  groups = {marginal model, adi2_rsfMRI},
+}
+
+@article{Lei_2019,
+title = "Global signal regression strengthens association between resting-state functional connectivity and behavior",
+journal = "NeuroImage",
+volume = "196",
+pages = "126 - 141",
+year = "2019",
+issn = "1053-8119",
+doi = "https://doi.org/10.1016/j.neuroimage.2019.04.016",
+url = "http://www.sciencedirect.com/science/article/pii/S1053811919303027",
+author = "Jingwei Li and Ru Kong and Raphaël Liégeois and Csaba Orban and Yanrui Tan and Nanbo Sun and Avram J. Holmes and Mert R. Sabuncu and Tian Ge and B.T. Thomas Yeo",
+keywords = "Resting-state functional MRI, Inter-subject variability, Fluid intelligence, Big five personality, Fingerprinting, Human connectome project",
+abstract = "Global signal regression (GSR) is one of the most debated preprocessing strategies for resting-state functional MRI. GSR effectively removes global artifacts driven by motion and respiration, but also discards globally distributed neural information and introduces negative correlations between certain brain regions. The vast majority of previous studies have focused on the effectiveness of GSR in removing imaging artifacts, as well as its potential biases. Given the growing interest in functional connectivity fingerprinting, here we considered the utilitarian question of whether GSR strengthens or weakens associations between resting-state functional connectivity (RSFC) and multiple behavioral measures across cognition, personality and emotion. By applying the variance component model to the Brain Genomics Superstruct Project (GSP), we found that behavioral variance explained by whole-brain RSFC increased by an average of 47% across 23 behavioral measures after GSR. In the Human Connectome Project (HCP), we found that behavioral variance explained by whole-brain RSFC increased by an average of 40% across 58 behavioral measures, when GSR was applied after ICA-FIX de-noising. To ensure generalizability, we repeated our analyses using kernel regression. GSR improved behavioral prediction accuracies by an average of 64% and 12% in the GSP and HCP datasets respectively. Importantly, the results were consistent across methods. A behavioral measure with greater RSFC-explained variance (using the variance component model) also exhibited greater prediction accuracy (using kernel regression). A behavioral measure with greater improvement in behavioral variance explained after GSR (using the variance component model) also enjoyed greater improvement in prediction accuracy after GSR (using kernel regression). Furthermore, GSR appeared to benefit task performance measures more than self-reported measures. Since GSR was more effective at removing motion-related and respiratory-related artifacts, GSR-related increases in variance explained and prediction accuracies were unlikely the result of motion-related or respiratory-related artifacts. However, it is worth emphasizing that the current study focused on whole-brain RSFC, so it remains unclear whether GSR improves RSFC-behavioral associations for specific connections or networks. Overall, our results suggest that at least in the case for young healthy adults, GSR strengthens the associations between RSFC and most (although not all) behavioral measures. Code for the variance component model and ridge regression can be found here: https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/preprocessing/Li2019_GSR."
+}
+
+@article{Muschelli_2014,
+title = "Reduction of motion-related artifacts in resting state fMRI using aCompCor",
+journal = "NeuroImage",
+volume = "96",
+pages = "22 - 35",
+year = "2014",
+issn = "1053-8119",
+doi = "https://doi.org/10.1016/j.neuroimage.2014.03.028",
+url = "http://www.sciencedirect.com/science/article/pii/S105381191400175X",
+author = "John Muschelli and Mary Beth Nebel and Brian S. Caffo and Anita D. Barber and James J. Pekar and Stewart H. Mostofsky",
+keywords = "Head motion, Resting state fMRI, Nuisance regression, Specificity",
+abstract = "Recent studies have illustrated that motion-related artifacts remain in resting-state fMRI (rs-fMRI) data even after common corrective processing procedures have been applied, but the extent to which head motion distorts the data may be modulated by the corrective approach taken. We compare two different methods for estimating nuisance signals from tissues not expected to exhibit BOLD fMRI signals of neuronal origin: 1) the more commonly used mean signal method and 2) the principal components analysis approach (aCompCor: Behzadi et al., 2007). Further, we investigate the added benefit of “scrubbing” (Power et al., 2012) following both methods. We demonstrate that the use of aCompCor removes motion artifacts more effectively than tissue-mean signal regression. In addition, inclusion of more components from anatomically defined regions of no interest better mitigates motion-related artifacts and improves the specificity of functional connectivity estimates. While scrubbing further attenuates motion-related artifacts when mean signals are used, scrubbing provides no additional benefit in terms of motion artifact reduction or connectivity specificity when using aCompCor."
+}
+
+@article{Behzadi_2007,
+  title={A component based noise correction method (CompCor) for BOLD and perfusion based fMRI},
+  author={Behzadi, Yashar and Restom, Khaled and Liau, Joy and Liu, Thomas T},
+  journal={Neuroimage},
+  volume={37},
+  number={1},
+  pages={90--101},
+  year={2007},
+  publisher={Elsevier}
 }
 
 @article{Lei_2019,
@@ -406,20 +445,8 @@ and decreased for those in the bariatric intervention.},
   author    = {Team, R Core and others},
   title     = {R: A language and environment for statistical computing},
   year      = {2013},
+  groups    = {adi2_rsfMRI, methods},
   publisher = {Vienna, Austria},
-}
-
-@Article{Olivo_2017,
-  author    = {Gaia Olivo and Wei Zhou and Magnus Sundbom and Christina Zhukovsky and Pleunie Hogenkamp and Lamia Nikontovic and Julia Stark and Lyle Wiemerslage and Elna-Marie Larsson and Christian Benedict and Helgi B. Schiöth},
-  journal   = {Scientific Reports},
-  title     = {Resting-state brain connectivity changes in obese women after Roux-en-Y gastric bypass surgery: A longitudinal study},
-  year      = {2017},
-  month     = jul,
-  number    = {1},
-  volume    = {7},
-  doi       = {10.1038/s41598-017-06663-5},
-  file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Olivo_2017 - Resting State Brain Connectivity Changes in Obese Women After Roux En Y Gastric Bypass Surgery_ a Longitudinal Study.pdf:PDF},
-  publisher = {Springer Science and Business Media {LLC}},
 }
 
 @Article{Hogenkamp_2016,
@@ -433,6 +460,7 @@ and decreased for those in the bariatric intervention.},
   volume    = {40},
   doi       = {10.1038/ijo.2016.105},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Hogenkamp_2016 - Higher Resting State Activity in Reward Related Brain Circuits in Obese Versus Normal Weight Females Independent of Food Intake.pdf:PDF},
+  groups    = {adi2_rsfMRI, reward},
   publisher = {Springer Science and Business Media {LLC}},
 }
 
@@ -447,6 +475,7 @@ and decreased for those in the bariatric intervention.},
   volume    = {27},
   doi       = {10.1002/oby.22607},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Cerit_2019 - Resting State Brain Connectivity Predicts Weight Loss and Cognitive Control of Eating Behavior After Vertical Sleeve Gastrectomy.pdf:PDF},
+  groups    = {adi2_rsfMRI, resting state},
   publisher = {Wiley},
 }
 
@@ -461,6 +490,7 @@ and decreased for those in the bariatric intervention.},
   volume    = {44},
   doi       = {10.1038/s41366-019-0489-7},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Kerem_2019 - Oxytocin Reduces the Functional Connectivity between Brain Regions Involved in Eating Behavior in Men with Overweight and Obesity.pdf:PDF},
+  groups    = {adi2_rsfMRI},
   publisher = {Springer Science and Business Media {LLC}},
 }
 
@@ -475,17 +505,8 @@ and decreased for those in the bariatric intervention.},
   volume    = {41},
   doi       = {10.1002/hbm.24959},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Beyer_2020 - Weight Loss Reduces Head Motion_ Revisiting a Major Confound in Neuroimaging.pdf:PDF},
+  groups    = {adi2_rsfMRI, head motion},
   publisher = {Wiley},
-}
-
-@Article{Schmidt_2020,
-  author    = {Liane Schmidt and Evelyn Medarwar and Judith Aron-Wisnewsky and Laurent Genser and Christine Poitou and Karine Cl{\'{e}}ment and Hilke Plassmann},
-  title     = {The brain's hedonic valuation system's resting-state connectivity predicts weight loss and correlates with leptin},
-  year      = {2020},
-  month     = jan,
-  doi       = {10.1101/2020.01.27.921098},
-  file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Schmidt 2020.pdf:PDF},
-  publisher = {Cold Spring Harbor Laboratory},
 }
 
 @Article{Bruce_2013,
@@ -498,6 +519,7 @@ and decreased for those in the bariatric intervention.},
   pages     = {337--343},
   volume    = {22},
   doi       = {10.1002/oby.20630},
+  groups    = {adi2_rsfMRI, bars},
   keywords  = {weight loss; BARS;},
   publisher = {Wiley},
 }
@@ -525,7 +547,7 @@ and decreased for those in the bariatric intervention.},
   pages     = {341--348},
   volume    = {38},
   doi       = {10.1038/ijo.2013.60},
-  groups    = {adi2_rsfmri, resting state},
+  groups    = {adi2_rsfMRI, resting state},
   publisher = {Springer Science and Business Media {LLC}},
 }
 
@@ -538,20 +560,8 @@ and decreased for those in the bariatric intervention.},
   pages     = {199--210},
   volume    = {24},
   doi       = {10.11613/BM.2014.022},
+  groups    = {adi2_rsfMRI, methods},
   publisher = {Croatian Society for Medical Biochemistry and Laboratory Medicine},
-}
-
-@Article{Raichle_2015,
-  author    = {Marcus E. Raichle},
-  journal   = {Annual Review of Neuroscience},
-  title     = {The Brain{\textquotesingle}s Default Mode Network},
-  year      = {2015},
-  month     = jul,
-  number    = {1},
-  pages     = {433--447},
-  volume    = {38},
-  doi       = {10.1146/annurev-neuro-071013-014030},
-  publisher = {Annual Reviews},
 }
 
 @Article{Chou_2012,
@@ -564,6 +574,7 @@ and decreased for those in the bariatric intervention.},
   pages     = {833--838},
   volume    = {33},
   doi       = {10.3174/ajnr.A2894},
+  groups    = {adi2_rsfMRI, resting state},
   publisher = {American Society of Neuroradiology ({ASNR})},
 }
 
@@ -581,7 +592,7 @@ Bariatric surgery was a more effective intervention for weight loss than non-sur
 
 After surgery statistically fewer people had metabolic syndrome and there was higher remission of Type 2 diabetes than in non-surgical groups.},
   doi       = {10.3310/hta13410},
-  groups    = {bars, obesity},
+  groups    = {bars, obesity, adi2_rsfMRI},
   publisher = {National Institute for Health Research},
 }
 
@@ -597,7 +608,7 @@ After surgery statistically fewer people had metabolic syndrome and there was hi
 
 prevalence of [...] obesity increased from 0.8% in1980 to 4.9% in 2015.},
   doi       = {10.1016/j.metabol.2018.09.005},
-  groups    = {obesity},
+  groups    = {obesity, adi2_rsfMRI},
   publisher = {Elsevier {BV}},
 }
 
@@ -616,7 +627,7 @@ How-ever, gender was a factor for patient selection in those with abody mass ind
 
 Furthermore, female patients who underwent bariatric surgery are generally in better health than males as measured by the Charlson ComorbidityIndex.},
   doi       = {10.1089/lap.2014.0639},
-  groups    = {bars},
+  groups    = {bars, adi2_rsfMRI},
   publisher = {Mary Ann Liebert Inc},
 }
 
@@ -643,7 +654,7 @@ Furthermore, female patients who underwent bariatric surgery are generally in be
   volume    = {13},
   doi       = {10.3389/fnins.2019.00352},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/McFarquhar_2019 - Modeling Group Level Repeated Measurements of Neuroimaging Data Using the Univariate General Linear Model.pdf:PDF},
-  groups    = {marginal model},
+  groups    = {marginal model, adi2_rsfMRI},
   publisher = {Frontiers Media {SA}},
 }
 
@@ -657,7 +668,7 @@ Furthermore, female patients who underwent bariatric surgery are generally in be
   volume    = {132},
   doi       = {10.1016/j.neuroimage.2016.02.053},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/McFarquhar_2016 - Multivariate and Repeated Measures (MRM)_ a New Toolbox for Dependent and Multimodal Group Level Neuroimaging Data.pdf:PDF},
-  groups    = {marginal model},
+  groups    = {marginal model, adi2_rsfMRI},
   publisher = {Elsevier {BV}},
 }
 
@@ -680,7 +691,7 @@ Furthermore, female patients who underwent bariatric surgery are generally in be
 * Grade B, BEL 2 for BMIZ30 kg/m2and therapeutictarget  of  weight  control  and  improved  biochemicalmarkers of CVD risk
 * Grade C, BEL 3 for BMIZ30 kg/m2and therapeutictarget   of   glycemic   control   in   T2D   and   improvedbiochemical markers of CVD risk.},
   doi       = {10.1016/j.soard.2012.12.010},
-  groups    = {bars},
+  groups    = {bars, adi2_rsfMRI},
   publisher = {Elsevier {BV}},
 }
 
@@ -709,7 +720,7 @@ Furthermore, female patients who underwent bariatric surgery are generally in be
   volume    = {1411},
   doi       = {10.1111/nyas.13409},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Mulla_2017 - Mechanisms of Weight Loss and Improved Metabolism Following Bariatric Surgery.pdf:PDF},
-  groups    = {bars},
+  groups    = {bars, adi2_rsfMRI},
   publisher = {Wiley},
 }
 
@@ -760,18 +771,8 @@ connectivity of precuneus (p < 0.000), left cerebellum (0.001), right superior l
   volume    = {359},
   comment   = {Weight Loss: A phase of maximum weight loss occurred from 1 to 6 months and a maintenance phase from 7 to 24 months},
   doi       = {10.1056/NEJMoa0708681},
-  groups    = {obesity},
+  groups    = {obesity, adi2_rsfMRI},
   publisher = {Massachusetts Medical Society},
-}
-
-@Article{Schmidt_2020,
-  author    = {Liane Schmidt and Evelyn Medarwar and Judith Aron-Wisnewsky and Laurent Genser and Christine Poitou and Karine Cl{\'{e}}ment and Hilke Plassmann},
-  title     = {The brain's hedonic valuation system's resting-state connectivity predicts weight loss and correlates with leptin},
-  year      = {2020},
-  month     = jan,
-  doi       = {10.1101/2020.01.27.921098},
-  groups    = {aresting state},
-  publisher = {Cold Spring Harbor Laboratory},
 }
 
 @Article{Schmidt_2020,
@@ -893,7 +894,7 @@ decreased, whereas the connectivity from the amygdala and hippocampus to the cau
 * Overall, the functional connectivity of the OFC was significantly decreased.},
   doi       = {10.1007/s11432-019-2817-x},
   file      = {:C\:/Users/Hannah/Documents/studies/internship/MPI/ADI/2_rsfmri/manuscript/literature/Duan_2020 - Bariatric Surgery Induces Alterations in Effective Connectivity between the Orbitofrontal Cortex and Limbic Regions in Obese Patients.pdf:PDF},
-  groups    = {resting state, reward},
+  groups    = {resting state, reward, adi2_rsfMRI},
   publisher = {Springer Science and Business Media {LLC}},
 }
 
@@ -941,48 +942,6 @@ decreased, whereas the connectivity from the amygdala and hippocampus to the cau
   pages     = {397--404},
   volume    = {26},
   doi       = {10.1007/s00384-011-1136-5},
-  groups    = {abars},
-  publisher = {Springer Science and Business Media {LLC}},
-}
-
-@Article{Runkel_2011,
-  author    = {Norbert Runkel and Mario Colombo-Benkmann and Thomas P. Hüttl and Harald Tigges and Oliver Mann and Ricarda Flade-Kuthe and Edvard Shang and Martin Susewind and Stefani Wolff and Ricarda Wunder and Alfred Wirth and Klaus Winckler and Arved Weimann and Martina de Zwaan and Stefan Sauerland},
-  journal   = {International Journal of Colorectal Disease},
-  title     = {Evidence-based German guidelines for surgery for obesity},
-  year      = {2011},
-  month     = feb,
-  number    = {4},
-  pages     = {397--404},
-  volume    = {26},
-  doi       = {10.1007/s00384-011-1136-5},
-  groups    = {abars},
-  publisher = {Springer Science and Business Media {LLC}},
-}
-
-@Article{Runkel_2011,
-  author    = {Norbert Runkel and Mario Colombo-Benkmann and Thomas P. Hüttl and Harald Tigges and Oliver Mann and Ricarda Flade-Kuthe and Edvard Shang and Martin Susewind and Stefani Wolff and Ricarda Wunder and Alfred Wirth and Klaus Winckler and Arved Weimann and Martina de Zwaan and Stefan Sauerland},
-  journal   = {International Journal of Colorectal Disease},
-  title     = {Evidence-based German guidelines for surgery for obesity},
-  year      = {2011},
-  month     = feb,
-  number    = {4},
-  pages     = {397--404},
-  volume    = {26},
-  doi       = {10.1007/s00384-011-1136-5},
-  groups    = {abars},
-  publisher = {Springer Science and Business Media {LLC}},
-}
-
-@Article{Runkel_2011,
-  author    = {Norbert Runkel and Mario Colombo-Benkmann and Thomas P. Hüttl and Harald Tigges and Oliver Mann and Ricarda Flade-Kuthe and Edvard Shang and Martin Susewind and Stefani Wolff and Ricarda Wunder and Alfred Wirth and Klaus Winckler and Arved Weimann and Martina de Zwaan and Stefan Sauerland},
-  journal   = {International Journal of Colorectal Disease},
-  title     = {Evidence-based German guidelines for surgery for obesity},
-  year      = {2011},
-  month     = feb,
-  number    = {4},
-  pages     = {397--404},
-  volume    = {26},
-  doi       = {10.1007/s00384-011-1136-5},
   groups    = {adi2_rsfMRI, bars},
   publisher = {Springer Science and Business Media {LLC}},
 }
@@ -997,6 +956,7 @@ decreased, whereas the connectivity from the amygdala and hippocampus to the cau
   pages   = {1570--1578},
   volume  = {41},
   comment = {The effect of bariatric surgery is characterized by a rapid and massive  weight loss, which mainly occurs during the first postoperative year  after bariatric surgery.},
+  groups  = {adi2_rsfMRI},
 }
 
 @Article{Chen_2013,
@@ -1009,7 +969,7 @@ decreased, whereas the connectivity from the amygdala and hippocampus to the cau
   volume    = {73},
   comment   = {most current FMRI software packages have difficulty analyzing the following scenarios at group level: (1) taking within-subject variability into account when there are effect estimates from multiple runs or sessions; (2) continuous explanatory variables (covariates) modeling in the presence of a within-subject (repeated measures) factor, multiple subject-grouping (between-subjects) factors, or the mixture of both; (3) subject-specific adjustments in covariate modeling; (4) group analysis with estimation of hemodynamic response (HDR) function by multiple basis functions; (5) various cases of missing data in longitudinal studies; and (6) group studies involving family members or twins.},
   doi       = {10.1016/j.neuroimage.2013.01.047},
-  groups    = {marginal model},
+  groups    = {marginal model, adi2_rsfMRI},
   publisher = {Elsevier {BV}},
 }
 
@@ -1026,8 +986,50 @@ decreased, whereas the connectivity from the amygdala and hippocampus to the cau
 
 Nonrandomized comparator groups, imperfect but still useful, can be identified through alternative designs, such as **use of a contemporaneously measured unexposed cohort with similar characteristics.  Finally, quasi‐experimental designs provide stronger evidence** than do uncontrolled interventions in which investigators simply look at change from baseline and a group of treated cases. Ignoring the potential effects of RTM can lead to unsubstantiated inferences about the effects of treatments that can lead to wasted time, money, and other societal resources and distract from alternative interventions that may be more valuable.},
   doi       = {10.1002/oby.21449},
-  groups    = {obesity},
+  groups    = {obesity, adi2_rsfMRI},
   publisher = {Wiley},
+}
+
+@Article{Muschelli_2014,
+  author    = {John Muschelli and Mary Beth Nebel and Brian S. Caffo and Anita D. Barber and James J. Pekar and Stewart H. Mostofsky},
+  journal   = {{NeuroImage}},
+  title     = {Reduction of motion-related artifacts in resting state {fMRI} using {aCompCor}},
+  year      = {2014},
+  month     = {aug},
+  pages     = {22--35},
+  volume    = {96},
+  doi       = {10.1016/j.neuroimage.2007.04.042},
+  groups    = {head motion, adi2_rsfMRI},
+  publisher = {Elsevier {BV}},
+}
+
+@Article{Behzadi_2007,
+  author    = {Yashar Behzadi and Khaled Restom and Joy Liau and Thomas T. Liu},
+  journal   = {{NeuroImage}},
+  title     = {A component based noise correction method ({CompCor}) for {BOLD} and perfusion based {fMRI}},
+  year      = {2007},
+  month     = {aug},
+  number    = {1},
+  pages     = {90--101},
+  volume    = {37},
+  doi       = {10.1016/j.neuroimage.2007.04.042},
+  groups    = {adi2_rsfMRI, methods},
+  publisher = {Elsevier {BV}},
+}
+
+@Article{Lei_2019,
+  author   = {Jingwei Li and Ru Kong and Raphaël Liégeois and Csaba Orban and Yanrui Tan and Nanbo Sun and Avram J. Holmes and Mert R. Sabuncu and Tian Ge and B.T. Thomas Yeo},
+  journal  = {NeuroImage},
+  title    = {Global signal regression strengthens association between resting-state functional connectivity and behavior},
+  year     = {2019},
+  issn     = {1053-8119},
+  pages    = {126 - 141},
+  volume   = {196},
+  abstract = {Global signal regression (GSR) is one of the most debated preprocessing strategies for resting-state functional MRI. GSR effectively removes global artifacts driven by motion and respiration, but also discards globally distributed neural information and introduces negative correlations between certain brain regions. The vast majority of previous studies have focused on the effectiveness of GSR in removing imaging artifacts, as well as its potential biases. Given the growing interest in functional connectivity fingerprinting, here we considered the utilitarian question of whether GSR strengthens or weakens associations between resting-state functional connectivity (RSFC) and multiple behavioral measures across cognition, personality and emotion. By applying the variance component model to the Brain Genomics Superstruct Project (GSP), we found that behavioral variance explained by whole-brain RSFC increased by an average of 47% across 23 behavioral measures after GSR. In the Human Connectome Project (HCP), we found that behavioral variance explained by whole-brain RSFC increased by an average of 40% across 58 behavioral measures, when GSR was applied after ICA-FIX de-noising. To ensure generalizability, we repeated our analyses using kernel regression. GSR improved behavioral prediction accuracies by an average of 64% and 12% in the GSP and HCP datasets respectively. Importantly, the results were consistent across methods. A behavioral measure with greater RSFC-explained variance (using the variance component model) also exhibited greater prediction accuracy (using kernel regression). A behavioral measure with greater improvement in behavioral variance explained after GSR (using the variance component model) also enjoyed greater improvement in prediction accuracy after GSR (using kernel regression). Furthermore, GSR appeared to benefit task performance measures more than self-reported measures. Since GSR was more effective at removing motion-related and respiratory-related artifacts, GSR-related increases in variance explained and prediction accuracies were unlikely the result of motion-related or respiratory-related artifacts. However, it is worth emphasizing that the current study focused on whole-brain RSFC, so it remains unclear whether GSR improves RSFC-behavioral associations for specific connections or networks. Overall, our results suggest that at least in the case for young healthy adults, GSR strengthens the associations between RSFC and most (although not all) behavioral measures. Code for the variance component model and ridge regression can be found here: https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/preprocessing/Li2019_GSR.},
+  doi      = {https://doi.org/10.1016/j.neuroimage.2019.04.016},
+  groups   = {adi2_rsfMRI, adi2_rsfMRI},
+  keywords = {Resting-state functional MRI, Inter-subject variability, Fluid intelligence, Big five personality, Fingerprinting, Human connectome project},
+  url      = {http://www.sciencedirect.com/science/article/pii/S1053811919303027},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
@@ -1041,4 +1043,6 @@ Nonrandomized comparator groups, imperfect but still useful, can be identified t
 2 StaticGroup:bars\;0\;1\;0x8a8a8aff\;\;\;;
 2 StaticGroup:obesity\;0\;1\;0x8a8a8aff\;\;\;;
 2 StaticGroup:marginal model\;0\;1\;0x8a8a8aff\;\;\;;
+2 StaticGroup:head motion\;0\;1\;0x8a8a8aff\;\;\;;
+2 StaticGroup:methods\;0\;1\;0x8a8a8aff\;\;\;;
 }
