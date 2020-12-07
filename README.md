@@ -4,15 +4,29 @@
 
 ## About
 
-Project 2 of the ADI study is about potential changes in resting state functional connectivity induced by bariatric surgery. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the draft.
+Project 2 of the ADI study is about potential changes in resting state functional connectivity induced by bariatric surgery. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the manuscript draft.
+
+`abs_path` - absolute path in server
+`.Rproj` - R project; open Rmd file in this project to ensure relative paths are correct
+
+### code
+This folder containts all code for the MATLAB analysis with the SwE toolbox. Explanations of code below.
 
 `run_or_display.m`: analysis script; conducts analysis as specified in the beginning of the script - for non-parametric estimation it will run or display all contrasts in a loop. To use script read > How to run analysis < below.
 
-`RunModelGroupTime.m`, `RunModelBMI.m` and `RunModelFD.m` as well as 'AllTPEval.m' and 'SingleTPEval' are functions called by `run_or_display.m`
+`RunModelGroupTime.m`, `RunModelBMI.m` and `RunModelFD.m` as well as `AllTPEval.m` and `SingleTPEval.m` are functions called by `run_or_display.m`
 
-`draft_rsfmri` - Rproject, Rmarkdown and PDF document for the draft.
 
-`get_subject_ID_group_tp_forSwE.R` - R file for descriptive analysis
+### manuscript
+Folder with files to create a manuscript. CAVE: introduction and rest are in separate files.
+
+`draft_rsfmri` - document for the manuscript comprising method, result, and discussion section.
+
+`intro_rsfmri` - introduction to manuscript
+
+`get_subject_ID_group_tp_forSwE.R` - R file with function `txt_for_swe(group, tp)` that creates final data frame
+
+create_df_and_txt_for_swe.R
 
 
 ## How to run the analysis in MATLAB
@@ -46,7 +60,7 @@ Project 2 of the ADI study is about potential changes in resting state functiona
 
 ## How to create the script in RMarkdown
 
-* open `draft_rsfmri.Rmd`
+* open `draft_rsfmri.Rproj` (ensures correct relative paths)
+* open `draft_rsfmri.Rmd` within the project
 * check if packages are installed and package versions are consistent
-* set working director to folder with cloned repository with `setwd()`
 * Knit markdown document to PDF
