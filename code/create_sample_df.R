@@ -8,7 +8,7 @@ create_sample_df <- function(group = "all", tp = "all"){
   
   # participants with mri data (txt file with path to .nii file) ---------------
   
-  mri_files=read.table("../SwE_files/scans_PCC_CC_z.txt")
+  mri_files=read.table("../SwE_files/scans.txt")
   # split info from path in txt
   for (i in 1:nrow(mri_files)){
     tmp=strsplit(toString(mri_files[i,1]),'/')[[1]][8]
@@ -25,27 +25,27 @@ create_sample_df <- function(group = "all", tp = "all"){
   full_sample=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
   full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
   condition=merge(mri_files, full_sample[!is.na(full_sample$condition),], by=c("subj.ID","tp"))
-  final=plyr::join(mri_files,condition)
+  df=plyr::join(mri_files,condition)
   rm(mri_files, full_sample, condition, tmp, i)
   
   
   # preparation of variables ---------------------------------------------------
   
-  final$logmFD <- log10(final$meanFD)
+  df$logmFD <- log10(df$meanFD)
   
-  final$group[final$condition == "IG"] = 1
-  final$group[final$condition == "KG"] = 2
-  final$group_factor=as.factor(final$group)
-  levels(final$group_factor)=c("IG","KG")
+  df$group[df$condition == "IG"] = 1
+  df$group[df$condition == "KG"] = 2
+  df$group_factor=as.factor(df$group)
+  levels(df$group_factor)=c("IG","KG")
   
-  final$tp=as.factor(final$tp)
-  levels(final$tp)=c("bl","fu","fu2")
+  df$tp=as.factor(df$tp)
+  levels(df$tp)=c("bl","fu","fu2")
   
-  final$visit=final$tp
-  levels(final$visit)=c(1,2,3)
+  df$visit=df$tp
+  levels(df$visit)=c(1,2,3)
   
-  final$Sex=as.factor(final$Sex) 
-  levels(final$Sex)=c(-1,1)
+  df$Sex=as.factor(df$Sex) 
+  levels(df$Sex)=c(-1,1)
   
   
   # Modify Design matrix for subsamples ----------------------------------------
@@ -55,24 +55,24 @@ create_sample_df <- function(group = "all", tp = "all"){
   if (group == "both") {
     # total: both groups = original dataframe
   }else if (group == "IG") {
-    final <- final[final$condition=="IG",]
+    df <- df[df$condition=="IG",]
   }else if (group == "KG") {
-    final <- final[final$condition=="KG",]
+    df <- df[df$condition=="KG",]
   }
   
   # selection of time points
   if (tp == "all"){
-    final <- final
+    df <- df
   }else if (tp == "BL"){
-    final <- final[final$tp == "bl",]
+    df <- df[df$tp == "bl",]
   }else if (tp == "FU"){
-    final <- final[final$tp == "fu",]
+    df <- df[df$tp == "fu",]
   }else if (tp == "FU2"){
-    final <- final[final$tp == "fu2",]
+    df <- df[df$tp == "fu2",]
   }else if (tp == "BLFU"){
-    final <- final[final$tp != "fu2",]
+    df <- df[df$tp != "fu2",]
   }else if (tp == "FUFU2"){
-    final <- final[final$tp != "fu2",]
+    df <- df[df$tp != "fu2",]
   }
 
   # ----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ create_sample_df <- function(group = "all", tp = "all"){
   if ((group == "all" | group == "IG") & (tp == "all" | tp == "BLFU")) {
     # compute centered avgBMI (avgFD) and cgnBMI(cgnFD)
     df_wide <- tidyr::pivot_wider(
-      data = final,
+      data = df,
       id_cols = "subj.ID",
       names_from = "tp",
       values_from = c("tp", "BMI", "logmFD")
@@ -110,27 +110,27 @@ create_sample_df <- function(group = "all", tp = "all"){
     df_long <- tidyr::pivot_longer(
       data = df_wide,
       cols = all_of(order_vector), # bl, fu, fu2 (maintain original order)
-      # CAREFUL: Order according to dataframe final
+      # CAREFUL: Order according to dataframe df
       names_to = "tp_tp",
       values_to = "tp",
       values_drop_na = TRUE
     )
-    all(df_long$tp == final$tp) # check if order correct
+    all(df_long$tp == df$tp) # check if order correct
     
-    head(final[, c("subj.ID", "tp")])
+    head(df[, c("subj.ID", "tp")])
     head(df_long[, c("subj.ID", "tp")])
     
-    df_long$cgnBMI <- final$BMI - df_long$avgBMI
+    df_long$cgnBMI <- df$BMI - df_long$avgBMI
     df_long$avgBMIc <- df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
-    final$avgBMIc <- df_long$avgBMIc
-    final$cgnBMI <- df_long$cgnBMI
+    df$avgBMIc <- df_long$avgBMIc
+    df$cgnBMI <- df_long$cgnBMI
     
-    df_long$cgnFD <- final$logmFD - df_long$avgFD
+    df_long$cgnFD <- df$logmFD - df_long$avgFD
     df_long$avgFDc <- df_long$avgFD - mean(df_long$avgFD, na.rm = TRUE)
-    final$avgFDc <- df_long$avgFDc
-    final$cgnFD <- df_long$cgnFD
+    df$avgFDc <- df_long$avgFDc
+    df$cgnFD <- df_long$cgnFD
   }
   # end of extra computations --------------------------------------------------
   
-  return(final)
+  return(df)
 }
