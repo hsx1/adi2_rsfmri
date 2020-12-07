@@ -1,6 +1,12 @@
-# Ignore absolute paths
+# absolute paths
 abs_path*
+# R data + history
 .Rproj.user
+.RData
+.Rhistory
+# bib additional data
 *.bib.bak
 *.bib.sav
-.RData
+# binary files
+*.pdf
+*.docx
