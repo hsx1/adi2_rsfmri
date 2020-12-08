@@ -23,12 +23,11 @@ editor_options:
 
 ```{r "To do", include=FALSE}
 
+# [ ] include exclusion criteria according to "create_sample_df.R"
 # [ ] Evaluate SPM model comparison (more activation in SPM..)
-# [ ] Introduction
 # [ ] Discussion
 # [ ] hervorheben, was von Präregistrierung abweicht
 # [ ] brain images mit nilearn plotting tools einbinden
-# [x] Figure zu weight loss
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
 
 ```
@@ -52,7 +51,7 @@ library(psych) # version 2.0.8
 library(knitr) # version 1.30
 ```
 
-```{r "knit setup"}
+```{r "knit setup", include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex")
 # set working directory of knit (RMarkdown) to directory of Rproj
@@ -193,9 +192,6 @@ Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surge
 The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing only subjects that have received MRI. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data availability in \@ref(tab:tabsample)).
 
 <!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
-```{r test wd}
-print(getwd())
-```
 
 ```{r baseline characteristics, include=FALSE}
 dfBL <- create_sample_df(group = "all", tp = "BL")
@@ -353,7 +349,8 @@ We will also extract mean and maximal framewise displacement (FD) from 6 transla
 -	Grouping variable is intervention versus control group
 
 <!-- EXCLUSION CRITERIA --> Participants in which head motion artifacts affected the T1-weighted image preprocessing (e.g. caused Freesurfer to fail or perform very poorly, i.e. rated "Failed" according to @Klapwijk_2019) were excluded because a subject's motion is highly similar across scans and we thus suspect the fMRI data to also suffer from motion artifacts in these subjects.
-As the expected average head motion is high [@Hodgson_2016], we did not exclude any other participants based on head motion estimates because it is difficult to determine a critical threshold in this sample.
+<!-- As the expected average head motion is high [@Hodgson_2016], we did not exclude any other participants based on head motion estimates because it is difficult to determine a critical threshold in this sample. -->
+Five data points were excluded due to failure of correct preprocessing attributed to T1-artifacts, and three additional data points were excluded due to extensive head motion (greater then $2 SD$ above the average mean FD).
 <!-- MOTION CORRECTION --> We therefore apply best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitor the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. As quality checks statistical analysis were performed on both with and without global signal regression, considering the controversial discussion about GSR introducing negative correlations and spatial bias into connectivity data [@Ciric_2017; @Murphy_2017].
 Additionally, mean framewise displacement (FD) was extracted from 6 translational/rotational motion parameters of the whole time series according to @Power_2012, log-transformed and examined within and separate from the main models.
 

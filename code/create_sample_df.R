@@ -18,15 +18,31 @@ create_sample_df <- function(group = "all", tp = "all"){
     mri_files[i,"subj.Nr"]=as.numeric(substr(mri_files$subj.ID[i],4,6))
   }
   mri_files$V1 <- NULL
-  
-  
+
   # load info from full sample and merge with path info (fmri only)-------------
   
   full_sample=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
-  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
-  condition=merge(mri_files, full_sample[!is.na(full_sample$condition),], by=c("subj.ID","tp"))
-  df=plyr::join(mri_files,condition)
-  rm(mri_files, full_sample, condition, tmp, i)
+  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","Exclude")]
+  
+  # Exclusion of participants --------------------------------------------------
+  # exclusion due to problems in preprocessing
+  full_sample$exclude_prep=full_sample$Exclude
+  full_sample$exclude_prep[is.na(full_sample$exclude_prep)]=FALSE
+  mri_sample=merge(mri_files, full_sample[!is.na(full_sample$condition),c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","exclude_prep")], by=c("subj.ID","tp"))
+  
+  mri_sample[mri_sample$exclude_prep==TRUE,] # ADI063_bl ADI063_fu ADI116_bl ADI116_fu ADI116_fu2
+  cat("Note that",nrow(mri_sample[mri_sample$exclude_prep==TRUE,]),"data points were excluded due to problems in preprocessing.\n")
+  sample_after_1stExcl=mri_sample[mri_sample$exclude_prep==FALSE,]
+  
+  # exclusion if mean FD > average meanFD + 2 SD
+  sample_after_1stExcl$exclude_fd = (sample_after_1stExcl$meanFD > mean(sample_after_1stExcl$meanFD)+ 2*sd(sample_after_1stExcl$meanFD))
+  cat("Note that",nrow(sample_after_1stExcl[sample_after_1stExcl$exclude_fd==TRUE,]),"data points were excluded due to extensive head motion.\n")
+  
+  final_sample=sample_after_1stExcl[sample_after_1stExcl$exclude_fd==FALSE,]
+  cat("The remaining sample comprises",nrow(final_sample),"data points across across time for all groups.\n")
+  
+  df=suppressMessages(plyr::join(mri_files,final_sample))
+  rm(mri_files, full_sample, final_sample, mri_sample, tmp, i)
   
   
   # preparation of variables ---------------------------------------------------
