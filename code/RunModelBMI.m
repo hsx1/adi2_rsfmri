@@ -51,11 +51,11 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
     pause(7)
 end
 
-% if param.EXCLFD==true
-%     param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
-% else
-%     param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
-% end
+if param.EXCLFD==true
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+else
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
+end
 
 if strcmp(param.MODEL,'bmiIG')
     param.INFO_DIR = fullfile(param.INFO_DIR, 'IG/total');
@@ -266,18 +266,18 @@ end
 function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
+if param.EXCLFD==true
+    excl = 'ExclFD';
+else
+    excl = 'noExclFD';
+end
+
 if strcmp(param.MODEL,'bmiIG')
     parent_folder = 'BMI_onlyIG';
 elseif strcmp(param.MODEL,'bmi2tp')
     parent_folder = 'BMI_only2tp';
 else
     parent_folder = 'BMI_total';
-end
-
-if param.EXCLFD==true
-    excl = 'ExclFD';
-else
-    excl = 'noExclFD';
 end
 
 if strcmp(param.MASK, 'gm')
@@ -305,7 +305,7 @@ else % Parametric Estimation
 end
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, parent_folder, excl, mask_def, param.ROI_PREP{crun}, model_name);
+out_folder = fullfile(param.OUT_DIR, excl, parent_folder, mask_def, param.ROI_PREP{crun}, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)

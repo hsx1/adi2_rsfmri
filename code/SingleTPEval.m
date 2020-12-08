@@ -173,6 +173,12 @@ end
 function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
+if param.EXCLFD==true
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+else
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
+end
+
 parent_folder = 'Network_singleTP';
 
 if param.COVARIATES == 41
@@ -184,7 +190,7 @@ end
 model_name = strcat(model_name,'_PE-all');
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, parent_folder, param.MASK, param.ROI_PREP{crun}, param.wave, model_name);
+out_folder = fullfile(param.OUT_DIR, excl, parent_folder, param.MASK, param.ROI_PREP{crun}, param.wave, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)

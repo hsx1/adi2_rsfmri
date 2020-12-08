@@ -306,16 +306,16 @@ end
 function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
-if strcmp(param.MODEL,'grouptime2tp')
-    parent_folder = 'GroupTime_only2tp';
-else
-    parent_folder = 'GroupTime_total';
-end
-
 if param.EXCLFD==true
     excl = 'ExclFD';
 else
     excl = 'noExclFD';
+end
+
+if strcmp(param.MODEL,'grouptime2tp')
+    parent_folder = 'GroupTime_only2tp';
+else
+    parent_folder = 'GroupTime_total';
 end
 
 if strcmp(param.MASK, 'gm')
@@ -347,7 +347,7 @@ else % Parametric Estimation
 end
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, parent_folder, excl, mask_def, param.ROI_PREP{crun}, model_name);
+out_folder = fullfile(param.OUT_DIR, excl, parent_folder, mask_def, param.ROI_PREP{crun}, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)

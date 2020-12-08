@@ -10,7 +10,6 @@ abs_path*
 # binary files
 *.pdf
 *.docx
-<<<<<<< HEAD
-test_Benjamini_Hochberg_correction.R
-=======
->>>>>>> 909e4b97ce1afade085ce0957b79416689f33ff7
+# test files
+tryout*
+test*

@@ -47,7 +47,6 @@ param.COVARIATES = param.COVARIATES(j);
 param.INFERENCE_TYPE = param.INFERENCE_TYPE(k);
 
 
-
 if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
     display_message(param.COVARIATES)
     % wait so displayed information can be read
@@ -266,16 +265,16 @@ end
 function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
-if strcmp(param.MODEL,'fdIG')
-    parent_folder = 'FD_onlyIG';
-else
-    parent_folder = 'FD_total';
-end
-
 if param.EXCLFD==true
     excl = 'ExclFD';
 else
     excl = 'noExclFD';
+end
+
+if strcmp(param.MODEL,'fdIG')
+    parent_folder = 'FD_onlyIG';
+else
+    parent_folder = 'FD_total';
 end
 
 if strcmp(param.MASK, 'gm')
@@ -303,7 +302,7 @@ else % Parametric Estimation
 end
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, parent_folder, excl, mask_def, param.ROI_PREP{crun}, model_name);
+out_folder = fullfile(param.OUT_DIR, excl, parent_folder, mask_def, param.ROI_PREP{crun}, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)
