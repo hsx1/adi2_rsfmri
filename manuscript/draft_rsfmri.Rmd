@@ -137,8 +137,8 @@ Participants are measured at baseline, at 6 months and at 24 months to capture b
 # Methods
 
 ```{r Load data, include=FALSE}
-source("code/get_subject_ID_group_tp_forSwE.R")
-final = txt_for_swe(group = "all", tp = "all")
+source("code/create_sample_df.R")
+final = create_sample_df(group = "all", tp = "all")
 
 # sample size
 #nrow(subj_df)
@@ -198,7 +198,7 @@ print(getwd())
 ```
 
 ```{r baseline characteristics, include=FALSE}
-dfBL <- txt_for_swe(group = "all", tp = "BL")
+dfBL <- create_sample_df(group = "all", tp = "BL")
 
 # distributions per group
 # BMI

@@ -9,8 +9,9 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   # import absolute path
   abs_path=read.csv("abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
   # set working directory
-  parentdir=file.path(getwd(), "../SwE_files/", fsep = .Platform$file.sep)[1]
+  parentdir=file.path(getwd(), "../SwE_files", fsep = .Platform$file.sep)[1]
   setwd(parentdir)
+  parentdir=getwd()
   
   # participants with mri data (txt file with path to .nii file) ---------------
   
@@ -85,47 +86,50 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   output_dir <- parentdir
   # selection of groups
   if (group == "both") {
-    # total: both groups
+    output_dir <- file.path(parentdir, "both")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
   }else if (group == "IG") {
-    output_dir <- file.path(parentdir, "IG_only")
+    output_dir <- file.path(parentdir, "IG")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$condition=="IG",]
   }else if (group == "KG") {
-    output_dir <- file.path(parentdir, "KG_only")
+    output_dir <- file.path(parentdir, "KG")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$condition=="KG",]
   }
   
   # selection of time points
+  
   if (tp == "all"){
     output_dir <- file.path(output_dir, "total")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final
   }else if (tp == "BL"){
-    output_dir <- file.path(output_dir, "onlyBL")
+    output_dir <- file.path(output_dir, "BL")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp == "bl",]
   }else if (tp == "FU"){
-    output_dir <- file.path(output_dir, "onlyFU")
+    output_dir <- file.path(output_dir, "FU")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp == "fu",]
   }else if (tp == "FU2"){
-    output_dir <- file.path(output_dir, "onlyFU2")
+    output_dir <- file.path(output_dir, "FU2")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp == "fu2",]
   }else if (tp == "BLFU"){
-    output_dir <- file.path(output_dir, "only2tp")
+    output_dir <- file.path(output_dir, "BLFU")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp != "fu2",]
   }else if (tp == "FUFU2"){
-    output_dir <- file.path(output_dir, "only2tp_fu")
+    output_dir <- file.path(output_dir, "FUFU2")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp != "fu2",]
@@ -259,4 +263,7 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
 }
 
 # then save txt for all groups and return the final dataframe
-get_txt_for_swe(group = "all", tp = "all")
+get_txt_for_swe(group = "both", tp = "all")
+get_txt_for_swe(group = "IG", tp = "all")
+get_txt_for_swe(group = "both", tp = "BLFU")
+get_txt_for_swe(group = "both", tp = "BL")

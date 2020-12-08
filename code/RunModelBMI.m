@@ -52,11 +52,11 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
 end
 
 if strcmp(param.MODEL,'bmiIG')
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'IG');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'IG/total');
 elseif strcmp(param.MODEL,'bmi2tp')
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'BLFU');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'both/BLFU');
 else
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'total');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total');
 end
 
 nrun = length(param.ROI_PREP);
