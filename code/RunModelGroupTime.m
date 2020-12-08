@@ -85,6 +85,12 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) % strcmp(param.ACTION, 'display')
     pause(7)
 end
 
+if param.EXCLFD==true
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+else
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
+end
+
 if strcmp(param.MODEL,'grouptime2tp')
     param.INFO_DIR = fullfile(param.INFO_DIR, 'both/BLFU');
 else
@@ -239,7 +245,7 @@ else
     % .. Small sample adjustments for WB resampling (4 = type C2)
     smodel.WB.WB_yes.WB_ss = 4;
     % .. Number of bootstraps
-    smodel.WB.WB_yes.WB_nB = 999;
+    smodel.WB.WB_yes.WB_nB = 1000;
     % .. Type of SwE (0 = U-SwE (recommended))
     smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
@@ -306,6 +312,11 @@ else
     parent_folder = 'GroupTime_total';
 end
 
+if param.EXCLFD==true
+    excl = 'ExclFD';
+else
+    excl = 'noExclFD';
+end
 
 if strcmp(param.MASK, 'gm')
     mask_def = 'gm';
@@ -336,7 +347,7 @@ else % Parametric Estimation
 end
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, parent_folder, mask_def, param.ROI_PREP{crun}, model_name);
+out_folder = fullfile(param.OUT_DIR, parent_folder, excl, mask_def, param.ROI_PREP{crun}, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)

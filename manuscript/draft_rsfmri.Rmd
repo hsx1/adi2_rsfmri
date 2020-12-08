@@ -29,6 +29,8 @@ editor_options:
 # [ ] hervorheben, was von Präregistrierung abweicht
 # [ ] brain images mit nilearn plotting tools einbinden
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
+# [ ] redo analysis with new sample 
+# [ ] repeat analysis with exclusion of 10% of worst data
 
 ```
 
@@ -545,6 +547,58 @@ tspag  +
 ```
 
 ```{r expample plots, eval=FALSE}
+
+df_wide <- tidyr::pivot_wider(
+  data = final,
+  id_cols = "subj.ID",
+  names_from = "tp",
+  values_from = c("tp", "BMI", "logmFD")
+)
+
+if (tp == "BLFU") {
+  s = 2
+} else {
+  s = 1
+}
+
+BMI_vector <- c("BMI_fu2", "BMI_fu", "BMI_bl")
+BMI_vector <- c("BMI_bl", "BMI_fu", "BMI_fu2")
+FD_vector <- c("logmFD_fu2", "logmFD_fu", "logmFD_bl")
+df_wide$avgBMI <- apply(df_wide[, BMI_vector[s:3]],
+                        MARGIN = 1,
+                        FUN = mean,
+                        na.rm = TRUE)
+df_wide$avgFD <- apply(df_wide[, FD_vector[s:3]],
+                       MARGIN = 1,
+                       FUN = mean,
+                       na.rm = TRUE)
+df_long <- tidyr::pivot_longer(
+  data = df_wide,
+  cols = all_of(order_vector),
+  # bl, fu, fu2 (maintain original order)
+  # CAREFUL: Order according to dataframe df
+  names_to = "tp_tp",
+  values_to = "tp",
+  values_drop_na = TRUE
+)
+all(df_long$tp == final$tp) # check if order correct
+
+head(final[, c("subj.ID", "tp")])
+head(df_long[, c("subj.ID", "tp")])
+
+df_long$cgnBMI <- final$BMI - df_long$avgBMI
+df_long$avgBMIc <-
+  df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
+df$avgBMIc <- df_long$avgBMIc
+df$cgnBMI <- df_long$cgnBMI
+
+df_long$cgnFD <- final$logmFD - df_long$avgFD
+df_long$avgFDc <-
+  df_long$avgFD - mean(df_long$avgFD, na.rm = TRUE)
+final$avgFDc <- df_long$avgFDc
+final$cgnFD <- df_long$cgnFD
+
+
 # example plots for interaction effect (arbitrary variables for illustration purposes)
 ggplot(final, aes(x=tp, y=BMI, group=condition, color=condition)) +
   #geom_smooth(aes(group=condition)) +

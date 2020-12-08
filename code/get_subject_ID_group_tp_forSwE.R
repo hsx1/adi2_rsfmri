@@ -1,9 +1,13 @@
 library(dplyr) # version 1.0.2
 library(tidyr) # version 1.1.2
 
-get_txt_for_swe <- function(group = "all", tp = "all"){
+get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
   # group = IG/KG/both
   # tp = BL/FU/FU2/BLFU/FUFU2/all
+  
+  # ----------------------------------------------------------------------------
+  # primary definitions
+  # ----------------------------------------------------------------------------
   
   original_wd=getwd()
   # import absolute path
@@ -12,6 +16,39 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   parentdir=file.path(getwd(), "../SwE_files", fsep = .Platform$file.sep)[1]
   setwd(parentdir)
   parentdir=getwd()
+  
+  
+  # ----------------------------------------------------------------------------
+  # second level functions
+  # ----------------------------------------------------------------------------
+
+  apply_excl_criteria <- function(data = full_sample, exclFD = FALSE){
+    # exclusion due to problems in preprocessing
+    full_sample$exclude_prep <- full_sample$Exclude
+    full_sample$exclude_prep[is.na(full_sample$exclude_prep)]=FALSE
+    mri_sample <- merge(mri_files, full_sample[!is.na(full_sample$condition),c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","exclude_prep")], by=c("subj.ID","tp"))
+    
+    mri_sample[mri_sample$exclude_prep==TRUE,] # ADI063_bl ADI063_fu ADI116_bl ADI116_fu ADI116_fu2
+    cat("Note that",nrow(mri_sample[mri_sample$exclude_prep==TRUE,]),"data points were excluded due to problems in preprocessing.\n")
+    sample_after_1stExcl <- mri_sample[mri_sample$exclude_prep==FALSE,]
+    
+    if (exclFD == TRUE){
+      # exclusion of 10% of the worst mean FD
+      thres10=sort(sample_after_1stExcl$meanFD, decreasing = TRUE)[round(nrow(sample_after_1stExcl)/10)]
+      sample_after_1stExcl$exclude_fd=(sample_after_1stExcl$meanFD>=thres10)
+      cat("Note that",nrow(sample_after_1stExcl[sample_after_1stExcl$exclude_fd == TRUE, ]),"data points were excluded due to extensive head motion.\n")
+      
+      final_sample=sample_after_1stExcl[sample_after_1stExcl$exclude_fd==FALSE,]
+      cat("The remaining sample comprises",nrow(final_sample),"data points across across time for all groups.\n")
+    }else if (exclFD ==FALSE){
+      final_sample=sample_after_1stExcl
+    }
+    return(final_sample)
+  }
+  
+  # ----------------------------------------------------------------------------
+  # script
+  # ----------------------------------------------------------------------------
   
   # participants with mri data (txt file with path to .nii file) ---------------
   
@@ -26,79 +63,88 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   }
   mri_files$V1 <- NULL
   
-  
-  # load info from full sample and merge with path info (fmri only)-------------
+  # load info from full sample and merge with path info (fmri only) ------------
   
   full_sample=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
-  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
-  condition=merge(mri_files, full_sample[!is.na(full_sample$condition),], by=c("subj.ID","tp"))
-  final=plyr::join(mri_files,condition)
-  rm(mri_files, full_sample, condition, tmp, i)
+  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","Exclude")]
+  
+  # Exclusion of participants --------------------------------------------------
+  final_sample <- apply_excl_crit(full_sample, exclFD)
+  rm(apply_excl_criteria)
+  
+  df=suppressMessages(plyr::join(mri_files,final_sample))
+  rm(mri_files, full_sample, final_sample, mri_sample, tmp, i)
+
   
 # preparation of covariates ----------------------------------------------------
   
-  #coding "IG" "KG"
-  final[final$condition=="IG","IG"]=1
-  final[is.na(final$IG),"IG"]=0
-  final[final$condition=="KG","KG"]=1
-  final[is.na(final$KG),"KG"]=0
+  # coding "IG" "KG"
+  df$IG[df$condition == "IG"] = 1
+  df[is.na(df$IG), "IG"] = 0
+  df$KG[df$condition == "KG"] = 1
+  df[is.na(df$KG), "KG"] = 0
   
   # preparation of variables
-  final$group[final$condition == "IG"] = 1
-  final$group[final$condition == "KG"] = 2
-  final$logmFD <- log10(final$meanFD)
+  df$group[df$condition == "IG"] = 1
+  df$group[df$condition == "KG"] = 2
+  df$logmFD <- log10(df$meanFD)
   
-  final$tp=as.factor(final$tp)
-  final$visit=final$tp
-  levels(final$visit)=c(1,2,3)
-  final$tp_cov=final$tp
-  levels(final$tp_cov)=c(-1,0,1)
+  df$tp=as.factor(df$tp)
+  df$visit=df$tp
+  levels(df$visit)=c(1,2,3)
+  df$tp_cov=df$tp
+  levels(df$tp_cov)=c(-1,0,1)
   
-  final$Sex=as.factor(final$Sex)
-  levels(final$Sex)=c(-1,1)
+  df$Sex=as.factor(df$Sex)
+  levels(df$Sex)=c(-1,1)
   
   # linear modeling of time for each group
-  final$tp_IG <- final$tp_cov
-  final[final$KG==1,"tp_IG"]=0
-  final$tp_KG <- final$tp_cov
-  final[final$IG==1,"tp_KG"]=0
+  df$tp_IG <- df$tp_cov
+  df[df$KG==1,"tp_IG"]=0
+  df$tp_KG <- df$tp_cov
+  df[df$IG==1,"tp_KG"]=0
   
   # model with time as factor
-  final[final$tp=="fu2"&final$IG==1,"IG_fu2"]=1
-  final[final$tp=="fu"&final$IG==1,"IG_fu"]=1
-  final[final$tp=="bl"&final$IG==1,"IG_bl"]=1
-  final[is.na(final$IG_fu2),"IG_fu2"]=0
-  final[is.na(final$IG_fu),"IG_fu"]=0
-  final[is.na(final$IG_bl),"IG_bl"]=0
+  df[df$tp=="fu2"&df$IG==1,"IG_fu2"]=1
+  df[df$tp=="fu"&df$IG==1,"IG_fu"]=1
+  df[df$tp=="bl"&df$IG==1,"IG_bl"]=1
+  df[is.na(df$IG_fu2),"IG_fu2"]=0
+  df[is.na(df$IG_fu),"IG_fu"]=0
+  df[is.na(df$IG_bl),"IG_bl"]=0
   
-  final[final$tp=="fu2"&final$KG==1,"KG_fu2"]=1
-  final[final$tp=="fu"&final$KG==1,"KG_fu"]=1
-  final[final$tp=="bl"&final$KG==1,"KG_bl"]=1
-  final[is.na(final$KG_fu2),"KG_fu2"]=0
-  final[is.na(final$KG_fu),"KG_fu"]=0
-  final[is.na(final$KG_bl),"KG_bl"]=0
+  df[df$tp=="fu2"&df$KG==1,"KG_fu2"]=1
+  df[df$tp=="fu"&df$KG==1,"KG_fu"]=1
+  df[df$tp=="bl"&df$KG==1,"KG_bl"]=1
+  df[is.na(df$KG_fu2),"KG_fu2"]=0
+  df[is.na(df$KG_fu),"KG_fu"]=0
+  df[is.na(df$KG_bl),"KG_bl"]=0
   
-  levels(final$tp)=c("bl","fu","fu2")
+  levels(df$tp)=c("bl","fu","fu2")
 
 # Modify Design matrix for subsamples -------------------------------------
   
   # Model specification incl. design matrix for different options
   output_dir <- parentdir
+  if (exclFD == FALSE){
+    output_dir <- file.path(parentdir, "noExclFD")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+  }else if (exclFD == TRUE){
+    output_dir <- file.path(parentdir, "ExclFD")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+  }
+  
   # selection of groups
-  if (group == "both") {
-    output_dir <- file.path(parentdir, "both")
+  if (group == "both"){
+    output_dir <- file.path(output_dir, "both")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
-    setwd(output_dir)
-  }else if (group == "IG") {
-    output_dir <- file.path(parentdir, "IG")
+  }else if (group == "IG"){
+    output_dir <- file.path(output_dir, "IG")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
-    setwd(output_dir)
-    final <- final[final$condition=="IG",]
-  }else if (group == "KG") {
-    output_dir <- file.path(parentdir, "KG")
+    df <- df[df$condition=="IG",]
+  }else if (group == "KG"){
+    output_dir <- file.path(output_dir, "KG")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
-    setwd(output_dir)
-    final <- final[final$condition=="KG",]
+    df <- df[df$condition=="KG",]
   }
   
   # selection of time points
@@ -107,163 +153,109 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
     output_dir <- file.path(output_dir, "total")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
-    final <- final
+    df <- df
   }else if (tp == "BL"){
     output_dir <- file.path(output_dir, "BL")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
-    final <- final[final$tp == "bl",]
+    df <- df[df$tp == "bl",]
   }else if (tp == "FU"){
     output_dir <- file.path(output_dir, "FU")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
-    final <- final[final$tp == "fu",]
+    df <- df[df$tp == "fu",]
   }else if (tp == "FU2"){
     output_dir <- file.path(output_dir, "FU2")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
-    final <- final[final$tp == "fu2",]
+    df <- df[df$tp == "fu2",]
   }else if (tp == "BLFU"){
     output_dir <- file.path(output_dir, "BLFU")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
-    final <- final[final$tp != "fu2",]
+    df <- df[df$tp != "fu2",]
   }else if (tp == "FUFU2"){
     output_dir <- file.path(output_dir, "FUFU2")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
-    final <- final[final$tp != "fu2",]
+    df <- df[df$tp != "fu2",]
   }
+  
+  
+  # order dataframe by group / subject / time point
+  df$tp_factor <- as.numeric(df$tp)
+  dfo <- df[order(df$IG,df$subj.Nr, df$tp_factor),]
 
   # directory load scans
-  write.table(final$scan_dir, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$scan_dir, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='scans.txt')
   # Modified SwE type - visit: tp.txt
-  write.table(final$visit, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$visit, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='tp.txt')
   # Modified SwE type - Groups: group.txt
-  write.table(final$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$group, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='group.txt')
   # Subjects
-  write.table(final$subj.ID, col.names=FALSE, row.names=FALSE,
+  write.table(dfo$subj.ID, col.names=FALSE, row.names=FALSE,
               file='subjID.txt')
-  write.table(final$subj.Nr, col.names=FALSE, row.names=FALSE,
+  write.table(dfo$subj.Nr, col.names=FALSE, row.names=FALSE,
               file='subjNr.txt')
   
   ## Covariates
   # nuisance covariates
-  write.table(final$Age_BL, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$Age_BL, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='Age.txt')
-  write.table(final$Sex, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$Sex, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='Sex.txt')
-  write.table(final$logmFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$logmFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='logmeanFD.txt')
   # for covariates of interest
-  write.table(final$IG, col.names=FALSE,row.names=FALSE, quote=FALSE,
+  write.table(dfo$IG, col.names=FALSE,row.names=FALSE, quote=FALSE,
               file='group_IG.txt')
-  write.table(final$KG, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$KG, col.names=FALSE,row.names=FALSE,quote=FALSE,
               file='group_KG.txt')
   
   # other important variables
-  write.table(final$BMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$BMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='BMI.txt')
-  write.table(final$meanFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$meanFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
               file='meanFD.txt')
   
   # ----------------------------------------------------------------------------
   # Different model with time as factor (instead of continous)
   # ----------------------------------------------------------------------------
   
-  write.table(final$tp_IG, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$tp_IG, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='tp_IG.txt')
-  write.table(final$tp_KG, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$tp_KG, col.names=FALSE, row.names=FALSE,quote=FALSE,
             file='tp_KG.txt')
-  write.table(final$IG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$IG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='IG_fu2.txt')
-  write.table(final$IG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$IG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='IG_fu.txt')
-  write.table(final$IG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$IG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='IG_bl.txt')
 
-  write.table(final$KG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$KG_fu2, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='KG_fu2.txt')
-  write.table(final$KG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$KG_fu, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='KG_fu.txt')
-  write.table(final$KG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$KG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='KG_bl.txt')
 
-  # ----------------------------------------------------------------------------
-  # Extra analysis steps (also better implmented in Matlab)
-  # ----------------------------------------------------------------------------
-    
-  if ((group == "all" | group == "IG") & (tp == "all" | tp == "BLFU")) {
-      # compute centered avgBMI (avgFD) and cgnBMI(cgnFD)
-      df_wide <- tidyr::pivot_wider(
-        data = final,
-        id_cols = "subj.ID",
-        names_from = "tp",
-        values_from = c("tp", "BMI", "logmFD")
-      )
-      
-      if (tp == "BLFU") {s = 2} else {s = 1}
-      
-      BMI_vector <- c("BMI_fu2", "BMI_fu", "BMI_bl")
-      FD_vector <- c("logmFD_fu2", "logmFD_fu", "logmFD_bl")
-      df_wide$avgBMI <- apply(df_wide[, BMI_vector[s:3]],
-                              MARGIN = 1,
-                              FUN = mean,
-                              na.rm = TRUE)
-      df_wide$avgFD <- apply(df_wide[, FD_vector[s:3]],
-                             MARGIN = 1,
-                             FUN = mean,
-                             na.rm = TRUE)
-      
-      if (tp == "BLFU") {
-        order_vector = c(3, 2)
-      } else {
-        order_vector = c(4, 2, 3)
-      }
-    
-      df_long <- tidyr::pivot_longer(
-        data = df_wide,
-        cols = all_of(order_vector), # bl, fu, fu2 (maintain original order)
-        # CAREFUL: Order according to dataframe final
-        names_to = "tp_tp",
-        values_to = "tp",
-        values_drop_na = TRUE
-      )
-      all(df_long$tp == final$tp) # check if order correct
-      
-      head(final[, c("subj.ID", "tp")])
-      head(df_long[, c("subj.ID", "tp")])
-      
-      df_long$cgnBMI <- final$BMI - df_long$avgBMI
-      df_long$avgBMIc <- df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
-      final$avgBMIc <- df_long$avgBMIc
-      final$cgnBMI <- df_long$cgnBMI
-      
-      df_long$cgnFD <- final$logmFD - df_long$avgFD
-      df_long$avgFDc <- df_long$avgFD - mean(df_long$avgFD, na.rm = TRUE)
-      final$avgFDc <- df_long$avgFDc
-      final$cgnFD <- df_long$cgnFD
-      
-      write.table(final$avgBMIc, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='avgBMIc.txt')
-      write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='cgnBMI.txt')
-      write.table(final$avgFDc, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='avgFDc.txt')
-      write.table(final$cgnBMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
-              file='cgnFD.txt')
-  }
-
+  # end of computations --------------------------------------------------------
+  
   # reset to original working directory
   setwd(original_wd)
-  
 }
 
 # then save txt for all groups and return the final dataframe
-get_txt_for_swe(group = "both", tp = "all")
-get_txt_for_swe(group = "IG", tp = "all")
-get_txt_for_swe(group = "both", tp = "BLFU")
-get_txt_for_swe(group = "both", tp = "BL")
+get_txt_for_swe(group = "both", tp = "all", exclFD = FALSE)
+get_txt_for_swe(group = "IG", tp = "all", exclFD = FALSE)
+get_txt_for_swe(group = "both", tp = "BLFU", exclFD = FALSE)
+get_txt_for_swe(group = "both", tp = "BL", exclFD = FALSE)
+
+get_txt_for_swe(group = "both", tp = "all", exclFD = TRUE)
+get_txt_for_swe(group = "IG", tp = "all", exclFD = TRUE)
+get_txt_for_swe(group = "both", tp = "BLFU", exclFD = TRUE)
+get_txt_for_swe(group = "both", tp = "BL", exclFD = TRUE)
