@@ -5,37 +5,35 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   # group = IG/KG/both
   # tp = BL/FU/FU2/BLFU/FUFU2/all
   
-  # set working directory
-  swe_path="Analysis/Project2_resting_state/seed-based/Second_level /SwE_files"
-  parentdir=file.path(abs_path, swe_path, fsep = .Platform$file.sep)[1]
-  setwd(parentdir)
-  
-  # save original working directory 
   original_wd=getwd()
-  
   # import absolute path
   abs_path=read.csv("abs_path.csv", header=FALSE, stringsAsFactors=FALSE)
+  # set working directory
+  parentdir=file.path(getwd(), "../SwE_files", fsep = .Platform$file.sep)[1]
+  setwd(parentdir)
+  parentdir=getwd()
   
+  # participants with mri data (txt file with path to .nii file) ---------------
   
-  files=read.table("../SwE_files/scans_PCC_CC_z.txt")
+  mri_files=read.table("../SwE_files/scans.txt")
   # split info from path in txt
-  for (i in 1:nrow(files)){
-    #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
-    tmp=strsplit(toString(files[i,1]),'/')[[1]][8]
-    files[i,"scan_dir"]=paste0(strsplit(toString(files[i,1]),'/')[[1]][1:8], sep = "/", collapse="")
-    files[i,"tp"]=strsplit(toString(tmp),'_')[[1]][2]
-    files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
-    files[i,"subj.Nr"]=as.numeric(substr(files$subj.ID[i],4,6))
+  for (i in 1:nrow(mri_files)){
+    tmp=strsplit(toString(mri_files[i,1]),'/')[[1]][8]
+    mri_files[i,"scan_dir"]=paste0(strsplit(toString(mri_files[i,1]),'/')[[1]][1:8], sep = "/", collapse="")
+    mri_files[i,"tp"]=strsplit(toString(tmp),'_')[[1]][2]
+    mri_files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
+    mri_files[i,"subj.Nr"]=as.numeric(substr(mri_files$subj.ID[i],4,6))
   }
-  files$V1 <- NULL
+  mri_files$V1 <- NULL
   
-  #load group info and merge with path info 
-  info_file=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
-  group_info=info_file[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
-  condition=merge(files, group_info[!is.na(group_info$condition),], by=c("subj.ID","tp"))
   
-  final=plyr::join(files,condition)
-  rm(files, group_info, info_file, condition, tmp, i)
+  # load info from full sample and merge with path info (fmri only)-------------
+  
+  full_sample=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
+  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
+  condition=merge(mri_files, full_sample[!is.na(full_sample$condition),], by=c("subj.ID","tp"))
+  final=plyr::join(mri_files,condition)
+  rm(mri_files, full_sample, condition, tmp, i)
   
 # preparation of covariates ----------------------------------------------------
   
@@ -88,47 +86,50 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   output_dir <- parentdir
   # selection of groups
   if (group == "both") {
-    # total: both groups
+    output_dir <- file.path(parentdir, "both")
+    if (!dir.exists(output_dir)) {dir.create(output_dir)}
+    setwd(output_dir)
   }else if (group == "IG") {
-    output_dir <- file.path(parentdir, "IG_only")
+    output_dir <- file.path(parentdir, "IG")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$condition=="IG",]
   }else if (group == "KG") {
-    output_dir <- file.path(parentdir, "KG_only")
+    output_dir <- file.path(parentdir, "KG")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$condition=="KG",]
   }
   
   # selection of time points
+  
   if (tp == "all"){
     output_dir <- file.path(output_dir, "total")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final
   }else if (tp == "BL"){
-    output_dir <- file.path(output_dir, "onlyBL")
+    output_dir <- file.path(output_dir, "BL")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp == "bl",]
   }else if (tp == "FU"){
-    output_dir <- file.path(output_dir, "onlyFU")
+    output_dir <- file.path(output_dir, "FU")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp == "fu",]
   }else if (tp == "FU2"){
-    output_dir <- file.path(output_dir, "onlyFU2")
+    output_dir <- file.path(output_dir, "FU2")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp == "fu2",]
   }else if (tp == "BLFU"){
-    output_dir <- file.path(output_dir, "only2tp")
+    output_dir <- file.path(output_dir, "BLFU")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp != "fu2",]
   }else if (tp == "FUFU2"){
-    output_dir <- file.path(output_dir, "only2tp_fu")
+    output_dir <- file.path(output_dir, "FUFU2")
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
     setwd(output_dir)
     final <- final[final$tp != "fu2",]
@@ -170,7 +171,7 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
               file='meanFD.txt')
   
   # ----------------------------------------------------------------------------
-  # Different model with time as factor
+  # Different model with time as factor (instead of continous)
   # ----------------------------------------------------------------------------
   
   write.table(final$tp_IG, col.names=FALSE, row.names=FALSE,quote=FALSE,
@@ -236,7 +237,6 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
       head(final[, c("subj.ID", "tp")])
       head(df_long[, c("subj.ID", "tp")])
       
-      
       df_long$cgnBMI <- final$BMI - df_long$avgBMI
       df_long$avgBMIc <- df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
       final$avgBMIc <- df_long$avgBMIc
@@ -262,8 +262,8 @@ get_txt_for_swe <- function(group = "all", tp = "all"){
   
 }
 
-
 # then save txt for all groups and return the final dataframe
-get_txt_for_swe(group = "all", tp = "all")
-# txt first only IG (under different directory as specified in the function)
-# get_txt_for_swe(IG_only = TRUE)
+get_txt_for_swe(group = "both", tp = "all")
+get_txt_for_swe(group = "IG", tp = "all")
+get_txt_for_swe(group = "both", tp = "BLFU")
+get_txt_for_swe(group = "both", tp = "BL")

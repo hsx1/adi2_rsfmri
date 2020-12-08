@@ -55,9 +55,9 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
 end
 
 if strcmp(param.MODEL,'fdIG')
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'IG_only');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'IG/total');
 else
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'total');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total');
 end
 
 nrun = length(param.ROI_PREP);
