@@ -235,8 +235,8 @@ else
         smodel.WB.WB_yes.WB_infType.WB_voxelwise = 0;
     elseif strcmp(param.INFERENCE_TYPE,'cluster')
         % cluster-forming threshold (default)
-        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
         smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_clusThresh = 0.001;
+        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
     elseif strcmp(INFERENCE_TYPE,'tfce')
         % E and H values as default (strongly recommended)
         smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_E = 0.5;

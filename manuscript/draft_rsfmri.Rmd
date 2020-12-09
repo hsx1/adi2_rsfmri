@@ -23,13 +23,12 @@ editor_options:
 
 ```{r "To do", include=FALSE}
 
-# [ ] include exclusion criteria according to "create_sample_df.R"
 # [ ] Evaluate SPM model comparison (more activation in SPM..)
 # [ ] Discussion
 # [ ] hervorheben, was von Präregistrierung abweicht
 # [ ] brain images mit nilearn plotting tools einbinden
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [ ] redo analysis with new sample 
+# [ ] re-do analysis with new sample 
 # [ ] repeat analysis with exclusion of 10% of worst data
 
 ```
@@ -362,24 +361,25 @@ The main outcome measure was the aggregated functional connectivity (FC) values 
 
 ## Analysis
 
-Statistical analysis were performed in MATLAB using the sandwich estimator (SwE) toolbox 2.2.1 [@Guillaume_2014] as implemented in SPM12 and R version 3.6.1 [@team2013r].
-During analyses an implicit mask and an explicit mask were used. Therefore, the MNI ICBM 2009a Nonlinear Symmetric brain mask [http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$.
+Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b) using the development version of the SwE toolbox [@Guillaume_2014] ([https://github.com/NISOx-BDI/SwE-toolbox](https://github.com/NISOx-BDI/SwE-toolbox) as of commit #384d2d7944e0c1919a3d22a0282a513916c25f59 was used because of bugs in most recent release) as implemented in SPM12.7770<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
+During analyses an implicit mask and an explicit mask were used. Therefore, the brain mask was used.
+<!-- MNI ICBM 2009a Nonlinear Symmetric grey matter mask ([http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009)) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$. -->
 
 <!-- MODEL SETUP --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$.
 These were examined each for correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $16$ a priori planned analyses.
 Initially, analyses were run with a brain mask but after post hoc considerations detailed below, models were re-run with a grey matter mask which reduced the number of tests (voxels of interest) from $52378$ to $29451$. As a result a total of $32$ different analyses were performed.
 Computation with the grey matter mask were exploratory and deviate from the preregistration.
 
-<!-- Description marginal model --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
+<!-- MODEL SPECIFICATION --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. <!-- Prereg: During the model specification, we will select the modified sandwich estimator (SwE) approach. Thus, we will define the groups and visits as binary numeric values and subject IDs as numeric values, matching the input order of the images. -->We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
 
-<!-- Design matrix, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because did not assume strict linearity for the increase in connectivity and sought to increase power to detect specific trends. The resulting flexible factorial design <!-- check: difference from full factorial or other? --> contained one regressor for each time point per group. For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014.
+<!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because did not assume strict linearity for the increase in connectivity and sought to increase power to detect specific trends. The resulting flexible factorial design <!-- check: difference from full factorial or other? --> contained one regressor for each time point per group. For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014.
 With a model containing average BMI and longitudinal change per subject, we investigated potential effects .............. on the complete sample and subsequently in a exploratory fashion for the intervention group only as the effect of longitudinal change in BMI was expected to be driven by this subsample.
-<!-- Nuisance covariates --> Age at baseline, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points. As change in FD and change in BMI share variance [@Beyer_2019], the inclusion of log mean FD may be disputed and done optionally.
-<!-- Post hoc analyses  --> For that reason, we performed each analysis separately one with mean FD and without. Differences in results will be reported. For a better understanding of the unique contribution of average and longitudinal change FD measures, we employed a third post hoc model to disentangle the effects: $FC = between-subject FD + within-subject FD$. These post-hoc analyses deviate from the preregistration and should be considered to be exploratory.
+<!-- NUISANCE COVARIATES --> Age at baseline, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points. As change in FD and change in BMI share variance [@Beyer_2019], the inclusion of log mean FD may be disputed and done optionally.
+<!-- POST HOC  --> For that reason, we performed each analysis separately one with mean FD and without. Differences in results will be reported. For a better understanding of the unique contribution of average and longitudinal change FD measures, we employed a third post hoc model to disentangle the effects: $FC = between-subject FD + within-subject FD$. These post-hoc analyses deviate from the preregistration and should be considered to be exploratory.
 
-<!-- Inference --> All parametric inferences on activation were drawn based on False Discovery Rate (FDR) adjusted p-values $\leq 0.05$. To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for voxelwise inference, p-values were FDR-corrected for $\alpha = 5%$.
-In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate <!-- ??? clarify why--> for longitudinal data.
-
+<!-- INFERENCE --> <!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p<0.01). Significant clusters are defined as family-wise error - corrected p<0.05. -->
+To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate<!-- permutations don't work with multilevel data (dependencies)--> for longitudinal data.
+Unlike the description in the preregistrastion, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment and $1000$ bootstraps due to required computation time. Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$.
 
 
 
