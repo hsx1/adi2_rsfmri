@@ -102,13 +102,13 @@ param.ROI_PREP = {roi_prep{[4, 6, 12, 14]}}; % {roi_prep{[4, 6, 12, 14]}} or {'N
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-param.MODEL = {'fd','fdIG'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [31,32];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
+param.MODEL = {'grouptime'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [11];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
 
 % define masking and type of inference
 param.MASK = 'brain';               % 'brain' or 'gm'
 param.EXCLFD = false;                % false
-param.WILD_BOOT = true;             % false
+param.WILD_BOOT = false;             % false
 param.INFERENCE_TYPE = {'cluster'};   % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = false;         % false

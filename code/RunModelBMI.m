@@ -161,7 +161,7 @@ smodel.giftiAdditionalInfo.areaFileForGiftiInputs = {};
 scans_dir = readcell(fullfile(param.INFO_DIR,'scans.txt'), 'Delimiter',' ','Whitespace',"'");
 roi_prep = param.ROI_PREP{crun};
 scans_of_roi = create_scans_list(scans_dir, roi_prep);
-
+writecell(scans_of_roi,fullfile(param.INFO_DIR,strcat("scans_",roi_prep,".txt")))
 % load scans to matlabbatch
 smodel.scans = scans_of_roi;
                                          
