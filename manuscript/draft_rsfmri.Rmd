@@ -1,7 +1,7 @@
 ---
 title: "Effects of bariatric surgery and weight loss on resting state functional connectivity"
 author:
-- Hannah Heinrichs* [1]
+- Hannah Sophie Heinrichs* [1]
 - Frauke Beyer* [1][2]
 - Kerstin Prehn
 - Agnes Floel
@@ -230,7 +230,7 @@ p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) +
   )
 tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
-Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`).
+Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). Change in BMI throuout the study is depicted in \@ref(fig:figBMIdescr).
 <!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
 ```{r tabdescr, echo=FALSE}
 
@@ -260,12 +260,12 @@ tab_descr
 <!-- STUDY PROCEDURE -->
 Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for STANDARDIZED?? breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 
-```{r fig_BMIdescr, fig.align='center', out.width="90%"}
+```{r figBMIdescr, fig.align='center', out.width="90%", fig.cap="BMI over time.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
 condition.labs <- c("BARS","NBARS")
 names(condition.labs) <- c("IG","KG")
 # BMI over time each group
-fig_BMIdescr <-
+figBMIdescr <-
   ggplot(final, aes(
     x = tp,
     y = BMI,
@@ -281,7 +281,7 @@ fig_BMIdescr <-
     color = c(rep("#00305E", 3), rep("#C00045", 3))
   ) +
   facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-fig_BMIdescr +
+figBMIdescr +
   scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
   scale_color_manual(
     values = c("#00305E77", "#C0004577"),
@@ -320,10 +320,12 @@ The function preprocessing module included the removal of first four volumes, mo
 For further analysis and ICA-AROMA processing, the data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
 This part of the analysis was described like "After removing the first four volumes, transforms for motion correction (FSL’s MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL’s FUGUE) and coregistration to the subject’s individual anatomical space (using FREESURFER’s bbregister) are calculated." in the preregistration.
 The resulting fMRI data is termed "minimally preprocessed" in the following.
+
 ### ICA-AROMA preprocessing
 We used ICA-AROMA for fMRI denoising as it provides an acceptable trade-off between the mitigation of motion- FC correlation and the introduction of a distance-dependence on motion-FC relationship [@Parkes_2018]. The minimally preprocessed data was processed with independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the overall timeseries.
 As recommended in the original paper, we performed regression of WM and CSF signal on the ICA-AROMA result. We used CompCor to estimate 5 variance components from a combined WM and CSF mask, which was further eroded using `fslmaths -nan -thr 0.99 -ero -bin` [@Behzadi_2007;@Muschelli_2014]. After regression of these nuisance components from the data, we performed high-pass filtering at 0.01 Hz.
 This analysis was described in the preregistration as "Then we will employ state-of-the art nuisance regression (ICA-AROMA and CompCor regression of white matter and CSF signal to reduce the effect of physiological noise and head motion on the connectivity estimates."
+
 ### Global Signal regression
 [@Ciric_2017] showed that GSR is very efficient in removing the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. Previously, we reported on head motion differences between groups over time in this study [@Beyer_2020], and thus it was very important to minimize the motion-FC correlation. The global signal was derived from the average of all voxels in the brain mask. Then, we regressed WM and CSF CompCor components along with the GS from the ICA-AROMA fMRI data and high-pass filtered the resulting file as above.
 In the preregistration we stated " As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but introduces spatial dependency and spurious correlations, we perform GSR after ICA-AROMA in a separate sensitivity analysis."
@@ -373,8 +375,9 @@ Computation with the grey matter mask were exploratory and deviate from the prer
 
 <!-- MODEL SPECIFICATION --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. <!-- Prereg: During the model specification, we will select the modified sandwich estimator (SwE) approach. Thus, we will define the groups and visits as binary numeric values and subject IDs as numeric values, matching the input order of the images. -->We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
 
-<!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because did not assume strict linearity for the increase in connectivity and therefore refrained from modelling time as continous variable. The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
-```{r "Plot design matrices", fig.align='center', out.width="90%"}
+<!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because we did not assume strict linearity for the increase in connectivity and therefore refrained from modeling time as continuous variable (see Figure \@ref(fig:figdesignmatrix)). The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
+```{r figdesignmatrix,  out.width="80%", fig.align = 'center', fig.cap="Possible design matrices of group-time model.", echo=FALSE}
+# fig.show="hold",  out.width="40%", fig.height = 8, 
 # design matrix time as factor
 txt_path <- "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/noExclFD/both/total/"
 
@@ -386,9 +389,9 @@ KG_fu2 <- read.delim(paste0(txt_path,"KG_fu2.txt"), head=FALSE)
 IG_bl <- read.delim(paste0(txt_path,"IG_bl.txt"), head=FALSE)
 IG_fu <- read.delim(paste0(txt_path,"IG_fu.txt"), head=FALSE)
 IG_fu2 <- read.delim(paste0(txt_path,"IG_fu2.txt"), head=FALSE)
-dmf <- data.frame(ID,condition,KG_bl,KG_fu,KG_fu2,IG_bl,IG_fu,IG_fu2)
-colnames(dmf) <- c("ID","condition","KG_bl","KG_fu","KG_fu2","IG_bl","IG_fu","IG_fu2")
-dmf$measurement <- c(1:nrow(dmf))
+measurement <- c(1:nrow(ID))
+dmf <- data.frame(measurement,ID,condition,KG_bl,KG_fu,KG_fu2,IG_bl,IG_fu,IG_fu2)
+colnames(dmf) <- c("measurement","ID","condition","Nbl","Nfu","Nfu2","Bbl","Bfu","Bfu2")
 
 # design matrix time as continuous variable
 ID <- read.delim(paste0(txt_path,"subjID.txt"), head=FALSE)
@@ -397,47 +400,50 @@ group_IG <- read.delim(paste0(txt_path,"group_IG.txt"), head=FALSE)
 group_KG <- read.delim(paste0(txt_path,"group_KG.txt"), head=FALSE)
 tp_IG <- read.delim(paste0(txt_path,"tp_IG.txt"), head=FALSE)
 tp_KG <- read.delim(paste0(txt_path,"tp_KG.txt"), head=FALSE)
-dmc <- data.frame(ID,condition,group_IG,group_KG,tp_IG,tp_KG)
-colnames(dmc) <- c("ID","condition","group_IG", "group_KG","tp_IG","tp_KG")
-dmc$measurement <- c(1:nrow(dmc))
+measurement <- c(1:nrow(ID))
+dmc <- data.frame(measurement,ID,condition,group_IG,group_KG,tp_IG,tp_KG)
+colnames(dmc) <- c("measurement","ID","condition","groupB", "groupN","timeB","timeN")
 
 # plot dmf
 input_dmf <- dmf %>%
   pivot_longer(
-    cols= c("KG_bl","KG_fu","KG_fu2","IG_bl","IG_fu","IG_fu2"),
+    cols= colnames(dmf[,c(4:ncol(dmf))]),
     names_to = "regressor")
 input_dmc <- dmc %>%
   pivot_longer(
-    cols= c("group_IG", "group_KG","tp_IG","tp_KG"),
+    cols= colnames(dmc[,c(4:ncol(dmc))]),
     names_to = "regressor")
 
-plotA <- ggplot(input_dmf, aes(x = regressor, y = measurement, fill = value)) + 
+plotA <- ggplot(input_dmf, aes(x = regressor, y = measurement, fill = value)) +
   geom_tile() + 
   scale_fill_gradient(low="black", high="white") +
   labs(x="regressors", y="scans", title="(A)") +
   # design
-  scale_x_discrete(expand = c(0,0)) +
+  scale_x_discrete(expand = c(0,0),labels=colnames(dmf)[4:ncol(dmf)]) +
   scale_y_continuous(expand = c(0,0)) +
-  theme_bw() + theme(legend.position = "none")
+  theme_bw() + theme(legend.position = "none",
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    strip.text = element_text(size = 12))
 # + theme(panel.grid = element_blank(),
 #         panel.border = element_rect(colour = "black", size=1),
-#         axis.text.x=element_text(size=9, angle=0, vjust=0.3),
-#         axis.text.y=element_text(size=9),
+#    legend.text = element_text(size = 10)
 #         plot.title=element_text(size=11))
 plotB <- ggplot(input_dmc, aes(x = regressor, y = measurement, fill = value)) + 
   geom_tile() + 
   scale_fill_gradient(low="black", high="white") +
   labs(x="regressors", y="scans", title="(B)") +
   # design
-  scale_x_discrete(expand = c(0,0)) +
+  scale_x_discrete(expand = c(0,0),labels=colnames(dmc)[4:ncol(dmc)]) +
   scale_y_continuous(expand = c(0,0)) +
-  theme_bw() + theme(legend.position = "none")
+  theme_bw() + theme(legend.position = "none",
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    strip.text = element_text(size = 12))
 # + theme(panel.grid = element_blank(),
 #         panel.border = element_rect(colour = "black", size=1),
-#         axis.text.x=element_text(size=9, angle=0, vjust=0.3),
-#         axis.text.y=element_text(size=9),
+#    legend.text = element_text(size = 10)
 #         plot.title=element_text(size=11))
-
 
 gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
