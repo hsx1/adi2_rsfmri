@@ -73,7 +73,7 @@ for crun = 1:nrun
         param.wild_con = false;
         % check if analysis has been conducted already
         [out_folder, exist_already] = create_out_folder(param, crun);
-        fprintf('If necessary create output folder\n %s ...\n',out_folder)
+        fprintf('Output folder: \n %s ...\n',out_folder)
         clear matlabbatch
         fprintf('Specify Model...\n')
         [matlabbatch,location_SwE_mat] = SpecifyModel(param, crun, out_folder);

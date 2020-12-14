@@ -20,20 +20,14 @@ end
 %% ========================================================================
 function display_message(COVARIATES)
 % displays message according to the COVARIATES, that define the model
-if COVARIATES == 31
+if COVARIATES == 41
     fprintf('%s\n',...
-    'Model1_bmi_fd_cage_sex: In case of parametric estimation',...
-    'please type in the following contrasts for all runs',...
-    'avgBMI [0 1 0 0 0 0 0]',...
-    'BMIcgn [0 0 1 0 0 0 0]',...
-    'avgFD [0 0 0 1 0 0 0]',...
-    'FDcgn [0 0 0 0 1 0 0]')
-elseif COVARIATES == 32
+    'fsthdbt',...
+    '...')
+elseif COVARIATES == 42
     fprintf('%s\n',...
-    'Model2_fd_cage_sex: In case of parametric estimation',...
-    'please type in the following contrasts for all runs',...
-    'avgFD [0 1 0 0 0]',...
-    'FDcgn [0 0 1 0 0]')
+    'jzdizd',...
+    '...')
 end
 
 end
@@ -49,15 +43,20 @@ param.COVARIATES = param.COVARIATES(j);
 param.INFERENCE_TYPE = param.INFERENCE_TYPE(k);
 
 
-
 if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
     display_message(param.COVARIATES)
     % wait so displayed information can be read
     pause(3)
 end
 
+if param.EXCLFD==true
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+else
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
+end
+
 if strcmp(param.MODEL,'alltp')
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'total');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total/');
 end
 
 nrun = length(param.ROI_PREP);
@@ -139,6 +138,11 @@ cd(param.INFO_DIR)
 % save directory of (new) folder
 smodel.dir = {out_folder};
 
+% cifti + gifti additional information (SwE 2.2.1)
+smodel.ciftiAdditionalInfo.ciftiGeomFile = struct('brainStructureLabel', {}, 'geomFile', {}, 'areaFile', {});
+smodel.ciftiAdditionalInfo.volRoiConstraint = 0;
+smodel.giftiAdditionalInfo.areaFileForGiftiInputs = {};
+
 %% Load Scans -------------------------------------------------------------
 % constructing cell array with the scans (FC maps per subject and time point)
 scans_dir = readcell(fullfile(param.INFO_DIR,'scans.txt'), 'Delimiter',' ','Whitespace',"'");
@@ -180,9 +184,10 @@ smodel.masking.tm.tm_none = 1;
 smodel.masking.im = 1;
 % .. Explicit Mask
 if strcmp(param.MASK,'brain')
-    mask_path = {fullfile(param.MASK_DIR,'MNI_resampled_brain_mask.nii,1')};
+    mask_path = {fullfile(param.MASK_DIR, param.MASK_B)};
 elseif strcmp(param.MASK,'gm')
-    mask_path = {fullfile(param.MASK_DIR,'mni_icbm152_gm_tal_nlin_sym_09a.nii,1')};
+    % mask_path = {fullfile(param.MASK_DIR,'mni_icbm152_gm_tal_nlin_sym_09a.nii,1')};
+    mask_path = {fullfile(param.MASK_DIR, param.MASK_GM)};
 end
 
 smodel.masking.em = mask_path;
@@ -195,36 +200,29 @@ else
     % .. Small sample adjustments for WB resampling (4 = type C2)
     smodel.WB.WB_yes.WB_ss = 4;
     % .. Number of bootstraps
-    smodel.WB.WB_yes.WB_nB = 999;
+    smodel.WB.WB_yes.WB_nB = 1000;
     % .. Type of SwE (0 = U-SwE (recommended))
     smodel.WB.WB_yes.WB_SwE = 0;
     % ... T or F contrast (CAVE: only one contrast at a time)
-    c01 = [0 1 0 0 0 0 0];
-    c02 = [0 0 1 0 0 0 0];
-    c03 = [0 0 0 1 0 0 0];
-    c04 = [0 0 0 0 1 0 0];
+    c01 = [1 0 0 0];
     % if model without covariates, shorten contrasts
     s = 0;
-    if param.COVARIATES == 32
-        s = 2;
+    if param.COVARIATES == 42
+        s = 1;
+    elseif param.COVARIATES == 43
+        s = 3;
     end
     
     if param.wild_con == 1
         smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c01(1:end-s);
-    elseif param.wild_con == 2
-        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c02(1:end-s);
-    elseif param.wild_con == 3 && param.COVARIATES == 31
-        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c03(1:end-s);
-    elseif param.wild_con == 4 && param.COVARIATES == 31
-        smodel.WB.WB_yes.WB_stat.WB_T.WB_T_con = c04(1:end-s);
     end
     %  .. Inference Type (voxelwise, clusterwise, TFCE)
     if strcmp(param.INFERENCE_TYPE,'voxel')
         smodel.WB.WB_yes.WB_infType.WB_voxelwise = 0;
     elseif strcmp(param.INFERENCE_TYPE,'cluster')
         % cluster-forming threshold (default)
-        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
         smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_clusThresh = 0.001;
+        smodel.WB.WB_yes.WB_infType.WB_clusterwise.WB_inputType.WB_img = 0;
     elseif strcmp(INFERENCE_TYPE,'tfce')
         % E and H values as default (strongly recommended)
         smodel.WB.WB_yes.WB_infType.WB_TFCE.WB_TFCE_E = 0.5;
@@ -253,8 +251,13 @@ end
 function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
+if param.EXCLFD==true
+    excl = 'ExclFD';
+else
+    excl = 'noExclFD';
+end
 
-parent_folder = 'Network_allTP';
+parent_folder = 'Network_0-6-12';
 
 if strcmp(param.MASK, 'gm')
     mask_def = 'gm';
@@ -263,9 +266,11 @@ else
 end
 
 if param.COVARIATES == 41
-    model_name = 'network';
+    model_name = 'network-age-sex';
 elseif param.COVARIATES == 42
     model_name = 'network-fd-age-sex';
+elseif param.COVARIATES == 43
+    model_name = 'network';
 end
 
 if param.wild_con % Wild Bootstrap
@@ -281,7 +286,7 @@ else % Parametric Estimation
 end
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, parent_folder, mask_def, param.ROI_PREP{crun}, model_name);
+out_folder = fullfile(param.OUT_DIR, excl, parent_folder, mask_def, param.ROI_PREP{crun}, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)
@@ -304,10 +309,13 @@ r = 1;
 length_intercept = length(readmatrix('subjNr'));
 cov(r).c = ones(length_intercept,1); cov(r).cname = 'Intercept'; r = r+1;
 
-% Covariates of interest    
-if param.COVARIATES == 42
+% Covariates of interest  
+if param.COVARIATES == 41
     % Nuisance Covariates
     cov(r).c = readmatrix('logmeanFD.txt'); cov(r).cname = 'logmeanFD'; r = r+1;
+end
+
+if param.COVARIATES == 41 || param.COVARIATES == 42
     age = readmatrix('Age.txt'); age = age - mean(age); % centered age
     cov(r).c = age; cov(r).cname = 'age'; r = r+1;
     cov(r).c = readmatrix('Sex.txt'); cov(r).cname = 'sex'; r = r+1;

@@ -135,7 +135,7 @@ for crun = 1:nrun
             param.wild_con = wild_con;
             % check if analysis has run already
             [out_folder, exist_already] = create_out_folder(param, crun);
-            fprintf('If necessary create output folder \n %s ...\n',out_folder)
+            fprintf('Output folder: \n %s ...\n',out_folder)
             clear matlabbatch
             fprintf('Specify Model...\n')
             [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder); 
@@ -146,7 +146,7 @@ for crun = 1:nrun
                 spm_jobman('run', matlabbatch);
                 pause(param.VIEWSEC)
                 save("xSwE.mat")
-            elseif not(exist_already) || param.OVERWRITE % strcmp(param.ACTION,'overwrite')
+            elseif not(exist_already) || param.OVERWRITE % else
                 fprintf('Estimate model...\n')
                 % delete existing files in folder if existent
                 if exist_already

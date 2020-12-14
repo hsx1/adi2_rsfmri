@@ -2,11 +2,17 @@ function SingleTPEval(param)
 % t-test for network activity seperate for each time point.
 % Normal SPM analysis - results can be viewed as is common for SPM.
 
-% if not otherwise specified
-param.tp = readmatrix(fullfile(param.INFO_DIR,'total','tp.txt'));
+if param.EXCLFD==true
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+else
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
+end
+
+
+param.INFO_DIR = fullfile(param.INFO_DIR,'both/total/');
+param.tp = readmatrix(fullfile(param.INFO_DIR,'tp.txt'));
 
 nrun = length(param.ROI_PREP);
-ntp = length(unique(param.tp));
 for j = 1:length(param.COVARIATES)
     for crun = 1:nrun % for every roi_prep
         for ctp = 1 %:ntp % for every time point
@@ -31,14 +37,13 @@ elseif ctp == 3
     param.wave = 'fu2'; 
 end
 
-[out_folder, exist_already] = create_out_folder(param, crun);
-if ~exist(out_folder, 'dir')
-    mkdir(out_folder)
-end
+[out_folder, already_exist] = create_out_folder(param, crun);
+fprintf('Output folder: \n %s ...\n',out_folder)
 clear matlabbatch
 fprintf('Specify model...\n')
 [matlabbatch] = SpecifyModel(param, crun, ctp, out_folder);
 fprintf('Run model and display results...\n')
+%fprintf('Evaluate network test with covariates %i...\n',param.COVARIATES(j))
 % run SPM 
 spm('defaults', 'FMRI'); 
 spm_jobman('run', matlabbatch);
@@ -73,8 +78,8 @@ if param.ONLY_DISPLAY == false
         end
     end
     scans_of_roi = fullfile(scans_dir, roi_prep, FC_files);
-    % filter by current time point
-    scans_of_roi(param.tp == ctp)
+    % filter by current time point (check)
+    % scans_of_roi(param.tp == ctp)
 
     %% Design matrix
     [cov, des] = ConstructDesignMatrix(param, scans_of_roi);
@@ -134,10 +139,6 @@ end
 %% ------------------------------------------------------------------------
 function [cov, des] = ConstructDesignMatrix(param, scans_of_roi)
     if param.COVARIATES == 41
-        % t-test
-        des.t1.scans = scans_of_roi;
-        cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
-    elseif param.COVARIATES == 42
         % multiple regression
         des.mreg.scans = scans_of_roi;
             
@@ -152,19 +153,28 @@ function [cov, des] = ConstructDesignMatrix(param, scans_of_roi)
         des.mreg.mcov(3).iCC = 5; % no mean centering
         des.mreg.incint = 1;
         
-        %cov(1).c = readmatrix('logmeanFD.txt');
-        %cov(1).cname = 'logmeanFD';
-        %cov(1).iCFI = 1; % interactions none
-        %cov(1).iCC = 1; % mean centering
-        %cov(2).c = readmatrix('Age.txt');
-        %cov(2).cname = 'age';
-        %cov(2).iCFI = 1;
-        %cov(2).iCC = 1;
-        %cov(3).c = readmatrix('Sex.txt');
-        %cov(3).cname = 'sex';
-        %cov(3).iCFI = 1;
-        %cov(3).iCC = 5; % no mean centering
-        % overwrite cov
+        cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
+        
+    elseif param.COVARIATES == 42
+        % multiple regression
+        des.mreg.scans = scans_of_roi;
+            
+        des.mreg.mcov(1).c = readmatrix('logmeanFD.txt');
+        des.mreg.mcov(1).cname = 'logmeanFD';
+        des.mreg.mcov(1).iCC = 1; % mean centering
+        des.mreg.mcov(2).c = readmatrix('Age.txt');
+        des.mreg.mcov(2).cname = 'age';
+        des.mreg.mcov(2).iCC = 1; % mean centering
+        des.mreg.mcov(3).c = readmatrix('Sex.txt');
+        des.mreg.mcov(3).cname = 'sex';
+        des.mreg.mcov(3).iCC = 5; % no mean centering
+        des.mreg.incint = 1;
+     
+        cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
+        
+    elseif param.COVARIATES == 43
+        % simple t-test (without covariates
+        des.t1.scans = scans_of_roi;
         cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
     end
 end
@@ -174,23 +184,32 @@ function [out_folder, exist_already] = create_out_folder(param, crun)
 % Creates output folder and returns path to output folder as string.
 
 if param.EXCLFD==true
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+    excl = 'ExclFD';
 else
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
+    excl = 'noExclFD';
 end
 
-parent_folder = 'Network_singleTP';
+if strcmp(param.wave, 'bl')
+    parent_folder = 'Network_baseline';
+elseif strcmp(param.wave, 'fu')
+    parent_folder = 'Network_6months';
+elseif strcmp(param.wave, 'fu2')
+    parent_folder = 'Network_12months';
+end
+
 
 if param.COVARIATES == 41
-    model_name = 'network';
-elseif param.COVARIATES == 42
     model_name = 'network-fd-age-sex';
+elseif param.COVARIATES == 42
+    model_name = 'network-age-sex';
+elseif param.COVARIATES == 43
+    model_name = 'network';
 end
 
 model_name = strcat(model_name,'_PE-all');
 
 % Create folder
-out_folder = fullfile(param.OUT_DIR, excl, parent_folder, param.MASK, param.ROI_PREP{crun}, param.wave, model_name);
+out_folder = fullfile(param.OUT_DIR, excl, parent_folder, param.MASK, param.ROI_PREP{crun}, model_name);
 if ~exist(out_folder, 'dir')
     exist_already = false;
     mkdir(out_folder)

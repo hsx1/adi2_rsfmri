@@ -8,7 +8,9 @@
 % Use string for stating *ROI and preprocessing step* and z-transform in
 % in the following format, e.g. ROI_PREP = 'PCC_min_z' or 'NAcc_aroma'.
 % ROI_PREP must be in a cell array of multiple or a single cell!
-% For roi enter either 'PCC' or 'Nacc'. For prep enter either 'min', 
+% For roi enter either 'PCC', 'Nacc', 'MH' or 'LH', corresponding to DMN,
+% reward network, medial and lateral hypothalamus, respectively.
+% For prep enter either 'min', 
 % 'aroma', 'cc', or 'gsr'. If desired, append 'z'.
 % To evaluate all specific ROI/ preprocessing combinations type
 % ROI_PREP = readcell(fullfile(INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
@@ -32,8 +34,9 @@
 % 22: bmi-age-sex
 % 31: bmi-fd-age-sex
 % 32: fd-age-sex
-% 41: network-age-sex
-% 42: network-meanFD-age-sex
+% 41: network-meanFD-age-sex
+% 42: network-age-sex
+% 43: network (= one-sample t-test to check for network topography)
 %
 % Specify directories relativ to project folder. The absolute path to the
 % project folder should be specified in a file called "abs_path.csv".
@@ -50,14 +53,15 @@
 % WILD_BOOT if set on true will use non-parametri Wild Bootstrap instead 
 % of parametric estimation. It will automatically run all relevant contrast 
 % of the model (as defined in the script).
-% NOTE: the contrast implemented in the script are optimized for 
-% 'bmi-age-sex-meanFD'.
-% 
+% Note: Bootstrap is not applicable to 'alltp' and 'singletp'
 % When using WILD_BOOT = true, you must specify which kind of inference
 % is used for bootstrapping:
 % 'voxel': voxelwise 
 % 'cluster': clusterwise
 % 'tfce': TFCE
+% 
+% EXCLFD specifies application of 2nd exclusion criterion (exclusion of 10% 
+% of datapoints with worst mean FD); EXCLFD = false means "not applied".
 % 
 % *** IMPORTANT ***
 % If DISPLAY_ONLY is set on false and the model has not yet been estimated,
@@ -74,11 +78,10 @@
 %% ========================================================================
 % set path for spm and path with my functions
 % swe version 2.2.1 download of development 
-addpath('/data/u_heinrichs_software/MATLAB/spm12/')
-addpath('/data/u_heinrichs_software/MATLAB/spm12/toolbox/SwE-toolbox-2.2.1-1292020')
+addpath('/data/pt_02161/Analysis/Software/spm12/')
+addpath('/data/pt_02161/Analysis/Software/spm12/toolbox/SwE-toolbox-2.2.1-1292020')
 % swe version 2.1.1
-% addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
-
+%addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
 
 % import absolute path for project
 % SET PATH TO code_and_manuscript FOLDER AS CURRENT DIRECTORY !!
@@ -93,32 +96,35 @@ param.MASK_DIR = fullfile(ABS_DIR, '/Analysis/Project2_resting_state/seed-based/
 % file names of masks
 param.MASK_GM = 'mni_icbm152_gm_tal_nlin_sym_09a_resampl_bin.nii,1';
 param.MASK_B = 'MNI_resampled_brain_mask.nii,1';
-
-% define ROI
 roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whitespace',"'");
-param.ROI_PREP = {roi_prep{[4, 6, 12, 14]}}; % {roi_prep{[4, 6, 12, 14]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z'}
+
+%% ------------------------------------------------------------------------
+% define ROI
+param.ROI_PREP = {roi_prep{[6,14]}}; % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z','LH_cc_z','LH_gsr_z','MH_cc_z','MH_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-param.MODEL = {'grouptime'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [11];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % []
+param.MODEL = {'alltp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [42];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % [41, 42, 43]
 
 % define masking and type of inference
-param.MASK = 'brain';               % 'brain' or 'gm'
-param.EXCLFD = false;                % false
-param.WILD_BOOT = false;             % false
-param.INFERENCE_TYPE = {'cluster'};   % {'voxel','cluster','tfce'};
-% analysis parameter (estimate or display?)
-param.ONLY_DISPLAY = false;         % false
-param.OVERWRITE = true;            % false
-param.VIEWSEC = 1; % for ONLY_DISPLAY: seconds you want to view the results
-% param.ACTION = 'estimate','display','overwrite'
+param.MASK = 'brain';               % 'brain'
+param.EXCLFD = false;               % false
+param.WILD_BOOT = false;            % false
+param.INFERENCE_TYPE = {'cluster'}; % {'voxel','cluster','tfce'};
 
+% analysis parameter (estimate or display?)
+param.ONLY_DISPLAY = true;         % false
+param.OVERWRITE = false;             % false
+param.VIEWSEC = 1; % for ONLY_DISPLAY: seconds you want to view the results
+% param.ACTION = 'estimate' % 'display' or 'overwrite'
+
+%% ------------------------------------------------------------------------
 % use function to run or display models
 if strcmp(param.MODEL,'singletp')
-    SingleTPEvalAge(param)
+    SingleTPEval(param)
 elseif strcmp(param.MODEL,'alltp')
     AllTPEval(param)
 else
