@@ -4,7 +4,7 @@
 
 ## About
 
-Project 2 of the ADI study is about potential changes in resting state functional connectivity induced by bariatric surgery. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the manuscript draft.
+Project 2 of the ADIPOSITAS study is about potential changes in resting state functional connectivity induced by bariatric surgery. This repository contains all scripts necessary for data analysis (descriptive and inference statistics) and the manuscript draft.
 
 `abs_path` - absolute path in server
 `.Rproj` - R project; open Rmd file in this project to ensure relative paths are correct
@@ -12,7 +12,7 @@ Project 2 of the ADI study is about potential changes in resting state functiona
 ### code
 This folder containts all code for the MATLAB analysis with the SwE toolbox. Explanations of code below.
 
-`run_or_display.m`: analysis script; conducts analysis as specified in the beginning of the script - for non-parametric estimation it will run or display all contrasts in a loop. To use script read > How to run analysis < below.
+`run_or_display.m`: analysis script; conducts analysis as specified in the beginning of the script - for non-parametric estimation it will run or display all contrasts in a loop. To use script read [How to run analysis in MATLAB](#how-to-run-the-analysis-in-matlab) below.
 
 `RunModelGroupTime.m`, `RunModelBMI.m` and `RunModelFD.m` as well as `AllTPEval.m` and `SingleTPEval.m` are functions called by `run_or_display.m`
 
@@ -37,28 +37,28 @@ Folder contains figures and tables to include into the manuscript that were prev
 
 1. Specify the analysis you want to perform in the run_or_display.m file by setting the respective parameters
 2. Run script
-3. If estimations were previously performed, set ONLY_DISPLAY = true
+3. If estimations were previously performed, set `ONLY_DISPLAY = true`
 4. For display only and parametric estimation, follow the prompts by SPM
 
   - Prompts will differ depending on whether results were also displayed earlier.
-	   - If so, contrasts were already specified. Only select the desired contrast or - in case contrasts are incomplete or inappropriate - re-run the analysis by running the script with "ONLY_DISPLAY = false" and "OVERWRITE = true" and Step 1-3. This will delete previouly specified contrasts.
+	   - If so, contrasts were already specified. Only select the desired contrast or - in case contrasts are incomplete or inappropriate - re-run the analysis by running the script with `ONLY_DISPLAY = false` and `OVERWRITE = true` and Step 1-3. This will delete previouly specified contrasts.
 	   - If not previously specified, please specify according to the information that was displayed in the console before starting SPM
 
 (2a) Parametric estimation
 1. Select the desired contrast.
-2. Apply masking: >> none <<
+2. Apply masking: [none]
 3. Title for comparison: accept given title
-4. Inference type: >> voxelwise <<
-5. P value adjustment to control: >> FDR <<
-6. P value (FDR): >> 0.05 <<
+4. Inference type: [voxelwise]
+5. P value adjustment to control: [FDR]
+6. P value (FDR): [0.05]
 
 (2b) Non-parametric estimation
 1. All contrasts will be evaluated successively
-2. Contrast Type: >> Activation <<
+2. Contrast Type: [Activation] / [Deactivation]
 3. Title for comparison: accept given title
-4. Inference type: >> voxelwise <<
-5. P value adjustment to control: >> FDR <<
-6. P value (FDR): >> 0.05 <<
+4. Inference type: [clusterwise]
+5. P value adjustment to control: [FWE]
+6. P value (FWE): [0.05]
 
 ## How to create the script in RMarkdown
 
