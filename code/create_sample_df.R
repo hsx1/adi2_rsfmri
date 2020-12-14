@@ -5,11 +5,11 @@ library(tidyr) # version 1.1.2
 create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
   # possible values for group: IG/KG/both
   # possible values for tp: BL/FU/FU2/BLFU/all
-  
+
   # ----------------------------------------------------------------------------
   # second level functions
   # ----------------------------------------------------------------------------
-  
+
   apply_excl_criteria <- function(data = full_sample, exclFD = FALSE){
     # exclusion due to problems in preprocessing
     cat("N=",nrow(full_sample),"\n")
@@ -17,18 +17,18 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
     full_sample$exclude_prep[is.na(full_sample$exclude_prep)]=FALSE
     mri_sample <- merge(mri_files, full_sample[!is.na(full_sample$condition),c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","exclude_prep")], by=c("subj.ID","tp"))
     cat("n=",nrow(mri_sample),"with fMRI data points.\n")
-    
+
     mri_sample[mri_sample$exclude_prep==TRUE,] # ADI063_bl ADI063_fu ADI116_bl ADI116_fu ADI116_fu2
     cat("Note that",nrow(mri_sample[mri_sample$exclude_prep==TRUE,]),"data points were excluded due to problems in preprocessing.\n")
     sample_after_1stExcl <- mri_sample[mri_sample$exclude_prep==FALSE,]
     sample_after_1stExcl$exclude_prep <- NULL
-    
+
     if (exclFD == TRUE){
       # exclusion of 10% of the worst mean FD
       thres10=sort(sample_after_1stExcl$meanFD, decreasing = TRUE)[round(nrow(sample_after_1stExcl)/10)]
       sample_after_1stExcl$exclude_fd=(sample_after_1stExcl$meanFD>=thres10)
       cat("Note that",nrow(sample_after_1stExcl[sample_after_1stExcl$exclude_fd == TRUE, ]),"data points were excluded due to extensive head motion.\n")
-      
+
       final_sample=sample_after_1stExcl[sample_after_1stExcl$exclude_fd==FALSE,]
       sample_after_1stExcl$exclude_fd <- NULL
     }else if (exclFD ==FALSE){
@@ -39,14 +39,14 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
     final_sample$include <- TRUE
     return(final_sample)
   }
-  
+
   # ----------------------------------------------------------------------------
   # script
   # ----------------------------------------------------------------------------
-  
+
   # participants with mri data (txt file with path to .nii file) ---------------
-  
-  mri_files=read.table("../SwE_files/scans.txt")
+
+  mri_files=read.table("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level //SwE_files/scans.txt")
   # split info from path in txt
   for (i in 1:nrow(mri_files)){
     tmp=strsplit(toString(mri_files[i,1]),'/')[[1]][8]
@@ -58,39 +58,42 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
   mri_files$V1 <- NULL
 
   # load info from full sample and merge with path info (fmri only)-------------
-  
+
   full_sample=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
-  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","Exclude")]
-  
+  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD","maxFD", "BMI", "Final_Score",
+                           "Excessive_motion", "Exclude", "Check_comments")]
+
   # Exclusion of participants --------------------------------------------------
   final_sample <- apply_excl_criteria(full_sample, exclFD)
-  
+
   df=suppressMessages(plyr::join(mri_files,final_sample))
   df=df[!is.na(df$include),]
   rm(apply_excl_criteria, mri_files, full_sample, final_sample, tmp, i)
-  
-  
-  # preparation of variables ---------------------------------------------------
-  
+
+  # exclude participants who failed in FreeSurfer (Frauke)
+  df$Exclude=is.na(df$Exclude)
+  df=df[df$Exclude==TRUE,]
+  # preparation of variables --------------------------
+
   df$logmFD <- log10(df$meanFD)
-  
+
   df$group[df$condition == "IG"] = 1
   df$group[df$condition == "KG"] = 2
   df$group_factor=as.factor(df$group)
   levels(df$group_factor)=c("IG","KG")
-  
+
   df$tp=as.factor(df$tp)
   levels(df$tp)=c("bl","fu","fu2")
-  
+
   df$visit=df$tp
   levels(df$visit)=c(1,2,3)
-  
-  df$Sex=as.factor(df$Sex) 
+
+  df$Sex=as.factor(df$Sex)
   levels(df$Sex)=c(-1,1)
-  
-  
+
+
   # Modify Design matrix for subsamples ----------------------------------------
-  
+
   # Model specification incl. design matrix for different options
   # selection of groups
   if (group == "both") {
@@ -100,7 +103,7 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
   }else if (group == "KG") {
     df <- df[df$condition=="KG",]
   }
-  
+
   # selection of time points
   if (tp == "all"){
     df <- df

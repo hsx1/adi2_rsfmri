@@ -28,7 +28,7 @@ editor_options:
 # [ ] hervorheben, was von Präregistrierung abweicht
 # [ ] brain images mit nilearn plotting tools einbinden
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [ ] re-do analysis with new sample 
+# [ ] re-do analysis with new sample
 # [ ] repeat analysis with exclusion of 10% of worst data
 # [ ] Network tests
 
@@ -65,14 +65,7 @@ setwd(knitr::opts_knit$get("root.dir"))
 
 \newpage
 # Introduction
-<!--Suggested Order of Introduction
-1. Obesity is a major health concern. [... some more details about metabolic and mortality risk, especially related to morbid obesity ...] More and more recognized, midlie obesity also impacts later cognitive decline and dementia risk.
-Obesity has been associated with differences in brain structure and function.
-Regarding structural alterations, longitudinal studies have indicated that higher body mass index is related to increased cortial thinning in midlife (path through life study), potentially mediated by inflammation or glucose dysregulation... Similarly, white matter microstructure and may be related to adverse metabolic effects (lampe)
-Differences in brain function in obesity have been reported in the reward network during task-based fMRI, highlighting the role of reward processing in obesity development and maintainance.
-Resting state fMRI studies have also shown differences in connectivity in diverse brain networks, including reward and salience network, visual networks and the default mode network. In part, these differences have been related to metabolic and behavioral differences, yet there may be an important confounding due to head motion.
-In this study, we aim to investigate the impact of bariatric surery on..
--->
+
 
 
 
@@ -309,6 +302,7 @@ Participants were instructed to close their eyes but to remain awake during scan
 
 Imaging data was conducted using AFNI 19.1.05, ANTS '2.3.1', FSL '6.0.1' and FreeSurfer '6.0.0p1', wrapped in a nipype workflow (version 1.2.0) in Python 2.7.15.
 The preprocessing workflow included modules to process anatomical, functional and diffusion-weighted imaging in parallel. The workflow can be found on [github](https://github.com/fBeyer89/ADI_preproc/).
+
 ### Anatomical preprocessing
 Within the module for anatomical preprocessing, the T1-weighted images were first processed by FreeSurfer's cross-sectional pipeline [@fs_cross]. Then, Freesurfer's longitudinal stream was applied to all cross-sectional runs [@fs_long]. Here, white matter (WM) and cerebral spinal fluid (CSF) masks were derived based on FreeSurfer's `aseg.mgz` segmentation file for quality control of rs preprocessing.  
 The skull-stripped brain (`brainmask.mgz`) was then coregistered to the MNI152 1x1x1x mm template using ANTS [@antsref]. The following parameters were used for rigid [metric: mutual information, number of iterations: [1000, 500, 250, 100]], affine [metric: mutual information, number of iterations: [1000, 500, 250, 100]] and SyN: [metric: cross-correlation, iterations: [100, 70, 50, 20]] registration steps with shrink factors [8, 4, 2, 1], and smoothing sigmas=[3, 2, 1, 0] for each step.
@@ -317,68 +311,77 @@ In the preregistration it was only mentioned that longitudinal FreeSurfer would 
 
 ## Functional preprocessing
 ### Minimal functional preprocessing
-The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transforms derived from the latter three steps were combined into one transformation.
-For further analysis and ICA-AROMA processing, the data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
-This part of the analysis was described like "After removing the first four volumes, transforms for motion correction (FSL’s MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL’s FUGUE) and coregistration to the subject’s individual anatomical space (using FREESURFER’s bbregister) are calculated." in the preregistration.
-The resulting fMRI data is termed "minimally preprocessed" in the following.
+The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step.
+For further analysis and ICA-AROMA processing, the minimally preprocessed data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
+*This part of the analysis was described in the preregistration as "After removing the first four volumes, transforms for motion correction (FSL’s MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL’s FUGUE) and coregistration to the subject’s individual anatomical space (using FREESURFER’s bbregister) are calculated."*  
 
-### ICA-AROMA preprocessing
-We used ICA-AROMA for fMRI denoising as it provides an acceptable trade-off between the mitigation of motion- FC correlation and the introduction of a distance-dependence on motion-FC relationship [@Parkes_2018]. The minimally preprocessed data was processed with independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the overall timeseries.
+### ICA-AROMA preprocessing   
+We used ICA-AROMA for fMRI denoising as it provides an acceptable trade-off between the mitigation of motion-FC correlation and the introduction of a distance-dependence on motion-FC relationship [@Parkes_2018]. As described in [@Pruim2015], the minimally preprocessed data was processed with independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the raw fMRI timeseries.
 As recommended in the original paper, we performed regression of WM and CSF signal on the ICA-AROMA result. We used CompCor to estimate 5 variance components from a combined WM and CSF mask, which was further eroded using `fslmaths -nan -thr 0.99 -ero -bin` [@Behzadi_2007;@Muschelli_2014]. After regression of these nuisance components from the data, we performed high-pass filtering at 0.01 Hz.
-This analysis was described in the preregistration as "Then we will employ state-of-the art nuisance regression (ICA-AROMA and CompCor regression of white matter and CSF signal to reduce the effect of physiological noise and head motion on the connectivity estimates."
+*This analysis was described in the preregistration as "Then we will employ state-of-the art nuisance regression (i.e. ICA-AROMA with compCor regression (CC) and, optionally global signal regression (GSR) (Ciric et al., 2017; Parkes et al., 2018) to reduce the effect of physiological noise and head motion on the connectivity estimates."*  
 
-### Global Signal regression
+
+### Global Signal regression   
 [@Ciric_2017] showed that GSR is very efficient in removing the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. Previously, we reported on head motion differences between groups over time in this study [@Beyer_2020], and thus it was very important to minimize the motion-FC correlation. The global signal was derived from the average of all voxels in the brain mask. Then, we regressed WM and CSF CompCor components along with the GS from the ICA-AROMA fMRI data and high-pass filtered the resulting file as above.
-In the preregistration we stated " As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but introduces spatial dependency and spurious correlations, we perform GSR after ICA-AROMA in a separate sensitivity analysis."
+*In the preregistration we stated " As global signal regression is very efficient in removing the correlation of head motion and connectivity dependence, but introduces spatial dependency and spurious correlations, we perform GSR after ICA-AROMA in a separate sensitivity analysis."*
 
 ### Functional connectivity
-To derive reward and DMN functional connectivity maps, we used Nucleus Accumbens (Nacc) and precuneus as seed regions of interest (ROI), respectively. Based on FreeSurfer's `aseg.mgz` and Desikan-Killiany parcellation, we created seed masks using `mri_binarize` (thresholded for NAcc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used `NiftiLabelsMasker` and `NiftiMasker` to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson's correlation between them with `numpy.dot`, performed r-to-z transform and saved the resulting correlation maps for each processing mode (min, aroma+cc, aroma+gsr). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived during anatomical preprocessing.
+To derive reward and DMN functional connectivity maps, we used Nucleus Accumbens (Nacc) and precuneus as seed regions of interest (ROI), respectively. Based on FreeSurfer's `aseg.mgz` and Desikan-Killiany parcellation, we created seed masks using `mri_binarize` (thresholded for NAcc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used `NiftiLabelsMasker` and `NiftiMasker` to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson's correlation between them with `numpy.dot`, performed r-to-z transform and saved the resulting correlation maps for each processing mode (minimally preprocessed, aroma+cc, aroma+gsr). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived with ANTS during anatomical preprocessing.
+*In the preregistration we stated "Resting-state functional connectivity (FC) using seed-based connectivity analysis extracted with in-house pre-processing pipelines (see (Beyer et al., 2019)): Whole-brain FC maps for a priori defined seed regions (defined based on the results of the subcortical segmentation and Desikan-Killiany cortical parcellation in the Freesurfer version 6.0.0 longitudinal processing stream). For the reward network a ROI combined from bilateral Nucleus accumbens from the subcortical segmentation (26, Left-Accumbens-area, 58, Right-Accumbens-area) was selected. Ventro-medialprefrontal cortex was not selected as seed region due to low signal-to-noise ratio in this part of the brain in many participants (noticed during quality checking). For the default mode network, the seed region was combined from bilateral precuneus from the Desikan-Killiany atlas (1025 ctx-lh-precuneus, 2025 ctx-rh-precuneus). We will calculate  voxel-wise seed-based connectivity mapsin the individual subject’s space (which is coregistered to the Freesurfer longitudinally preprocessed timepoint) and apply r-to-Z-transform to these images. These steps will be performed using nilearn, nipype and python. Then, we will transform the connectivity maps into MNI space with a non-linear warp derived from anatomical preprocessing of the longitudinally preprocessed timepoints (using ANTS).*
 
 ### Quality Assessment
-<!-- from Prereg -->
+#### Anatomical Quality control
+FreeSurfer cross-sectional and longitudinal  segmentations were visually checked according to @Klapwijk_2019. We excluded 5 datasets from 3 participants because of excessive head motion leading to failed pial reconstruction and anatomical-functional coregistration .
+<!--ADI009_fu2, ADI063_bl, ADI063_fuADI116_bl, ADI116_fu, ADI116_fu2-->
+*In the preregistration we stated that "Freesurfer segmentations and surfaces will be visually controlled and corrected according to published recommendations, if necessary", and that "We will exclude participants in which head motion artifacts affected the T1-weighted image preprocessing (e.g. caused Freesurfer to fail or perform very poorly (rated “Failed” according to (Klapwijk et al., 2019)".*
 
-We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion.
+#### Functional Quality control
+Resting state fMRI data quality control was performed along the protocol of @Ciric_2018.
+As the expected average head motion is high in this sample [@Beyer_2020], it is difficult to determine an appropriate exclusion threshold which does not lead to the exclusion of a high number of individuals. Thus, we did not exclude any participants based on mean framewise displacement estimates beyond those who failed the anatomical preprocessing. We applied best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. In addition, for models showing a significant group-by-time interaction, we performed a sensitivity analysis excluding the 10% data sets with highest mean FD (mFD).
+On the single-subject level, we used `plot_carpet` from `niworkflows.viz.plots` to generate carpet plots which depict denoising quality. Figure \@ref{carpet_plot} shows an exemplary carpet plot with (from top to bottom): DVARS (spatial root mean square of the data after temporal differencing), mFD, percent outliers defined by AFNI `OutlierCount`, voxelwise timeseries from minimally preprocessed, AROMA non-aggressive and aggressive denoising, CC and CC + GSR data. All carpet plots were visually checked and if there was still structured noise in the CC+GSR-denoised functional data (such as black/white stripes, signal dropout), the participant was given a rating of 1 in `QA residuals`.
+We evaluated mFD-FC relationships by computing a functional connectome based on (Power et al., 2011). In more detail, we used the MNI coordinates of 246 cortical and subcortical spherical seed regions with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we correlated mean FD and QC values for each node across participants, and plotted the resulting mFD-FC correlation values in histogram (see Figure \@ref{example_FC}. We reported the mFD-FC correlation per preprocessing scheme.
+Further, we evaluated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation and report mean, median and standard deviations of mFD, DVARS and number of outliers over all participants.
 
-Whole brain FC maps will be calculated using Pearson's correlation between average seed time series and whole brain timeseries on the subject level (using nilearn). After transforming from r-to-Z, we will transform the images into Freesurfer longitudinal space, using /mri/transforms/_to_.lta). Then, will calculate difference maps between BL-FU1 (confirmatory hypothesis), BL-FU2, FU1-FU2 (exploratory hypotheses). These images will be transformed into MNI space (using ANTS non-linear registration from the longitudinal template to MNI space) for statistical analysis.
-Aggregated FC values will be calculated using Pearson’s correlation of average seed time series from pre-defined in the longitudinal template space. Aggregated values will be extracted for the reward and the default mode network.
+### Aggregated FC values
+To extract aggregated FC values, we first calculated the mean DMN and reward networks over all participants and timepoints, adjusted for age and sex. We used the modified SwE option and used global signal regressed data as input. Network masks were formed from all voxels with a clusterwise $p_FWE < 0.05$ and we extracted the average connectivity from these masks for all data points.
 
-Quality control:
+<!-- param.ROI_PREP = {roi_prep{[6,14]}}; % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z','LH_cc_z','LH_gsr_z','MH_cc_z','MH_gsr_z'} -->
+<!-- % Model definition -->
+<!-- % All three models have unique options for covariate definition, the -->
+<!-- % association to a model is indicated by the tens digit (GroupTime_: 1_;  -->
+<!-- % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit -->
+<!-- param.MODEL = {'alltp'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp}  -->
+<!-- param.COVARIATES = [41];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42]    % [41, 42, 43] -->
 
-- Freesurfer segmentations and surfaces will be visually controlled and corrected according to published recommendations, if necessary.
-- Participants who cannot be correctly preprocessed due to (uncorrectable) artifacts in the T1-weighted or resting-state fMRI will be excluded.
--  We will first perfom the analysis with all participants who were correctly preprocessed. In a sensitivity analysis, participants with mean FD larger than the average mean FD + 2 standard deviations will be excluded.
+<!-- % define masking and type of inference -->
+<!-- param.MASK = 'brain';               % 'brain' -->
+<!-- param.EXCLFD = false;               % false -->
+<!-- param.WILD_BOOT = false;            % false -->
+<!-- param.INFERENCE_TYPE = {'cluster'}; % {'voxel','cluster','tfce'}; -->
 
-We will also extract mean and maximal framewise displacement (FD) from 6 translational/rotational motion parameters of the whole timeseries according to (Power et al., 2012) and calculate mean FD as a summary measure of head motion.
+*In the preregistration we wrote: "We will use the average of connectivity values within masks of the respective networks as aggregate network connectivity measure. The mask will include all voxels surviving FWE-correction of p<0.05 in a one-sample t-test of the individual connectivity maps across all participants and time points, calculated with the modified SwE option in the SwE toolbox"*
 
--	Anthropometry: body mass index, % body fat from bioelectrical impedance measurement
--	Grouping variable is intervention versus control group
 
-<!-- EXCLUSION CRITERIA --> Participants in which head motion artifacts affected the T1-weighted image preprocessing (e.g. caused Freesurfer to fail or perform very poorly, i.e. rated "Failed" according to @Klapwijk_2019) were excluded because a subject's motion is highly similar across scans and we thus suspect the fMRI data to also suffer from motion artifacts in these subjects.
-<!-- As the expected average head motion is high [@Hodgson_2016], we did not exclude any other participants based on head motion estimates because it is difficult to determine a critical threshold in this sample. -->
-Five data points were excluded due to failure of correct preprocessing attributed to T1-artifacts.
-For significant group-time
-<!-- MOTION CORRECTION --> We therefore apply best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitor the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. As quality checks statistical analysis were performed on both with and without global signal regression, considering the controversial discussion about GSR introducing negative correlations and spatial bias into connectivity data [@Ciric_2017; @Murphy_2017].
-Additionally, mean framewise displacement (FD) was extracted from 6 translational/rotational motion parameters of the whole time series according to @Power_2012, log-transformed and examined within and separate from the main models.
+<!-- MOTION CORRECTION We therefore apply best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitor the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. As quality checks statistical analysis were performed on both with and without global signal regression, considering the controversial discussion about GSR introducing negative correlations and spatial bias into connectivity data [@Ciric_2017; @Murphy_2017].
+Additionally, mean framewise displacement (FD) was extracted from 6 translational/rotational motion parameters of the whole time series according to @Power_2012, log-transformed and examined within and separate from the main models.  -->
 
-### Outcomes
-
-The main outcome measure was the aggregated functional connectivity (FC) values for the two ROI NAcc and PCC.
 
 ## Analysis
 
 Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b) using the development version of the SwE toolbox [@Guillaume_2014] ([https://github.com/NISOx-BDI/SwE-toolbox](https://github.com/NISOx-BDI/SwE-toolbox) as of commit #384d2d7944e0c1919a3d22a0282a513916c25f59 was used because of bugs in most recent release) as implemented in SPM12.7770<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
 During analyses an implicit mask and an explicit mask were used. For this, FSL's standard space the brain mask that corresponds th "152 nonlinear 6th generation" atlas was re-sampled to 3 x 3 x 3 mm$^3$.<!-- MNI ICBM 2009a Nonlinear Symmetric grey matter mask ([http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009)) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$. -->
 
-<!-- MODEL SETUP --> Two theoretically derived models were set up. The first model was aimed at testing the interaction of time and group: $FC = group + time + group*time$. The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$.
+<!-- MODEL SETUP --> As specified in the preregistration, we tested the interaction of time and group: $FC = group + time + group*time$. Unlike prespecified, we did not include the model without covariates (as this is deprecated \@ref{nuisance_paper}). Instead, we calculated a model adjusting for age and sex (Model 1) and another model additionally adjusting for mean FD (Model 2). We did not adjust for baseline BMI as described in the preregistration, but explored the relationship with BMI in a separate analysis.
 These were examined each for correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $16$ a priori planned analyses.
 Initially, analyses were run with a brain mask but after post hoc considerations detailed below, models were re-run with a grey matter mask which reduced the number of tests (voxels of interest) from $52378$ to $29451$. As a result a total of $32$ different analyses were performed.
 Computation with the grey matter mask were exploratory and deviate from the preregistration.
+The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$.
 
 <!-- MODEL SPECIFICATION --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. <!-- Prereg: During the model specification, we will select the modified sandwich estimator (SwE) approach. Thus, we will define the groups and visits as binary numeric values and subject IDs as numeric values, matching the input order of the images. -->We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
 
 <!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because we did not assume strict linearity for the increase in connectivity and therefore refrained from modeling time as continuous variable (see Figure \@ref(fig:figdesignmatrix)). The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
 ```{r figdesignmatrix,  out.width="80%", fig.align = 'center', fig.cap="Possible design matrices of group-time model.", echo=FALSE}
-# fig.show="hold",  out.width="40%", fig.height = 8, 
+# fig.show="hold",  out.width="40%", fig.height = 8,
 # design matrix time as factor
 txt_path <- "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/noExclFD/both/total/"
 
@@ -416,7 +419,7 @@ input_dmc <- dmc %>%
     names_to = "regressor")
 
 plotA <- ggplot(input_dmf, aes(x = regressor, y = measurement, fill = value)) +
-  geom_tile() + 
+  geom_tile() +
   scale_fill_gradient(low="black", high="white") +
   labs(x="regressors", y="scans", title="(A)") +
   # design
@@ -430,8 +433,8 @@ plotA <- ggplot(input_dmf, aes(x = regressor, y = measurement, fill = value)) +
 #         panel.border = element_rect(colour = "black", size=1),
 #    legend.text = element_text(size = 10)
 #         plot.title=element_text(size=11))
-plotB <- ggplot(input_dmc, aes(x = regressor, y = measurement, fill = value)) + 
-  geom_tile() + 
+plotB <- ggplot(input_dmc, aes(x = regressor, y = measurement, fill = value)) +
+  geom_tile() +
   scale_fill_gradient(low="black", high="white") +
   labs(x="regressors", y="scans", title="(B)") +
   # design
@@ -449,39 +452,231 @@ plotB <- ggplot(input_dmc, aes(x = regressor, y = measurement, fill = value)) +
 gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014. With a model containing average BMI and longitudinal change per subject, we investigated their differential effects on the complete sample and subsequently in a exploratory fashion for the intervention group only as the effect of longitudinal change in BMI was expected to be driven by this subsample.
-<!-- NUISANCE COVARIATES --> Age at baseline, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points. 
+<!-- NUISANCE COVARIATES --> Age at baseline, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points.
 <!-- Prereg: We will perform sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI -->
 As change in FD and change in BMI share common variance [@Beyer_2019], the inclusion of log mean FD may be disputed and done optionally. For that reason, we performed each analysis separately one with mean FD (three and without. Differences in results will be reported. We consider this sensitivity analysis theoretically more meaningful than the preregistered comparison with the nuisance covariate free model and a model with four nuisance covariates (including baseline BMI).
 <!-- POST HOC  --> For a better understanding of the unique contribution of average and longitudinal change FD measures, we employed a third post-hoc model to disentangle the effects: $FC = between-subject FD + within-subject FD$. These post-hoc analyses deviate from the preregistration and should be considered to be exploratory.
-
 <!-- INFERENCE --> <!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p<0.01). Significant clusters are defined as family-wise error - corrected p<0.05. -->
 To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. Type C2 for small sample bias adjustment is applied before the bootstrap resampling as recommended in the SwE manual. In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate<!-- permutations don't work with multilevel data (dependencies)--> for longitudinal data.
-Unlike the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment and $1000$ bootstraps due to required computation time. Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$.
+Unlike the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment (instead of $p < 0.01), and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$.
 
-
+<!-- R analysis of aggregated values -->
+We analyzed the aggregate connectivity values using linear mixed models in the R package lme4.
+Following the preregistration, we first investigated a time-by-group interaction between baseline and followup.
+We used a model comparison of R1 and R0 models with `anova`:
+`R1= lmer(agg FC ~ timepoint*group + (1|subj))`
+`R0 = lmer(agg FC ~ timepoint + group + (1|subj))`
+We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the group-by-time point interaction was considered significant if a model comparison between R1 and Null models using anova-function yielded a p<0.05.
+Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had p<0.05.
 
 # Results
 
-## Manipulation check
-<!-- check network presence -->
+## Quality control
+We performed different quality controls for the rsfMRI data.
+As described in \@ref[Beyer_2020], there was a significant interaction of group and time on mFD. In particular, the intervention group reduced in head motion in the follow-up assessments compared to the control group.
+We also inspected DVARS, a measurement of whole-brain variation in signal which is often reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and timepoints, and that the correlation of DVARS and mFD remained similar over time points.
+This indicates that even though there was a decrease in head motion in the intervention versus control group, the impact of head motion on imaging data remained similar over the study period.
+```{r summary table of QA measures}
+for (i in 1:nrow(final))
+  {tmp=strsplit(toString(final[i,"scan_dir"]),'/')[[1]][8]
+   conf=read.csv(paste0("/data/pt_02161/preprocessed/resting/detailedQA/metrics/",tmp,"/confounds.csv"))
+   tmp=cor.test(conf$DVARS,conf$FD)
+   final[i,"corr_DVARS_FD"]=tmp$estimate
+   final[i,"mean_DVARS"]=mean(conf$DVARS,na.rm = TRUE)
+   final[i,"max_DVARS"]=max(conf$DVARS,na.rm = TRUE)
+   final[i,"mean_outliers"]=mean(conf$outliers,na.rm = TRUE)
+  }
 
-<!-- singletp (t-tests), nur diesen Check für BL reporten (gib dann oben noch an, dass du dafür SPM verwendet hast) --> We ran separate one-sample t-test for network activation at baseline controlling for log mean FD, age, and sex for each time point to check whether the assumed reward and default mode network was at all identifiable.
+```
 
-## Interaction effect of intervention and time
+```{r fig_summary_dvars_mFD, fig.align='center', out.width="100%"}
+# eval = TRUE, fig.asp = 0.7, fig.width = 6
+condition.labs <- c("BARS","NBARS")
+names(condition.labs) <- c("IG","KG")
+# BMI over time each group
+fig_DVARSdescr <-
+  ggplot(final, aes(
+    x = tp,
+    y = mean_DVARS,
+    group = subj.ID,
+    color = condition
+  )) +
+  geom_line() + geom_point() +
+  stat_summary(
+    aes(group = condition),
+    fun = mean,
+    geom  = "line",
+    size = 2,
+    color = c(rep("#00305E", 3), rep("#C00045", 3))
+  ) +
+  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
+fig1=fig_DVARSdescr +
+  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+  scale_color_manual(
+    values = c("#00305E77", "#C0004577"),
+    labels = c("intervention", "control")
+  ) +
+  xlab("Time [months]") + ylab ("Mean DVARS") +
+  theme_bw() +  theme(
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    strip.text = element_text(size = 12),
+    legend.text = element_text(size = 10),
+    legend.position = "none"
+  )
 
+fig_mFDdescr <-
+  ggplot(final, aes(
+    x = tp,
+    y = meanFD,
+    group = subj.ID,
+    color = condition
+  )) +
+  geom_line() + geom_point() +
+  stat_summary(
+    aes(group = condition),
+    fun = mean,
+    geom  = "line",
+    size = 2,
+    color = c(rep("#00305E", 3), rep("#C00045", 3))
+  ) +
+  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
+fig2=fig_mFDdescr +
+  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+  scale_color_manual(
+    values = c("#00305E77", "#C0004577"),
+    labels = c("intervention", "control")
+  ) +
+  xlab("Time [months]") + ylab ("mFD in mm") +
+  theme_bw() +  theme(
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    strip.text = element_text(size = 12),
+    legend.text = element_text(size = 10),
+    legend.position = "none"
+  )
+fig_mFDDVARSdescr <-
+  ggplot(final, aes(
+    x = tp,
+    y = corr_DVARS_FD,
+    group = subj.ID,
+    color = condition
+  )) +
+  geom_line() + geom_point() +
+  stat_summary(
+    aes(group = condition),
+    fun = mean,
+    geom  = "line",
+    size = 2,
+    color = c(rep("#00305E", 3), rep("#C00045", 3))
+  ) +
+  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
+fig3=fig_mFDDVARSdescr +
+  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+  scale_color_manual(
+    values = c("#00305E77", "#C0004577"),
+    labels = c("intervention", "control")
+  ) +
+  xlab("Time [months]") + ylab ("DVARS-FD correlation") +
+  theme_bw() +  theme(
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    strip.text = element_text(size = 12),
+    legend.text = element_text(size = 10),
+    legend.position = "none"
+  )
+
+(fig1 | fig2 ) /
+      fig3
+```
+
+```{r FDFC correlation, include=FALSE}
+source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
+
+res=calc_qc_fc(final)
+```
+Further, we evaluated the impact of our denoising pipelines. Table \@ref(tab:table_qc_fc) shows that in the minimally preprocessed data, mFD and connectivity was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`), with a strong distance dependence (mean Spearman's r = `r round(res[1,5],2)`).  Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and also alleviated the distance dependency. AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
+```{r table_qc_fc, echo=FALSE}
+tab_qc_fc <-
+  knitr::kable(
+    round(res,3),
+    #row.names = c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR"),
+    #col.names = c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval'),
+    format = "latex",
+    booktabs = T,
+    caption = "Summary of quality metrics for different denoising pipelines across conditions and time points")
+
+tab_qc_fc
+```
+
+## Interaction effect of intervention and time (preregistered analysis)
+
+### DMN/reward network with whole brain mask (preregistered analysis)
+
+#### with adjustment for age, sex, meanFD
 <!-- Brain mask: Group*Time Interaction [CORRECTED] -->
 There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc as was hypothesized. Nor was there a significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE correction.
+
+#### with adjustment for age and sex
 Similarly, there were only non-findings when reducing the number of nuisance covariates by leaving out mean FD, no connectivity was found between the PCC with one other voxel.
 Results did not differ between analyses of connetivity maps from different preprocessing pipelines.
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
 
-<!-- GM mask: Group*Time Interaction [OLD] -->
+<!-- Neurovault -->
+Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
+
+### DMN/reward network with GM mask (exploratory analysis)
+<!-- GM mask: Group*Time Interaction [OLD]-->
 Parametric and non-parametric significance test for the model testing for group-time-interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the group-time-interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{\mathrm{FDRcorr}} = 0.998$)<!-- also FWE-corr n.s -->.
 
+## Interaction effect group by time on aggregated FC (preregistered analysis)
 
-## Effect of BMI
+### DMN for two timepoints
+```{r calc DMN two tp, include=FALSE}
+library(lme4)
+library(sjPlot)
+R1= lmer(DMN_FC~ timepoint*group + (1|subj))
+R0 = lmer(DMN_FC ~ timepoint + group + (1|subj))
+```
+### DMN for two timepoints, adjusted for age, sex, mean FD
+```{r calc DMN two tp adjusted, include=FALSE}
+library(lme4)
+library(sjPlot)
+R1= lmer(DMN_FC~ timepoint*group + age + sex + meanFD (1|subj))
+R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
+```
+### DMN for three timepoints, adjusted for age, sex, mean FD
+```{r calc DMN three tp, include=FALSE}
+library(lme4)
+library(sjPlot)
+R1= lmer(DMN_FC~ timepoint*group + age + sex + meanFD (1|subj))
+R0 = lmer(DMN_FC ~ timepoint + group ++ age + sex + meanFD (1|subj))
+```
 
-<!-- Brain mask: average and individual BMI -->
+### reward
+```{r calc rew two tp, include=FALSE}
+R1= lmer(rew_FC ~ timepoint*group + (1|subj))
+R0 = lmer(rew_FC ~ timepoint + group + (1|subj))
+```
+### reward for two timepoints, adjusted for age, sex, mean FD
+```{r calc rew two tp adjusted, include=FALSE}
+library(lme4)
+library(sjPlot)
+R1= lmer(DMN_FC~ timepoint*group + age + sex + meanFD (1|subj))
+R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD(1|subj))
+```
+### reward for three timepoints, adjusted for age, sex, mean FD
+```{r calc rew three tp, include=FALSE}
+library(lme4)
+library(sjPlot)
+R1= lmer(DMN_FC~ timepoint*group + age + sex + meanFD (1|subj))
+R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
+```
+
+
+## Effect of mean and change in BMI (exploratory analysis)
+
+<!-- Brain mask: average and individual BMI [OLD] -->
 <!-- BMItotal --> Next, we tested for significant effects of the average BMI and the individual change in BMI longitudinally across the three time points. There was no significant co-activation for neither the PCC nor the NAcc associated with average BMI nor change in BMI.
 Omitting mean FD as nuisance covariate did not change these results.
 <!-- BMIonlyIG --> Upon inclusion of only a subsample entailing participants from the intervention group but not the waiting control group, there was still no effect for average BMI, but a significant effect of change in BMI on co-activation between the seed region NAcc and a voxel ($-18,-42,-9$ [mm])<!-- belonging to a cluster of $k = 2$ --> with $Z = 4.64$ ($p_{FWEcorr} = 0.049$) (in GSR corrected connectivity maps). However the effect did not survive recalculation with Wild bootstrap ($p_{FWEcorr} = 0.426$)<!-- but FWE-corr sig?! -->. The effect also disappeared when running those tests without mean FD as nuisance covariate.
@@ -491,17 +686,17 @@ Omitting mean FD as nuisance covariate did not change these results.
 Results obtained from analyses with the grey matter masks were equal to those reported for the brain masks except test statistics for the above reported significant longitudinal effect for the NAcc in the intervention group differed only marginally ($q_{FDRcorr} = 0.048$) and did not survive recalculation with Wild bootstrap either ($q_{FDRcorr} = 0.552$).
 In regard to the exploratory expeditions on subsamples, consistent with previous results, no significant co-activation was found when using the grey matter mask.
 
-## Further investigation of the effect of FD
+## Effect of FD (exploratory analysis)
 
 <!-- Brain mask: FD --> To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed a model that entailed both of the predictors as covariates of interest and only age and sex as nuisance covariates.
 Surprisingly, there was no significant effect neither for the total sample, nor for the intervention group only.
 <!-- GM mask: FD --> Similarly, analysis with the grey matter mask did not reveal any findings either.
 
-<!-- Neurovault -->
-Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
+## Effect on hypothalamic connectivity (exploratory analysis)
 
-
-
+<!-- Brain mask: FD --> To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed a model that entailed both of the predictors as covariates of interest and only age and sex as nuisance covariates.
+Surprisingly, there was no significant effect neither for the total sample, nor for the intervention group only.
+<!-- GM mask: FD --> Similarly, analysis with the grey matter mask did not reveal any findings either.
 
 # Discussion
 
@@ -515,8 +710,8 @@ The second model further investigates if changes in connectivity are a function 
 <!-- false positive -->
 To summarize, there were few significant co-activation that emerged from the marginal models. Co-activation was locally highly specific and (NOT???) in accordance with our hypothesis regarding network activity changes. Given the multiplicity of of models resulting from variations of inspected networks and sensitivity analysis for different preprocessing and correction approached, the obtained significant correlations between seed regions and voxels are likely to be false positive. Ventures to verify effects by re-calculating with non-parametric Wild bootstrap confirmed supported presumption as effects were not robust across estimation procedures.
 <!-- limitations -->
-Without an a priori power analysis it is not possible to determine if there is no effect or 
-To clarify, extended considerations should be made to use a priori power analysis (e.g. with fMRIpower) or check evidence of absence with alternative 
+Without an a priori power analysis it is not possible to determine if there is no effect or
+To clarify, extended considerations should be made to use a priori power analysis (e.g. with fMRIpower) or check evidence of absence with alternative
 
 <!-- SIMILARITY OF RESULTS -->
 Our results are not consistent with the present literature. Although there are few studies investigating the impact of bariatric surgery on functional connectivity at resting state, the present articles do significant changes in network activation [@;@;@].
