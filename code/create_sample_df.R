@@ -8,7 +8,7 @@ create_sample_df <- function(group = "all", tp = "all"){
   
   # participants with mri data (txt file with path to .nii file) ---------------
   
-  mri_files=read.table("../SwE_files/scans.txt")
+  mri_files=read.table("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level //SwE_files/scans.txt")
   # split info from path in txt
   for (i in 1:nrow(mri_files)){
     tmp=strsplit(toString(mri_files[i,1]),'/')[[1]][8]
@@ -23,13 +23,16 @@ create_sample_df <- function(group = "all", tp = "all"){
   # load info from full sample and merge with path info (fmri only)-------------
   
   full_sample=read.csv("/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv") # CAVE: info file elsewhere !!!
-  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI")]
+  full_sample=full_sample[,c("subj.ID","condition","tp","Age_BL","Sex","meanFD","maxFD", "BMI", "Final_Score",
+                             "Excessive_motion", "Exclude", "Check_comments")]
   condition=merge(mri_files, full_sample[!is.na(full_sample$condition),], by=c("subj.ID","tp"))
   df=plyr::join(mri_files,condition)
   rm(mri_files, full_sample, condition, tmp, i)
   
-  
-  # preparation of variables ---------------------------------------------------
+  # exclude participants who failed in FreeSurfer
+  df$Exclude=is.na(df$Exclude)
+  df=df[df$Exclude==TRUE,]
+  # preparation of variables --------------------------
   
   df$logmFD <- log10(df$meanFD)
   
@@ -76,7 +79,7 @@ create_sample_df <- function(group = "all", tp = "all"){
   }
 
   # ----------------------------------------------------------------------------
-  # Additional computations (also better to implement in Matlab)
+  # Preparation of within/between-participant variables 
   # ----------------------------------------------------------------------------
   
   if ((group == "all" | group == "IG") & (tp == "all" | tp == "BLFU")) {
