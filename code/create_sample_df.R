@@ -11,12 +11,13 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
   # ----------------------------------------------------------------------------
 
   apply_excl_criteria <- function(data = full_sample, exclFD = FALSE){
-    # exclusion due to problems in preprocessing
-    cat("N=",nrow(full_sample),"\n")
+    # exclusion of participants who failed preprocessing in FreeSurfer
+    cat("N =",nrow(full_sample),"\n")
     full_sample$exclude_prep <- full_sample$Exclude
     full_sample$exclude_prep[is.na(full_sample$exclude_prep)]=FALSE
+    
     mri_sample <- merge(mri_files, full_sample[!is.na(full_sample$condition),c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","exclude_prep")], by=c("subj.ID","tp"))
-    cat("n=",nrow(mri_sample),"with fMRI data points.\n")
+    cat("n =",nrow(mri_sample),"with fMRI data points.\n")
 
     mri_sample[mri_sample$exclude_prep==TRUE,] # ADI063_bl ADI063_fu ADI116_bl ADI116_fu ADI116_fu2
     cat("Note that",nrow(mri_sample[mri_sample$exclude_prep==TRUE,]),"data points were excluded due to problems in preprocessing.\n")
@@ -34,7 +35,7 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
     }else if (exclFD ==FALSE){
       final_sample=sample_after_1stExcl
     }
-    cat("The remaining sample comprises",nrow(final_sample),"data points across across time for all groups.\n")
+    cat("The remaining sample comprises n =",nrow(final_sample),"data points across across time for all groups.\n")
     # all remaining data points should be included
     final_sample$include <- TRUE
     return(final_sample)
@@ -70,9 +71,6 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
   df=df[!is.na(df$include),]
   rm(apply_excl_criteria, mri_files, full_sample, final_sample, tmp, i)
 
-  # exclude participants who failed in FreeSurfer (Frauke)
-  df$Exclude=is.na(df$Exclude)
-  df=df[df$Exclude==TRUE,]
   # preparation of variables --------------------------
 
   df$logmFD <- log10(df$meanFD)
