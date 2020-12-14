@@ -28,6 +28,8 @@ Folder with files to create a manuscript. CAVE: introduction and rest are in sep
 
 create_df_and_txt_for_swe.R
 
+### report
+Folder contains figures and tables to include into the manuscript that were previously calculate or set up.
 
 ## How to run the analysis in MATLAB
 
