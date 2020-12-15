@@ -351,7 +351,8 @@ We evaluated mFD-FC relationships by computing a functional connectome based on 
 Further, we evaluated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation and report mean, median and standard deviations of mFD, DVARS and number of outliers over all participants.
 
 ### Aggregated FC values
-To extract aggregated FC values, we first calculated the mean DMN and reward networks over all participants and time points, adjusted for age and sex. We used the modified SwE option and used global signal regressed data as input. Network masks were formed from all voxels with a clusterwise $p_{FWE} < 0.05$ and we extracted the average connectivity from these masks for all data points.
+To extract aggregated FC values, we first calculated the mean DMN and reward networks over all participants and timepoints, adjusted for age and sex. We used global signal regressed data as input and clusterwise bootstrapping with N=999. Network masks were formed from all voxels with a clusterwise p_FWE < 0.05 and we extracted the average connectivity from these masks for all data points.
+
 
 <!-- param.ROI_PREP = {roi_prep{[6,14]}}; % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z','LH_cc_z','LH_gsr_z','MH_cc_z','MH_gsr_z'} -->
 <!-- % Model definition -->
@@ -380,7 +381,8 @@ Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b) usi
 During analyses an implicit mask and an explicit mask were used. For this, FSL's standard space the brain mask that corresponds th "152 nonlinear 6th generation" atlas was re-sampled to 3 x 3 x 3 mm$^3$.<!-- MNI ICBM 2009a Nonlinear Symmetric grey matter mask ([http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009)) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$. -->
 
 <!-- MODEL SETUP --> As specified in the preregistration, we tested the interaction of time and group: $FC = group + time + group*time$. Unlike prespecified, we did not include the model without covariates (as this is deprecated \@ref{nuisance_paper}). Instead, we calculated a model adjusting for age and sex (Model 1) and another model additionally adjusting for mean FD (Model 2). We did not adjust for baseline BMI as described in the preregistration, but explored the relationship with BMI in a separate analysis.
-These were examined each for correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $16$ a priori planned analyses.
+The model was examined for the correlation maps of two different seed regions (NAcc / PCC), and for the purpose of comparison for correlation maps of two different preprocessing pipelines (only AROMA+CC / with GSR)), with two different covariate sets (with/ without mean FD), resulting in $8$ a priori planned analyses.
+
 Initially, analyses were run with a brain mask but after post hoc considerations detailed below, models were re-run with a grey matter mask which reduced the number of tests (voxels of interest) from $52378$ to $29451$. As a result a total of $32$ different analyses were performed.
 Computation with the grey matter mask were exploratory and deviate from the preregistration.
 The second model on the influence of between-subject differences in average BMI and longitudinal within-subject change in BMI was specified as follows: $FC = between-subject BMI + within-subject BMI$.
@@ -609,8 +611,10 @@ fig3=fig_mFDDVARSdescr +
 ```{r FDFC correlation, eval=FALSE, echo=FALSE}
 source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
 
+
 FDFC=calc_qc_fc(final)
 write.csv(FDFC,"./report/FDFCcorrelations.csv", row.names = FALSE)
+
 ```
 
 ```{r tableQcfc, echo=FALSE}
@@ -646,7 +650,7 @@ Results did not differ between analyses of connetivity maps from different prepr
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
 
 <!-- Neurovault -->
-Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
+Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) as well as contrasts of group, time and group-by-time interaction will be published on NeuroVault.
 
 ### DMN/reward network with GM mask (exploratory analysis)
 <!-- GM mask: Group*Time Interaction [OLD]-->
@@ -655,6 +659,7 @@ Parametric and non-parametric significance test for the model testing for group-
 ## Interaction effect group by time on aggregated FC (preregistered analysis)
 
 ### DMN for two timepoints
+
 ```{r calc DMN two tp, eval = FALSE, echo = FALSE}
 R1 = lme4::lmer(DMN_FC ~ timepoint*group + (1|subj))
 R0 = lme4::lmer(DMN_FC ~ timepoint + group + (1|subj))
@@ -683,7 +688,6 @@ R0 = lme4::lmer(DMN_FC ~ timepoint + group + age + sex + meanFD(1|subj))
 ### reward for three timepoints, adjusted for age, sex, mean FD
 ```{r calc rew three tp, eval = FALSE, echo = FALSE}
 R1 = lmer(DMN_FC ~ timepoint*group + age + sex + meanFD (1|subj))
-R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 ```
 
 
