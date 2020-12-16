@@ -145,7 +145,6 @@ for crun = 1:nrun
                 matlabbatch = DisplayResults(location_SwE_mat);
                 spm_jobman('run', matlabbatch);
                 pause(param.VIEWSEC)
-                save("xSwE.mat")
             elseif not(exist_already) || param.OVERWRITE % else
                 fprintf('Estimate model...\n')
                 % delete existing files in folder if existent

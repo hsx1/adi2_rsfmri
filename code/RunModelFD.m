@@ -112,7 +112,6 @@ for crun = 1:nrun
                 matlabbatch = DisplayResults(location_SwE_mat);
                 spm_jobman('run', matlabbatch);
                 pause(param.VIEWSEC)
-                save("xSwE.mat")
             elseif not(exist_already) || param.OVERWRITE %strcmp(param.ACTION,'overwrite')
                 fprintf('Estimate model...\n')
                 spm('defaults', 'FMRI');

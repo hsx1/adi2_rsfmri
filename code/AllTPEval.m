@@ -50,13 +50,9 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
 end
 
 if param.EXCLFD==true
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD','both/total/');
 else
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
-end
-
-if strcmp(param.MODEL,'alltp')
-    param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total/');
+    param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD','both/total/');
 end
 
 nrun = length(param.ROI_PREP);
@@ -266,9 +262,9 @@ else
 end
 
 if param.COVARIATES == 41
-    model_name = 'network-age-sex';
+    model_name = 'network-fd-age-sex'; %previously 'network-age-sex'
 elseif param.COVARIATES == 42
-    model_name = 'network-fd-age-sex';
+    model_name = 'network-age-sex';%previously 'network-fd-age-sex'
 elseif param.COVARIATES == 43
     model_name = 'network';
 end
@@ -299,7 +295,7 @@ end
 
 %% ------------------------------------------------------------------------
 function cov = create_design_matrix(param)
-% creates a design matrix cov as a struct compatible with the matlabbatch
+% Creates a design matrix cov as a struct compatible with the matlabbatch
 
 % Prepare regressors
 
@@ -328,7 +324,7 @@ end
 
 %% ------------------------------------------------------------------------
 function [scans_of_roi] = create_scans_list(scans_dir, roi_prep)
-% creates a list of scans as input for swe model specification "Scans" from
+% Creates a list of scans as input for swe model specification "Scans" from
 % directory of scans and regions of interest
 if contains(roi_prep, 'gsr')
     % special case if preprocessing is 'gsr'
