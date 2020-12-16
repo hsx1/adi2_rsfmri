@@ -46,19 +46,19 @@ Folder contains figures and tables to include into the manuscript that were prev
 
 (2a) Parametric estimation
 1. Select the desired contrast.
-2. Apply masking: [none]
+2. Apply masking: <kbd><samp>none</samp></kbd>
 3. Title for comparison: accept given title
-4. Inference type: [voxelwise]
-5. P value adjustment to control: [FDR]
-6. P value (FDR): [0.05]
+4. Inference type: <kbd><samp>voxelwise</samp></kbd>
+5. P value adjustment to control: <kbd><samp>FDR</samp></kbd>
+6. P value (FDR): `0.05`
 
 (2b) Non-parametric estimation
 1. All contrasts will be evaluated successively
-2. Contrast Type: [Activation] / [Deactivation]
+2. Contrast Type: <kbd><samp>Activation</samp></kbd> / <kbd><samp>Deactivation</samp></kbd>
 3. Title for comparison: accept given title
-4. Inference type: [clusterwise]
-5. P value adjustment to control: [FWE]
-6. P value (FWE): [0.05]
+4. Inference type: <kbd><samp>clusterwise</samp></kbd>
+5. P value adjustment to control: <kbd><samp>FWE</samp></kbd>
+6. P value (FWE): `0.05`
 
 ## How to create the script in RMarkdown
 
