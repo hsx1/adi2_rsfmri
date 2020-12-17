@@ -3,10 +3,18 @@
 function [result_dir] = spm2csv(hReg,xSwE)
 TabDat = swe_list('List',xSwE,hReg);
 
+if contains(xSwE.title, "Deactivation")
+    % Deactivation
+    direction = 'deact';
+else
+    % Activation
+    direction = 'act';
+end
+    
 %% Print a csv files of the results
 % if there are any results
 if size(TabDat.dat,1) > 0
-    myfile = 'results.csv';
+    myfile = sprintf('results_%s.csv',direction);
     fid = fopen (myfile, 'w');
     %%
     % print header

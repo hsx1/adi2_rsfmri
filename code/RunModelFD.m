@@ -87,9 +87,6 @@ for crun = 1:nrun
           [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder);
         if param.ONLY_DISPLAY %strcmp(param.ACTION,'display')
             fprintf('Display Results...\n')
-            %spm('defaults', 'FMRI');
-            %matlabbatch = DisplayResults(location_SwE_mat);
-            %spm_jobman('run', matlabbatch);
             cd(out_folder)
             [hReg,xSwE,SwE] = swe_results_ui("Setup");
             spm2csv(hReg,xSwE);
@@ -363,12 +360,5 @@ function matlabbatch = RunModel(matlabbatch, location_SwE_mat)
 % will only compute beta estimates but not contrasts.
 matlabbatch{2}.spm.tools.swe.rmodel.des = {location_SwE_mat};
 end
-
-%% ------------------------------------------------------------------------
-% function [matlabbatch] = DisplayResults(location_SwE_mat)
-% % Displays results of estimated model as saved in SwE.mat file. 
-% % Path to SwE.mat needs to be specified by location_SwE_mat.
-% matlabbatch{1}.spm.tools.swe.results.dis = {location_SwE_mat};
-% end
 
 end
