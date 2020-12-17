@@ -66,76 +66,54 @@ else
 end
 
 nrun = length(param.ROI_PREP);
+% estimate any of the models for every roi_prep in ROI_PREP
 for crun = 1:nrun
-    % estimate any of the six models for every roi_prep in ROI_PREP
-    if not(param.WILD_BOOT)
+    if param.WILD_BOOT
+        % wild bootstrap
+        param.wild_con = 1%:2;
+    else
         % parametric estimation
         param.wild_con = false;
-        % check if analysis has been conducted already
+    end
+    for i = param.wild_con
+        param.wild_con = i;
+        % check if analysis has run already
         [out_folder, exist_already] = create_out_folder(param, crun);
-        fprintf('Output folder: \n %s ...\n',out_folder)
-        clear matlabbatch
+        fprintf('If necessary create output folder \n %s ...\n', out_folder)
+          clear matlabbatch
         fprintf('Specify Model...\n')
-        [matlabbatch,location_SwE_mat] = SpecifyModel(param, crun, out_folder);
+          [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder);
         if param.ONLY_DISPLAY %strcmp(param.ACTION,'display')
             fprintf('Display Results...\n')
-            spm('defaults', 'FMRI'); 
-            matlabbatch = DisplayResults(location_SwE_mat);
-            spm_jobman('run', matlabbatch);
+            %spm('defaults', 'FMRI');
+            %matlabbatch = DisplayResults(location_SwE_mat);
+            %spm_jobman('run', matlabbatch);
+            cd(out_folder)
+            [hReg,xSwE,SwE] = swe_results_ui("Setup");
+            spm2csv(hReg,xSwE);
             pause(param.VIEWSEC)
-        elseif not(exist_already) || param.OVERWRITE 
+        elseif not(exist_already) || param.OVERWRITE %strcmp(param.ACTION,'overwrite')
             fprintf('Estimate model...\n')
-            % delete existing files in folder if existent 
-            if exist_already 
-                rmdir(out_folder,'s'); % delete former dir
+              % delete existing files in folder if existent
+            if exist_already
+                rmdir(out_folder, 's'); % delete former dir
                 mkdir(out_folder); % create new empty one
             end
-            spm('defaults', 'FMRI'); 
+            spm('defaults', 'FMRI');
             matlabbatch = RunModel(matlabbatch, location_SwE_mat);
             spm_jobman('run', matlabbatch);
         else
             fprintf('... model already estimated or error in parameter definitions.\n')
-        end
-        % manually type in contrasts (issue: see below)
-    else
-        % non-parametric estimation with Wild-Bootstrap
-        for wild_con = 1:2
-            param.wild_con = wild_con;
-            % check if analysis has run already
-            [out_folder, exist_already] = create_out_folder(param, crun);
-            fprintf('If necessary create output folder \n %s ...\n',out_folder)
-            clear matlabbatch
-            fprintf('Specify Model...\n')
-            [matlabbatch, location_SwE_mat] = SpecifyModel(param, crun, out_folder); 
-            if param.ONLY_DISPLAY %strcmp(param.ACTION,'display')
-                fprintf('Display Results...\n')
-                spm('defaults', 'FMRI');
-                matlabbatch = DisplayResults(location_SwE_mat);
-                spm_jobman('run', matlabbatch);
-                pause(param.VIEWSEC)
-            elseif not(exist_already)|| param.OVERWRITE %strcmp(param.ACTION,'overwrite')
-                fprintf('Estimate model...\n')
-                % delete existing files in folder if existent
-                if exist_already 
-                    rmdir(out_folder,'s'); % delete former dir
-                    mkdir(out_folder); % create new empty one
-                end
-                spm('defaults', 'FMRI');
-                matlabbatch = RunModel(matlabbatch, location_SwE_mat);
-                spm_jobman('run', matlabbatch);
-            else
-                fprintf('... model already estimated or error in parameter definitions.\n')
-            end
-        end
+          end
     end
  
-% save results of contrasts in folder roi_prep and subfolder modelx
-% currently not possible to automate contrasts and save results
-% https://github.com/NISOx-BDI/SwE-toolbox/issues/135
+    % save results of contrasts in folder roi_prep and subfolder modelx
+    % currently not possible to automate contrasts and save results
+    % https://github.com/NISOx-BDI/SwE-toolbox/issues/135
 end
 fprintf('... done.')
-
 end
+
 
 %% ------------------------------------------------------------------------
 function [matlabbatch,location_SwE_mat] = SpecifyModel(param, crun, out_folder)
@@ -378,10 +356,10 @@ matlabbatch{2}.spm.tools.swe.rmodel.des = {location_SwE_mat};
 end
 
 %% ------------------------------------------------------------------------
-function [matlabbatch] = DisplayResults(location_SwE_mat)
-% Displays results of estimated model as saved in SwE.mat file. 
-% Path to SwE.mat needs to be specified by location_SwE_mat.
-matlabbatch{1}.spm.tools.swe.results.dis = {location_SwE_mat};
-end
+% function [matlabbatch] = DisplayResults(location_SwE_mat)
+% % Displays results of estimated model as saved in SwE.mat file. 
+% % Path to SwE.mat needs to be specified by location_SwE_mat.
+% matlabbatch{1}.spm.tools.swe.results.dis = {location_SwE_mat};
+% end
 
 end

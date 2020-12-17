@@ -188,12 +188,12 @@ tab_sample
 <!-- STUDY DESIGN --> The ADIPOSITAS-Study conducted in the Charité Berlin is a observational, prospective and longitudinal design described in detail by @Prehn_2020. Data collection is still ongoing but only data available in April 2019 is used.
 The procedures followed were in accordance with the Helsinki Declaration. This study was registered at clinicaltrials.gov as NCT01554228 and described in more detailed in the preregistration under [https://osf.io/mzyxv](https://osf.io/mzyxv).
 <!-- RECRUITEMENT, INCLUSION/EXCLUSION CRITERIA --> Participants were recruited from the Center for Bariatric and Metabolic Surgery if they were between age $18$ and $70$ and fulfilled the inclusion criteria. These were, in accordance with BARS guidelines, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease)[@Mechanick_2013].
-Participants with a history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$) were excluded from the study. <!-- Frage: Ausschluss bei head movement? ADI009_fu2 nicht enthalten (siehe Readme preprocessing) -->
+Participants with a history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$) were excluded from the study.
 Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery or after the baseline appointment but not all participants have complete data for all time points (see Table \@ref(tab:tableDescr)). `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for only one time point.
 The current sample is the subsample of $69$ subjects that were originally enrolled in the study entailing only subjects that have received MRI. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data availability in \@ref(tab:tableSample)).
 
-<!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
-
+<!-- DESCRIPTIVE STATISTICS --> The final sample entailed morbidly obese individuals (n = `r nrow(subj_df)`, `r nrow(filter(subj_df,Sex == "f"))` female; ages `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`), that either underwent surgery (n = `r cs["Sum","KG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female). 
+The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
 ```{r tableBaselineCharacteristics, include=FALSE}
 dfBL <- create_sample_df(group = "all", tp = "BL")
 
@@ -230,7 +230,7 @@ p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) +
   )
 tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
-Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). Change in BMI throuout the study is depicted in \@ref(fig:figBMIdescr).
+<!-- BASELINE CHARACTERISTICS --> Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and log mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). Change in BMI throughout the study is depicted in \@ref(fig:figBMIdescr).
 <!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
 ```{r tableDescr, echo=FALSE}
 
@@ -257,9 +257,7 @@ tab_descr <-
 tab_descr
 
 ```
-<!-- STUDY PROCEDURE -->
-Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for STANDARDIZED?? breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
-
+<!-- STUDY PROCEDURE --> Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for <!-- standadized??  -->breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 ```{r figBMIdescr, fig.align='center', out.width="90%", fig.cap="BMI over time.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
 condition.labs <- c("BARS","NBARS")
@@ -345,9 +343,9 @@ FreeSurfer cross-sectional and longitudinal  segmentations were visually checked
 
 #### Functional Quality control
 Resting state fMRI data quality control was performed along the protocol of @Ciric_2018.
-As the expected average head motion is high in this sample [@Beyer_2020], it is difficult to determine an appropriate exclusion threshold which does not lead to the exclusion of a high number of individuals. Thus, we did not exclude any participants based on mean framewise displacement estimates beyond those who failed the anatomical preprocessing. We applied best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. In addition, for models showing a significant group-by-time interaction, we performed a sensitivity analysis excluding the 10% data sets with highest mean FD (mFD).
+As the expected average head motion is high in this sample [@Beyer_2020], it is difficult to determine an appropriate exclusion threshold which does not lead to the exclusion of a high number of individuals. Thus, we did not exclude any participants based on mean framewise displacement estimates beyond those who failed the anatomical preprocessing. We applied best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. In addition, for models showing a significant time-by-group interaction, we performed a sensitivity analysis excluding the 10% data sets with highest mean FD (mFD).
 On the single-subject level, we used `plot_carpet` from `niworkflows.viz.plots` to generate carpet plots which depict denoising quality. Figure \@ref{carpet_plot} shows an exemplary carpet plot with (from top to bottom): DVARS (spatial root mean square of the data after temporal differencing), mFD, percent outliers defined by AFNI `OutlierCount`, voxelwise timeseries from minimally preprocessed, AROMA non-aggressive and aggressive denoising, CC and CC + GSR data. All carpet plots were visually checked and if there was still structured noise in the CC+GSR-denoised functional data (such as black/white stripes, signal dropout), the participant was given a rating of 1 in `QA residuals`.
-We evaluated mFD-FC relationships by computing a functional connectome based on (Power et al., 2011). In more detail, we used the MNI coordinates of 246 cortical and subcortical spherical seed regions with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we correlated mean FD and QC values for each node across participants, and plotted the resulting mFD-FC correlation values in histogram (see Figure \@ref{example_FC}. We reported the mFD-FC correlation per preprocessing scheme.
+We evaluated mFD-FC relationships by computing a functional connectome based on [@Power_2012]. In more detail, we used the MNI coordinates of 246 cortical and subcortical spherical seed regions with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we correlated mean FD and QC values for each node across participants, and plotted the resulting mFD-FC correlation values in histogram (see Figure \@ref{example_FC}. We reported the mFD-FC correlation per preprocessing scheme.
 Further, we evaluated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation and report mean, median and standard deviations of mFD, DVARS and number of outliers over all participants.
 
 ### Aggregated FC values
@@ -376,7 +374,7 @@ Additionally, mean framewise displacement (FD) was extracted from 6 translationa
 
 ## Analysis
 
-Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b) using the development version of the SwE toolbox [@Guillaume_2014] ([https://github.com/NISOx-BDI/SwE-toolbox](https://github.com/NISOx-BDI/SwE-toolbox) as of commit #384d2d7944e0c1919a3d22a0282a513916c25f59 was used because of bugs in most recent release) as implemented in SPM12.7770<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
+Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MATLAB2018) using the development version of the SwE toolbox [@Guillaume_2014] ([https://github.com/NISOx-BDI/SwE-toolbox](https://github.com/NISOx-BDI/SwE-toolbox) as of commit #384d2d7944e0c1919a3d22a0282a513916c25f59 was used because of bugs in most recent release) as implemented in the Statistical Parametric Mapping software (SPM12.7770, @spm12)<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
 During analyses an implicit mask and an explicit mask were used. For this, FSL's standard space the brain mask that corresponds th "152 nonlinear 6th generation" atlas was re-sampled to 3 x 3 x 3 mm$^3$.<!-- MNI ICBM 2009a Nonlinear Symmetric grey matter mask ([http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009)) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$. -->
 
 <!-- MODEL SETUP --> As specified in the preregistration, we tested the interaction of time and group: $FC = group + time + group*time$. Unlike prespecified, we did not include the model without covariates (as this is deprecated \@ref{nuisance_paper}). Instead, we calculated a model adjusting for age and sex (Model 1) and another model additionally adjusting for mean FD (Model 2). We did not adjust for baseline BMI as described in the preregistration, but explored the relationship with BMI in a separate analysis.
@@ -388,7 +386,7 @@ The second model on the influence of between-subject differences in average BMI 
 <!-- MODEL SPECIFICATION --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. <!-- Prereg: During the model specification, we will select the modified sandwich estimator (SwE) approach. Thus, we will define the groups and visits as binary numeric values and subject IDs as numeric values, matching the input order of the images. -->We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
 
 <!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because we did not assume strict linearity for the increase in connectivity and therefore refrained from modeling time as continuous variable (see Figure \@ref(fig:figDesignmatrix)). The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
-```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap=c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of group-time model.", echo=FALSE}
+```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap=c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
 # fig.show="hold",  out.width="40%", fig.height = 8,
 
 # design matrix time as factor
@@ -463,21 +461,22 @@ plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014. With a model containing average BMI and longitudinal change per subject, we investigated their differential effects on the complete sample and subsequently in a exploratory fashion for the intervention group only as the effect of longitudinal change in BMI was expected to be driven by this subsample.
-<!-- NUISANCE COVARIATES --> Age at baseline, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points.
-<!-- Prereg: We will perform sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI -->
-As change in FD and change in BMI share common variance [@Beyer_2019], the inclusion of log mean FD may be disputed and done optionally. For that reason, we performed each analysis separately one with mean FD (three and without. Differences in results will be reported. We consider this sensitivity analysis theoretically more meaningful than the preregistered comparison with the nuisance covariate free model and a model with four nuisance covariates (including baseline BMI).
-<!-- POST HOC  --> For a better understanding of the unique contribution of average and longitudinal change FD measures, we employed a third post-hoc model to disentangle the effects: $FC = between-subject FD + within-subject FD$. These post-hoc analyses deviate from the preregistration and should be considered to be exploratory.
-<!-- INFERENCE --> <!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p<0.01). Significant clusters are defined as family-wise error - corrected p<0.05. -->
-To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. Type C2 for small sample bias adjustment is applied before the bootstrap resampling as recommended in the SwE manual. In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate<!-- permutations don't work with multilevel data (dependencies)--> for longitudinal data.
-Unlike the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment (instead of $p < 0.01)$, and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$.
+<!-- NUISANCE COVARIATES --> Baseline age, sex, and log mean framewise displacement (FD) were entered into the first and second model as nuisance variables. Age and sex were between-subject covariates while FD is time-varying. Mean FD was log-transformed and age was demeaned by subtracting the overall mean across subjects and time points. 
+As change in FD and change in BMI share common variance [@Beyer_2019], the inclusion of log mean FD may be disputed and done optionally. For that reason, we performed each analysis separately one with mean FD (three and without. Differences in results will be reported. We consider this sensitivity analysis theoretically more meaningful than the preregistered comparison with the nuisance covariate free model and a model with four nuisance covariates (including baseline BMI).<!-- Prereg: We will perform sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI -->
+<!-- POST HOC  --> For a better understanding of the unique contribution of average and longitudinal change FD measures, we separately employed a third post-hoc model to disentangle the effects: $FC = between-subject FD + within-subject FD$ with nuisance covariates age and sex. As these post-hoc analyses were not preregistered, they should be considered to be exploratory.
+
+<!-- INFERENCE --> To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. 
+Type C2 for small sample bias adjustment is applied before the bootstrap resampling as recommended in the SwE manual. 
+In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate<!-- permutations don't work with multilevel data (dependencies)--> for longitudinal data.
+Unlike the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment (instead of $p < 0.01)$, and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$. <!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p<0.01). Significant clusters are defined as family-wise error - corrected p<0.05. -->
 
 <!-- R analysis of aggregated values -->
-We analyzed the aggregate connectivity values using linear mixed models in the R package lme4.
-Following the preregistration, we first investigated a time-by-group interaction between baseline and followup.
+We analyzed the aggregate connectivity values using linear mixed models in the R package lme4 [@Bates_2007].
+Following the preregistration, we first investigated a time-by-group interaction between baseline and follow-up.
 We used a model comparison of R1 and R0 models with `anova`:
 `R1= lmer(agg FC ~ timepoint*group + (1|subj))`
 `R0 = lmer(agg FC ~ timepoint + group + (1|subj))`
-We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the group-by-time point interaction was considered significant if a model comparison between R1 and Null models using anova-function yielded a p<0.05.
+We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the time-by-group point interaction was considered significant if a model comparison between R1 and Null models using anova-function yielded a p<0.05.
 Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had p<0.05.
 
 # Results
@@ -630,7 +629,7 @@ tab_qc_fc <-
 tab_qc_fc
 ```
 
-Further, we evaluated the impact of our denoising pipelines. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and connectivity was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`), with a strong distance dependence (mean Spearman's r = `r round(res[1,5],2)`).  Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and also alleviated the distance dependency. AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
+Further, we evaluated the impact of our denoising pipelines. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and connectivity was significantly positively correlated (mean Spearman's $r = $`r round(res[1,1],2)`), with a strong distance dependence (mean Spearman's $r = $`r round(res[1,5],2)`).  Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and also alleviated the distance dependency. AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's $r = $`r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's $r = $`r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
 
 ## Interaction effect of intervention and time (preregistered analysis)
 
@@ -650,7 +649,7 @@ Unthresholded maps for the t-tests as well as contrasts of average BMI and chang
 
 ### DMN/reward network with GM mask (exploratory analysis)
 <!-- GM mask: Group*Time Interaction [OLD]-->
-Parametric and non-parametric significance test for the model testing for group-time-interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the group-time-interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{\mathrm{FDRcorr}} = 0.998$)<!-- also FWE-corr n.s -->.
+Parametric and non-parametric significance test for the model testing for time-by-group interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the time-by-group interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{\mathrm{FDRcorr}} = 0.998$)<!-- also FWE-corr n.s -->.
 
 ## Interaction effect group by time on aggregated FC (preregistered analysis)
 
@@ -667,7 +666,7 @@ R0 = lme4::lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 ### DMN for three timepoints, adjusted for age, sex, mean FD
 ```{r calc DMN three tp, eval = FALSE, echo = FALSE}
 R1 = lme4::lmer(DMN_FC~ timepoint*group + age + sex + meanFD (1|subj))
-R0 = lme4::lmer(DMN_FC ~ timepoint + group ++ age + sex + meanFD (1|subj))
+R0 = lme4::lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 ```
 
 ### reward
@@ -690,33 +689,31 @@ R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 ## Effect of mean and change in BMI (exploratory analysis)
 
 <!-- Brain mask: average and individual BMI [OLD] -->
-<!-- BMItotal --> Next, we tested for significant effects of the average BMI and the individual change in BMI longitudinally across the three time points. There was no significant co-activation for neither the PCC nor the NAcc associated with average BMI nor change in BMI.
+<!-- BMItotal --> Next, we tested for significant effects of the average BMI and the individual change in BMI longitudinally across the three time points. We did not find a significant co-activation for neither the PCC nor the NAcc associated with average BMI nor change in BMI.
 Omitting mean FD as nuisance covariate did not change these results.
 <!-- BMIonlyIG --> Upon inclusion of only a subsample entailing participants from the intervention group but not the waiting control group, there was still no effect for average BMI, but a significant effect of change in BMI on co-activation between the seed region NAcc and a voxel ($-18,-42,-9$ [mm])<!-- belonging to a cluster of $k = 2$ --> with $Z = 4.64$ ($p_{FWEcorr} = 0.049$) (in GSR corrected connectivity maps). However the effect did not survive recalculation with Wild bootstrap ($p_{FWEcorr} = 0.426$)<!-- but FWE-corr sig?! -->. The effect also disappeared when running those tests without mean FD as nuisance covariate.
 <!-- BMI2tp --> Running the tests on a subsample of only two time points and omitting data from the third did not yield any significant co-activation with the ROI for neither of the preprocessing variants. Omitting mean FD did not change these results.
 
 <!-- GM mask: average and individual BMI, damit die Reihenfolge so ist wie oben. -->
 Results obtained from analyses with the grey matter masks were equal to those reported for the brain masks except test statistics for the above reported significant longitudinal effect for the NAcc in the intervention group differed only marginally ($q_{FDRcorr} = 0.048$) and did not survive recalculation with Wild bootstrap either ($q_{FDRcorr} = 0.552$).
-In regard to the exploratory expeditions on subsamples, consistent with previous results, no significant co-activation was found when using the grey matter mask.
+In regard to the exploratory expeditions on subsamples, consistent with previous results, no evidence for co-activation was found when using the grey matter mask.
 
 ## Effect of FD (exploratory analysis)
 
 <!-- Brain mask: FD --> To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed a model that entailed both of the predictors as covariates of interest and only age and sex as nuisance covariates.
-Surprisingly, there was no significant effect neither for the total sample, nor for the intervention group only.
+Surprisingly, we did not find a significant effect neither for the total sample, nor for the intervention group only.
 <!-- GM mask: FD --> Similarly, analysis with the grey matter mask did not reveal any findings either.
 
 ## Effect on hypothalamic connectivity (exploratory analysis)
 
-<!-- Brain mask: FD --> To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed a model that entailed both of the predictors as covariates of interest and only age and sex as nuisance covariates.
-Surprisingly, there was no significant effect neither for the total sample, nor for the intervention group only.
-<!-- GM mask: FD --> Similarly, analysis with the grey matter mask did not reveal any findings either.
+
 
 # Discussion
 
 <!-- SUMMARY -->
 Utilizing resting-state functional MRI on morbidly obese individuals that either underwent or awaited bariatric surgery over the course of one year.
 <!-- general --> Building on the evidence for post-surgery changes in functional activity, this study explored the longitudinal relationship between surgery-induced weight loss and functional integrity in target networks indicated by resting-state functional connectivity. Over the course of one year we collected neuroimaging and anthropometric data from `r cs["Sum","IG"]` morbidly obese patients undergoing bariatric surgery and compared them to the longitudinal data of  `r cs["Sum","KG"]` patients on the waiting list.
-<!-- model specific --> With the model on group-time-interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? -->
+<!-- model specific --> With the model on time-by-group--interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? -->
 The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
 
 <!-- SUPPORT OF ORIGINAL HYPOTHESIS -->
@@ -746,9 +743,9 @@ Size and composition of our sample did not allow separate analyses for the sexes
 
 <!-- mixed effect model -->
 Due to the limitation of the traditional ANOVA framework (with respect to the spherity assumption, handling missing data, handling continuous data), it is often recommended to use modern models such as mixed-effect models and marginal models [@Chen_2013;@Guillaume_2014;@McFarquhar_2019].
-@McFarquhar_2019 demonstrated that specifying complex multi-level models and deriving the correct contrast weights with standard neuroimaging software packages such as SPM and FSL can be quite tedious and complicated if done appropriately. However, <!-- to rule out gross missspecification in the SwE model,  -->for the purpose of comparison, we re-ran the analysis for the group-time-interaction with age and sex as nuisance covariates.
+@McFarquhar_2019 demonstrated that specifying complex multi-level models and deriving the correct contrast weights with standard neuroimaging software packages such as SPM and FSL can be quite tedious and complicated if done appropriately. However, <!-- to rule out gross missspecification in the SwE model,  -->for the purpose of comparison, we re-ran the analysis for the time-by-group--interaction with age and sex as nuisance covariates.
 <!-- (FD is time-varying... schwierig) with a simplified model without nuisance covariates in SPM12. We opted for a simplified model because different nuisance covariates, time-invariant or time-varying, create additional complications. -->
-An advantage of the group-time interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time" assuming unequal group variances.
+An advantage of the time-by-group interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time" assuming unequal group variances.
 <!-- vastly different - different implicit masks? -->
 Differences could be attributed to different corrections for non-spherity and assumptions on voxel covariance structures. Detailed comparisons between SPM12, SwE, and other software packages have been described elsewhere [@McFarquhar_2016].
 <!-- conclusion??? -->
