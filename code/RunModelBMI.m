@@ -51,12 +51,12 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
     pause(7)
 end
 
+% specify path to get info txt for SwE model
 if param.EXCLFD==true
     param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
 else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
 end
-
 if strcmp(param.MODEL,'bmiIG')
     param.INFO_DIR = fullfile(param.INFO_DIR, 'IG/total');
 elseif strcmp(param.MODEL,'bmi2tp')
@@ -65,16 +65,18 @@ else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total');
 end
 
+% specify number pf ROI + estimation procedure
 nrun = length(param.ROI_PREP);
-% estimate any of the models for every roi_prep in ROI_PREP
+if param.WILD_BOOT
+    % wild bootstrap
+    param.wild_con = 1:2;
+else
+    % parametric estimation
+    param.wild_con = false;
+end
+
+% run swe
 for crun = 1:nrun
-    if param.WILD_BOOT
-        % wild bootstrap
-        param.wild_con = 1%:2;
-    else
-        % parametric estimation
-        param.wild_con = false;
-    end
     for i = param.wild_con
         param.wild_con = i;
         % check if analysis has run already
@@ -91,7 +93,7 @@ for crun = 1:nrun
             pause(param.VIEWSEC)
         elseif not(exist_already) || param.OVERWRITE %strcmp(param.ACTION,'overwrite')
             fprintf('Estimate model...\n')
-              % delete existing files in folder if existent
+            % delete existing files in folder if existent
             if exist_already
                 rmdir(out_folder, 's'); % delete former dir
                 mkdir(out_folder); % create new empty one
@@ -101,7 +103,7 @@ for crun = 1:nrun
             spm_jobman('run', matlabbatch);
         else
             fprintf('... model already estimated or error in parameter definitions.\n')
-          end
+        end
     end
  
     % save results of contrasts in folder roi_prep and subfolder modelx
@@ -109,6 +111,7 @@ for crun = 1:nrun
     % https://github.com/NISOx-BDI/SwE-toolbox/issues/135
 end
 fprintf('... done.')
+
 end
 
 

@@ -53,27 +53,30 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) %strcmp(param.ACTION,'display')
     pause(7)
 end
 
+% specify path to get info txt for SwE model
 if param.EXCLFD==true
     param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
 else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
 end
-
 if strcmp(param.MODEL,'fdIG')
     param.INFO_DIR = fullfile(param.INFO_DIR, 'IG/total');
 else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total');
 end
 
+% specify number pf ROI + estimation procedure
 nrun = length(param.ROI_PREP);
+if param.WILD_BOOT
+    % wild bootstrap
+    param.wild_con = 1:4;
+else
+    % parametric estimation
+    param.wild_con = false;
+end
+    
+% run swe
 for crun = 1:nrun
-    if param.WILD_BOOT
-        % wild bootstrap
-        param.wild_con = 1:4;
-    else
-        % parametric estimation
-        param.wild_con = false;
-    end
     for i = param.wild_con
         param.wild_con = i;
         if (param.wild_con > 2 && param.COVARIATES == 32)
@@ -110,8 +113,6 @@ for crun = 1:nrun
     % https://github.com/NISOx-BDI/SwE-toolbox/issues/135
 end
 fprintf('...done.')
-
-
 
 end
 

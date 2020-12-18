@@ -108,7 +108,7 @@ param.ROI_PREP = {roi_prep{[12]}}; % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} 
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
 param.MODEL = {'bmi'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [22];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+param.COVARIATES = [21];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
 % define masking and type of inference
 param.MASK = 'brain';               % 'brain'

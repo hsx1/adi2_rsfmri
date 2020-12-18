@@ -85,28 +85,30 @@ if param.ONLY_DISPLAY && not(param.WILD_BOOT) % strcmp(param.ACTION, 'display')
     pause(7)
 end
 
+% specify path to get info txt for SwE model
 if param.EXCLFD==true
     param.INFO_DIR = fullfile(param.INFO_DIR, 'ExclFD');
 else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'noExclFD');
 end
-
 if strcmp(param.MODEL,'grouptime2tp')
     param.INFO_DIR = fullfile(param.INFO_DIR, 'both/BLFU');
 else
     param.INFO_DIR = fullfile(param.INFO_DIR, 'both/total');
 end
 
+% specify number pf ROI + estimation procedure
 nrun = length(param.ROI_PREP);
-% estimate any of the models for every roi_prep in ROI_PREP
+if param.WILD_BOOT
+    % wild bootstrap
+    param.wild_con = 1:3;
+else
+    % parametric estimation
+    param.wild_con = false;
+end
+
+% run swe
 for crun = 1:nrun
-    if param.WILD_BOOT
-        % wild bootstrap
-        param.wild_con = 1:3;
-    else
-        % parametric estimation
-        param.wild_con = false;
-    end
     for i = param.wild_con
         param.wild_con = i;
         % check if analysis has run already

@@ -26,7 +26,6 @@ editor_options:
 
 # [ ] Evaluate SPM model comparison (more activation in SPM..)
 # [ ] Discussion
-# [ ] hervorheben, was von Präregistrierung abweicht
 # [ ] brain images mit nilearn plotting tools einbinden
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
 # [ ] re-do analysis with new sample
@@ -60,7 +59,8 @@ library(knitr) # version 1.30
 
 ```{r "knit setup", include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
-options(knitr.table.format = "latex")
+options(knitr.table.format = "latex") 
+options(knitr.kable.NA = '') # hide NA in tables
 # set working directory of knit (RMarkdown) to directory of Rproj
 opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 setwd(knitr::opts_knit$get("root.dir"))
@@ -179,6 +179,7 @@ tab_sample <-
     row.names = TRUE,
     format = "latex",
     booktabs = T,
+    linesep = "",
     caption = "Distribution of data points at months after intervention")
 tab_sample
 ```
@@ -252,6 +253,7 @@ tab_descr <-
     row.names = FALSE,
     format = "latex",
     booktabs = T,
+    linesep = "",
     caption = "BMI and mean FD of participants acquired in each condition and time point")
 
 tab_descr
@@ -484,9 +486,10 @@ Finally, we estimated the above-mentioned interaction model for all three time p
 ## Quality control
 We performed different quality controls for the rsfMRI data.
 As described in @Beyer_2020, there was a significant interaction of group and time on mFD. In particular, the intervention group reduced in head motion in the follow-up assessments compared to the control group.
-We also inspected DVARS, a measurement of whole-brain variation in signal which is often reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and timepoints, and that the correlation of DVARS and mFD remained similar over time points.
+We also inspected DVARS, a measurement of whole-brain variation in signal which is often reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and time points, and that the correlation of DVARS and mFD remained similar over time points.
 This indicates that even though there was a decrease in head motion in the intervention versus control group, the impact of head motion on imaging data remained similar over the study period.
 ```{r tableQA, fig.cap="Summary table of QA measures"}
+
 for (i in 1:nrow(final)) {
   tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
   conf = read.csv(
@@ -498,7 +501,6 @@ for (i in 1:nrow(final)) {
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
   final[i, "mean_outliers"] = mean(conf$outliers, na.rm = TRUE)
 }
-
 ```
 
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD'}
@@ -624,6 +626,7 @@ tab_qc_fc <-
     row.names = TRUE,
     format = "latex",
     booktabs = T,
+    linesep = "",
     caption = "Summary of quality metrics for different denoising pipelines across conditions and time points")
 
 tab_qc_fc
@@ -640,12 +643,8 @@ Further, we evaluated the impact of our denoising pipelines. Table \@ref(tab:tab
 There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc as was hypothesized. Nor was there a significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE correction.
 
 #### with adjustment for age and sex
-Similarly, there were only non-findings when reducing the number of nuisance covariates by leaving out mean FD, no connectivity was found between the PCC with one other voxel.
-Results did not differ between analyses of connetivity maps from different preprocessing pipelines.
+Similarly, there were only non-findings when reducing the number of nuisance covariates by leaving out mean FD. Results did not differ between analyses of connetivity maps from different preprocessing pipelines.
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
-
-<!-- Neurovault -->
-Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
 
 ### DMN/reward network with GM mask (exploratory analysis)
 <!-- GM mask: Group*Time Interaction [OLD]-->
@@ -687,6 +686,181 @@ R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 
 
 ## Effect of mean and change in BMI (exploratory analysis)
+```{r tableResBMI, include=FALSE}
+result_dir <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
+BMImodel_dirs <- 
+  c("noExclFD/BMI_total/brain/PCC_cc_z/bmi-age-sex-meanFD_WB-c01cl",# deact
+    "noExclFD/BMI_total/brain/PCC_cc_z/bmi-age-sex_WB-c01cl")# deact
+FDBMImodel_dirs <- 
+  c("noExclFD/FD_total/brain/Nacc_cc_z/bmi-fd-age-sex_WB-c02cl", # deact
+    "noExclFD/FD_total/brain/Nacc_cc_z/bmi-fd-age-sex_WB-c03cl", # act
+    "noExclFD/FD_total/brain/Nacc_gsr_z/bmi-fd-age-sex_WB-c03cl", # act
+    "noExclFD/FD_total/brain/PCC_cc_z/bmi-fd-age-sex_WB-c01cl") # deact
+FDmodel_dirs <- 
+  c("noExclFD/FD_total/brain/Nacc_cc_z/fd-age-sex_WB-c01cl", # act
+    "noExclFD/FD_total/brain/Nacc_gsr_z/fd-age-sex_WB-c01cl") # act
+deact_file <- "results_deact.csv"
+act_file <- "results_act.csv"
+```
+
+```{r}
+# noExclFD, total sample, all tp
+### first option
+# BMIagesexfd_PCCcc_avgBMI_deact
+df1 <- read.csv(file.path(result_dir,BMImodel_dirs[1],deact_file))
+colnr <- ncol(df1)
+df1$seed <- NULL
+df1 <- rbind(rep(NA, colnr),df1)
+df1[1:2,"seed"] <- c("\\textit{average BMI (decrease)}","PCC (cc)")
+df1$covariates <- NA
+df1$covariates[2] <- "age, sex, log mFD"
+# BMIagesex_PCCcc_avgBMI_deact 
+df2 <- read.csv(file.path(result_dir,BMImodel_dirs[2],deact_file))
+df2$seed <- NULL
+df2 <- rbind(rep(NA, colnr),df2)
+df2[1:2,"seed"] <- c("\\textit{average BMI (decrease)}","PCC (cc)")
+df2$covariates <- NA
+df2$covariates[2] <- "age, sex"
+
+### alternative (with group_row())
+df1 <- read.csv(file.path(result_dir,BMImodel_dirs[1],deact_file))
+colnr <- ncol(df1)
+df1$seed <- NULL
+df1[1,"seed"] <- c("PCC (cc)")
+df1$covariates <- NA
+df1$covariates[1] <- "age, sex, log mFD"
+# BMIagesex_PCCcc_avgBMI_deact 
+df2 <- read.csv(file.path(result_dir,BMImodel_dirs[2],deact_file))
+df2$seed <- NULL
+df2[1,"seed"] <- c("PCC (cc)")
+df2$covariates <- NA
+df2$covariates[1] <- "age, sex"
+
+# BMIFDagesex_NACCcc_cggBMI_deact 
+df3 <- read.csv(file.path(result_dir,FDBMImodel_dirs[1],deact_file))
+df3$seed <- NA
+ df3 <- rbind(rep(NA, colnr),df3)
+df3[1:2,"seed"] <- c("\\textit{change in BMI (decrease)}","NAcc (cc)")
+df3$covariates <- NA
+df3$covariates[2] <- "age, sex"
+# BMIFDagesex_NACCcc_avgFD_act
+ df4 <- read.csv(file.path(result_dir,FDBMImodel_dirs[2],act_file))
+df4$seed <- NA
+df4 <- rbind(rep(NA, colnr),df4)
+df4[1:2,"seed"] <- c("\\textit{average log mean FD (increase)}","NAcc (cc)")
+df4$covariates <- "age, sex"
+# BMIFDagesex_NACCgsr_avgFD_act 
+df5 <- read.csv(file.path(result_dir,FDBMImodel_dirs[3],act_file))
+df5$seed <- NA
+df5 <- rbind(rep(NA, colnr),df5)
+df5[1:2,"seed"] <- c("\\textit{average log mean FD (increase)}","NAcc (gsr)")
+df5$covariates <- NA
+df5$covariates[2] <- "age, sex"
+# BMIFDagesex_PCCcc_avgBMI-deact 
+df6 <- read.csv(file.path(result_dir,FDBMImodel_dirs[4],deact_file))
+df6$seed <- NA
+df6 <- rbind(rep(NA, colnr),df6)
+df6[1:2,"seed"] <- c("\\textit{average BMI (decrease)}","PCC (cc)")
+df6$covariates <- NA
+df6$covariates[2] <- "age, sex"
+
+# BMIFDagesex_NACCcc_avgFD_act 
+df7 <- read.csv(file.path(result_dir,FDmodel_dirs[1],act_file))
+df7$seed <- NA
+df7 <- rbind(rep(NA, colnr),df7)
+df7[1:2,"seed"] <- c("\\textit{average log mean FD (increase)}","NAcc (cc)")
+df7$covariates <- NA
+df7$covariates[2] <- "age,sex"
+# BMIFDagesex_NACCgsr_avgFD_act <
+df8 <- read.csv(file.path(result_dir,FDmodel_dirs[2],act_file))
+df8$seed <- NA
+df8 <- rbind(rep(NA, colnr),df8)
+df8[1:2,"seed"] <- c("\\textit{average log mean FD (increase)}", "NAcc (gsr)")
+df8$covariates <- NA
+df8$covariates[2] <- "age, sex"
+
+BMImodel <- rbind(df1,df2)
+FDmodel <- rbind(df7,df8)
+BMIFDmodel <- rbind(df3,df4,df5,df6)
+```
+
+```{r include = FALSE}
+model_list <- list(BMImodel,FDmodel,BMIFDmodel)
+
+for (i in 1:length(model_list)){
+  model_list[[i]]$anat <- NA
+  model_list[[i]]$hemisphere <- NA
+  # select columns
+  model_list[[i]] <- model_list[[i]][,c("seed","covariates","anat","hemisphere","cluster_p.FWE.corr.","cluster_equivk","cluster_equivkZ","peak_Z","X_x","y","z..mm.")]
+  # name columns
+  colnames(model_list[[i]]) <- c("Seed","Covariates","Anatomical region","L/R","clusterwise FWE-corr. P","cluster size","Z score of cluster size","Z score in local maximum","X","Y","Z") 
+}
+
+for (i in 1:length(model_list)){
+  # only keep cluster statistics and peak local maximum
+  model_list[[i]] <- model_list[[i]][!is.na(model_list[[i]]$Seed) | !is.na(model_list[[i]]$`clusterwise FWE-corr. P`),]
+}
+
+BMImodel <- model_list[[1]]
+FDmodel <- model_list[[2]]
+BMIFDmodel <- model_list[[3]]
+#rm(df1,df2,df3,df4,df5,df6,df7,df8)
+
+```
+
+```{r tabModel}
+# hide NA in tables
+fn1 <- "R, right hemisphere;L, left hemisphere; MNI (Montreal Neurological Institute) coordinates of primary peak location; x = sagittal, y = coronal,"
+fn2 <- "z = axial. To identify significant clusters, we applied a cluster size threshold with p < 0.001 determined by Wild Bootstrap of 1000 samples."
+title_vec <- c("BMI", "FD", "BMI-FD") 
+
+table_list <- list()
+for (i in 1:length(model_list)){
+  table_list[[i]] <-
+    model_list[[i]] %>%
+    knitr::kable(
+      escape = FALSE,     # use font spec of latex with kableExtra
+      col.names = colnames(model_list[[i]]),
+      row.names = FALSE,
+      format = "latex",
+      booktabs = T,
+      linesep = "",      # disable "\\addlinespace" at every 5th line
+      caption = sprintf("Changes in functional connectivity in whole brain analysis for %s model",title_vec[i])
+    ) %>%
+    kable_styling(latex_options = c('hold_position')) %>% # "scale_down"
+    column_spec(c(3, 5, 7, 8), width = "2.4cm") %>%
+    add_footnote(c(fn1, fn2), notation = "none") %>%
+    kableExtra::landscape()
+}
+tab_BMImodel <- table_list[[1]]
+tab_FDmodel <- table_list[[2]]
+tab_BMIFDmodel <- table_list[[3]]
+```
+
+```{r}
+group <- c(1, NA, NA, 2, NA, NA)
+quest <- c("How is your mood today?", "good or very good", "bad or very bad","What colour is your hair?", "brown", "other")
+percent <- c(NA, 80, 20, NA, 50, 50)
+df <- tibble(group, quest, percent)
+df <- data.frame(quest, percent) 
+
+tab_BMImodel %>%
+  group_rows("average BMI (decrease)", 1, 3) %>%
+  group_rows("average BMI (decrease)", 4, 7)
+
+```
+
+```{r tabBMImodel}
+tab_BMImodel
+```
+
+```{r tabFDmodel}
+tab_FDmodel
+```
+
+```{r tabBMIFDmodel, echo = FALSE}
+tab_BMIFDmodel
+```
 
 <!-- Brain mask: average and individual BMI [OLD] -->
 <!-- BMItotal --> Next, we tested for significant effects of the average BMI and the individual change in BMI longitudinally across the three time points. We did not find a significant co-activation for neither the PCC nor the NAcc associated with average BMI nor change in BMI.
@@ -707,6 +881,8 @@ Surprisingly, we did not find a significant effect neither for the total sample,
 ## Effect on hypothalamic connectivity (exploratory analysis)
 
 
+<!-- Neurovault -->
+Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
 
 # Discussion
 
