@@ -79,7 +79,8 @@
 % set path for spm and path with my functions
 % swe version 2.2.1 download of development 
 addpath('/data/pt_02161/Analysis/Software/spm12/')
-addpath('/data/pt_02161/Analysis/Software/spm12/toolbox/SwE-toolbox-2.2.1-1292020')
+addpath(genpath('/data/pt_02161/Analysis/Software/spm12/toolbox'))
+addpath('/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code')
 % swe version 2.1.1
 %addpath(genpath('/data/pt_life/data_fbeyer/spm-fbeyer'))
 
@@ -101,14 +102,14 @@ roi_prep = readcell(fullfile(param.INFO_DIR,'ROIs.txt'), 'Delimiter',' ','Whites
 
 %% ------------------------------------------------------------------------
 % define ROI
-param.ROI_PREP = {roi_prep{[12]}}; % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z','LH_cc_z','LH_gsr_z','MH_cc_z','MH_gsr_z'}
+param.ROI_PREP = {roi_prep{[6]}}; % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {'Nacc_cc_z','Nacc_gsr_z','PCC_cc_z','PCC_gsr_z','LH_cc_z','LH_gsr_z','MH_cc_z','MH_gsr_z'}
 
 % Model definition
 % All three models have unique options for covariate definition, the
 % association to a model is indicated by the tens digit (GroupTime_: 1_; 
 % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-param.MODEL = {'bmi'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
-param.COVARIATES = [21];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+param.MODEL = {'fd'}; % {'grouptime','grouptime2tp'} % {'bmi','bmiIG','bmi2tp'} % {'fd','fdIG'} % {'alltp'} % {'singletp} 
+param.COVARIATES = [31];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
 % define masking and type of inference
 param.MASK = 'brain';               % 'brain'
@@ -119,7 +120,7 @@ param.INFERENCE_TYPE = {'cluster'}; % {'voxel','cluster','tfce'};
 % analysis parameter (estimate or display?)
 param.ONLY_DISPLAY = true;         % false
 param.OVERWRITE = false;             % false
-param.VIEWSEC = 0; % for ONLY_DISPLAY: seconds you want to view the results
+param.VIEWSEC = 5; % for ONLY_DISPLAY: seconds you want to view the results
 % param.ACTION = 'estimate' % 'display' or 'overwrite'
 
 %% ------------------------------------------------------------------------
