@@ -28,7 +28,7 @@ editor_options:
 # [ ] Discussion
 # [ ] brain images mit nilearn plotting tools einbinden
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [ ] re-do analysis with new sample
+# [x] re-do analysis with new sample
 # [ ] repeat analysis with exclusion of 10% of worst data
 # [ ] Network tests
 
@@ -470,7 +470,7 @@ As change in FD and change in BMI share common variance [@Beyer_2019], the inclu
 <!-- INFERENCE --> To ensure robustness of our results, we computed estimates with non-parametric test using Wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. 
 Type C2 for small sample bias adjustment is applied before the bootstrap resampling as recommended in the SwE manual. 
 In contrast to the parametric estimation, Wild Bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and is unlike permutation based framework appropriate<!-- permutations don't work with multilevel data (dependencies)--> for longitudinal data.
-Unlike the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment (instead of $p < 0.01)$, and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$. The anatomical localization of significant clusters was investigated with the SPM Anatomy toolbox, version 3 [@Eickhoff_2005].<!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p<0.01). Significant clusters are defined as family-wise error - corrected p<0.05. -->
+Unlike the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more multiple comparison adjustment (instead of $p < 0.01)$, and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$. The anatomical localization of significant clusters was investigated with the SPM Anatomy toolbox, version 2.2c [@Eickhoff_2005].<!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p<0.01). Significant clusters are defined as family-wise error - corrected p<0.05. -->
 
 <!-- R analysis of aggregated values -->
 We analyzed the aggregate connectivity values using linear mixed models in the R package lme4 [@Bates_2007].
@@ -689,20 +689,20 @@ R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 ## Effect of mean and change in BMI (exploratory analysis)
 
 ```{r tableBMImodel}
-source("code/construct_FCtables.R")
+source("code/tables_FC.R")
 TableList <- construct_FCtables()
-tableBMImodel <- TableList[[1]]
-tableBMImodel
+tab_BMImodel <- TableList[[1]]
+tab_BMImodel
 ```
 
 ```{r tableFDmodel, echo=FALSE}
-tableFDmodel <- TableList[[2]]
-tableFDmodel
+tab_FDmodel <- TableList[[2]]
+tab_FDmodel
 ```
 
 ```{r tableBMIFDmodel, echo=FALSE}
-tableBMIFDmodel <- TableList[[3]]
-tableBMIFDmodel
+tab_BMIFDmodel <- TableList[[3]]
+tab_BMIFDmodel
 ```
 
 <!-- Brain mask: average and individual BMI [OLD] -->
