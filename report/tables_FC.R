@@ -249,9 +249,9 @@ ModelList[[3]]$Hem <- LabelList[[3]]$Hem
 # ------------------------------------------------------------------------------
 
 # hide NA in tables
-fn1 <- "Hem, hemisphere; L, left; R, right; MNI (Montreal Neurological Institute) coordinates of primary peak location: X = sagittal, Y = coronal, Z = axial."
+fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X sagittal; Y, coronal; Z, axial."
 fn3 <- "To identify significant clusters, we applied a cluster size threshold with p < 0.001 determined by Wild Bootstrap of 1000 samples."
-fn4 <- "Three most prominent regions within a custer; more detailed description in supplement."
+fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
 title_vec <- c("BMI", "FD", "BMI-FD") 
 
 TableList <- list()
