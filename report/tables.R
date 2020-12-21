@@ -1,5 +1,5 @@
 
-construct_FCtables <- function() {
+mk_FCTables <- function() {
   
 # ------------------------------------------------------------------------------
 # Directories
@@ -296,4 +296,42 @@ TableList[[3]] <- TableList[[3]] %>%
 
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)
+}
+
+mk_SampleTable <- function(final) {
+  # completed time points
+  freqtable <- as.data.frame(table(final$subj.ID))
+  tpfreq <- table(freqtable$Freq)
+  
+  # overview distribution of data points
+  tp1 <- as.character(freqtable$Var1[freqtable$Freq == 1])
+  tp2 <- as.character(freqtable$Var1[freqtable$Freq == 2])
+  tp3 <- as.character(freqtable$Var1[freqtable$Freq == 3])
+  tp1_tab <- table(subset(final, subj.ID %in% tp1)$tp, subset(final, subj.ID %in% tp1)$condition)
+  tp2_tab <- table(subset(final, subj.ID %in% tp2)$tp, subset(final, subj.ID %in% tp2)$condition)[c(1,3),]
+  tp3_tab <- table(subset(final, subj.ID %in% tp3)$tp, subset(final, subj.ID %in% tp3)$condition)[1,]
+  total_datapoints <- c(sum(final$group==1),sum(final$group==2))
+  total_subjects <- plyr::count(final[subj_idx,"group"])$freq
+  tab_sample <- data.frame(rbind(tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints))
+  rm(tp1,tp2,tp3,tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints)
+  rownames(tab_sample) <- c("count: only 0","count: only 6","count: only 12","count: 0 and 6","count: 6 and 12","count: complete data","total number of subjects","total data points")
+  colnames(tab_sample) <- c("BARS","NBARS")
+  return(tab_sample)
+}
+
+mk_tableQcfc <- function(res) {
+  
+  tab_qc_fc <-
+    knitr::kable(
+      round(res,3),
+      col.names = colnames(res),
+      row.names = TRUE,
+      format = "latex",
+      booktabs = T,
+      linesep = "",
+      caption = "Summary of quality metrics for different denoising pipelines across conditions and time points") %>%
+    column_spec(c(2:6), width = "1.8cm") 
+  
+  
+  return(tab_qc_fc)
 }

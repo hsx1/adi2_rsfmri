@@ -135,8 +135,8 @@ Participants are measured at baseline, at 6 months and at 24 months to capture b
 \newpage
 # Methods
 
-```{r Load data, include=FALSE}
-source("code/create_sample_df.R")
+```{r "Load data", include=FALSE}
+source("report/create_sample_df.R")
 final = create_sample_df(group = "all", tp = "all")
 
 # sample size
@@ -148,20 +148,6 @@ subj_df <- final[subj_idx,] # df with unique subjects
 freqtable <- as.data.frame(table(final$subj.ID))
 tpfreq <- table(freqtable$Freq)
 
-# overview distribution of data points
-tp1 <- as.character(freqtable$Var1[freqtable$Freq == 1])
-tp2 <- as.character(freqtable$Var1[freqtable$Freq == 2])
-tp3 <- as.character(freqtable$Var1[freqtable$Freq == 3])
-tp1_tab <- table(subset(final, subj.ID %in% tp1)$tp, subset(final, subj.ID %in% tp1)$condition)
-tp2_tab <- table(subset(final, subj.ID %in% tp2)$tp, subset(final, subj.ID %in% tp2)$condition)[c(1,3),]
-tp3_tab <- table(subset(final, subj.ID %in% tp3)$tp, subset(final, subj.ID %in% tp3)$condition)[1,]
-total_datapoints <- c(sum(final$group==1),sum(final$group==2))
-total_subjects <- plyr::count(final[subj_idx,"group"])$freq
-tab_sample <- data.frame(rbind(tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints))
-rm(tp1,tp2,tp3,tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints)
-rownames(tab_sample) <- c("count: only 0","count: only 6","count: only 12","count: 0 and 6","count: 6 and 12","count: complete data","total number of subjects","total data points")
-colnames(tab_sample) <- c("BARS","NBARS")
-
 # distribution of condition and sex
 subj_df$Sex <- plyr::mapvalues(subj_df$Sex, from = c("-1", "1"), to = c("f", "m"))
 cs <- addmargins(table(subj_df$Sex,subj_df$condition))
@@ -172,7 +158,10 @@ dfw <- tidyr::pivot_wider(data = final,
                           values_from = c("BMI","meanFD"))
 ```
 
-```{r tableSample, echo=FALSE}
+```{r "tableSample", echo=FALSE}
+source("./report/tables.R")
+tab_sample <- mk_SampleTable(final)
+
 tab_sample <-
   knitr::kable(
     tab_sample,
@@ -235,6 +224,7 @@ tab_sex <- table(dfBL$condition, dfBL$Sex)
 <!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
 ```{r tableDescr, echo=FALSE}
 
+# table_descr <- mk_tableDescr()
 # table for descriptive statistics
 descr <- psych::describeBy(dfw[,5:ncol(dfw)], group=dfw$condition,mat=T)
 descr$predictor <- c(rep("BMI",6),rep("meanFD",6))
@@ -262,39 +252,9 @@ tab_descr
 <!-- STUDY PROCEDURE --> Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for <!-- standadized??  -->breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 ```{r figBMIdescr, fig.align='center', out.width="90%", fig.cap="BMI over time.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
-condition.labs <- c("BARS","NBARS")
-names(condition.labs) <- c("IG","KG")
-# BMI over time each group
-figBMIdescr <-
-  ggplot(final, aes(
-    x = tp,
-    y = BMI,
-    group = subj.ID,
-    color = condition
-  )) +
-  geom_line() + geom_point() +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-figBMIdescr +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "none"
-  )
+source("report/figures.R")
+figBMIdescr <- mk_figBMIdescr(final)
+
 ```
 
 ## fMRI acquisition
@@ -390,76 +350,11 @@ The second model on the influence of between-subject differences in average BMI 
 <!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because we did not assume strict linearity for the increase in connectivity and therefore refrained from modeling time as continuous variable (see Figure \@ref(fig:figDesignmatrix)). The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
 ```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap=c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
 # fig.show="hold",  out.width="40%", fig.height = 8,
+source("report/figures.R")
+PlotList <- mk_figDesignMatrix()
 
-# design matrix time as factor
-txt_path <- "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/noExclFD/both/total/"
-
-ID <- read.delim(paste0(txt_path,"subjID.txt"), head=FALSE)
-condition <- read.delim(paste0(txt_path,"group.txt"), head=FALSE)
-KG_bl <- read.delim(paste0(txt_path,"KG_bl.txt"), head=FALSE)
-KG_fu <- read.delim(paste0(txt_path,"KG_fu.txt"), head=FALSE)
-KG_fu2 <- read.delim(paste0(txt_path,"KG_fu2.txt"), head=FALSE)
-IG_bl <- read.delim(paste0(txt_path,"IG_bl.txt"), head=FALSE)
-IG_fu <- read.delim(paste0(txt_path,"IG_fu.txt"), head=FALSE)
-IG_fu2 <- read.delim(paste0(txt_path,"IG_fu2.txt"), head=FALSE)
-measurement <- c(1:nrow(ID))
-dmf <- data.frame(measurement,ID,condition,KG_bl,KG_fu,KG_fu2,IG_bl,IG_fu,IG_fu2)
-colnames(dmf) <- c("measurement","ID","condition","N0","N6","N12","B0","B6","B12")
-
-# design matrix time as continuous variable
-ID <- read.delim(paste0(txt_path,"subjID.txt"), head=FALSE)
-condition <- read.delim(paste0(txt_path,"group.txt"), head=FALSE)
-group_IG <- read.delim(paste0(txt_path,"group_IG.txt"), head=FALSE)
-group_KG <- read.delim(paste0(txt_path,"group_KG.txt"), head=FALSE)
-tp_IG <- read.delim(paste0(txt_path,"tp_IG.txt"), head=FALSE)
-tp_KG <- read.delim(paste0(txt_path,"tp_KG.txt"), head=FALSE)
-measurement <- c(1:nrow(ID))
-dmc <- data.frame(measurement,ID,condition,group_IG,group_KG,tp_IG,tp_KG)
-colnames(dmc) <- c("measurement","ID","condition","groupB", "groupN","timeB","timeN")
-
-# plot dmf
-input_dmf <- dmf %>%
-  pivot_longer(
-    cols= colnames(dmf[,c(4:ncol(dmf))]),
-    names_to = "regressor")
-input_dmc <- dmc %>%
-  pivot_longer(
-    cols= colnames(dmc[,c(4:ncol(dmc))]),
-    names_to = "regressor")
-
-plotA <- ggplot(input_dmf, aes(x = regressor, y = measurement, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient(low="black", high="white") +
-  labs(x="regressors", y="scans") +
-  # design
-  scale_x_discrete(expand = c(0,0),labels=colnames(dmf)[4:ncol(dmf)]) +
-  scale_y_continuous(expand = c(0,0)) +
-  theme_bw() + theme(legend.position = "none",
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12))
-# + theme(panel.grid = element_blank(),
-#         panel.border = element_rect(colour = "black", size=1),
-#    legend.text = element_text(size = 10)
-#         plot.title=element_text(size=11))
-plotB <- ggplot(input_dmc, aes(x = regressor, y = measurement, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient(low="black", high="white") +
-  labs(x="regressors", y="scans") +
-  # design
-  scale_x_discrete(expand = c(0,0),labels=colnames(dmc)[4:ncol(dmc)]) +
-  scale_y_continuous(expand = c(0,0)) +
-  theme_bw() + theme(legend.position = "none",
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12))
-# + theme(panel.grid = element_blank(),
-#         panel.border = element_rect(colour = "black", size=1),
-#    legend.text = element_text(size = 10)
-#         plot.title=element_text(size=11))
-
-plotA
-plotB
+PlotList$plotA
+PlotList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014. With a model containing average BMI and longitudinal change per subject, we investigated their differential effects on the complete sample and subsequently in a exploratory fashion for the intervention group only as the effect of longitudinal change in BMI was expected to be driven by this subsample.
@@ -493,117 +388,23 @@ This indicates that even though there was a decrease in head motion in the inter
 for (i in 1:nrow(final)) {
   tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
   conf = read.csv(
-    paste0("/data/pt_02161/preprocessed/resting/detailedQA/metrics/",tmp,"/confounds.csv")
-  )
+    paste0("/data/pt_02161/preprocessed/resting/detailedQA/metrics/",
+      tmp, "/confounds.csv"))
   tmp = cor.test(conf$DVARS, conf$FD)
   final[i, "corr_DVARS_FD"] = tmp$estimate
   final[i, "mean_DVARS"] = mean(conf$DVARS, na.rm = TRUE)
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
-  final[i, "mean_outliers"] = mean(conf$outliers, na.rm = TRUE)
+  final
 }
+  
 ```
 
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD'}
 # ,  fig.align='center', }
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
-condition.labs <- c("BARS","NBARS")
-names(condition.labs) <- c("IG","KG")
 
-# DVARS over time each group
-fig_DVARSdescr <-
-  ggplot(final, aes(
-    x = tp,
-    y = mean_DVARS,
-    group = subj.ID,
-    color = condition
-  )) +
-  geom_line() + geom_point() +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-fig1=fig_DVARSdescr +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time [months]") + ylab ("Mean DVARS") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "none"
-  )
-# mFD over time each group
-fig_mFDdescr <-
-  ggplot(final, aes(
-    x = tp,
-    y = meanFD,
-    group = subj.ID,
-    color = condition
-  )) +
-  geom_line() + geom_point() +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-fig2=fig_mFDdescr +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time [months]") + ylab ("mFD in mm") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "none"
-  )
-# DVARS-FD over time each group
-fig_mFDDVARSdescr <-
-  ggplot(final, aes(
-    x = tp,
-    y = corr_DVARS_FD,
-    group = subj.ID,
-    color = condition
-  )) +
-  geom_line() + geom_point() +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-fig3=fig_mFDDVARSdescr +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time [months]") + ylab ("DVARS-FD correlation") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "none"
-  )
-
-(fig1 | fig2) / fig3
+FigureList <- figDvarsmFD(final)
+(FigureList$fig1 | FigureList$fig2) / FigureList$fig3
 
 ```
 
@@ -619,17 +420,7 @@ res <- read.csv("./report/FDFCcorrelations.csv")
 rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
 colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
 
-tab_qc_fc <-
-  knitr::kable(
-    round(res,3),
-    col.names = colnames(res),
-    row.names = TRUE,
-    format = "latex",
-    booktabs = T,
-    linesep = "",
-    caption = "Summary of quality metrics for different denoising pipelines across conditions and time points") %>%
-    column_spec(c(2:6), width = "1.8cm") 
-
+tab_qc_fc <- mk_tableQcfc(res)
 tab_qc_fc
 ```
 
@@ -689,8 +480,8 @@ R0 = lmer(DMN_FC ~ timepoint + group + age + sex + meanFD (1|subj))
 ## Effect of mean and change in BMI (exploratory analysis)
 
 ```{r tableBMImodel}
-source("code/tables_FC.R")
-TableList <- construct_FCtables()
+source("report/tables.R")
+TableList <- mk_FCTables()
 tab_BMImodel <- TableList[[1]]
 tab_BMImodel
 ```
@@ -797,159 +588,3 @@ Ciritical revision:
 
 \newpage
 # References
-
-```{r Exploratory plots, eval=FALSE}
-# BMI over time per group
-tspag <-
-  ggplot(final, aes(x = tp, y = BMI)) +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  geom_line(aes(group = subj.ID, color = condition)) +
-  geom_point(aes(color = condition))
-tspag +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "bottom",
-    legend.background = element_rect(colour = "grey")
-  )
-
-# BMI over time per subject
-# group x time interaction for BMI
-tspag <- ggplot(final, aes(
-  x = tp,
-  y = BMI,
-  color = condition,
-  group = condition
-)) +
-  geom_point() +
-
-  stat_summary(fun = mean, geom = "point") +
-  stat_summary(fun = mean, geom = "line")
-tspag  +
-  scale_color_manual(values = c("#00305E", "#C00045")) +
-  theme_bw() +
-  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.position = "top"
-)
-```
-
-```{r expample plots, eval=FALSE}
-
-df_wide <- tidyr::pivot_wider(
-  data = final,
-  id_cols = "subj.ID",
-  names_from = "tp",
-  values_from = c("tp", "BMI", "logmFD")
-)
-
-if (tp == "BLFU") {
-  s = 2
-} else {
-  s = 1
-}
-
-BMI_vector <- c("BMI_fu2", "BMI_fu", "BMI_bl")
-BMI_vector <- c("BMI_bl", "BMI_fu", "BMI_fu2")
-FD_vector <- c("logmFD_fu2", "logmFD_fu", "logmFD_bl")
-df_wide$avgBMI <- apply(df_wide[, BMI_vector[s:3]],
-                        MARGIN = 1,
-                        FUN = mean,
-                        na.rm = TRUE)
-df_wide$avgFD <- apply(df_wide[, FD_vector[s:3]],
-                       MARGIN = 1,
-                       FUN = mean,
-                       na.rm = TRUE)
-df_long <- tidyr::pivot_longer(
-  data = df_wide,
-  cols = all_of(order_vector),
-  # bl, fu, fu2 (maintain original order)
-  # CAREFUL: Order according to dataframe df
-  names_to = "tp_tp",
-  values_to = "tp",
-  values_drop_na = TRUE
-)
-all(df_long$tp == final$tp) # check if order correct
-
-head(final[, c("subj.ID", "tp")])
-head(df_long[, c("subj.ID", "tp")])
-
-df_long$cgnBMI <- final$BMI - df_long$avgBMI
-df_long$avgBMIc <-
-  df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
-df$avgBMIc <- df_long$avgBMIc
-df$cgnBMI <- df_long$cgnBMI
-
-df_long$cgnFD <- final$logmFD - df_long$avgFD
-df_long$avgFDc <-
-  df_long$avgFD - mean(df_long$avgFD, na.rm = TRUE)
-final$avgFDc <- df_long$avgFDc
-final$cgnFD <- df_long$cgnFD
-
-
-# example plots for interaction effect (arbitrary variables for illustration purposes)
-ggplot(final, aes(x=tp, y=BMI, group=condition, color=condition)) +
-  #geom_smooth(aes(group=condition)) +
-  stat_summary(fun = mean, geom = "point", size=3, shape=15) +
-  stat_summary(fun = mean, geom = "line", size=1) +
-  #scale_color_brewer(values = "Set1") +
-  scale_x_discrete(labels=c("bl"= "0", "fu"= "6", "fu2" = "12")) +
-  scale_color_manual(values=c("#00305E","#C00045"),labels = c("intervention", "control")) +
-  xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10), axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12), legend.text = element_text(size = 10),
-    legend.position = "bottom", legend.background = element_rect(colour = "grey"))
-
-# example plot for change effect (purely descriptive)
-getPalette = colorRampPalette(brewer.pal(9, "Set1"))
-cgnplot <- ggplot(final, aes(x=a,y=logmFD, group=subj.ID)) +
-  geom_line(aes(x=BMI, color=subj.ID))+
-  geom_point(aes(x=BMI, color=subj.ID, shape=tp), size=3, alpha = 0.5)+
-  facet_grid(. ~ condition)
-cgnplot +
-  labs(shape="Time after intervention [months]",labels=c("0","6","12")) +
-  guides(color = FALSE, alpha=FALSE, size=FALSE) +
-  scale_color_manual(values = getPalette(length(unique(final$subj.ID)))) +
-  ylab("log(mean FD) (mm)") + xlab("BMI [kg/m²]") + xlim(30,55) +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10), axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12), legend.text = element_text(size = 10),
-    legend.position = "bottom", legend.background = element_rect(colour = "grey"))
-
-# example plot for change effect (purely descriptive)
-tspag=ggplot(data=final, aes(y=cgnFD, x=cgnBMI, color=condition))+
-  geom_point(size=2)+
-  #geom_line(aes(color=subj.ID))+
-  #geom_smooth(method = "lm", colour = "black", linetype = 1, fill = "mistyrose3" ) +
-  xlab("within-subject BMI change [kg/m²]")+
-  ylab("within-subject log mean FD change [mm]")+
-  guides(alpha=FALSE, size=FALSE,
-         color = guide_legend(override.aes = list(size=4))) +
-  facet_grid(. ~ condition)
-tspag + scale_color_manual(values=c("#00305E","#C00045")) +
-  theme_bw() + theme(axis.text=element_text(colour = "black",size=10),
-              axis.title=element_text(size=14),
-              axis.text.x = element_text(size=12),
-              axis.text.y = element_text(size=12),
-              strip.text = element_text(size=14),
-              legend.position="top",
-              legend.title = element_text(size = 14),
-              legend.text = element_text(size = 14))
-```
