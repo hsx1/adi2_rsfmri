@@ -40,14 +40,27 @@ Folder with files to create a manuscript. CAVE: introduction and rest are in sep
 
 create_df_and_txt_for_swe.R
 
+## Analysis pipeline
 
-## How to analyze
+(1) [Run analysis](#how-to-run-the-analysis-in-matlab) with matlab.
+
+(2) [Extract anatomical labels](#how-to-spm-anatomy-toolbox) with SPM Anatomy toolbox
+
+(3) [Create manuscript](#how-to-create-the-script-in-rmarkdown)
+
+ - run `...Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R` from within `draft_rsfmri.Rmd` and make sure report folder contains `FDFCcorrelations.csv`
+	
+ - (make sure `tables_FC.R` contains correct path specifications)
+	
+ - knit `draft_rsfmri.Rmd` to pdf 
+
+## Detailed How To's for analysis pipeline
 
 ### How to run the analysis in MATLAB
 
 (1) General
-
-1. Specify the analysis you want to perform in the run_or_display.m file by setting the respective parameters
+ 
+1. Specify the analysis you want to perform in the `run_or_display.m` file by setting the respective parameters (therefore view description in script)
 2. Run script
 3. If estimations were previously performed, set `ONLY_DISPLAY = true`
 4. For display only and parametric estimation, follow the prompts by SPM
@@ -82,16 +95,3 @@ To extract and process significant results.
 * open `draft_rsfmri.Rmd` within the project
 * check if packages are installed and package versions are consistent
 * Knit markdown document to PDF
-
-## Analysis pipeline
-
-(1) Run [analysis with matlab](#how-to-run-the-analysis-in-matlab).
-(2) Extract anatomical labels with [SPM Anatomy toolbox](#how-to-spm-anatomy-toolbox)
-(3) Create manuscript 
-
-	- run `...Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R` from within `draft_rsfmri.Rmd` and make sure report folder contains `FDFCcorrelations.csv`
-	- (make sure `tables_FC.R` contains correct path specifications)
-	- knit `draft_rsfmri.Rmd` to pdf 
-
-
-
