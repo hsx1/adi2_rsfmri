@@ -53,8 +53,9 @@ library(wesanderson) # colour palette
 #library(haven)
 
 library(lme4)
-library(sjPlot)
 
+library(sjPlot) #only works for HTML output
+library(texreg) #works for Rmarkdown
 library(knitr) # version 1.30
 ```
 
@@ -72,65 +73,6 @@ setwd(knitr::opts_knit$get("root.dir"))
 \newpage
 # Introduction
 
-
-
-
-<!-- obesity and interventions -->
-Over the past decades, the global burden of obesity has increasingly been confronted as a matter of urgency by research.
-_something about comorbidities_
-Besides metabolic dysfunctions, obesity has been consistently associated with reduced gray matter volume, less intact white matter structure and reduced cognitive function [@Beyer_2019; @Zhang_2018].
-Luckily, dietary interventions such as caloric restriction and related metabolic improvements, and weight loss have been suggested to improve neuronal plasticity and cognitive performance [@Witte_2009; @Zhang_2018; @Veronese_2017].
-In some cases behavioral intervention fail to yield the desired success regarding weight loss. There are non-behavioral alternatives at hand.
-<!-- bars most invasive (brain metabolism), last resort -->
-Bariatric surgery is one promising option to combat morbid obesity, as it rapidly improves weight status, metabolic dysfunctions, and co-morbidities, such as diabetes [@]. Roux-en-Y gastric bypass (RYGB) is the most common procedure as it not only restricts the food intake by reducing stomach volume but also affects the absorption of macronutrients and the hormonal profile [@]. <!-- ref for "common", ref for procedure -->
-Other widely used procedures are vertical sleeve gastrectomy (VSG) and gastric banding (GB) which only restrict food consumption. <!-- mehr zu Veränderung in Gasto-intestinaler Physiologie -->
-
-<!-- Neural mechanisms/concurrent plasticity? -->
-Precise mechanisms are yet to be elucidated. As a first step, a comprehensive understanding of the concurrent physiological changes underlying weight loss and recovery is needed. This will inform inferences about potential mechanisms and either support interventions proven to be effective or ideally allow imitating them will less invasive alternatives.
-
-Recently, research focuses have slowly shifted to investigate brain metabolism structural and functional changes after surgery.
-<!-- severe nutritional stress [@Crujeiras_2017] -->
-
-<!-- Reward network -->
-Little is known about the potential beneficial effects of bariatric surgery on brain function in the obese population, in particular with regard to hedonic motivations for food, which play a fundamental role in weight relapse.
-<!-- mechanism reward and appetite, overating -->
-Besides malabsorption and restricted food ingestion, patients report post-surgical changes in food preferences and eating behavior. Those psychophysiological and behavioral effects may be related to post-surgical changes in visceral sensory perceptions and endocrinological signaling. Corresponding information is processed by the fronto-mesolimbic system and affects appetite and reward signalling which may influence weight regulation [@Mulla_2017, @Nudel_2019].
-<!-- results in lean -->
-The reward network entailing the ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antIns) has been linked to food valuation processes in decision-making in lean individuals [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016].
-<!-- results in obese longitudinal -->
-Similarly, several studies have found differences in resting-state activity in reward regions depending on weight status.
-
-Obese individuals exhibited increased connectivity between frontal and mesolimbic regions and weaker connectivity within regions of the mesolimbic system (encompassing limbic and striatal regions). These differences seemed to normalize, as trends reversed when looking at the resting state of obese individuals after compared to before the surgery [@Duan_2020].
-
-On the other hand, BMI prior to the surgery was associated with changes in connectivity [@Duan_2020].
-
-s concerning such processes following a surgical intervention are inconclusive.
-
-<!-- important differences in the response to visual food-related cues between thin and reduced-obese individuals that place the latter group at an increased risk of  -->
-
-<!-- Though there exists strong evidence for important differences in the .. between lean or normal-weight individuals and obese individuals, few studies have investigated the ... and even fewer compared reduced-obese individuals reduced-obese individuals -->
-<!-- [@Garcia_Garcia_2012] -->
-
-<!-- Default mode network -->
-Weight regulation and energy expenditure is dependent on a complex interplay of external and internal sensory processing, as well as molecular homeostasis regulation. Obesity may be cause or effect of a decompensation of the psychophysiological system that ensures homeostasis.
-The default mode network is commonly associated with processing of self-referent as well as introspective information, such as hunger sensation [@;@] and appetite [@Tregellas_2011]. <!-- parietal activation correlated with appetite measures after an overnight fast [@Tregellas_2011]. --> It is mainly composed of the posterior cingulate cortex (PCC)/precuneus, the medial prefrontal cortex (MPFC) and inferior and lateral parietal cortex (IPC, LPC; approx. BA 39) [@Raichle_2015]. The right ventral anterior cingulate cortex (VACC), superior frontal cortex (SFC), and inferior temporal cortex (ITC) show weaker but also reliable association with the PCC over the course of one year. Even broader conceptions count left VACC, middle temporal gyrus (MTG), and parahippocampal cortex, although associations with the PCC are not as stable [@Chou_2012].
-<!-- difference lean obese -->
-Functional connectivity of this network has been shown to be linked to BMI [@Beyer_2017] and altered after bariatric surgery [@Olivo_2016]. Generally, studies show an increased activation in the default mode network, especially in the precuneus and posterior cingulate cortex (PCC) in obese individuals [@Kullmann_2011; @].
-A longitudinal study that confirmed the stronger connectivity (of PCC with anterior STG and anterior temporal fusiform gyrus and the Precuneus with the anterior STG). However, default mode connectivity in these regions seemed weakened over the course of one year. Because differences between lean controls and obese individuals that existed prebariatric surgery were no longer detectable 1 year after the surgery, the authors argue for a normalization in functional connectivity<!-- and PCC/PC connectivity with anterior STG are most affected by the surgery -->[@Olivo_2017].
-This is consistent with other findings of reduction of functional connectivity of these and other regions of the default mode network, such as the VMPFC [@Li_2018] <!-- with the dorsolateral prefrontal cortex (DLPFC) --> after the surgery.
-
-The exact mechanisms of how bariatric surgery affects functional plasticity needs to be investigated. Among patients undergoing surgery, change in BMI was negatively correlated with the changes in connectivity of the default mode network, namely between the PCC/precuneus and the DLPFC [@Li_2018].
-
-On the other hand, connectivity also served as a predictor of weight loss after surgery.
-
-On the other hand, there are also indicators of reduced functional integrity, e.g. for the anterior cingulate cortex (ACC) at resting state compared to lean individuals [@Kullmann_2011].
-
-
-<!-- novelty statement --> As described previously, several studies have investigated the effects of bariatric surgery on the intrinsic functional connectivity in patients. Yet, to our knowledge there is no quasi-experimental study, comparing a cohort of patients to a cohort with similar characteristics but unexposed to the intervention, i.e. bariatric surgery, over an extended time period as would be demanded to draw more substantiated inference [@George_2016].
-<!-- hypotheses --> In this study, we aim to bridge this gap and investigate possible dynamics of within-reward network connectivity before and after bariatric surgery by comparison with a contemporaneously measured waiting-control group. Moreover, we will explore whether the changes in functional connectivity are associated with the amount of weight lost after bariatric surgery treatment in obesity to explore a potential gradient link. In addition, we will investigate potential changes in within-network functional connectivity after surgery in other resting-state networks such as default mode network (DMN).
-Participants are measured at baseline, at 6 months and at 24 months to capture both phases of rapid weight-loss and maintenance as expected from non-surgical interventions [@Shai_2008].
-
-<!-- group effect because direct effect of intervention surgery -> rsfmri (cares lessfreq, less preoccupation with hunger, less/more reward sensitivity) vs. sugery -> BMI -> rsfmri (neural signalling, fatty tissue) -->
 
 
 \newpage
@@ -255,7 +197,7 @@ tab_descr
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
 source("report/figures.R")
 figBMIdescr <- mk_figBMIdescr(final)
-
+figBMIdescr
 ```
 
 ## fMRI acquisition
@@ -379,15 +321,26 @@ We used a model comparison of R1 and R0 models with `anova`:
 We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the time-by-group point interaction was considered significant if a model comparison between R1 and Null models using anova-function yielded a p<0.05.
 Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had p<0.05.
 
+\newpage
 # Results
 
 ## Quality control
 We performed different quality controls for the rsfMRI data.
-As described in @Beyer_2020, there was a significant interaction of group and time on mFD. In particular, the intervention group reduced in head motion in the follow-up assessments compared to the control group.
-We also inspected DVARS, a measurement of whole-brain variation in signal which is often reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and time points, and that the correlation of DVARS and mFD remained similar over time points.
+As described in @Beyer_2020, group and time show an interaction effect for mFD where the intervention group reduced in head motion in the follow-up assessments compared to the control group.
+We also inspected DVARS, a measure of whole-brain signal variation which is reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and time points, and that the correlation of DVARS and mFD remained similar over time points.
 This indicates that even though there was a decrease in head motion in the intervention versus control group, the impact of head motion on imaging data remained similar over the study period.
-```{r tableQA, fig.cap="Summary table of QA measures"}
+```{r tableQcfc, echo=FALSE}
+res <- read.csv("./report/FDFCcorrelations.csv")
+rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
+colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
 
+tab_qc_fc <- mk_tableQcfc(res)
+tab_qc_fc
+```
+Further, we evaluated the impact of our denoising pipelines on different quality metrics following [@Ciric_2018]. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and FC between nodes was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`). This relationship was negatively associated with distance between nodes (mean Spearman's r = `r round(res[1,5],2)`).  
+Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
+
+```{r calculate summary of QA, eval=FALSE, echo=FALSE}
 for (i in 1:nrow(final)) {
   tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
   conf = read.csv(
@@ -399,12 +352,10 @@ for (i in 1:nrow(final)) {
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
   final
 }
-  
 ```
 
-```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD'}
-# ,  fig.align='center', }
-# eval = TRUE, fig.asp = 0.7, fig.width = 6
+```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD', echo=FALSE}
+final=read.csv(file = "./report/all_QA_measures.csv")
 
 FigureList <- figDvarsmFD(final)
 (FigureList$fig1 | FigureList$fig2) / FigureList$fig3
@@ -413,29 +364,18 @@ FigureList <- figDvarsmFD(final)
 
 ```{r FDFC correlation, eval=FALSE, echo=FALSE}
 source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
-
-
 FDFC=calc_qc_fc(final)
 write.csv(FDFC,"./report/FDFCcorrelations.csv", row.names = FALSE)
-
 ```
 
-```{r tableQcfc, echo=FALSE}
-res <- read.csv("./report/FDFCcorrelations.csv")
-rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
-colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
 
-tab_qc_fc <- mk_tableQcfc(res)
-tab_qc_fc
-```
-
-Further, we evaluated the impact of our denoising pipelines. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and connectivity was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`), with a strong distance dependence (mean Spearman's r = `r round(res[1,5],2)`).  Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and also alleviated the distance dependency. AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
-Figure \@ref{fig:figNetworks} shows the DMN and reward network which we used for extracting the aggregated FC valued. Both networks include previously described brain regions (i.e. medial prefrontal cortex, parietal lobules and posterior hippocampus for the DMN, and anterior cingulare, right amygdala and ventromedial-prefrontal cortex for the reward network). Yet, the reward network is less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to SNR differences in the seed brain regions (see Figure \@{ref:fig:figtSNR}.
-
-```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p_FWE<0.05)",fig.subcap=c('DMN (seeded in bilateral precuneus)','Reward network (seeded in bilateral Nucleus Accumbens'),fig.show='hold',fig.align='center'}
-networks=c("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/DMN_thresholded_for_clusterFWE0.05.png","/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/Rew_thresholded_for_clusterFWE0.05.png")
+```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens"),fig.show='hold',fig.align='center'}
+networks=c("../report/DMN_thresholded_for_clusterFWE005.png","../report/Rew_thresholded_for_clusterFWE005.png")
 knitr::include_graphics(networks)
 ```
+
+Figure \@ref{fig:figNetworks} shows the DMN and reward network which we used for extracting the aggregated FC values. Both networks included the typically described brain regions (i.e. medial prefrontal cortex, parietal lobules and posterior hippocampus for the DMN, and anterior cingulare, right amygdala and ventromedial-prefrontal cortex for the reward network). 
+
 ```{r prepare tsnr ROI plot, echo=FALSE}
 final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
 
@@ -457,58 +397,26 @@ p<-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
   legend.position="")
 ```
 
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", fig.width=6, fig.height=4,  echo=FALSE}
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="60%",  echo=FALSE}
 p
 ```
+Yet, the reward network was less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see Figure \@ref{fig:figtSNR}.
 
-
-=======
-
-```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p_FWE<0.05)",fig.subcap=c('DMN (seeded in bilateral precuneus)','Reward network (seeded in bilateral Nucleus Accumbens'),fig.show='hold',fig.align='center'}
-networks=c("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/DMN_thresholded_for_clusterFWE0.05.png","/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/Rew_thresholded_for_clusterFWE0.05.png")
-knitr::include_graphics(networks)
-```
-```{r prepare tsnr ROI plot, echo=FALSE}
-final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
-
-tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")
-tsnr=tsnr[tsnr$V1!="subj",]
-colnames(tsnr)=c("subj.ID_tp","roi","median","mean","sd")
-levels(tsnr$roi)=droplevels(tsnr$roi)
-levels(tsnr$roi)=c("NAcc", "precuneus")
-tsnr$mean=as.double(tsnr$mean)
-
-final_tsnr=merge(final, tsnr, by="subj.ID_tp", all.x=TRUE)
-
-p<-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
-  geom_violin(aes(fill=roi)) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") + 
-  scale_fill_manual(values=wes_palette("Darjeeling2",4,type="discrete")[2:3]) +
-  theme(axis.text=element_text(size=10),
-  axis.title=element_text(size=12),
-  strip.text = element_text(size=12),
-  legend.position="")
-```
-
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", fig.width=6, fig.height=4,  echo=FALSE}
-p
-```
-
-
->>>>>>> 30e451a04dedc0054f54c9f8b5bb0ffb11922e68
 ## Interaction effect of intervention and time (preregistered analysis)
+
 ### DMN/reward network with whole brain mask (preregistered analysis)
 
 #### with adjustment for age, sex, meanFD
 <!-- Brain mask: Group*Time Interaction [CORRECTED] -->
-There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc as was hypothesized. Nor was there a significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE correction.
+There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc seeds against our initial hypothesis. There also was no significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE correction.
 
 #### with adjustment for age and sex
-Similarly, there were only non-findings when reducing the number of nuisance covariates by leaving out mean FD. Results did not differ between analyses of connetivity maps from different preprocessing pipelines.
+Similarly, there were no significant clusters when leaving out mean FD. Results did not differ between AROMA+CC and AROMA+CC+GSR preprocessing pipelines.
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
 
 
 <!-- Neurovault -->
-Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) as well as contrasts of group, time and group-by-time interaction will be published on NeuroVault.
+Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) as well as contrasts of group, time and group-by-time interaction are on [NeuroVault](insert link here).
 
 ### DMN/reward network with GM mask (exploratory analysis)
 <!-- GM mask: Group*Time Interaction [OLD]-->
@@ -527,16 +435,16 @@ for (i in c(1:nrow(agg_FC_DMN_ID))){
 
 colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID_tp")
 colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID_tp")
-final_FC$subj.ID=as.factor(final_FC$subj.ID)
 
 final_FC=merge(final, agg_FC_Rew, by="subj.ID_tp", all.x=TRUE)
 final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
+final_FC$subj.ID=as.factor(final_FC$subj.ID)
 
 #calculate mean FD over timepoints
 final_FC.meanFD=tapply(X=final_FC$logmFD,
-                        INDEX=final_FC$subj.Nr, FUN=mean, na.rm=TRUE)
+                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
 final_FC$mean.logmFD=
-  final_FC.meanFD[as.numeric(final_FC$subj.Nr)]
+  final_FC.meanFD[as.numeric(final_FC$subj.ID)]
 final_FC$within.logmFD=
   final_FC$logmFD-final_FC$mean.logmFD
 ```
@@ -544,116 +452,89 @@ final_FC$within.logmFD=
 ### DMN for two timepoints
 ```{r vif for models, echo=FALSE}
 test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + mean.logmFD, data=final_FC)
-vif(test_vif)
+vif_res=vif(test_vif)
 ```
 
-```{r calc DMN two tp, eval = FALSE, echo = FALSE}
+```{r calc DMN two tp,results = 'asis', echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-anova(R1,R0)
-tab_model(R1,R0)
+anvDMN2tp=anova(R1,R0)
+```
+
+```{r DMN2tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
 ### DMN for two timepoints, adjusted for age, sex, mean FD
-```{r calc DMN two tp adjusted, eval = FALSE, echo = FALSE}
+```{r calc DMN two tp adjusted, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-anova(R1,R0)
-tab_model(R1,R0)
+anvDMN2tpadj=anova(R1,R0)
+res=summary(R1)
+#tab_model(R0,R1)
 ```
+
+```{r DMN2tpadj results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 7, 4, 5, 6),custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex","mean FD","Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
 ### DMN for three timepoints, adjusted for age, sex, mean FD
-```{r calc DMN three tp, eval = FALSE, echo = FALSE}
+```{r calc DMN three tp, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD +(1|subj.ID), data=final_FC)
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +(1|subj.ID), data=final_FC)
-anova(R1,R0)
+anvDMN3tp=anova(R1,R0)
+```
+
+```{r DMN3tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","mean FD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
 ```{r DMN conn over three timepoints, echo=FALSE}
-fig_DMNconn <-
-  ggplot(final_FC, aes(
-    x = tp,
-    y = mean_DMN_conn,
-    group = subj.ID,
-    color = condition
-  )) +
-  geom_line() + geom_point() +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-fig1=fig_DMNconn +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time [months]") + ylab ("mean DMN connectivity") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "none"
-  )
-fig1
+fig_DMNconn<-mk_figDMNdescr(final_FC)
+fig_DMNconn
 ```
 
-### reward
-```{r calc rew two tp, eval = FALSE, echo = FALSE}
+### Reward network for two time points
+```{r calc rew two tp, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-anova(R1,R0)
-```
-### reward for two timepoints, adjusted for age, sex, mean FD
-```{r calc rew two tp adjusted, eval = FALSE, echo = FALSE}
-R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-anova(R1,R0)
-```
-### reward for three timepoints, adjusted for age, sex, mean FD
-```{r calc rew three tp, eval = FALSE, echo = FALSE}
-R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
-R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC)
-anova(R1,R0)
+anvRew2tp=anova(R1,R0)
 ```
 
-```{r Rew conn over three timepoints, echo=FALSE}
-fig_Rewconn <-
-  ggplot(final_FC, aes(
-    x = tp,
-    y = mean_Rew_conn,
-    group = subj.ID,
-    color = condition
-  )) +
-  geom_line() + geom_point() +
-  stat_summary(
-    aes(group = condition),
-    fun = mean,
-    geom  = "line",
-    size = 2,
-    color = c(rep("#00305E", 3), rep("#C00045", 3))
-  ) +
-  facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-fig2=fig_Rewconn +
-  scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-  scale_color_manual(
-    values = c("#00305E77", "#C0004577"),
-    labels = c("intervention", "control")
-  ) +
-  xlab("Time [months]") + ylab ("mean reward network connectivity") +
-  theme_bw() +  theme(
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    strip.text = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.position = "none"
-  )
-fig2
+```{r Rew2tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
+
+### Reward network for two timepoints, adjusted for age, sex, mean FD
+```{r calc rew two tp adjusted, eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+anvRew2tpadj=anova(R1,R0)
+```
+```{r Rew2tpadj results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 7, 4, 5, 6),custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex","mean FD","Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+### Reward network for three timepoints, adjusted for age, sex, mean FD
+```{r calc rew three tp, eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC)
+anvRew3tp=anova(R1,R0)
+```
+```{r Rew3tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","mean FD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+```{r Rew conn over three timepoints, echo=FALSE}
+fig_Rewconn<-mk_figRewdescr(final_FC)
+fig_Rewconn
+```
+
 ## Effect of mean and change in BMI (exploratory analysis)
 
 ```{r tableBMImodel}

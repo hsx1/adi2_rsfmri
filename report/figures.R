@@ -20,10 +20,10 @@ mk_figBMIdescr <- function(final) {
       color = c(rep("#00305E", 3), rep("#C00045", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-  figBMIdescr +
+  figBMIdescr= figBMIdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E77", "#C0004577"),
+      values = c("#00305E", "#C00045"),
       labels = c("intervention", "control")
     ) +
     xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
@@ -35,6 +35,82 @@ mk_figBMIdescr <- function(final) {
       legend.position = "none"
     )
   return(figBMIdescr)
+}
+
+mk_figRewdescr <- function(final_FC) {
+  
+  condition.labs <- c("BARS","NBARS")
+  names(condition.labs) <- c("IG","KG")
+  # BMI over time each group
+  figRewdescr <-
+    ggplot(final_FC, aes(
+      x = tp,
+      y = mean_Rew_conn,
+      group = subj.ID,
+      color = condition
+    )) +
+    geom_line() + geom_point() +
+    stat_summary(
+      aes(group = condition),
+      fun = mean,
+      geom  = "line",
+      size = 2,
+      color = c(rep("#00305E", 3), rep("#C00045", 3))
+    ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
+  figRewdescr=figRewdescr +
+    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+    scale_color_manual(
+      values = c("#00305E", "#C00045"),
+      labels = c("intervention", "control")
+    ) +
+    xlab("Time after intervention [months]") + ylab ("mean reward connectivity") +
+    theme_bw() +  theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      strip.text = element_text(size = 12),
+      legend.text = element_text(size = 10),
+      legend.position = "none"
+    )
+  return(figRewdescr)
+}
+
+mk_figDMNdescr <- function(final_FC) {
+  
+  condition.labs <- c("BARS","NBARS")
+  names(condition.labs) <- c("IG","KG")
+  # BMI over time each group
+  figDMNdescr <-
+    ggplot(final_FC, aes(
+      x = tp,
+      y = mean_DMN_conn,
+      group = subj.ID,
+      color = condition
+    )) +
+    geom_line() + geom_point() +
+    stat_summary(
+      aes(group = condition),
+      fun = mean,
+      geom  = "line",
+      size = 2,
+      color = c(rep("#00305E", 3), rep("#C00045", 3))
+    ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
+  figDMNdescr=figDMNdescr +
+    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+    scale_color_manual(
+      values = c("#00305E", "#C00045"),
+      labels = c("intervention", "control")
+    ) +
+    xlab("Time after intervention [months]") + ylab ("mean DMN connectivity") +
+    theme_bw() +  theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      strip.text = element_text(size = 12),
+      legend.text = element_text(size = 10),
+      legend.position = "none"
+    )
+  return(figDMNdescr)
 }
 
 mk_figDesignMatrix <- function() {
@@ -130,7 +206,7 @@ mk_otherplots <- function(final){
   tspag +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E77", "#C0004577"),
+      values = c("#00305E", "#C00045"),
       labels = c("intervention", "control")
     ) +
     xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
@@ -298,7 +374,7 @@ figDvarsmFD <- function(final){
   fig1=fig_DVARSdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E77", "#C0004577"),
+      values = c("#00305E", "#C00045"),
       labels = c("intervention", "control")
     ) +
     xlab("Time [months]") + ylab ("Mean DVARS") +
@@ -329,7 +405,7 @@ figDvarsmFD <- function(final){
   fig2=fig_mFDdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E77", "#C0004577"),
+      values = c("#00305E", "#C00045"),
       labels = c("intervention", "control")
     ) +
     xlab("Time [months]") + ylab ("mFD in mm") +
@@ -360,7 +436,7 @@ figDvarsmFD <- function(final){
   fig3=fig_mFDDVARSdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E77", "#C0004577"),
+      values = c("#00305E", "#C00045"),
       labels = c("intervention", "control")
     ) +
     xlab("Time [months]") + ylab ("DVARS-FD correlation") +
