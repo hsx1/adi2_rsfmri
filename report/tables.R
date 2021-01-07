@@ -1,4 +1,6 @@
+DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
 
+# FC RESULTS -------------------------------------------------------------------
 mk_FCTables <- function() {
   
 # ------------------------------------------------------------------------------
@@ -6,7 +8,7 @@ mk_FCTables <- function() {
 # ------------------------------------------------------------------------------
 
 res_fc <- list()
-res_fc$result_dir <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
+res_fc$result_dir <- DIR_ANALYSIS
 res_fc$BMImodel_dirs <- 
   c("noExclFD/BMI_total/brain/PCC_cc_z/bmi-age-sex-meanFD_WB-c01cl",# deact
     "noExclFD/BMI_total/brain/PCC_cc_z/bmi-age-sex_WB-c01cl")# deact
@@ -23,10 +25,9 @@ res_fc$act_csv <- "results_act.csv"
 
 
 # ------------------------------------------------------------------------------
-# Anatomical Labelling
+# Anatomical Labeling
 # ------------------------------------------------------------------------------
-
-f <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/noExclFD/result_report.txt"
+f <- file.path(DIR_ANALYSIS,"noExclFD/result_report.txt")
 result_report <- read.table(f, sep="\t",col.names = c("model","dir","k"),stringsAsFactors = FALSE)
 
 ResultFCList <- list()
@@ -191,7 +192,7 @@ for (i in 1:length(ModelList)) {
 # }
 
 # ------------------------------------------------------------------------------
-# Labelling
+# Labeling
 # ------------------------------------------------------------------------------
 
 label1 <- data.table::rbindlist(
@@ -249,7 +250,7 @@ ModelList[[3]]$Hem <- LabelList[[3]]$Hem
 # ------------------------------------------------------------------------------
 
 # hide NA in tables
-fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X sagittal; Y, coronal; Z, axial."
+fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X sagittal; Y, coronal; Z, axial; cc, preprocessing with AROMA-ICA + CompCor; gsr, preprocessing with AROMA-ICA + CompCor + GSR."
 fn3 <- "To identify significant clusters, we applied a cluster size threshold with p < 0.001 determined by Wild Bootstrap of 1000 samples."
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
 title_vec <- c("BMI", "FD", "BMI-FD") 
@@ -297,6 +298,8 @@ TableList[[3]] <- TableList[[3]] %>%
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)
 }
+
+# SAMPLE DESCRIPTION -----------------------------------------------------------
 
 mk_SampleTable <- function(final) {
   # completed time points

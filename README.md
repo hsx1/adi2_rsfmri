@@ -36,9 +36,7 @@ Folder with files to create a manuscript. CAVE: introduction and rest are in sep
 
 `intro_rsfmri` - introduction to manuscript
 
-`get_subject_ID_group_tp_forSwE.R` - R file with function `txt_for_swe(group, tp)` that creates final data frame
-
-create_df_and_txt_for_swe.R
+`df2SwEtxt.R` - R file with function `get_txt_for_swe(group, tp)` that creates final data frame
 
 ## Analysis pipeline
 

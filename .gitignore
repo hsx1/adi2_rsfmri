@@ -1,5 +1,6 @@
 # absolute paths
 abs_path*
+directories*
 # R data + history
 .Rproj.user
 .RData

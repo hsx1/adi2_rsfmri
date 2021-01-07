@@ -28,9 +28,9 @@ editor_options:
 # [ ] Discussion
 # [ ] brain images mit nilearn plotting tools einbinden
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [x] re-do analysis with new sample
-# [ ] repeat analysis with exclusion of 10% of worst data
+# [ ] repeat analysis with exclusion of 10% of worst data ??
 # [ ] Network tests
+# [ ] Swap mFD with logmFD ??
 
 ```
 
@@ -67,12 +67,12 @@ options(knitr.kable.NA = '') # hide NA in tables
 opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 setwd(knitr::opts_knit$get("root.dir"))
 ```
+
 \newpage
 # Abstract
 
 \newpage
 # Introduction
-
 
 
 \newpage
@@ -196,8 +196,10 @@ tab_descr
 ```{r figBMIdescr, fig.align='center', out.width="90%", fig.cap="BMI over time.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
 source("report/figures.R")
-figBMIdescr <- mk_figBMIdescr(final)
-figBMIdescr
+
+fig_BMIdescr <- mk_figBMIdescr(final)
+fig_BMIdescr
+
 ```
 
 ## fMRI acquisition
@@ -219,6 +221,7 @@ In the preregistration it was only mentioned that longitudinal FreeSurfer would 
 
 
 ## Functional preprocessing
+
 ### Minimal functional preprocessing
 The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step.
 For further analysis and ICA-AROMA processing, the minimally preprocessed data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
@@ -280,7 +283,7 @@ Additionally, mean framewise displacement (FD) was extracted from 6 translationa
 
 ## Analysis
 
-Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MATLAB2018) using the development version of the SwE toolbox [@Guillaume_2014] ([https://github.com/NISOx-BDI/SwE-toolbox](https://github.com/NISOx-BDI/SwE-toolbox) as of commit #384d2d7944e0c1919a3d22a0282a513916c25f59 was used because of bugs in most recent release) as implemented in the Statistical Parametric Mapping software (SPM12.7770, @spm12)<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
+Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MATLAB2018) using the SwE toolbox version 2.2.2 [@Guillaume_2014] as implemented in the Statistical Parametric Mapping software (SPM12.7770, @spm12)<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
 During analyses an implicit mask and an explicit mask were used. For this, FSL's standard space the brain mask that corresponds th "152 nonlinear 6th generation" atlas was re-sampled to 3 x 3 x 3 mm$^3$.<!-- MNI ICBM 2009a Nonlinear Symmetric grey matter mask ([http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009)) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$. -->
 
 <!-- MODEL SETUP --> As specified in the preregistration, we tested the interaction of time and group: $FC = group + time + group*time$. Unlike prespecified, we did not include the model without covariates (as this is deprecated \@ref{nuisance_paper}). Instead, we calculated a model adjusting for age and sex (Model 1) and another model additionally adjusting for mean FD (Model 2). We did not adjust for baseline BMI as described in the preregistration, but explored the relationship with BMI in a separate analysis.
@@ -318,8 +321,8 @@ Following the preregistration, we first investigated a time-by-group interaction
 We used a model comparison of R1 and R0 models with `anova`:
 `R1= lmer(agg FC ~ timepoint*group + (1|subj))`
 `R0 = lmer(agg FC ~ timepoint + group + (1|subj))`
-We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the time-by-group point interaction was considered significant if a model comparison between R1 and Null models using anova-function yielded a p<0.05.
-Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had p<0.05.
+We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the time-by-group point interaction was considered significant if a model comparison between R1 and Null models using `anova` function yielded a $p < 0.05$.
+Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had $p < 0.05$.
 
 \newpage
 # Results
@@ -359,7 +362,6 @@ final=read.csv(file = "./report/all_QA_measures.csv")
 
 FigureList <- figDvarsmFD(final)
 (FigureList$fig1 | FigureList$fig2) / FigureList$fig3
-
 ```
 
 ```{r FDFC correlation, eval=FALSE, echo=FALSE}
@@ -407,11 +409,13 @@ Yet, the reward network was less pronounced (overall lower T-values) and symmetr
 ### DMN/reward network with whole brain mask (preregistered analysis)
 
 #### with adjustment for age, sex, meanFD
+
 <!-- Brain mask: Group*Time Interaction [CORRECTED] -->
 There was no interaction of group and time point regarding the resting state connectivity for neither the PCC nor the NAcc seeds against our initial hypothesis. There also was no significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE correction.
 
 #### with adjustment for age and sex
 Similarly, there were no significant clusters when leaving out mean FD. Results did not differ between AROMA+CC and AROMA+CC+GSR preprocessing pipelines.
+
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
 
 
@@ -420,7 +424,7 @@ Unthresholded maps for the t-tests of the DMN and reward network (which were use
 
 ### DMN/reward network with GM mask (exploratory analysis)
 <!-- GM mask: Group*Time Interaction [OLD]-->
-Parametric and non-parametric significance test for the model testing for time-by-group interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the time-by-group interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{\mathrm{FDRcorr}} = 0.998$)<!-- also FWE-corr n.s -->.
+<!-- Parametric and non-parametric significance test for the model testing for time-by-group interaction did not show any different results when using a grey matter mask. Again, parametric estimation and non-parametric estimation differed in regard to the time-by-group interaction of PCC and voxel ($18,42,30$) in the connectivity maps without GSR correction. While co-activation was significant in parametric estimation ($Z = 4.72$, $q_{FDRcorr} = 0.040$), it was non-significant when using wild bootstrap ($q_{\mathrm{FDRcorr}} = 0.998$)<!-- also FWE-corr n.s -->
 
 ## Interaction effect group by time on aggregated FC (preregistered analysis)
 ```{r load agg FC data and prepare, echo=FALSE}
@@ -537,6 +541,54 @@ fig_Rewconn
 
 ## Effect of mean and change in BMI (exploratory analysis)
 
+Next, we tested for significant effects of the average BMI and the individual change in BMI longitudinally across the three time points.
+<!-- ### DMN -->
+<!-- #### DMN for three timepoints -->
+<!-- cc -->Using the images preprocessed with AROMA+CC, we did find a significant co-activation with the PCC in three clusters associated with average BMI. Omitting mean FD as nuisance covariate yielded similar results but four significant clusters. However, in both, there is significant peak activation within the largest cluster.
+<!-- gsr -->In analyses on images that were additionally preprocessed with GSR, no cluster survived statistical thresholds for either ROI.
+All results with significant cluster co-activation are depicted in Table \@ref(tab:tableBMImodel).
+<!-- ### DMN for two timepoints
+BMIONLYIG 
+Upon inclusion of only a subsample entailing participants from the intervention group but not the waiting control group, there was still no effect for average BMI, but a significant effect of change in BMI on co-activation between the seed region NAcc and a voxel ($-18,-42,-9$ [mm])<!-- belonging to a cluster of $k = 2$ with $Z = 4.64$ ($p_{FWEcorr} = 0.049$) (in GSR corrected connectivity maps). However the effect did not survive recalculation with Wild bootstrap ($p_{FWEcorr} = 0.426$)
+<!-- BMI2TP 
+Running the tests on a subsample of only two time points and omitting data from the third did not yield any significant co-activation with the ROI for neither of the preprocessing variants. Omitting mean FD did not change these results. -->
+<!-- GM mask 
+Results obtained from analyses with the grey matter masks were equal to those reported for the brain masks except test statistics for the above reported significant longitudinal effect for the NAcc in the intervention group differed only marginally ($q_{FDRcorr} = 0.048$) and did not survive recalculation with Wild bootstrap either ($q_{FDRcorr} = 0.552$).
+In regard to the exploratory expeditions on subsamples, consistent with previous results, no evidence for co-activation was found when using the grey matter mask.
+ --> 
+ 
+## Effect of FD (exploratory analysis)
+
+To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed two additional models. 
+First, BMI measures are excluded from the design matrix. Covariance of the mFD and outcome meausres is investigated by splitting mFD into average mFD and longitudinal mFD change and by inspecting associations with each predictor. Age and sex were nuisance covariates.
+<!-- #### Reward -->
+As shown in Table \@ref(tab:tableFDmodel), there is a significant co-activation of one cluster with the NAcc. Cluster co-activation appeared irrespective of the preprocessing procedure, differing mainly in cluster size.
+<!-- ### DMN -->
+We did not find a any clusters for functional connectivity with the PCC.
+
+
+## Effect of BMI and FD (exploratory analysis)
+
+Average BMI and change in BMI remain covariates of interest. While initially used as nuisance covariate, here, mFD is split into average mFD and change in mFD and used as. Age and sex remain nuisance covariates.
+
+<!-- ### Reward -->
+<!-- cc -->There is a significant effect of change in BMI on functional connectivity between NAcc and one cluster in the posterior-medial frontal region.
+Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction. Furthermore, the functional connectivity between the NAcc and one cluster was significantly related to average mFD.
+<!-- gsr -->When running the model with images corrected with GSR, the associations between connectivity and change in BMI did not survive statistical thresholds. 
+On the other hand, the relationship with average mFD was confirmed by analyses after GSR but cluster size shrank.
+
+<!-- ### DMN -->
+<!-- cc -->The effect of average BMI on connectivity between the PCC and other regions reported previously is confirmed. There is a significant association between average BMI and the connecitivity between PCC and three other clusters. Results are detailed in Table \@ref(tab:tableBMIFDmodel).
+Test statistics of these clusters differ only slightly from the effect found for average BMI when using mFD as nuisance covariate.
+<!-- gsr -->As before, the effect did not survive when thresholding if the images had been GSR corrected.
+
+
+## Effect on hypothalamic connectivity (exploratory analysis)
+...
+
+<!-- Neurovault -->
+Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
+
 ```{r tableBMImodel}
 source("report/tables.R")
 TableList <- mk_FCTables()
@@ -544,85 +596,96 @@ tab_BMImodel <- TableList[[1]]
 tab_BMImodel
 ```
 
-```{r tableFDmodel, echo=FALSE}
-tab_FDmodel <- TableList[[2]]
+```{r tableFDmodel}
+tab_FDmodel <- mk_FCTables()[[2]]
 tab_FDmodel
 ```
 
-```{r tableBMIFDmodel, echo=FALSE}
-tab_BMIFDmodel <- TableList[[3]]
+```{r tableBMIFDmodel}
+tab_BMIFDmodel <- mk_FCTables()[[3]]
 tab_BMIFDmodel
 ```
 
-<!-- Brain mask: average and individual BMI [OLD] -->
-<!-- BMItotal --> Next, we tested for significant effects of the average BMI and the individual change in BMI longitudinally across the three time points. We did not find a significant co-activation for neither the PCC nor the NAcc associated with average BMI nor change in BMI.
-Omitting mean FD as nuisance covariate did not change these results.
-<!-- BMIonlyIG --> Upon inclusion of only a subsample entailing participants from the intervention group but not the waiting control group, there was still no effect for average BMI, but a significant effect of change in BMI on co-activation between the seed region NAcc and a voxel ($-18,-42,-9$ [mm])<!-- belonging to a cluster of $k = 2$ --> with $Z = 4.64$ ($p_{FWEcorr} = 0.049$) (in GSR corrected connectivity maps). However the effect did not survive recalculation with Wild bootstrap ($p_{FWEcorr} = 0.426$)<!-- but FWE-corr sig?! -->. The effect also disappeared when running those tests without mean FD as nuisance covariate.
-<!-- BMI2tp --> Running the tests on a subsample of only two time points and omitting data from the third did not yield any significant co-activation with the ROI for neither of the preprocessing variants. Omitting mean FD did not change these results.
+# Discussion
 
-<!-- GM mask: average and individual BMI, damit die Reihenfolge so ist wie oben. -->
-Results obtained from analyses with the grey matter masks were equal to those reported for the brain masks except test statistics for the above reported significant longitudinal effect for the NAcc in the intervention group differed only marginally ($q_{FDRcorr} = 0.048$) and did not survive recalculation with Wild bootstrap either ($q_{FDRcorr} = 0.552$).
-In regard to the exploratory expeditions on subsamples, consistent with previous results, no evidence for co-activation was found when using the grey matter mask.
+#### Summary
+Utilizing resting-state functional MRI on morbidly obese individuals that either underwent or awaited bariatric surgery over the course of one year.
+<!-- general --> Building on the evidence for post-surgery changes in functional activity, this study explored the longitudinal relationship between surgery-induced weight loss and functional integrity in target networks indicated by resting-state functional connectivity. Over the course of one year we collected neuroimaging and anthropometric data from `r cs["Sum","IG"]` morbidly obese patients undergoing bariatric surgery and compared them to the longitudinal data of  `r cs["Sum","KG"]` patients on the waiting list.
+<!-- model specific --> Looking at time-by-group interactions, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, main effects of the intervention and of the time were examined.
+The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
+<!-- sensitivity analyses -->To get a better understanding of our results, we conducted multiverse exploratory analyses representing different choices regarding preprocessing pipelines, inclusion of covariates and subsets of the data relevant for interpretation.
 
-## Effect of FD (exploratory analysis)
+#### Support of original hypotheses
+<!-- false positive -->
+To summarize, while our primary hypothesis on group time interactions could not be confirmed, there was a significant relationship between functional activation 
+and the continuous BMI measures for some but not all analyses.
 
-<!-- Brain mask: FD --> To investigate the unique contributions of the average value of and the longitudinal change in mean FD, we constructed a model that entailed both of the predictors as covariates of interest and only age and sex as nuisance covariates.
-Surprisingly, we did not find a significant effect neither for the total sample, nor for the intervention group only.
-<!-- GM mask: FD --> Similarly, analysis with the grey matter mask did not reveal any findings either.
+- DMN: average BMI but only with lenient AROMA-CC but then for both covariate structures age/sex/mFD and age/sex; effect stable when separating avg mFD and cgn FD into two regressors 
+- Reward: effect of change BMI only when separating mFD, bit high peak activation
+The individuals BMI averaged across measures taken throughout the one-year period negatively correlated with functional connectivity between PCC and [regions from clusters]. Results indicate a decrease a functional connectivity within the default mode network. 
+<!-- discuss consistency with previous literatur -->
+... not? in accordance with our hypothesis regarding network activity changes. 
 
-## Effect on hypothalamic connectivity (exploratory analysis)
+
+Regarding the reward network, we could not predict changes in functional connectivity with the preregistered models. 
+However, when investigating the unique contributions to variance of head motion measures and BMI measures, we detected a significant relationship between the individuals' change in BMI throughout the year. 
+This may be preliminary evidence for changes in the functional connectivity between reward and frontal regions induced by weight-loss.
+<!-- discuss consistency with previous literatur -->
 
 
 # Discussion
+In our sample, extend of micromovements of the head averaged across all measurements is associated with increased functional connectivity between reward and frontal regions. <!-- explanation? overlap with region from change in BMI? -->
 
-<!-- SUMMARY -->
-Utilizing resting-state functional MRI on morbidly obese individuals that either underwent or awaited bariatric surgery over the course of one year.
-<!-- general --> Building on the evidence for post-surgery changes in functional activity, this study explored the longitudinal relationship between surgery-induced weight loss and functional integrity in target networks indicated by resting-state functional connectivity. Over the course of one year we collected neuroimaging and anthropometric data from `r cs["Sum","IG"]` morbidly obese patients undergoing bariatric surgery and compared them to the longitudinal data of  `r cs["Sum","KG"]` patients on the waiting list.
-<!-- model specific --> With the model on time-by-group--interaction, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined. <!-- correct interpretation of marginal models? -->
-The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
+<!-- Head motion as covariate, multicollinearity -->
+Based on concerns expressed in the literature, we tried to closely inspect and rigorously control for the influence of head motion. The presence of multi-collinearity of our predictors has been established before [@Beyer_2019]. As described by @Monti_2011, in the presence of multicollinearity, the unique contribution of the regressor for the prediction cannot be disentangled.
+Surprisingly, the effect of weight loss on the connectivity of the the NAcc with the posterior-medial frontal region is only present when separating average mFD and change in mFC and introducing two instead of one regressors into the model.
+However, such unexpected findings would be in accordance with @Monti_2011 stating that <!-- not only will confidence in $\beta$ estimates suffer but  --> estimates can behave erratic depending on which regressors are included in the model.
 
-<!-- SUPPORT OF ORIGINAL HYPOTHESIS -->
-<!-- false positive -->
-To summarize, there were few significant co-activation that emerged from the marginal models. Co-activation was locally highly specific and (NOT???) in accordance with our hypothesis regarding network activity changes. Given the multiplicity of of models resulting from variations of inspected networks and sensitivity analysis for different preprocessing and correction approached, the obtained significant correlations between seed regions and voxels are likely to be false positive. Ventures to verify effects by re-calculating with non-parametric Wild bootstrap confirmed supported presumption as effects were not robust across estimation procedures.
+Notwithstanding the difficulties of quantitatively disentangling multicollinearity between head motion and BMI, preliminary conclusions of our analyses may be...
+<!-- Given the multiplicity of of models resulting from variations of inspected networks and sensitivity analysis for different preprocessing and correction approached, the obtained significant correlations between seed regions and voxels are likely to be false positive. Ventures to verify effects by re-calculating with non-parametric Wild bootstrap confirmed supported presumption as effects were not robust across estimation procedures. -->
+
 <!-- limitations -->
 Without an a priori power analysis it is not possible to determine if there is no effect or
-To clarify, extended considerations should be made to use a priori power analysis (e.g. with fMRIpower) or check evidence of absence with alternative
+To clarify, extended considerations should be made to use a priori power analysis (e.g. with fMRIpower) or check evidence of absence with alternative statistical procedures.
 
-<!-- SIMILARITY OF RESULTS -->
+#### Similarity of results with literature (random notes)
 Our results are not consistent with the present literature. Although there are few studies investigating the impact of bariatric surgery on functional connectivity at resting state, the present articles do significant changes in network activation [@;@;@].
 <!-- publication bias -->
 
-<!-- INTERPRETATION -->
+#### Interpretation (random notes)
 <!-- absence of evidence --> However, hypotheses about the plasticity functional networks following bariatric surgery could not be validated. Due to the shortcomings of the inferential paradigm used, our null findings may either put conclusions drawn from previous research into question or may neither provide evidence for the presence nor the absence of the effect.
-<!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, the functional connectivity was higher in bariatric patients. It decreased after a meal while dietary patients showed an increase [@Lepping_2015].
+<!-- Control for satiety? --> A previous repeated measurement design with patients undergoing bariatric surgery and behavioral dietary intervention manipulating satiety showed a differential effect of satiety between intervention groups on the resting-state functional connectivity seeded in the precuneus. After the intervention, functional connectivity was higher in bariatric patients. It decreased after a meal while dietary patients showed an increase [@Lepping_2015].
 prandrial state is a relevant factor when investigating spontaneous brain activity [@Wiemerslage_2016]. putamine, insula
 
 <!-- GENERALIZABILITY -->
-<!-- advantage: prospective intervention control study -->
-Common challenge in medical intervention studies is the difficulty to draw causal inference about the effect of interventions such as surgeries because randomization is often unethical or unfeasible as done in randomized control trials. To isolate the effect of the surgical intervention to a maximum possible extent, the intervention group has to be comparable to a control group in regard  to predisposition. Studies comparing the sample of bariatric patients to lean individuals or behavioral dieters may have investigated risk or contributing factors to the condition or other dispositional difference between groups, e.g. in cognitive control, openness or responsiveness to behavioral interventions [@;@]. However, they provide insufficient evidence to directly evaluate impact of the surgical procedure. Prospective non-randomization trial study design are secondary to randomized control trials in regard to internal control. By establishing temporality, longitudinal measurements support the validity of conclusions about the effects of the surgery. Contrasting pre- and post-surgery measures change while controlling for individual variance. The waiting list control group equivalent in BMI, treatment history and  treatment recommendation allows controlling for concurrent factors [@Thiese_2014]. Incorporating these consideration, our study aimed at a higher internal validity for conclusions about the effects of bariatric surgery on functional connectivity.
+#### Internal validity
+<!-- advantage: prospective intervention control study -->Common challenge in medical intervention studies is the difficulty to draw causal inference about the effect of interventions such as surgeries because randomization is often unethical or unfeasible as done in randomized control trials. 
+Previous studies have compared the sample of bariatric patients to lean individuals, behavioral dieters, or obese individuals without a recommendation for bariatric surgery.
+Despite the accumulated evidence, effects may still be attributable to baseline differences, contributing factors to the condition or other psychophysiological and dispositional difference between groups [@].
+In order to build upon and complement previous evidence, we aimed to isolate the impact of the surgical procedure on changes in resting-state connectivity to a maximum possible extent by conducting a prospective non-randomization trial study. 
+Such a study design is secondary to randomized control trials in regard to internal control by means of temporality and controllability.
+We established temporality by contrasting pre- and post-surgery measures change while controlling for individual variance. <!-- Such longitudinal analyses support the validity of conclusions about the effects of the surgery. -->
+The waiting list control group is equivalent in BMI, treatment history and  treatment recommendation and therefore allows controlling for concurrent factors [@Thiese_2014]. 
+Incorporating these consideration, our study aimed at a higher internal validity for conclusions about the changes in functional connectivity specific to surgery-induced changes.
 
-<!-- advantage: Nucleus Accumbensrepresentative sample -->
-Size and composition of our sample did not allow separate analyses for the sexes. The disproportionate sex distribution is reflective prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
+#### Study sample
+<!-- advantage: representative sample -->
+Size and composition of our sample did not allow separate analyses for the sexes. However, the disproportionate sex distribution is reflective prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
 
 <!-- mention larger sample size -->
 
-<!-- mixed effect model -->
+#### Marginal model
+<!-- advantage: controlling for individual variance -->
 Due to the limitation of the traditional ANOVA framework (with respect to the spherity assumption, handling missing data, handling continuous data), it is often recommended to use modern models such as mixed-effect models and marginal models [@Chen_2013;@Guillaume_2014;@McFarquhar_2019].
-@McFarquhar_2019 demonstrated that specifying complex multi-level models and deriving the correct contrast weights with standard neuroimaging software packages such as SPM and FSL can be quite tedious and complicated if done appropriately. However, <!-- to rule out gross missspecification in the SwE model,  -->for the purpose of comparison, we re-ran the analysis for the time-by-group--interaction with age and sex as nuisance covariates.
-<!-- (FD is time-varying... schwierig) with a simplified model without nuisance covariates in SPM12. We opted for a simplified model because different nuisance covariates, time-invariant or time-varying, create additional complications. -->
-An advantage of the time-by-group interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time" assuming unequal group variances.
-<!-- vastly different - different implicit masks? -->
-Differences could be attributed to different corrections for non-spherity and assumptions on voxel covariance structures. Detailed comparisons between SPM12, SwE, and other software packages have been described elsewhere [@McFarquhar_2016].
+@McFarquhar_2019 demonstrated that specifying complex multi-level models and deriving the correct contrast weights with standard neuroimaging software packages such as SPM and FSL can be quite tedious and complicated if done appropriately. 
+<!-- However, for the purpose of comparison, we re-ran the analysis for the time-by-group--interaction with age and sex as nuisance covariates. We opted for a simplified model investigating the time-by group interaction in ... because different nuisance covariates, time-invariant or time-varying, create additional complications. An advantage of the time-by-group interaction in our model is that the $F$-ratio does not require partitioning the error and includes only factors and time-invariant nuisance convariates. The model was set up as flexible factorial design with factors "subject", "group", and "time" assuming unequal group variances. -->
+<!-- Differences could be attributed to different corrections for non-spherity and assumptions on voxel covariance structures. Detailed comparisons between SPM12, SwE, and other software packages have been described elsewhere [@McFarquhar_2016]. -->
 <!-- conclusion??? -->
-Opposed to flexible factorial models, where each individual is modelled separately, models are parsimonious and preserve more degrees of freedom.
-
-
+Opposed to flexible factorial models, where each individual is modelled separately, marginal models are parsimonious and preserve more degrees of freedom.
 
 <!-- IMPLICATIONS -->
 <!-- Relevance of rsfMRI as biomarker -->
-<!-- Consideration of head motion as covariate -->
-<!-- Problem head motion -->
-Based on concerns expressed in the literature [@], we tried to closely inspect and rigorously control for the influence of head motion. The presence of multicollinearity of our predictors has been established before. As described in @Monti_2011 in the presence of multicollinearity, the unique contribution of the regressor for the prediction cannot be disentangled. Confidence in $\beta$ estimates will suffers and estimates can behave erratic depending on which regressors included in the model.
+
 
 <!-- For all patients included, conservative obesity treatment had failed, e.g. behavioral diet intervention. As shown before, patients who were successful in behavioral diet increased connectivity in the default mode network. This might be indicative for self-referent information processing. -->
 

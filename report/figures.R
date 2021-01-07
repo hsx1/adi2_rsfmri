@@ -1,6 +1,6 @@
 
 mk_figBMIdescr <- function(final) {
-  
+
   condition.labs <- c("BARS","NBARS")
   names(condition.labs) <- c("IG","KG")
   # BMI over time each group
@@ -38,7 +38,7 @@ mk_figBMIdescr <- function(final) {
 }
 
 mk_figRewdescr <- function(final_FC) {
-  
+
   condition.labs <- c("BARS","NBARS")
   names(condition.labs) <- c("IG","KG")
   # BMI over time each group
@@ -76,7 +76,7 @@ mk_figRewdescr <- function(final_FC) {
 }
 
 mk_figDMNdescr <- function(final_FC) {
-  
+
   condition.labs <- c("BARS","NBARS")
   names(condition.labs) <- c("IG","KG")
   # BMI over time each group
@@ -114,10 +114,10 @@ mk_figDMNdescr <- function(final_FC) {
 }
 
 mk_figDesignMatrix <- function() {
-  
+
   # design matrix time as factor
   txt_path <- "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /SwE_files/noExclFD/both/total/"
-  
+
   ID <- read.delim(paste0(txt_path,"subjID.txt"), head=FALSE)
   condition <- read.delim(paste0(txt_path,"group.txt"), head=FALSE)
   KG_bl <- read.delim(paste0(txt_path,"KG_bl.txt"), head=FALSE)
@@ -129,7 +129,7 @@ mk_figDesignMatrix <- function() {
   measurement <- c(1:nrow(ID))
   dmf <- data.frame(measurement,ID,condition,KG_bl,KG_fu,KG_fu2,IG_bl,IG_fu,IG_fu2)
   colnames(dmf) <- c("measurement","ID","condition","N0","N6","N12","B0","B6","B12")
-  
+
   # design matrix time as continuous variable
   ID <- read.delim(paste0(txt_path,"subjID.txt"), head=FALSE)
   condition <- read.delim(paste0(txt_path,"group.txt"), head=FALSE)
@@ -140,7 +140,7 @@ mk_figDesignMatrix <- function() {
   measurement <- c(1:nrow(ID))
   dmc <- data.frame(measurement,ID,condition,group_IG,group_KG,tp_IG,tp_KG)
   colnames(dmc) <- c("measurement","ID","condition","groupB", "groupN","timeB","timeN")
-  
+
   # plot dmf
   input_dmf <- dmf %>%
     pivot_longer(
@@ -150,7 +150,7 @@ mk_figDesignMatrix <- function() {
     pivot_longer(
       cols= colnames(dmc[,c(4:ncol(dmc))]),
       names_to = "regressor")
-  
+
   plotA <- ggplot(input_dmf, aes(x = regressor, y = measurement, fill = value)) +
     geom_tile() +
     scale_fill_gradient(low="black", high="white") +
@@ -218,7 +218,7 @@ mk_otherplots <- function(final){
       legend.position = "bottom",
       legend.background = element_rect(colour = "grey")
     )
-  
+
   # BMI over time per subject
   # group x time interaction for BMI
   tspag <- ggplot(final, aes(
@@ -228,7 +228,7 @@ mk_otherplots <- function(final){
     group = condition
   )) +
     geom_point() +
-    
+
     stat_summary(fun = mean, geom = "point") +
     stat_summary(fun = mean, geom = "line")
   tspag  +
@@ -240,22 +240,22 @@ mk_otherplots <- function(final){
       strip.text = element_text(size = 12),
       legend.position = "top"
     )
-  
+
   ## example plots
-  
+
   df_wide <- tidyr::pivot_wider(
     data = final,
     id_cols = "subj.ID",
     names_from = "tp",
     values_from = c("tp", "BMI", "logmFD")
   )
-  
+
   if (tp == "BLFU") {
     s = 2
   } else {
     s = 1
   }
-  
+
   BMI_vector <- c("BMI_fu2", "BMI_fu", "BMI_bl")
   BMI_vector <- c("BMI_bl", "BMI_fu", "BMI_fu2")
   FD_vector <- c("logmFD_fu2", "logmFD_fu", "logmFD_bl")
@@ -277,23 +277,23 @@ mk_otherplots <- function(final){
     values_drop_na = TRUE
   )
   all(df_long$tp == final$tp) # check if order correct
-  
+
   head(final[, c("subj.ID", "tp")])
   head(df_long[, c("subj.ID", "tp")])
-  
+
   df_long$cgnBMI <- final$BMI - df_long$avgBMI
   df_long$avgBMIc <-
     df_long$avgBMI - mean(df_long$avgBMI, na.rm = TRUE)
   df$avgBMIc <- df_long$avgBMIc
   df$cgnBMI <- df_long$cgnBMI
-  
+
   df_long$cgnFD <- final$logmFD - df_long$avgFD
   df_long$avgFDc <-
     df_long$avgFD - mean(df_long$avgFD, na.rm = TRUE)
   final$avgFDc <- df_long$avgFDc
   final$cgnFD <- df_long$cgnFD
-  
-  
+
+
   # example plots for interaction effect (arbitrary variables for illustration purposes)
   ggplot(final, aes(x=tp, y=BMI, group=condition, color=condition)) +
     #geom_smooth(aes(group=condition)) +
@@ -307,7 +307,7 @@ mk_otherplots <- function(final){
       axis.text = element_text(size = 10), axis.title = element_text(size = 12),
       strip.text = element_text(size = 12), legend.text = element_text(size = 10),
       legend.position = "bottom", legend.background = element_rect(colour = "grey"))
-  
+
   # example plot for change effect (purely descriptive)
   getPalette = colorRampPalette(brewer.pal(9, "Set1"))
   cgnplot <- ggplot(final, aes(x=a,y=logmFD, group=subj.ID)) +
@@ -323,7 +323,7 @@ mk_otherplots <- function(final){
       axis.text = element_text(size = 10), axis.title = element_text(size = 12),
       strip.text = element_text(size = 12), legend.text = element_text(size = 10),
       legend.position = "bottom", legend.background = element_rect(colour = "grey"))
-  
+
   # example plot for change effect (purely descriptive)
   tspag=ggplot(data=final, aes(y=cgnFD, x=cgnBMI, color=condition))+
     geom_point(size=2)+
@@ -343,17 +343,17 @@ mk_otherplots <- function(final){
                        legend.position="top",
                        legend.title = element_text(size = 14),
                        legend.text = element_text(size = 14))
-  
-  
+
+
 }
 
 figDvarsmFD <- function(final){
-  
+
   # figures --------------------------------------------------------------------
-  
+
   condition.labs <- c("BARS","NBARS")
   names(condition.labs) <- c("IG","KG")
-  
+
   # DVARS over time each group
   fig_DVARSdescr <-
     ggplot(final, aes(
@@ -449,6 +449,6 @@ figDvarsmFD <- function(final){
     )
   FigureList <- list(fig1, fig2,fig3)
   names(FigureList) <- c("fig1","fig2","fig3")
-  
+
   return(FigureList)
 }
