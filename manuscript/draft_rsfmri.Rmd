@@ -356,14 +356,16 @@ FigureList <- figDvarsmFD(final)
 ```
 
 ```{r FDFC correlation, eval=FALSE, echo=FALSE}
+# do not evaluate if saved already
 source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
 FDFC=calc_qc_fc(final)
 write.csv(FDFC,"./report/FDFCcorrelations.csv", row.names = FALSE)
 ```
 
-
 ```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens"),fig.show='hold',fig.align='center'}
-networks=c("../report/DMN_thresholded_for_clusterFWE005.png","../report/Rew_thresholded_for_clusterFWE005.png")
+#setwd(knitr::opts_knit$get("root.dir"))
+networks = c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png",
+             "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png")
 knitr::include_graphics(networks)
 ```
 
@@ -390,7 +392,7 @@ p<-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
   legend.position="")
 ```
 
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="60%",  echo=FALSE}
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="60%", fig.align="center", echo=FALSE}
 p
 ```
 Yet, the reward network was less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see Figure \@ref{fig:figtSNR}.
