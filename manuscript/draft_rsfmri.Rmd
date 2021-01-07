@@ -210,6 +210,7 @@ In the preregistration it was only mentioned that longitudinal FreeSurfer would 
 
 
 ## Functional preprocessing
+
 ### Minimal functional preprocessing
 The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step.
 For further analysis and ICA-AROMA processing, the minimally preprocessed data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
@@ -307,8 +308,8 @@ Following the preregistration, we first investigated a time-by-group interaction
 We used a model comparison of R1 and R0 models with `anova`:
 `R1= lmer(agg FC ~ timepoint*group + (1|subj))`
 `R0 = lmer(agg FC ~ timepoint + group + (1|subj))`
-We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the time-by-group point interaction was considered significant if a model comparison between R1 and Null models using anova-function yielded a p<0.05.
-Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had p<0.05.
+We performed a sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI. Again, the time-by-group point interaction was considered significant if a model comparison between R1 and Null models using `anova` function yielded a $p < 0.05$.
+Finally, we estimated the above-mentioned interaction model for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 using `anova` had $p < 0.05$.
 
 # Results
 
@@ -330,7 +331,6 @@ for (i in 1:nrow(final)) {
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
   final
 }
-  
 ```
 
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD'}
@@ -339,7 +339,6 @@ for (i in 1:nrow(final)) {
 
 FigureList <- figDvarsmFD(final)
 (FigureList$fig1 | FigureList$fig2) / FigureList$fig3
-
 ```
 
 ```{r FDFC correlation, eval=FALSE, echo=FALSE}
@@ -479,14 +478,14 @@ tab_BMIFDmodel
 
 # Discussion
 
-### Summary
+#### Summary
 Utilizing resting-state functional MRI on morbidly obese individuals that either underwent or awaited bariatric surgery over the course of one year.
 <!-- general --> Building on the evidence for post-surgery changes in functional activity, this study explored the longitudinal relationship between surgery-induced weight loss and functional integrity in target networks indicated by resting-state functional connectivity. Over the course of one year we collected neuroimaging and anthropometric data from `r cs["Sum","IG"]` morbidly obese patients undergoing bariatric surgery and compared them to the longitudinal data of  `r cs["Sum","KG"]` patients on the waiting list.
-<!-- model specific --> Looking at time-by-group interactions, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, also main effects of the intervention and of the time were examined.
+<!-- model specific --> Looking at time-by-group interactions, we primarily investigated whether changes in functional connectivity over time vary depending whether participants have received surgery or not, while controlling for individual variance in resting-state connectivity over time and at baseline. Beyond that, main effects of the intervention and of the time were examined.
 The second model further investigates if changes in connectivity are a function of an average BMI (controlled for individual variance in BMI) and the longitudinal change in BMI.
 <!-- sensitivity analyses -->To get a better understanding of our results, we conducted multiverse exploratory analyses representing different choices regarding preprocessing pipelines, inclusion of covariates and subsets of the data relevant for interpretation.
 
-### Support of original hypotheses
+#### Support of original hypotheses
 <!-- false positive -->
 To summarize, while our primary hypothesis on group time interactions could not be confirmed, there was a significant relationship between functional activation 
 and the continuous BMI measures for some but not all analyses.

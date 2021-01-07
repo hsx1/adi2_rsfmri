@@ -19,8 +19,7 @@ mk_figBMIdescr <- function(final) {
       size = 2,
       color = c(rep("#00305E", 3), rep("#C00045", 3))
     ) +
-    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
-  figBMIdescr +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points") +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
       values = c("#00305E77", "#C0004577"),
