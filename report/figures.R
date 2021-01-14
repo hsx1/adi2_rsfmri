@@ -1,6 +1,8 @@
 
 pink_blue = c("#00305E", "#C00045")
 blue_organge = c("#046C9A", "#D69C4E")
+
+# BMI --------------------------------------------------------------------------
 mk_figBMIdescr <- function(final) {
 
   condition.labs <- c("BARS","NBARS")
@@ -36,9 +38,11 @@ mk_figBMIdescr <- function(final) {
       legend.text = element_text(size = 10),
       legend.position = "none"
     )
+  # ggsave("/data/pt_02161/Publications/Abstracts/Heinrichs_OHBM2021/bmi.pdf", units = "cm", width=15, height=8)
   return(figBMIdescr)
 }
 
+# Reward -----------------------------------------------------------------------
 mk_figRewdescr <- function(final_FC) {
 
   condition.labs <- c("BARS","NBARS")
@@ -77,6 +81,7 @@ mk_figRewdescr <- function(final_FC) {
   return(figRewdescr)
 }
 
+# DMN --------------------------------------------------------------------------
 mk_figDMNdescr <- function(final_FC) {
 
   condition.labs <- c("BARS","NBARS")
@@ -115,6 +120,7 @@ mk_figDMNdescr <- function(final_FC) {
   return(figDMNdescr)
 }
 
+# Design matrix ----------------------------------------------------------------
 mk_figDesignMatrix <- function() {
 
   # design matrix time as factor
@@ -210,8 +216,8 @@ mk_figtSNR <- function (final) {
   return(p)
 }
 
-# ------------------------------------------------------------------------------
-# exploratory and example plots
+# exploratory and example plots ------------------------------------------------
+
 mk_otherplots <- function(final){
   # BMI over time per group
   tspag <-
