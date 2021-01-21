@@ -2,7 +2,7 @@ library(dplyr) # version 1.0.2
 library(tidyr) # version 1.1.2
 
 
-create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
+create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE){
   # possible values for group: IG/KG/both
   # possible values for tp: BL/FU/FU2/BLFU/all
 
@@ -12,12 +12,12 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
 
   apply_excl_criteria <- function(data = full_sample, exclFD = FALSE){
     # exclusion of participants who failed preprocessing in FreeSurfer
-    cat("N =",nrow(full_sample),"\n")
+    cat("Fill sample consistst of N =",nrow(full_sample),"; ")
     full_sample$exclude_prep <- full_sample$Exclude
     full_sample$exclude_prep[is.na(full_sample$exclude_prep)]=FALSE
     
     mri_sample <- merge(mri_files, full_sample[!is.na(full_sample$condition),c("subj.ID","condition","tp","Age_BL","Sex","meanFD", "BMI","exclude_prep")], by=c("subj.ID","tp"))
-    cat("n =",nrow(mri_sample),"with fMRI data points.\n")
+    cat("n =",nrow(mri_sample),"with fMRI data.\n")
 
     mri_sample[mri_sample$exclude_prep==TRUE,] # ADI063_bl ADI063_fu ADI116_bl ADI116_fu ADI116_fu2
     cat("Note that",nrow(mri_sample[mri_sample$exclude_prep==TRUE,]),"data points were excluded due to problems in preprocessing.\n")
@@ -35,7 +35,7 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
     }else if (exclFD ==FALSE){
       final_sample=sample_after_1stExcl
     }
-    cat("The remaining sample comprises n =",nrow(final_sample),"data points across across time for all groups.\n")
+    cat("The remaining sample comprises n =",nrow(final_sample),"data points across across time for both groups.\n")
     # all remaining data points should be included
     final_sample$include <- TRUE
     return(final_sample)
@@ -47,7 +47,9 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
 
   # participants with mri data (txt file with path to .nii file) ---------------
 
-  mri_files=read.table("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level //SwE_files/scans.txt")
+  mri_files=data.frame(list.files("/data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity",
+             full.names = TRUE))
+  
   # split info from path in txt
   for (i in 1:nrow(mri_files)){
     tmp=strsplit(toString(mri_files[i,1]),'/')[[1]][8]
@@ -56,7 +58,7 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
     mri_files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
     mri_files[i,"subj.Nr"]=as.numeric(substr(mri_files$subj.ID[i],4,6))
   }
-  mri_files$V1 <- NULL
+  mri_files[,1] <- NULL
 
   # load info from full sample and merge with path info (fmri only)-------------
 
@@ -116,6 +118,7 @@ create_sample_df <- function(group = "all", tp = "all", exclFD = FALSE){
   }else if (tp == "FUFU2"){
     df <- df[df$tp != "fu2",]
   }
+  cat("Data from",group,"group(s) and",tp,"measurements were selected to be kept in the data frame, therefore n =",nrow(df),".\n")
 
   # end of computations --------------------------------------------------------
   return(df)

@@ -42,6 +42,108 @@ mk_figBMIdescr <- function(final) {
   return(figBMIdescr)
 }
 
+mk_figBMIdescr_for_OHBM <- function(final) {
+  
+  condition.labs <- c("BS","NBS")
+  names(condition.labs) <- c("IG","KG")
+  # BMI over time each group
+  figBMIdescrOHBM <-
+    ggplot(final, aes(
+      x = tp,
+      y = BMI,
+      group = subj.ID,
+      color = condition
+    )) +
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    stat_summary(
+      aes(group = condition),
+      fun = mean,
+      geom  = "line",
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
+    # geom_errorbar(aes(ymin=BMI-sd(BMI),ymax=BMI+sd(BMI))) +
+    xlab("time points") +
+    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+    scale_color_manual(
+      values = c("#046C9A70", "#D69C4E70"),
+      labels = c("intervention", "control")
+    ) +
+    xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
+    theme_bw() +  theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      strip.text = element_text(size = 12),
+      legend.text = element_text(size = 10),
+      legend.position = "none"
+    )
+  #ggsave("/data/pt_02161/Publications/Abstracts/HeinrichsBeyer_OHBM2021/bmi.pdf", units = "cm", width=15, height=8)
+  return(figBMIdescrOHBM)
+}
+
+mk_figFDdescr_for_OHBM <- function(final) {
+  
+  condition.labs <- c("BS","NBS")
+  names(condition.labs) <- c("IG","KG")
+  # BMI over time each group
+  figFDdescrOHBM <-
+    ggplot(final, aes(
+      x = tp,
+      y = meanFD,
+      group = subj.ID,
+      color = condition
+    )) +
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    stat_summary(
+      aes(group = condition),
+      fun = mean,
+      geom  = "line",
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
+    # geom_errorbar(aes(ymin=BMI-sd(BMI),ymax=BMI+sd(BMI))) +
+    xlab("time points") +
+    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+    scale_color_manual(
+      values = c("#046C9A70", "#D69C4E70"),
+      labels = c("intervention", "control")
+    ) +
+    xlab("Time after intervention [months]") + ylab ("mean FD") +
+    theme_bw() +  theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      strip.text = element_text(size = 12),
+      legend.text = element_text(size = 10),
+      legend.position = "none"
+    )
+  ggsave("/data/pt_02161/Publications/Abstracts/HeinrichsBeyer_OHBM2021/meanfd.pdf", units = "cm", width=15, height=8)
+  return(figFDdescrOHBM)
+}
+
 # Reward -----------------------------------------------------------------------
 mk_figRewdescr <- function(final_FC) {
 

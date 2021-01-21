@@ -77,7 +77,7 @@ source("report/create_sample_df.R")
 # Methods
 
 ```{r "Load data", include=FALSE}
-final = create_sample_df(group = "all", tp = "all")
+final <- create_sample_df(group = "both", tp = "all")
 
 # sample size
 #nrow(subj_df)
@@ -397,11 +397,6 @@ fig_tSNR
 ```
 Yet, the reward network was less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see Figure \@ref{fig:figtSNR}.
 
-```{r "Descriptive results", include=FALSE}
-m = lme4::lmer(BMI ~ group*visit + (visit+1|subj.ID), data=final)
-summary(m)
-confint(m, method='profile', oldNames=FALSE)
-```
 ## Interaction effect of intervention and time (preregistered analysis)
 
 ### DMN/reward network with whole brain mask (preregistered analysis)
