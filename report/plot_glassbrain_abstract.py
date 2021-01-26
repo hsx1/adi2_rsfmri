@@ -4,16 +4,26 @@
 
 from nilearn import plotting
 from os import path
+import pandas as pd
 
 
 def main():
-    ROOT_DIR = '/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/noExclFD/FD_total/brain/Nacc_cc_z/bmi-fd-age-sex_WB-c02cl'
 
-    IN_FILE = path.join(ROOT_DIR, 'thresholded_cgnBMI_decrease.nii')
-    OUT_FILE = path.join(ROOT_DIR, 'thresholded_cgnBMI_decrease.pdf')
+    OUT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report"
+    INFO_FILE = "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/noExclFD/result_report.txt"
 
-    print(f'Processing:\n- in:  {IN_FILE}\n- out: {OUT_FILE}')
-    plot(IN_FILE, OUT_FILE)
+    # dataframe with filenames, path list, cluster threshold
+    df = pd.read_table(INFO_FILE, header=None)
+    df[1] = df[1].str.replace('txt', 'nii') # root_paths  = df[1].tolist()
+
+    for i in range(len(df[1])):
+        IN_FILE = df[1][i]
+        OUT_FILE = path.join(OUT_DIR, (df[0][i] + ".pdf"))
+
+        # do for each result
+        print(f'Processing:\n- in:  {IN_FILE}\n- out: {OUT_FILE}')
+        plot(IN_FILE, OUT_FILE)
+
     print('done!')
 
 

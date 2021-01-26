@@ -71,9 +71,8 @@
 % If DISPLAY_ONLY is set on false and the model has been estimated, the
 % results will only then change, if OVERWRITE is set on true.
 % define relevant input and output directories
-% Especially for results of non-parametric estimation, you need to specify
-% how long you want to look at the results in VIEWSEC. Alternatively you
-% can also set breakpoints in the funtion scripts.
+% Especially for results of non-parametric estimation, enable *VIEW" in 
+% order to look at the results. 
 
 %% ========================================================================
 % MATLAB R2017b not compatible
@@ -81,7 +80,7 @@
 % set path for spm and path with my functions
 % swe version 2.2.1 download of development 
 addpath("/data/pt_02161/Analysis/Software/spm12/")
-addpath(genpath("/data/pt_02161/Analysis/Software/spm12/toolbox"))
+addpath(genpath("/data/pt_02161/Analysis/Software/spm12/toolbox/SwE-toolbox-2.2.2"))
 addpath("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code")
 % swe version 2.1.1
 %addpath(genpath("/data/pt_life/data_fbeyer/spm-fbeyer"))
@@ -103,10 +102,11 @@ param.MASK_B = "MNI_resampled_brain_mask.nii,1";
 roi_prep = convertCharsToStrings(readcell(fullfile(param.INFO_DIR,"ROIs.txt"), "Delimiter"," ","Whitespace","'"));
 %% ------------------------------------------------------------------------
 
-param.PRESET = "bmi";
-param.ONLY_DISPLAY = false;         
-param.OVERWRITE = true; 
+param.PRESET = "manual";
+param.ONLY_DISPLAY = true;         
+param.OVERWRITE = false; 
 param.WILD_BOOT = true;   
+param.parallel = false;
 
 if param.PRESET == "standard"
     param.MODEL = ["grouptime","grouptime2tp", "bmi", "bmiIG","bmi2tp", "fd","fdIG"];
@@ -115,6 +115,7 @@ if param.PRESET == "standard"
     param.MASK = "brain";           
     param.EXCLFD = false;         
     param.INFERENCE_TYPE = ["cluster"];
+    param.VIEW = false;
 elseif param.PRESET == "bmi"
     param.MODEL = ["bmi"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
@@ -122,6 +123,7 @@ elseif param.PRESET == "bmi"
     param.MASK = "brain";           
     param.EXCLFD = false;        
     param.INFERENCE_TYPE = ["cluster"];
+    param.VIEW = true;
 elseif param.PRESET == "gt"
     param.MODEL = ["grouptime"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
@@ -129,27 +131,31 @@ elseif param.PRESET == "gt"
     param.MASK = "brain";           
     param.EXCLFD = false;          
     param.INFERENCE_TYPE = ["cluster"];
+    param.VIEW = true;
 elseif param.PRESET == "fd"
     param.MODEL = ["fd"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
-    param.COVARIATES = [31,32];  
+    param.COVARIATES = [31, 32];  
     param.MASK = "brain";           
     param.EXCLFD = false;         
     param.INFERENCE_TYPE = ["cluster"];
+    param.VIEW = true;
 elseif param.PRESET == "averageFC"
     param.MODEL = ["alltp"];
-    param.ROI_PREP = roi_prep([4, 6, 12, 14, 20, 22, 28, 30]); 
-    param.COVARIATES = [11, 12, 21, 22, 31, 32, 41, 42, 43];  
+    param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
+    param.COVARIATES = [41, 42, 43];  
     param.MASK = "brain";           
     param.EXCLFD = false;     
     param.INFERENCE_TYPE = ["voxel","cluster","tfce"];
+    param.VIEW = true;
 elseif param.PRESET == "baselineFC"
     param.MODEL = ["singletp"];
-    param.ROI_PREP = roi_prep([4, 6, 12, 14, 20, 22, 28, 30]); 
-    param.COVARIATES = [11, 12, 21, 22, 31, 32, 41, 42, 43];  
+    param.ROI_PREP = roi_prep([6, 12, 14]); 
+    param.COVARIATES = [41, 42, 43];  
     param.MASK = "brain";           
     param.EXCLFD = false;         
-    param.INFERENCE_TYPE = ["voxel","cluster","tfce"];
+    param.INFERENCE_TYPE = ["voxel"];
+    param.VIEW = true;
 elseif param.PRESET == "full"
     param.MODEL = ["grouptime","grouptime2tp", "bmi", "bmiIG","bmi2tp", "fd","fdIG", "alltp","singletp"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14, 20, 22, 28, 30]); 
@@ -157,6 +163,7 @@ elseif param.PRESET == "full"
     param.MASK = "brain";           
     param.EXCLFD = false;         
     param.INFERENCE_TYPE = ["voxel","cluster","tfce"];
+    param.VIEW = true;
 elseif param.PRESET == "test"
     param.MODEL = ["bmi"];
     param.ROI_PREP = roi_prep([4]); 
@@ -164,27 +171,25 @@ elseif param.PRESET == "test"
     param.MASK = "brain";           
     param.EXCLFD = false;        
     param.INFERENCE_TYPE = ["cluster"];
+    param.VIEW = true;
 elseif param.PRESET == "manual"
     % define ROI
-    param.ROI_PREP = roi_prep([4, 6, 12, 14]); % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {"Nacc_cc_z","Nacc_gsr_z","PCC_cc_z","PCC_gsr_z","LH_cc_z","LH_gsr_z","MH_cc_z","MH_gsr_z"}
+    param.ROI_PREP = roi_prep([4]); % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {"Nacc_cc_z","Nacc_gsr_z","PCC_cc_z","PCC_gsr_z","LH_cc_z","LH_gsr_z","MH_cc_z","MH_gsr_z"}
 
     % Model definition
     % All three models have unique options for covariate definition, the
     % association to a model is indicated by the tens digit (GroupTime_: 1_; 
     % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-    param.MODEL = ["grouptime","grouptime2tp","bmi"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
-    param.COVARIATES = [11, 12, 21];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+    param.MODEL = ["fd"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
+    param.COVARIATES = [31];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
     % define masking and type of inference
     param.MASK = "brain";               % "brain"
     param.EXCLFD = false;               % false
-    param.WILD_BOOT = true;             % false
     param.INFERENCE_TYPE = ["cluster"]; % ["voxel","cluster","tfce"];
 
     % analysis parameter (estimate or display?)
-    param.ONLY_DISPLAY = false;         % false
-    param.OVERWRITE = true;             % false
-    %param.VIEWSEC = 5; % for ONLY_DISPLAY: seconds you want to view the results
+    param.VIEW = true;
     % param.ACTION = "estimate" % "display" or "overwrite"
 else
     error("Preset '%s' not defined.",param.PRESET)
@@ -199,24 +204,27 @@ end
 % end
 
 if (param.OVERWRITE)
-    shin = input("OVERRIDE is enabled. Continue? (yes/No)", 's');
+    shin = input("OVERWRITE is enabled. Continue? (yes/No)", 's');
     if (~strcmp(shin, "yes"))
         disp("aborted.");
         return;
     end
-end
-if (param.WILD_BOOT)
-    shin = input("WILD_BOOT is enabled. Continue? (yes/No)", 's');
-    if (~strcmp(shin, "yes"))
-        disp("aborted.");
-        return;
+    if (param.WILD_BOOT)
+        shin = input("WILD_BOOT is enabled. Continue? (yes/No)", 's');
+        if (~strcmp(shin, "yes"))
+            disp("aborted.");
+            return;
+        end
     end
 end
 
 runs = build_runs(param);
 
+if param.parallel
+    process_runs_parallel(runs)
+else
+    process_runs_sequence(runs)
+end
 
-process_runs_parallel(runs)
-
-
-%fprintf("Enter > spm("Quit") < to exit.")
+%exit
+%quit

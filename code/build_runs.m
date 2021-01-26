@@ -16,13 +16,18 @@ for l = 1:length(param.MODEL)
             ctype = "BMI";
         elseif startsWith(cmodel,"fd") 
             ctype = "FD";
+        elseif startsWith(cmodel,"all") 
+            ctype = "ALL";
+        elseif startsWith(cmodel,"single") 
+            ctype = "SINGLE";
         else
             error("invalide model name")
         end
 
         if ((strcmp(ctype,"GT") && (ccov < 10 || ccov >= 20) ) || ...
                 (strcmp(ctype,"BMI") && (ccov < 20 || ccov >= 30))|| ...
-                (strcmp(ctype,"FD") && (ccov < 30 || ccov >= 40)) ) 
+                (strcmp(ctype,"FD") && (ccov < 30 || ccov >= 40)) || ...
+                ((strcmp(ctype,"ALL") || strcmp(ctype,"SINGLE")) && (ccov < 40 || ccov >= 50)) ) 
             continue;
         end
 
@@ -30,6 +35,7 @@ for l = 1:length(param.MODEL)
             for m = 1:length(param.ROI_PREP)
                 
                 crun.ONLY_DISPLAY = param.ONLY_DISPLAY;
+                crun.VIEW = param.VIEW;
                 crun.OVERWRITE = param.OVERWRITE;
                 crun.OUT_DIR = param.OUT_DIR;
                 crun.INFO_DIR = param.INFO_DIR;
@@ -39,7 +45,11 @@ for l = 1:length(param.MODEL)
                 crun.MASK = param.MASK; 
                 crun.EXCLFD = param.EXCLFD;
                 crun.WILD_BOOT = param.WILD_BOOT;
-                crun.INFERENCE_TYPE = param.INFERENCE_TYPE;
+                if ~crun.WILD_BOOT 
+                    crun.INFERENCE_TYPE = "parametric"; 
+                else
+                    crun.INFERENCE_TYPE = param.INFERENCE_TYPE;
+                end
                 crun.TYPE = ctype;
                 crun.MODEL = param.MODEL(l);
                 crun.COVARIATES = param.COVARIATES(j);

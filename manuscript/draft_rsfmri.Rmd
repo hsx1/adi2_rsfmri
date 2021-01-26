@@ -340,7 +340,7 @@ As described in @Beyer_2020, group and time show an interaction effect for mFD w
 We also inspected DVARS, a measure of whole-brain signal variation which is reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and time points, and that the correlation of DVARS and mFD remained similar over time points.
 This indicates that even though there was a decrease in head motion in the intervention versus control group, the impact of head motion on imaging data remained similar over the study period.
 ```{r tableQcfc, echo=FALSE}
-res <- read.csv("./report/FDFCcorrelations.csv")
+res <- read.csv("report/FDFCcorrelations.csv")
 rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
 colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
 
@@ -365,7 +365,7 @@ for (i in 1:nrow(final)) {
 ```
 
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD', echo=FALSE}
-final=read.csv(file = "./report/all_QA_measures.csv")
+final=read.csv(file = "report/all_QA_measures.csv")
 
 FigureList <- figDvarsmFD(final)
 (FigureList$fig1 | FigureList$fig2) / FigureList$fig3
@@ -375,7 +375,7 @@ FigureList <- figDvarsmFD(final)
 # do not evaluate if saved already
 source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
 FDFC=calc_qc_fc(final)
-write.csv(FDFC,"./report/FDFCcorrelations.csv", row.names = FALSE)
+write.csv(FDFC,"report/FDFCcorrelations.csv", row.names = FALSE)
 ```
 
 ```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens"),fig.show='hold',fig.align='center'}
@@ -546,6 +546,13 @@ Running the tests on a subsample of only two time points and omitting data from 
 Results obtained from analyses with the grey matter masks were equal to those reported for the brain masks except test statistics for the above reported significant longitudinal effect for the NAcc in the intervention group differed only marginally ($q_{FDRcorr} = 0.048$) and did not survive recalculation with Wild bootstrap either ($q_{FDRcorr} = 0.552$).
 In regard to the exploratory expeditions on subsamples, consistent with previous results, no evidence for co-activation was found when using the grey matter mask.
  -->
+```{r "BMIagesexfd_PCCcc_avgBMI_deact", out.width = "50%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf")
+```
+
+```{r "BMIagesex_PCCcc_avgBMI_deact", out.width = "85%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf")
+```
 
 ## Effect of FD (exploratory analysis)
 
@@ -555,7 +562,13 @@ First, BMI measures are excluded from the design matrix. Covariance of the mFD a
 As shown in Table \@ref(tab:tableFDmodel), there is a significant co-activation of one cluster with the NAcc. Cluster co-activation appeared irrespective of the preprocessing procedure, differing mainly in cluster size.
 <!-- ### DMN -->
 We did not find a any clusters for functional connectivity with the PCC.
+```{r "FDagesex_NACCcc_avgFD_act", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf")
+```
 
+```{r "FDagesex_NACCgsr_avgFD_act", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf")
+```
 
 ## Effect of BMI and FD (exploratory analysis)
 
@@ -571,6 +584,25 @@ On the other hand, the relationship with average mFD was confirmed by analyses a
 <!-- cc -->The effect of average BMI on connectivity between the PCC and other regions reported previously is confirmed. There is a significant association between average BMI and the connecitivity between PCC and three other clusters. Results are detailed in Table \@ref(tab:tableBMIFDmodel).
 Test statistics of these clusters differ only slightly from the effect found for average BMI when using mFD as nuisance covariate.
 <!-- gsr -->As before, the effect did not survive when thresholding if the images had been GSR corrected.
+```{r "BMIFDagesex_NACCcc_avgFD_act", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf")
+```
+
+```{r "BMIFDagesex_NACCcc_cgnBMI_deact", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf")
+```
+
+```{r "BMIFDagesex_NACCgsr_avgFD_act", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf")
+```
+
+```{r "BMIFDagesex_NACCgsr_cgnBMI_deact", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf")
+```
+
+```{r "BMIFDagesex_PCCcc_avgBMI_deact", out.width = "75%"}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf")
+```
 
 
 ## Effect on hypothalamic connectivity (exploratory analysis)

@@ -2,6 +2,9 @@ DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Anal
 
 # FC RESULTS -------------------------------------------------------------------
 mk_FCTables <- function() {
+  # previously csv files with SPM output tables need to be created, maps need
+  # to be inspected with the Anatomical Labelling Toolbox and its results saved 
+  # in a txt file.
   
 # ------------------------------------------------------------------------------
 # Directories
@@ -15,6 +18,7 @@ res_fc$BMImodel_dirs <-
 res_fc$FDBMImodel_dirs <- 
   c("noExclFD/FD_total/brain/Nacc_cc_z/bmi-fd-age-sex_WB-c02cl", # deact
     "noExclFD/FD_total/brain/Nacc_cc_z/bmi-fd-age-sex_WB-c03cl", # act
+    "noExclFD/FD_total/brain/Nacc_gsr_z/bmi-fd-age-sex_WB-c02cl", # deact
     "noExclFD/FD_total/brain/Nacc_gsr_z/bmi-fd-age-sex_WB-c03cl", # act
     "noExclFD/FD_total/brain/PCC_cc_z/bmi-fd-age-sex_WB-c01cl") # deact
 res_fc$FDmodel_dirs <- 
@@ -27,26 +31,18 @@ res_fc$act_csv <- "results_act.csv"
 # ------------------------------------------------------------------------------
 # Anatomical Labeling
 # ------------------------------------------------------------------------------
+
+# get Anatomy tables
+# manually created list of all directories of result txt - better solution needed
 f <- file.path(DIR_ANALYSIS,"noExclFD/result_report.txt")
 result_report <- read.table(f, sep="\t",col.names = c("model","dir","k"),stringsAsFactors = FALSE)
 
 ResultFCList <- list()
 for (r in 1:nrow(result_report)) {
   f = result_report[r,"dir"]
-  txt <- read.table(trimws(f), sep="\t", fill = TRUE)
+  txt <- read.table(trimws(f),sep="\t",fill=TRUE,col.names=paste0("V", 1:13))
   name_model <- result_report$model[r]
   
-  # construct list of clusters for model
-  # ClusterList <- list()
-  # startentries <- which(grepl("Cluster", txt$V1))+1
-  # stopentries <- which(grepl("Maximum 01", txt$V1))-1
-  # for (j in 1:length(startentries)) {
-  #   name_cluster <- paste('cluster',j,sep='')
-  #   tmp <- txt[c(startentries[j]:stopentries[j]),c(3,5,6)]
-  #   colnames(tmp) <- c("Percent", "Hem", "Label")
-  #   tmp$Hem <- factor(trimws(tmp$Hem))
-  #   ClusterList[[name_cluster]] <- tmp
-  # }
   # construct list of clusters for model
   ClusterList <- list()
   nrcluster <- which(grepl("Maximum 01", txt$V1))
@@ -57,8 +53,8 @@ for (r in 1:nrow(result_report)) {
     }else{
       tmp <- txt[c((nrcluster[j]):nrcluster[j+1]),c(2,4:ncol(txt))]
     }
-    colnames(tmp) <- c("Statistics", "X","Y","Z","","Label")
-    tmp[,5] <- NULL
+    colnames(tmp) <- c("Statistics", "X","Y","Z","","","MNIx","MNIy","MNIz","","Label")
+    tmp[,c(5,6,10)] <- NULL
     tmp <- tmp[which(grepl("STAT", tmp$Statistics)),]
     ClusterList[[name_cluster]] <- tmp
   }
@@ -73,23 +69,7 @@ for (r in 1:nrow(result_report)) {
 # Merge tables into one for each model
 # ------------------------------------------------------------------------------
 
-# noExclFD, total sample, all tp
-### first option
-# f1 <- read.csv(file.path(res_fc$result_dir,res_fc$BMImodel_dirs[1],res_fc$deact_csv))
-# colnr <- ncol(df1)
-# df1$seed <- NULL
-# df1 <- rbind(rep(NA, colnr),df1)
-# df1[1:2,"seed"] <- c("\\textit{average BMI (decrease)}","PCC (cc)")
-# df1$covariates <- NA
-# df1$covariates[2] <- "age, sex, log mFD"
-# df2 <- read.csv(file.path(res_fc$result_dir,res_fc$BMImodel_dirs[2],res_fc$deact_csv))
-# df2$seed <- NULL
-# df2 <- rbind(rep(NA, colnr),df2)
-# df2[1:2,"seed"] <- c("\\textit{average BMI (decrease)}","PCC (cc)")
-# df2$covariates <- NA
-# df2$covariates[2] <- "age, sex"# BMIagesexfd_PCCcc_avgBMI_deact
-
-### alternative (with group_row())
+# get SPM tables
 # BMIagesexfd_PCCcc_avgBMI_deact 
 df1 <- read.csv(file.path(res_fc$result_dir,res_fc$BMImodel_dirs[1],res_fc$deact_csv))
 colnr <- ncol(df1)
@@ -116,36 +96,42 @@ df4$seed <- NULL
 df4[1,"seed"] <- c("NAcc (cc)")
 df4$covariates <- NA
 df4$covariates[1] <- "age, sex"
-# BMIFDagesex_NACCgsr_avgFD_act 
-df5 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[3],res_fc$act_csv))
+# BMIFDagesex_NACCgsr_cggBMI_deact 
+df5 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[3],res_fc$deact_csv))
 df5$seed <- NULL
 df5[1,"seed"] <- c("NAcc (gsr)")
 df5$covariates <- NA
 df5$covariates[1] <- "age, sex"
-# BMIFDagesex_PCCcc_avgBMI-deact 
-df6 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[4],res_fc$deact_csv))
+# BMIFDagesex_NACCgsr_avgFD_act 
+df6 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[4],res_fc$act_csv))
 df6$seed <- NULL
-df6[1,"seed"] <- c("PCC (cc)")
+df6[1,"seed"] <- c("NAcc (gsr)")
 df6$covariates <- NA
 df6$covariates[1] <- "age, sex"
-
-# BMIFDagesex_NACCcc_avgFD_act 
-df7 <- read.csv(file.path(res_fc$result_dir,res_fc$FDmodel_dirs[1],res_fc$act_csv))
+# BMIFDagesex_PCCcc_avgBMI-deact 
+df7 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[5],res_fc$deact_csv))
 df7$seed <- NULL
-df7[1,"seed"] <- c("NAcc (cc)")
+df7[1,"seed"] <- c("PCC (cc)")
 df7$covariates <- NA
 df7$covariates[1] <- "age, sex"
-# BMIFDagesex_NACCgsr_avgFD_act
-df8 <- read.csv(file.path(res_fc$result_dir,res_fc$FDmodel_dirs[2],res_fc$act_csv))
+
+# BMIFDagesex_NACCcc_avgFD_act 
+df8 <- read.csv(file.path(res_fc$result_dir,res_fc$FDmodel_dirs[1],res_fc$act_csv))
 df8$seed <- NULL
-df8[1,"seed"] <- c("NAcc (gsr)")
+df8[1,"seed"] <- c("NAcc (cc)")
 df8$covariates <- NA
 df8$covariates[1] <- "age, sex"
+# BMIFDagesex_NACCgsr_avgFD_act
+df9 <- read.csv(file.path(res_fc$result_dir,res_fc$FDmodel_dirs[2],res_fc$act_csv))
+df9$seed <- NULL
+df9[1,"seed"] <- c("NAcc (gsr)")
+df9$covariates <- NA
+df9$covariates[1] <- "age, sex"
 
 ## merge tables 
 BMImodel <- rbind(df1,df2)
-FDmodel <- rbind(df7,df8)
-BMIFDmodel <- rbind(df3,df4,df5,df6)
+FDmodel <- rbind(df8,df9)
+BMIFDmodel <- rbind(df3,df4,df5,df6,df7)
 
 ModelList <- list(BMImodel,FDmodel,BMIFDmodel)
 names(ModelList) <- c("BMImodel","FDmodel","BMIFDmodel")
@@ -195,33 +181,41 @@ for (i in 1:length(ModelList)) {
 # Labeling
 # ------------------------------------------------------------------------------
 
+# wird alles überarbeitet
+# BMI
 label1 <- data.table::rbindlist(
   list(
-    data.frame(ResultFCList[[1]][1])[1:3, ],
-    data.frame(ResultFCList[[1]][2])[1:3, ],
-    data.frame(ResultFCList[[1]][3])[1:3, ],
-    data.frame(ResultFCList[[2]][1])[1:3, ],
-    data.frame(ResultFCList[[2]][2])[1:3, ],
-    data.frame(ResultFCList[[2]][3])[1:2, ],
-    data.frame(ResultFCList[[2]][4])[1:3, ]
+    # for cluster of df1, df2
+    # avgBMI
+    data.frame(ResultFCList[[1]][1])[1:3, ] %>% select(last_col()), # cl1
+    data.frame(ResultFCList[[1]][2])[1:2, ] %>% select(last_col()), # cl2
+    data.frame(ResultFCList[[1]][3])[1:3, ] %>% select(last_col()), # ...
+    data.frame(ResultFCList[[1]][4])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[2]][1])[1:3, ] %>% select(last_col()), # cl1
+    data.frame(ResultFCList[[2]][2])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[2]][3])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[2]][4])[1:2, ] %>% select(last_col())
   ),
   use.names = FALSE
 )
+# FD
 label2 <- data.table::rbindlist(
   list(
-    data.frame(ResultFCList[[7]][1])[1:3, ],
-    data.frame(ResultFCList[[8]][1])[1:3, ]
+    data.frame(ResultFCList[[8]][1])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[9]][1])[1:2, ] %>% select(last_col())
     ), 
   use.names = FALSE
   )
+# BMI FD
 label3 <- data.table::rbindlist(
   list(
-    data.frame(ResultFCList[[3]][1])[1, ],
-    data.frame(ResultFCList[[4]][1])[1:3, ],
-    data.frame(ResultFCList[[5]][1])[1:3, ],
-    data.frame(ResultFCList[[6]][1])[1:3, ],
-    data.frame(ResultFCList[[6]][2])[1:3, ],
-    data.frame(ResultFCList[[6]][3])[1:3, ]
+    data.frame(ResultFCList[[3]][1])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[4]][1])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[5]][1])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[6]][1])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[7]][1])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[7]][2])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[7]][3])[1:3, ] %>% select(last_col())
   ),
   use.names = FALSE
 )
@@ -230,7 +224,8 @@ LabelList <- list(label1,label2,label3)
 for (i in 1:length(LabelList)){
   # transfer second letter of string to $hem
   hem <- stringr::str_extract(LabelList[[i]]$cluster1.Label,".{1}")
-  hem <- sub('N', '', hem)
+  hem <- sub('[^RL]', '', hem)
+  hem[is.na(hem)] <- ''
   LabelList[[i]]$Hem <- hem
   # remove fist three letter from all strings
   LabelList[[i]]$cluster1.Label <- sub('..', '', LabelList[[i]]$cluster1.Label)
@@ -285,15 +280,15 @@ TableList[[1]] <- TableList[[1]] %>%
   group_rows("average BMI (decrease)", nrow(df1)+1, nrow(df1)+nrow(df2)) 
 
 TableList[[2]] <- TableList[[2]] %>%
-  group_rows("average log mean FD (increase)", 1, nrow(df7)) %>%
-  group_rows("average log mean FD (increase)", nrow(df7)+1, nrow(df7)+nrow(df8))
-
+  group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
+  group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
 
 TableList[[3]] <- TableList[[3]] %>%
   group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
   group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
-  group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
-  group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6))
+  group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
+  group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
+  group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
 
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)
