@@ -1,0 +1,1041 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.27)  27 JAN 2021 12:24
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**draft_rsfmri.tex
+(./draft_rsfmri.tex
+LaTeX2e <2020-10-01> patch level 4
+L3 programming layer <2021-01-09> xparse <2020-03-03> (/data/hu_fbeyer/.TinyTeX
+/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+)
+\c@part=\count177
+\c@section=\count178
+\c@subsection=\count179
+\c@subsubsection=\count180
+\c@paragraph=\count181
+\c@subparagraph=\count182
+\c@figure=\count183
+\c@table=\count184
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
+Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/09/23 v2.17i AMS math features
+\@mathmargin=\skip49
+For additional information on amsmath, use the `?' option.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen139
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen140
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count185
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count186
+\leftroot@=\count187
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count188
+\DOTSCASE@=\count189
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box47
+\strutbox@=\box48
+\big@size=\dimen141
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count190
+\c@MaxMatrixCols=\count191
+\dotsspace@=\muskip16
+\c@parentequation=\count192
+\dspbrk@lvl=\count193
+\tag@help=\toks17
+\row@=\count194
+\column@=\count195
+\maxfields@=\count196
+\andhelp@=\toks18
+\eqnshift@=\dimen142
+\alignsep@=\dimen143
+\tagshift@=\dimen144
+\tagwidth@=\dimen145
+\totwidth@=\dimen146
+\lineht@=\dimen147
+\@envbody=\toks19
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+2.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2020/08/01 v1.3d Input encoding file
+\inpenc@prehook=\toks21
+\inpenc@posthook=\toks22
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2020/12/07 v2.8 Micro-typographical refinements (RS)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks23
+)
+\MT@toks=\toks24
+\MT@count=\count197
+LaTeX Info: Redefining \textls on input line 788.
+\MT@outer@kern=\dimen148
+LaTeX Info: Redefining \textmicrotypecontext on input line 1358.
+\MT@listname@count=\count198
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+File: microtype-pdftex.def 2020/12/07 v2.8 Definitions specific to pdftex (RS)
+LaTeX Info: Redefining \lsstyle on input line 915.
+LaTeX Info: Redefining \lslig on input line 915.
+\MT@outer@space=\skip52
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2020/12/07 v2.8 microtype main configuration file (RS)
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/parskip/parskip.sty
+Package: parskip 2020-06-15 v2.0f non-zero parskip adjustments
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count199
+)) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.st
+y
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen149
+\Hy@linkcounter=\count266
+\Hy@pagecounter=\count267
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count268
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4717.
+\c@Hy@tempcnt=\count269
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5076.
+\XeTeXLinkMargin=\dimen150
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count270
+\Field@Width=\dimen151
+\Fld@charsize=\dimen152
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
+ge
+with kernel methods
+)
+\Hy@abspage=\count271
+\c@Item=\count272
+\c@Hfootnote=\count273
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
+e
+with kernel methods
+)
+\Fld@listcount=\count274
+\c@bookmark@seq@number=\count275
+
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.st
+y
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.st
+y
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip53
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count276
+\Gm@cntv=\count277
+\c@Gm@tempcnt=\count278
+\Gm@bindingoffset=\dimen153
+\Gm@wd@mp=\dimen154
+\Gm@odd@mp=\dimen155
+\Gm@even@mp=\dimen156
+\Gm@layoutwidth=\dimen157
+\Gm@layoutheight=\dimen158
+\Gm@layouthoffset=\dimen159
+\Gm@layoutvoffset=\dimen160
+\Gm@dimlist=\toks25
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip54
+\LTright=\skip55
+\LTpre=\skip56
+\LTpost=\skip57
+\LTchunksize=\count279
+\LTcapwidth=\dimen161
+\LT@head=\box49
+\LT@firsthead=\box50
+\LT@foot=\box51
+\LT@lastfoot=\box52
+\LT@cols=\count280
+\LT@rows=\count281
+\c@LT@tables=\count282
+\c@LT@chunks=\count283
+\LT@p@ftn=\toks26
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen162
+\lightrulewidth=\dimen163
+\cmidrulewidth=\dimen164
+\belowrulesep=\dimen165
+\belowbottomsep=\dimen166
+\aboverulesep=\dimen167
+\abovetopsep=\dimen168
+\cmidrulesep=\dimen169
+\cmidrulekern=\dimen170
+\defaultaddspace=\dimen171
+\@cmidla=\count284
+\@cmidlb=\count285
+\@aboverulesep=\dimen172
+\@belowrulesep=\dimen173
+\@thisruleclass=\count286
+\@lastruleclass=\count287
+\@thisrulewidth=\dimen174
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/mdwtools/footnote.sty
+Package: footnote 1997/01/28 1.13 Save footnotes around boxes
+\fn@notes=\box53
+\fn@width=\dimen175
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen176
+\Gin@req@width=\dimen177
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/grffile/grffile.sty
+Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
+y)
+Package grffile Info: This package is an empty stub for compatibility on input 
+line 40.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen178
+\captionmargin@=\dimen179
+\captionwidth=\dimen180
+\caption@tempdima=\dimen181
+\caption@indent=\dimen182
+\caption@parindent=\dimen183
+\caption@hangindent=\dimen184
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count288
+\c@continuedfloat=\count289
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+))
+\c@KVtest=\count290
+\sf@farskip=\skip58
+\sf@captopadj=\dimen185
+\sf@capskip=\skip59
+\sf@nearskip=\skip60
+\c@subfigure=\count291
+\c@subfigure@save=\count292
+\c@lofdepth=\count293
+\c@subtable=\count294
+\c@subtable@save=\count295
+\c@lotdepth=\count296
+\sf@top=\skip61
+\sf@bottom=\skip62
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
+\col@sep=\dimen186
+\ar@mcellbox=\box54
+\extrarowheight=\dimen187
+\NC@list=\toks27
+\extratabsurround=\skip63
+\backup@length=\skip64
+\ar@cellbox=\box55
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/01/02 v2.6 Span multiple rows of a table
+\multirow@colwidth=\skip65
+\multirow@cntb=\count297
+\multirow@dima=\skip66
+\bigstrutjot=\dimen188
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen189
+\WF@size=\dimen190
+\c@WF@wrappedlines=\count298
+\WF@box=\box56
+\WF@everypar=\toks28
+Package: wrapfig 2003/01/31  v 3.6
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count299
+\float@exts=\toks29
+\float@box=\box57
+\@float@everytoks=\toks30
+\@floatcapt=\box58
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks31
+\minrowclearance=\skip67
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box59
+\sift@deathcycles=\count300
+\@vwid@loff=\dimen191
+\@vwid@roff=\dimen192
+)
+\c@taburow=\count301
+\tabu@nbcols=\count302
+\tabu@cnt=\count303
+\tabu@Xcol=\count304
+\tabu@alloc=\count305
+\tabu@nested=\count306
+\tabu@target=\dimen193
+\tabu@spreadtarget=\dimen194
+\tabu@naturalX=\dimen195
+\tabucolX=\dimen196
+\tabu@Xsum=\dimen197
+\extrarowdepth=\dimen198
+\abovetabulinesep=\dimen199
+\belowtabulinesep=\dimen256
+\tabustrutrule=\dimen257
+\tabu@thebody=\toks32
+\tabu@footnotes=\toks33
+\tabu@box=\box60
+\tabu@arstrutbox=\box61
+\tabu@hleads=\box62
+\tabu@vleads=\box63
+\tabu@cellskip=\skip68
+)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.st
+y
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box64
+)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.
+sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip69
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box65
+\UL@hyphenbox=\box66
+\UL@skip=\skip70
+\UL@hook=\toks34
+\UL@height=\dimen258
+\UL@pe=\count307
+\UL@pixel=\dimen259
+\ULC@box=\box67
+Package: ulem 2019/11/18
+\ULdepth=\dimen260
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen261
+\c@nlinenum=\count308
+\TeXr@lab=\toks35
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2021-01-09 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count309
+\l__pdf_internal_box=\box68
+) (./draft_rsfmri.aux)
+\openout1 = `draft_rsfmri.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Info: Redefining \microtypecontext on input line 91.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using protrusion set `basicmath'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `alltext-nott'.
+LaTeX Info: Redefining \showhyphens on input line 91.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package hyperref Info: Link coloring OFF on input line 91.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.
+sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count310
+)
+LaTeX Info: Redefining \ref on input line 91.
+LaTeX Info: Redefining \pageref on input line 91.
+LaTeX Info: Redefining \nameref on input line 91.
+(./draft_rsfmri.out) (./draft_rsfmri.out)
+\@outlinefile=\write3
+\openout3 = `draft_rsfmri.out'.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: float package is loaded.
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
+3.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
+3.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+93.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+93.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 93.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 93.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 93.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 93.
+
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 93.
+
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+) (./draft_rsfmri.toc
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 4.
+)
+\tf@toc=\write4
+\openout4 = `draft_rsfmri.toc'.
+
+[1
+
+{/data/hu_fbeyer/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3
+] [4]
+<draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=133, 463.7325pt x 316.18
+124pt>
+File: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf Graphic file (type pdf)
+
+<use draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf  use
+d on input line 189.
+(pdftex.def)             Requested size: 422.78265pt x 288.2609pt.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+00.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [5] [6 <./draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+13.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [7] [8]
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/carpetplotadi006fu2.jpeg, id=195, 388.36pt x 312.44pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/carpetplotadi006fu2.jpeg Graphic file (type jpg)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/carpetplotadi006fu2.jpeg>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/carpetplotadi006fu2.jpeg  used on 
+input line 263.
+(pdftex.def)             Requested size: 230.19113pt x 185.19138pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/carpetplotadi16fu.jpeg, id=196, 388.36pt x 312.44pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/carpetplotadi16fu.jpeg Graphic file (type jpg)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/carpetplotadi16fu.jpeg>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/carpetplotadi16fu.jpeg  used on in
+put line 263.
+(pdftex.def)             Requested size: 230.19113pt x 185.19138pt.
+[9 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /cod
+e_and_manuscript/report/carpetplotadi006fu2.jpeg> </data/pt_02161/Analysis/Proj
+ect2_resting_state/seed-based/Second_level /code_and_manuscript/report/carpetpl
+otadi16fu.jpeg>]
+<draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf, id=210, 457.71pt x 317.
+185pt>
+File: draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf Graphic file (type 
+pdf)
+<use draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf 
+ used on input line 295.
+(pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
+<draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf, id=211, 457.71pt x 317.
+185pt>
+File: draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf Graphic file (type 
+pdf)
+<use draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf 
+ used on input line 295.
+(pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
+
+Overfull \hbox (6.66109pt too wide) in paragraph at lines 295--296
+ [][][][] 
+ []
+
+[10 <./draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf> <./draft_rsfmri_f
+iles/figure-latex/figDesignmatrix-2.pdf>] [11]
+<draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=247, 453.695pt x 306.143
+75pt>
+File: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf Graphic file (type pdf)
+
+<use draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf  use
+d on input line 370.
+(pdftex.def)             Requested size: 453.71466pt x 306.157pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/DMN_thresholded_for_clusterFWE005.png, id=248, 527.571pt x
+ 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png Graphic file (t
+ype png)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/DMN_thresholded_for_clusterFWE005.
+png  used on input line 379.
+(pdftex.def)             Requested size: 155.0203pt x 55.21269pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/Rew_thresholded_for_clusterFWE005.png, id=250, 527.571pt x
+ 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png Graphic file (t
+ype png)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/Rew_thresholded_for_clusterFWE005.
+png  used on input line 379.
+(pdftex.def)             Requested size: 155.0203pt x 55.21269pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/tsnr.jpeg, id=251, 251.2587pt x 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/tsnr.jpeg Graphic file (type jpg)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/tsnr.jpeg>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/tsnr.jpeg  used on input line 379.
+
+(pdftex.def)             Requested size: 155.0235pt x 115.9332pt.
+
+Overfull \hbox (5.30905pt too wide) in paragraph at lines 379--380
+ [][][][][][] 
+ []
+
+<draft_rsfmri_files/figure-latex/figaggDMN-1.pdf, id=255, 463.7325pt x 316.1812
+4pt>
+File: draft_rsfmri_files/figure-latex/figaggDMN-1.pdf Graphic file (type pdf)
+<use draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggDMN-1.pdf  used 
+on input line 411.
+(pdftex.def)             Requested size: 352.32005pt x 240.21822pt.
+[12] [13 <./draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf> </data/pt_02161/
+Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/re
+port/DMN_thresholded_for_clusterFWE005.png> </data/pt_02161/Analysis/Project2_r
+esting_state/seed-based/Second_level /code_and_manuscript/report/Rew_thresholde
+d_for_clusterFWE005.png> </data/pt_02161/Analysis/Project2_resting_state/seed-b
+ased/Second_level /code_and_manuscript/report/tsnr.jpeg>]
+<draft_rsfmri_files/figure-latex/figaggRew-1.pdf, id=295, 463.7325pt x 316.1812
+4pt>
+File: draft_rsfmri_files/figure-latex/figaggRew-1.pdf Graphic file (type pdf)
+<use draft_rsfmri_files/figure-latex/figaggRew-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggRew-1.pdf  used 
+on input line 414.
+(pdftex.def)             Requested size: 352.32005pt x 240.21822pt.
+[14 <./draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>]
+<draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf, id=312
+, 437.635pt x 250.9375pt>
+File: draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf Gr
+aphic file (type pdf)
+<use draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/identify outliers in t
+hese plots-1.pdf  used on input line 467.
+(pdftex.def)             Requested size: 437.6406pt x 250.94069pt.
+[15 <./draft_rsfmri_files/figure-latex/figaggRew-1.pdf>]
+Overfull \hbox (181.24309pt too wide) in paragraph at lines 488--488
+[]\T1/lmtt/m/n/10 ##                                                           
+                                          long.timepoints_check[] 
+ []
+
+
+Overfull \hbox (181.24309pt too wide) in paragraph at lines 488--488
+[]\T1/lmtt/m/n/10 ## 93 could be further corrected but no large parts of skull 
+in brainmask, especially fu2 includes more skull but also other[] 
+ []
+
+[16 <./draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf>]
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf, id=342, 527.57097pt x 18
+7.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf Graphic file (type p
+df)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf  
+used on input line 525.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf, id=343, 527.57097pt x 
+187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf Graphic file (type
+ pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf
+  used on input line 525.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 525--525
+[][][][] 
+ []
+
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf, id=346, 527.57097pt x 
+187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf Graphic file (type
+ pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf
+  used on input line 540.
+(pdftex.def)             Requested size: 469.75404pt x 167.30966pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf, id=348, 527.57097pt x
+ 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf Graphic file (typ
+e pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pd
+f  used on input line 546.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf, id=349, 527.57097pt 
+x 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf Graphic file (ty
+pe pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.p
+df  used on input line 546.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 546--546
+[][][][] 
+ []
+
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf, id=350, 527.57097pt x 18
+7.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf Graphic file (type p
+df)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf  
+used on input line 552.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf, id=351, 527.57097pt x 1
+87.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf Graphic file (type 
+pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf 
+ used on input line 552.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 552--552
+[][][][] 
+ []
+
+[17 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf> </data/pt_02161/Anal
+ysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report
+/BMIagesexfd_PCCcc_avgBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_dea
+ct.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+
+>] [18 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level 
+/code_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf> </data/pt_02161
+/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/r
+eport/BMIFDagesex_NACCcc_cngBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_de
+act.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
+e
+> </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code
+_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_d
+eact.pdf): PDF inclusion: multiple pdfs with page group included in a single pa
+ge
+> </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code
+_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act
+.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code
+_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_ac
+t.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>]
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf, id=590, 527.57097pt x 187.9
+02pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
+
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf  use
+d on input line 579.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf, id=591, 527.57097pt x 187.
+902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf
+)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf  us
+ed on input line 579.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 579--579
+[][][][] 
+ []
+
+[19 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf> </data/pt_02161/Analysi
+s/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/FD
+agesex_NACCgsr_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+>] [20]
+
+LaTeX Warning: Float too large for page by 5.38994pt on input line 683.
+
+[21] [22] [23
+
+
+
+
+
+
+] [24] [25] [26] [27] [28] [29] (./draft_rsfmri.aux)
+Package rerunfilecheck Info: File `draft_rsfmri.out' has not changed.
+(rerunfilecheck)             Checksum: B3F7C8F1D2FF56A67949D75F307A7C9E;3078.
+ ) 
+Here is how much of TeX's memory you used:
+ 16092 strings out of 481227
+ 257689 string characters out of 5914292
+ 600849 words of memory out of 5000000
+ 32259 multiletter control sequences out of 15000+600000
+ 470493 words of font info for 183 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 71i,14n,79p,1845b,490s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/data/hu_f
+beyer/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/data/hu_fbeyer/.TinyT
+eX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/data/hu_fbeyer/.TinyTeX/texmf-
+dist/fonts/enc/dvips/lm/lm-rm.enc}{/data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/en
+c/dvips/lm/lm-mathit.enc}</data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/publi
+c/lm/lmbx10.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx
+12.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></
+data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></data/hu_fb
+eyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></data/hu_fbeyer/.Tiny
+TeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></data/hu_fbeyer/.TinyTeX/texmf-
+dist/fonts/type1/public/lm/lmr7.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/
+type1/public/lm/lmr8.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/publi
+c/lm/lmri10.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy
+10.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on draft_rsfmri.pdf (29 pages, 1221056 bytes).
+PDF statistics:
+ 961 PDF objects out of 1000 (max. 8388607)
+ 726 compressed objects within 8 object streams
+ 238 named destinations out of 1000 (max. 500000)
+ 35082 words of extra memory for PDF output out of 35830 (max. 10000000)
+
