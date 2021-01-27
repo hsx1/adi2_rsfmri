@@ -1,0 +1,245 @@
+---
+title: "data_proprocessing"
+author: "Hannah Sophie Heinrichs"
+date: "1/20/2021"
+output: 
+  pdf_document: default
+  html_document: default
+---
+
+# This is the summary of the MRI sample of ADI Study.
+
+```{r "Package loading", include=FALSE}
+library(lme4)
+library(ggplot2)
+library(haven)
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(psych)
+library(MuMIn)
+```
+
+### Loading Demographics
+We get BMI from `ADI_MRT_Messueberblick_2019_04.csv` (this is an older version with correct columns (compared to _AW.xlsx). See README in `/data/p_02161/ADI_studie/metadata/`.
+
+Furthermore, ADI061 was measured 4 times as bariatric surgery was performed after FU1. As data of measurement 4 is readily available, BL measure will be excluded and FU1 and FU2 will be recoded as BL and FU1, respectively.
+
+```{r "Load data", include=FALSE}
+bmi = read.csv(
+  "/data/p_02161/ADI_studie/metadata/ADI_MRT_Messueberblick_2019_04_10.csv",
+  na.strings = c("", "NA"),
+  stringsAsFactors = FALSE
+)
+bmi_tmp = bmi[, c("X.1",
+                  "BMI",
+                  "X.2",
+                  "BMI.1",
+                  "X.3",
+                  "BMI.2",
+                  "Geschlecht",
+                  "Alter")]
+
+# collect subject IDs in one column
+bmi_tmp$subj.ID = bmi_tmp$X.1  
+bmi_tmp$subj.ID[!is.na(bmi_tmp$X.2)] = bmi_tmp$X.2[!is.na(bmi_tmp$X.2)]  
+bmi_tmp$subj.ID[!is.na(bmi_tmp$X.3)] = bmi_tmp$X.3[!is.na(bmi_tmp$X.3)]  
+
+bmi_tmp = bmi_tmp[, c("subj.ID", "BMI", "BMI.1", "BMI.2", "Geschlecht", "Alter")]
+
+# get BMI data from another ADI table which contains more subjects
+adi_data = read_sav("/data/p_02161/ADI_studie/metadata/Daten ADI aktuell.sav")
+# select variables: only BMI
+bmi_repl = adi_data[, c(
+  "ADI_Code",
+  "BMI_BL",
+  "BMI_6m",
+  "BMI_12m",
+  "Sex",
+  "Age_BL",
+  "Age_6m",
+  "Age_12m",
+  "Educa_BL"
+)]
+bmi_repl$subj.ID = gsub("-", "", bmi_repl$ADI_Code)
+
+
+# replace some missing BMI in the "Messueberblick" table with values from ADI_aktuell.sav
+abmi = merge(bmi_tmp, bmi_repl, by = "subj.ID", all = TRUE)
+abmi$BMI_BL[is.na(abmi$BMI_BL)] = abmi$BMI[is.na(abmi$BMI_BL)]
+abmi$BMI_6m[is.na(abmi$BMI_6m)] = abmi$BMI.1[is.na(abmi$BMI_6m)]
+abmi$BMI_12m[is.na(abmi$BMI_12m)] = abmi$BMI.2[is.na(abmi$BMI_12m)]
+abmi$Sex[is.na(abmi$Sex)] = abmi$Geschlecht[is.na(abmi$Sex)]
+abmi$Age_BL[is.na(abmi$Age_BL)] = abmi$Alter[is.na(abmi$Age_BL)]
+
+# clean up data frame
+lbmi <- abmi %>% gather(tp, BMI, BMI_BL, BMI_6m, BMI_12m)
+lbmi = lbmi[, c("subj.ID", "Age_BL", "Sex", "tp",  "BMI")]
+lbmi$tp = as.factor(lbmi$tp)
+levels(lbmi$tp) = c("fu2", "fu", "bl")
+lbmi$tp <- factor(lbmi$tp, levels = rev(levels(lbmi$tp)))
+lbmi$Sex = as.factor(lbmi$Sex)
+levels(lbmi$Sex) = c("male", "female", "male", "female")
+```
+
+```{r "Compare abmi with bmi from QOL list", include=FALSE }
+# compare abmi (Messueberblick, ADI_aktuell.sav) with bmi from QOL list for those subjects who have it
+QOL_sheet = read.csv(
+  "/data/pt_02161/Results/Project1_headmotion/QOL_sheet_of_ADI_Messueberblick.csv"
+)
+QOL_sheet$subj.ID = gsub("-", "", QOL_sheet$X.1)
+
+QOL_sheet$condition = "IG"
+QOL_sheet[QOL_sheet$X == "KG", "condition"] = "KG"
+adi_group = QOL_sheet[, c("subj.ID", "condition")]
+
+bmi_compare = merge(QOL_sheet, abmi, by = "subj.ID", all = TRUE)
+sum(bmi_compare$BMI.BL - bmi_compare$BMI_BL, na.rm = T)
+sum(bmi_compare$BMI.FU - bmi_compare$BMI_6m, na.rm = T)
+sum(bmi_compare$BMI.FU_2 - bmi_compare$BMI_12m, na.rm = T) # because of ADI061
+```
+
+### Load grouping infos
+
+README: "Unfortunately, there are errors regarding BMI assignment (e.g. `/data/p_02161/ADI_studie/metadata/ADI_MRT_Messueberblick_AW.xlsx`, first sheet, where ADI002's FU2 weight is assigned to BL, for example). Similarly, group coding is wrong in the first two sheets (`ADI_MRT_Messueberblick_2019_04_` and `summary with SPSS data`). Correct group information, based on BMI trajectory, seems to be in sheet `QOL` (see ADI080, ADI036).
+"
+
+Take grouping infos first from QOL-sheet (accurate), and then add those that are not in QOL from "Messueberblick.csv".
+
+```{r "Find grouping information", include=FALSE}
+# merge data with group & find group for those that are not in QOL table
+bmi_group = merge(lbmi, adi_group, by = "subj.ID", all.x = TRUE)
+
+# this table has errors (contradictions for ADI080 and ADI036 with other table, but contains missing subjects)
+group_coding_with_errors = read.csv(
+  "/data/pt_02161/Results/Project1_headmotion/summary_with_SPSS_data_sheet_of_ADI_Messueberblick.csv"
+)
+group_coding_with_errors$subj.ID = gsub("-", "", group_coding_with_errors$Copy.SPSS)
+
+group_for_replacement = merge(bmi_group[is.na(bmi_group$condition), ],
+                              group_coding_with_errors,
+                              all.x = TRUE,
+                              by = "subj.ID")
+bmi_group[is.na(bmi_group$condition), "condition"] = as.factor(group_for_replacement$Gruppe)
+bmi_group$condition = as.factor(bmi_group$condition)
+levels(bmi_group$condition) = c("IG", "KG", "IG", "KG")
+```
+
+Now, we loaded data for ALL participants (N=`r length(unique(bmi_group$subj.ID))`).
+
+
+```{r "Write group coding for all subjects", echo=FALSE}
+bmi_group_recoded <- bmi_group[!(bmi_group$subj.ID == "ADI061" &
+                         bmi_group$tp == "bl"),]
+# recode fu and fu2 into bl and fu
+bmi_group_recoded$tp[(bmi_group_recoded$subj.ID == "ADI061" &
+                         bmi_group_recoded$tp == "fu")] = "bl"
+bmi_group_recoded$tp[(bmi_group_recoded$subj.ID == "ADI061" &
+                         bmi_group_recoded$tp == "fu2")] = "fu"
+
+write.csv(bmi_group_recoded[bmi_group_recoded$tp=="bl",], "/data/p_02161/ADI_studie/metadata/group_list_all.csv")
+# as all other tables have the original coding for tp in ADI061, we have wo continue working with bmi_group and make the same recoding in the very end again.
+```
+
+### Add general MRI information
+
+These infos were gathered during data copying, organizing and preprocessing, especially of the rs data. Yet, infos from other sequences are also included. See `/data/pt_02161/Analysis/Preprocessing/qa/README.md` for further information.
+```{r "Loading rs QA infos from /data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv", echo=FALSE}
+rs_QA=read.csv("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv")
+for (i in 1:nrow(rs_QA)){
+  #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
+  rs_QA[i,"subj.ID"]=strsplit(toString(rs_QA[i,1]),'_')[[1]][1]
+  rs_QA[i,"tp"]=strsplit(toString(rs_QA[i,1]),'_')[[1]][2]
+}
+
+# Don't use FS QA from this file.
+bmi_group_MRI=merge(bmi_group, rs_QA[,c(2,3,11,12,13,14,15,16,17,18,19)],by=c("subj.ID","tp"))
+```
+
+### Add FS QA information based on Klapwijk et al. manual segmentation guidelines
+
+See `/data/pt_02161/Analysis/Preprocessing/qa/README.md` for further information.
+```{r "Loading FS infos from /data/p_02161/ADI_studie/BIDS/derivatives/freesurfer/QA/freesurfer_qa_qoala_11.7.csv", echo=FALSE}
+FS_QA=read.csv("/data/p_02161/ADI_studie/BIDS/derivatives/freesurfer/QA/freesurfer_qa_qoala_11.7.csv")
+for (i in 1:nrow(FS_QA)){
+  #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
+  FS_QA[i,"subj.ID"]=strsplit(toString(FS_QA[i,1]),'_')[[1]][1]
+  FS_QA[i,"tp"]=strsplit(toString(FS_QA[i,1]),'_')[[1]][2]
+}
+bmi_group_MRI_QA=merge(bmi_group_MRI,FS_QA, by=c("subj.ID","tp"),all=TRUE)
+```
+
+### Loading mean/max FD values
+
+These values describe the average and maximal motion during rsfMRI scans. Used for manuscript on head motion. See further information in `/data/pt_02161/Analysis/Project1_headmotion/`.
+```{r "Loading mean/max FD values from /data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv", echo=FALSE}
+rs_ID = read.csv("/data/pt_02161/Results/Project1_headmotion/subjects_rs.csv")
+colnames(rs_ID)[1] = "subj"
+res = read.csv(
+  "/data/pt_02161/Results/Project1_headmotion/summary_FDvals_based_on_subjects_rs.csv",
+  header = FALSE
+)
+colnames(res) = c("meanFD_bl",
+                  "maxFD_bl",
+                  "meanFD_fu",
+                  "maxFD_fu",
+                  "meanFD_fu2",
+                  "maxFD_fu2")
+rs_FD = data.frame(rs_ID$subj, res)
+colnames(rs_FD)[1] = "subj.ID"
+rs_FD[rs_FD == 0] = NA
+
+lrs_meanFD <- rs_FD %>% gather(tp, meanFD, meanFD_bl, meanFD_fu, meanFD_fu2) %>% separate(tp, c("measure", "tp"))
+lrs_maxFD <- rs_FD %>% gather(tp, maxFD, maxFD_bl, maxFD_fu, maxFD_fu2) %>% separate(tp, c("measure", "tp"))
+
+lrs_FD = data.frame(lrs_meanFD$subj,
+                    lrs_meanFD$tp,
+                    lrs_meanFD$meanFD,
+                    lrs_maxFD$maxFD)
+colnames(lrs_FD) = c("subj.ID", "tp", "meanFD", "maxFD")
+bmi_group_MRI_QA_FD = merge(bmi_group_MRI_QA,
+                            lrs_FD,
+                            by = c("subj.ID", "tp"),
+                            all = TRUE)
+```
+
+However, because one participant had surgery after the first fu, baseline data will be disregarded and fu and fu2 will be recoded into bl and fu, respectively.
+
+```{r "Reassignment of ADI061 data"}
+# remove baseline measure (actually two time points before surgery)
+bmi_group_MRI_QA_FD_recoded <- bmi_group_MRI_QA_FD[!(bmi_group_MRI_QA_FD$subj.ID == "ADI061" &
+                         bmi_group_MRI_QA_FD$tp == "bl"),]
+bmi_group_MRI_QA_FD_recoded$original_tp <- bmi_group_MRI_QA_FD_recoded$tp
+# recode fu and fu2 into bl and fu
+bmi_group_MRI_QA_FD_recoded$tp[(bmi_group_MRI_QA_FD_recoded$subj.ID == "ADI061" &
+                         bmi_group_MRI_QA_FD_recoded$original_tp == "fu")] = "bl"
+bmi_group_MRI_QA_FD_recoded$tp[(bmi_group_MRI_QA_FD_recoded$subj.ID == "ADI061" &
+                         bmi_group_MRI_QA_FD_recoded$original_tp == "fu2")] = "fu"
+```
+
+### Final sample description.
+```{r "Some characteristics of this sample", echo=FALSE}
+final_sample=bmi_group_MRI_QA_FD_recoded
+hist(final_sample$meanFD)
+hist(final_sample$Final_Score)
+```
+
+We have `r length(unique(final_sample$subj.ID))` participants, where `r final_sample[final_sample$subj.ID=="ADI002"&final_sample$tp=="bl","subj.ID"]` has no data at all. So effectively, there are 50 participants with at least one measurement.
+
+For anatomical imaging, we have `r sum(!is.na(final_sample$longtemplate.run))` longitudinal freesurfer runs.
+`r sum(final_sample$Exclude, na.rm=TRUE)` scans have to be removed, due to **`r final_sample[!is.na(final_sample$Exclude),"Check_comments"][c(1,4,5,6)]`** and **`r final_sample[!is.na(final_sample$Exclude),"Correction_comments"][2:3]`**. This was the case for `r final_sample[!is.na(final_sample$Exclude),"subj.ID"]` at time points `r final_sample[!is.na(final_sample$Exclude),"tp"]`.
+
+For functional imaging, we have `r sum(!is.na(final_sample$meanFD))` mean FD vals. For subj `r final_sample[!is.na(final_sample$meanFD)&is.na(final_sample$longtemplate.run),"subj.ID"]` at time point `r final_sample[!is.na(final_sample$meanFD)&is.na(final_sample$longtemplate.run),"tp"]` FS did not run through correctly.
+
+```{r, include=FALSE}
+write.csv(final_sample, "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv")
+```
+
+README: "`group_list_all.csv` contains basic demographics and group coding for 77 participants. This table also includes participants without MRI.
+A summary table was created from the 51 MRI subjects, including BMI trajectory, available sequences, and resting state and Freesurfer QA results. The resulting file is `final_sample_MRI_QA_info.csv`."
+
+### Head motion correlates with quality score (the higher the head motion, the worse the quality of the T1 scan)
+```{r, echo=FALSE}
+plot(final_sample$meanFD, final_sample$Final_Score)
+```
+

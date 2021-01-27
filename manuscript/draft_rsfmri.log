@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  22 JAN 2021 10:18
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.27)  27 JAN 2021 12:24
+>>>>>>> issuemergingwhannah
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -280,6 +284,7 @@ File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
 e
 with kernel methods
+<<<<<<< HEAD
 )
 \Fld@listcount=\count274
 \c@bookmark@seq@number=\count275
@@ -295,6 +300,23 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 86.
 )
+=======
+)
+\Fld@listcount=\count274
+\c@bookmark@seq@number=\count275
+
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.st
+y
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.st
+y
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+>>>>>>> issuemergingwhannah
 \Hy@SectionHShift=\skip53
 ) (/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
@@ -666,13 +688,19 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [1
 
 {/data/hu_fbeyer/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3
+<<<<<<< HEAD
 ]
 <draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=134, 463.7325pt x 316.18
+=======
+] [4]
+<draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=133, 463.7325pt x 316.18
+>>>>>>> issuemergingwhannah
 124pt>
 File: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf Graphic file (type pdf)
 
 <use draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf  use
+<<<<<<< HEAD
 d on input line 174.
 (pdftex.def)             Requested size: 422.78265pt x 288.2609pt.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
@@ -709,13 +737,55 @@ ne 248.
 adi2_rsfmri/report/carpetplotadi006fu2.png> </data/tu_fbeyer/myDocuments/Result
 s/ADI_study/Publications/Rs_connectivity/adi2_rsfmri/report/carpetplotadi16fu.p
 ng>]
+=======
+d on input line 189.
+(pdftex.def)             Requested size: 422.78265pt x 288.2609pt.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+00.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [5] [6 <./draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+13.
+(/data/hu_fbeyer/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [7] [8]
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/carpetplotadi006fu2.jpeg, id=195, 388.36pt x 312.44pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/carpetplotadi006fu2.jpeg Graphic file (type jpg)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/carpetplotadi006fu2.jpeg>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/carpetplotadi006fu2.jpeg  used on 
+input line 263.
+(pdftex.def)             Requested size: 230.19113pt x 185.19138pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/carpetplotadi16fu.jpeg, id=196, 388.36pt x 312.44pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/carpetplotadi16fu.jpeg Graphic file (type jpg)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/carpetplotadi16fu.jpeg>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/carpetplotadi16fu.jpeg  used on in
+put line 263.
+(pdftex.def)             Requested size: 230.19113pt x 185.19138pt.
+[9 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /cod
+e_and_manuscript/report/carpetplotadi006fu2.jpeg> </data/pt_02161/Analysis/Proj
+ect2_resting_state/seed-based/Second_level /code_and_manuscript/report/carpetpl
+otadi16fu.jpeg>]
+>>>>>>> issuemergingwhannah
 <draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf, id=210, 457.71pt x 317.
 185pt>
 File: draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf Graphic file (type 
 pdf)
 <use draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf 
+<<<<<<< HEAD
  used on input line 277.
+=======
+ used on input line 295.
+>>>>>>> issuemergingwhannah
 (pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
 <draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf, id=211, 457.71pt x 317.
 185pt>
@@ -723,6 +793,7 @@ File: draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf Graphic file (type
 pdf)
 <use draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf 
+<<<<<<< HEAD
  used on input line 277.
 (pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
 
@@ -733,11 +804,24 @@ Overfull \hbox (6.66109pt too wide) in paragraph at lines 277--278
 [9 <./draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf> <./draft_rsfmri_fi
 les/figure-latex/figDesignmatrix-2.pdf>] [10]
 <draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=244, 453.695pt x 306.143
+=======
+ used on input line 295.
+(pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
+
+Overfull \hbox (6.66109pt too wide) in paragraph at lines 295--296
+ [][][][] 
+ []
+
+[10 <./draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf> <./draft_rsfmri_f
+iles/figure-latex/figDesignmatrix-2.pdf>] [11]
+<draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=247, 453.695pt x 306.143
+>>>>>>> issuemergingwhannah
 75pt>
 File: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf Graphic file (type pdf)
 
 <use draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf  use
+<<<<<<< HEAD
 d on input line 351.
 (pdftex.def)             Requested size: 453.71466pt x 306.157pt.
 </data/tu_fbeyer/myDocuments/Results/ADI_study/Publications/Rs_connectivity/adi
@@ -790,17 +874,74 @@ blications/Rs_connectivity/adi2_rsfmri/report/Rew_thresholded_for_clusterFWE005
 .pdf): PDF inclusion: multiple pdfs with page group included in a single page
 > <./draft_rsfmri_files/figure-latex/figtSNR-1.pdf>]
 <draft_rsfmri_files/figure-latex/figaggDMN-1.pdf, id=347, 463.7325pt x 316.1812
+=======
+d on input line 370.
+(pdftex.def)             Requested size: 453.71466pt x 306.157pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/DMN_thresholded_for_clusterFWE005.png, id=248, 527.571pt x
+ 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png Graphic file (t
+ype png)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/DMN_thresholded_for_clusterFWE005.
+png  used on input line 379.
+(pdftex.def)             Requested size: 155.0203pt x 55.21269pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/Rew_thresholded_for_clusterFWE005.png, id=250, 527.571pt x
+ 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png Graphic file (t
+ype png)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/Rew_thresholded_for_clusterFWE005.
+png  used on input line 379.
+(pdftex.def)             Requested size: 155.0203pt x 55.21269pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/tsnr.jpeg, id=251, 251.2587pt x 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/tsnr.jpeg Graphic file (type jpg)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/tsnr.jpeg>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/tsnr.jpeg  used on input line 379.
+
+(pdftex.def)             Requested size: 155.0235pt x 115.9332pt.
+
+Overfull \hbox (5.30905pt too wide) in paragraph at lines 379--380
+ [][][][][][] 
+ []
+
+<draft_rsfmri_files/figure-latex/figaggDMN-1.pdf, id=255, 463.7325pt x 316.1812
+>>>>>>> issuemergingwhannah
 4pt>
 File: draft_rsfmri_files/figure-latex/figaggDMN-1.pdf Graphic file (type pdf)
 <use draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggDMN-1.pdf  used 
+<<<<<<< HEAD
 on input line 398.
 (pdftex.def)             Requested size: 463.73842pt x 316.18529pt.
 <draft_rsfmri_files/figure-latex/figaggRew-1.pdf, id=348, 463.7325pt x 316.1812
+=======
+on input line 411.
+(pdftex.def)             Requested size: 352.32005pt x 240.21822pt.
+[12] [13 <./draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf> </data/pt_02161/
+Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/re
+port/DMN_thresholded_for_clusterFWE005.png> </data/pt_02161/Analysis/Project2_r
+esting_state/seed-based/Second_level /code_and_manuscript/report/Rew_thresholde
+d_for_clusterFWE005.png> </data/pt_02161/Analysis/Project2_resting_state/seed-b
+ased/Second_level /code_and_manuscript/report/tsnr.jpeg>]
+<draft_rsfmri_files/figure-latex/figaggRew-1.pdf, id=295, 463.7325pt x 316.1812
+>>>>>>> issuemergingwhannah
 4pt>
 File: draft_rsfmri_files/figure-latex/figaggRew-1.pdf Graphic file (type pdf)
 <use draft_rsfmri_files/figure-latex/figaggRew-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggRew-1.pdf  used 
+<<<<<<< HEAD
 on input line 400.
 (pdftex.def)             Requested size: 463.73842pt x 316.18529pt.
 [13 <./draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>]
@@ -811,7 +952,211 @@ LaTeX Warning: Reference `tab:tableBMImodel' on page 14 undefined on input line
 
 LaTeX Warning: Reference `tab:tableBMIFDmodel' on page 14 undefined on input li
 ne 416.
+=======
+on input line 414.
+(pdftex.def)             Requested size: 352.32005pt x 240.21822pt.
+[14 <./draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>]
+<draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf, id=312
+, 437.635pt x 250.9375pt>
+File: draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf Gr
+aphic file (type pdf)
+<use draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/identify outliers in t
+hese plots-1.pdf  used on input line 467.
+(pdftex.def)             Requested size: 437.6406pt x 250.94069pt.
+[15 <./draft_rsfmri_files/figure-latex/figaggRew-1.pdf>]
+Overfull \hbox (181.24309pt too wide) in paragraph at lines 488--488
+[]\T1/lmtt/m/n/10 ##                                                           
+                                          long.timepoints_check[] 
+ []
 
+
+Overfull \hbox (181.24309pt too wide) in paragraph at lines 488--488
+[]\T1/lmtt/m/n/10 ## 93 could be further corrected but no large parts of skull 
+in brainmask, especially fu2 includes more skull but also other[] 
+ []
+
+[16 <./draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf>]
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf, id=342, 527.57097pt x 18
+7.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf Graphic file (type p
+df)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf  
+used on input line 525.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf, id=343, 527.57097pt x 
+187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf Graphic file (type
+ pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_deact.pdf
+  used on input line 525.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 525--525
+[][][][] 
+ []
+
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf, id=346, 527.57097pt x 
+187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf Graphic file (type
+ pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf
+  used on input line 540.
+(pdftex.def)             Requested size: 469.75404pt x 167.30966pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf, id=348, 527.57097pt x
+ 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf Graphic file (typ
+e pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pd
+f  used on input line 546.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf, id=349, 527.57097pt 
+x 187.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf Graphic file (ty
+pe pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.p
+df  used on input line 546.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 546--546
+[][][][] 
+ []
+
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf, id=350, 527.57097pt x 18
+7.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf Graphic file (type p
+df)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf  
+used on input line 552.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf, id=351, 527.57097pt x 1
+87.902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf Graphic file (type 
+pdf)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf 
+ used on input line 552.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 552--552
+[][][][] 
+ []
+
+[17 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/BMIagesex_PCCcc_avgBMI_deact.pdf> </data/pt_02161/Anal
+ysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report
+/BMIagesexfd_PCCcc_avgBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIagesexfd_PCCcc_avgBMI_dea
+ct.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+
+>] [18 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level 
+/code_and_manuscript/report/BMIFDagesex_PCCcc_avgBMI_deact.pdf> </data/pt_02161
+/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/r
+eport/BMIFDagesex_NACCcc_cngBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_de
+act.pdf): PDF inclusion: multiple pdfs with page group included in a single pag
+e
+> </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code
+_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_d
+eact.pdf): PDF inclusion: multiple pdfs with page group included in a single pa
+ge
+> </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code
+_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act
+.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+> </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code
+_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_ac
+t.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>]
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf, id=590, 527.57097pt x 187.9
+02pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
+
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf  use
+d on input line 579.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+</data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_a
+nd_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf, id=591, 527.57097pt x 187.
+902pt>
+File: /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /c
+ode_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf
+)
+<use /data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf>
+Package pdftex.def Info: /data/pt_02161/Analysis/Project2_resting_state/seed-ba
+sed/Second_level /code_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.pdf  us
+ed on input line 579.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 579--579
+[][][][] 
+ []
+
+[19 </data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /co
+de_and_manuscript/report/FDagesex_NACCcc_avgFD_act.pdf> </data/pt_02161/Analysi
+s/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/FD
+agesex_NACCgsr_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file /data/pt_02161/Analysis/Project2_resting_state/s
+eed-based/Second_level /code_and_manuscript/report/FDagesex_NACCgsr_avgFD_act.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+>] [20]
+
+LaTeX Warning: Float too large for page by 5.38994pt on input line 683.
+>>>>>>> issuemergingwhannah
+
+[21] [22] [23
 
 LaTeX Warning: Reference `tab:tableBMIFDmodel' on page 14 undefined on input li
 ne 420.
@@ -821,6 +1166,7 @@ ne 420.
 LaTeX Warning: Reference `tab:tableFDmodel' on page 15 undefined on input line 
 444.
 
+<<<<<<< HEAD
 [15] [16] [17] [18] [19] (./draft_rsfmri.aux)
 
 LaTeX Warning: There were undefined references.
@@ -836,6 +1182,22 @@ Here is how much of TeX's memory you used:
  466674 words of font info for 176 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  71i,11n,79p,1440b,490s stack positions out of 5000i,500n,10000p,200000b,80000s
+=======
+
+
+] [24] [25] [26] [27] [28] [29] (./draft_rsfmri.aux)
+Package rerunfilecheck Info: File `draft_rsfmri.out' has not changed.
+(rerunfilecheck)             Checksum: B3F7C8F1D2FF56A67949D75F307A7C9E;3078.
+ ) 
+Here is how much of TeX's memory you used:
+ 16092 strings out of 481227
+ 257689 string characters out of 5914292
+ 600849 words of memory out of 5000000
+ 32259 multiletter control sequences out of 15000+600000
+ 470493 words of font info for 183 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 71i,14n,79p,1845b,490s stack positions out of 5000i,500n,10000p,200000b,80000s
+>>>>>>> issuemergingwhannah
 {/data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/data/hu_f
 beyer/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/data/hu_fbeyer/.TinyT
 eX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/data/hu_fbeyer/.TinyTeX/texmf-
@@ -850,10 +1212,19 @@ dist/fonts/type1/public/lm/lmr7.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/
 type1/public/lm/lmr8.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/publi
 c/lm/lmri10.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy
 10.pfb></data/hu_fbeyer/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+<<<<<<< HEAD
 Output written on draft_rsfmri.pdf (19 pages, 692754 bytes).
 PDF statistics:
  562 PDF objects out of 1000 (max. 8388607)
  466 compressed objects within 5 object streams
  164 named destinations out of 1000 (max. 500000)
  32992 words of extra memory for PDF output out of 35830 (max. 10000000)
+=======
+Output written on draft_rsfmri.pdf (29 pages, 1221056 bytes).
+PDF statistics:
+ 961 PDF objects out of 1000 (max. 8388607)
+ 726 compressed objects within 8 object streams
+ 238 named destinations out of 1000 (max. 500000)
+ 35082 words of extra memory for PDF output out of 35830 (max. 10000000)
+>>>>>>> issuemergingwhannah
 

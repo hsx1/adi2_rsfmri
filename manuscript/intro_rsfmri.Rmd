@@ -8,7 +8,9 @@ author:
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
   2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
   Day Clinic for Cognitive Neurology, University Clinic Leipzig
-output: word_document
+output:
+  pdf_document: default
+  word_document: default
 editor_options:
   chunk_output_type: console
 bibliography: bibliography.bib
@@ -32,7 +34,7 @@ library(psych) # version 2.0.8
 library(knitr) # version 1.30
 ```
 
-```{r "knit setup"}
+```{r "knit setup", echo = FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex") 
 # set working directory of knit (RMarkdown) to directory of Rproj
@@ -61,7 +63,7 @@ Precise mechanisms as to how bariatric surgery leads to recovery are yet to be e
 <!-- Reward network -->
 Little is known about the potential beneficial effects of bariatric surgery on brain function in the obese population. Thus, one recently emerging research focus is how brain metabolism and functional connectivity changes in response to surgery, in particular with regard to hedonic motivations for food, which play a fundamental role in weight relapse.
 The reward network comprising the ventromedial prefrontal cortex (vmPFC), the striatum (STR) but also the anterior insula (antINS) has been linked to food valuation processes in decision-making in lean individuals [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018; @Wiemerslage_2016]. These regions also seem to be altered after bariatric surgery [@Lips_2014; @Hogenkamp_2016; @Garcia_2012]. <!-- mehr zu Zitationen -->
-<!-- Normalization of connectivity --> Obese individuals exhibited increased connectivity between frontal and mesolimbic regions and weaker connectivity within regions of the mesolimbic system (encompassing limbic and striatal regions). But these differences seemed to normalize, as trends reversed when looking at the resting state connectivity after compared to before the surgery [@Duan_2020]. Resting state activitiy increased in subcortical regions, such as the insula and striatum<!-- specifically putamen --> [@Wiemerslage_2016]. 
+<!-- Normalization of connectivity --> Obese individuals exhibited increased connectivity between frontal and mesolimbic regions and weaker connectivity within regions of the mesolimbic system (encompassing limbic and striatal regions). These abnormalities in resting-state connectivity in obese compared to normal-weight individuals seemed to normalize, as trends reversed after compared to before the surgery [@Duan_2020]. Resting state activitiy increased in subcortical regions, such as the insula and striatum<!-- specifically putamen --> [@Wiemerslage_2016]. 
 <!-- mechanism reward and appetite, overeating --> Interestingly, patients report changes in food preferences and eating behavior after the surgery that may influence weight loss beyond malabsorption of nutrients and restricted food ingestion. Those psychophysiological and behavioral effects are presumably related to post-surgical changes in visceral sensory perceptions and endocrinological signaling. Corresponding information is processed by the fronto-mesolimbic system and affects appetite and reward signalling which may influence weight regulation [@Mulla_2017; @Nudel_2019].
 <!-- results in lean -->
 
@@ -101,7 +103,7 @@ On the other hand, there are also indicators of reduced functional integrity, e.
 
 <!-- novelty statement --> As described previously, several studies have investigated the effects of bariatric surgery on the intrinsic functional connectivity in patients. Yet, to our knowledge there is no quasi-experimental study, comparing a cohort of patients to a cohort with similar characteristics but unexposed to the intervention, i.e. bariatric surgery, over an extended time period as would be demanded to draw more substantiated inference [@George_2016].
 <!-- hypotheses --> In this study, we aim to bridge this gap and investigate possible dynamics of within-reward network connectivity before and after bariatric surgery by comparison with a contemporaneously measured waiting-control group. Moreover, we will explore whether the changes in functional connectivity are associated with the amount of weight lost after bariatric surgery treatment in obesity to explore a potential gradient link. In addition, we will investigate potential changes in within-network functional connectivity after surgery in other resting-state networks such as default mode network.
-Participants are measured at baseline, at 6 months and at 24 months to capture both phases of rapid weight-loss and maintenance as expected from non-surgical interventions [@Shai_2008]. Notably, we will consider that different courses in increase and decrease of functional connectivity that are not necessarily linear are possible over the course of one year, depending on the phase of weight management [@Olivo_2017].
+Participants are measured at baseline, at 6 months and at 12 months to capture both phases of rapid weight-loss and maintenance as expected from non-surgical interventions [@Shai_2008]. Notably, we will consider that different courses in increase and decrease of functional connectivity that are not necessarily linear are possible over the course of one year, depending on the phase of weight management [@Olivo_2017].
 
 <!-- group effect because direct effect of intervention surgery -> rsfmri (cares lessfreq, less preoccupation with hunger, less/more reward sensitivity) vs. sugery -> BMI -> rsfmri (neural signalling, fatty tissue) -->
 

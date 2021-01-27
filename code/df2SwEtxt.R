@@ -58,7 +58,8 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
   
   # participants with mri data (txt file with path to .nii file) ---------------
   
-  mri_files=read.table("../SwE_files/scans.txt")
+  mri_files=data.frame(list.files("/data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity",
+                                  full.names = TRUE))
   # split info from path in txt
   for (i in 1:nrow(mri_files)){
     tmp=strsplit(toString(mri_files[i,1]),'/')[[1]][8]
@@ -67,7 +68,7 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
     mri_files[i,"subj.ID"]=strsplit(toString(tmp),'_')[[1]][1]
     mri_files[i,"subj.Nr"]=as.numeric(substr(mri_files$subj.ID[i],4,6))
   }
-  mri_files$V1 <- NULL
+  mri_files[,1] <- NULL
   
   # load info from full sample and merge with path info (fmri only) ------------
   
@@ -186,6 +187,8 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
     setwd(output_dir)
     df <- df[df$tp != "fu2",]
   }
+  cat("Data from",group,"group(s) and",tp,"measurements were selected to be kept in the data frame, therefore n =",nrow(df),".\n")
+  
   
   
   # order dataframe by group / subject / time point

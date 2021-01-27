@@ -12,7 +12,7 @@ else
 end
     
 %% Print a csv files of the results
-% if there are any results
+% if there are any results create csv file starting with result
 if size(TabDat.dat,1) > 0
     myfile = sprintf('results_%s.csv',direction);
     fid = fopen (myfile, 'w');

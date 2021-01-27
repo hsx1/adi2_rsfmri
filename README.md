@@ -19,7 +19,7 @@ This folder contains all code for the MATLAB analysis with the SwE toolbox. Expl
 
 `spm2csv.m` - saves results depending on activation and deactivation depicted by SPM/SwE into csv table in output folder as `results_act.csv` or `results_deact.csv`, and `info.csv` containing estimation specifics.
 
-### report 
+### report
 This folder contains scripts called upon by `draft_rsfmri.R` in Order to construct data frames or construct figures and tables.
 
 `create_sample_df.R` - creates data frame of sample to analze.
@@ -47,17 +47,17 @@ Folder with files to create a manuscript. CAVE: introduction and rest are in sep
 (3) [Create manuscript](#how-to-create-the-script-in-rmarkdown)
 
  - run `...Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R` from within `draft_rsfmri.Rmd` and make sure report folder contains `FDFCcorrelations.csv`
-	
+
  - (make sure `tables_FC.R` contains correct path specifications)
-	
- - knit `draft_rsfmri.Rmd` to pdf 
+
+ - knit `draft_rsfmri.Rmd` to pdf
 
 ## Detailed How To's for analysis pipeline
 
 ### How to run the analysis in MATLAB
 
 (1) General
- 
+
 1. Specify the analysis you want to perform in the `run_or_display.m` file by setting the respective parameters (therefore view description in script)
 2. Run script
 3. If estimations were previously performed, set `ONLY_DISPLAY = true`
@@ -80,11 +80,12 @@ Folder with files to create a manuscript. CAVE: introduction and rest are in sep
 ### How to SPM Anatomy toolbox
 
 To extract and process significant results.
- 
+
 1. open the **SPM Anatomy toolbox 2.2c** by entering "Anatomy" into Matlab Console (if version doen't match, echeck spm12/toolbox folder)
 2. import Image from result folder, `swe_vox_zTstat_c02.nii` for activation, `swe_vox_zTstat_c02.nii` for deactivation.
-3. keep premultiply `1`, enter thresholds, e.g. Z = 3.09 and k = 55 (retrieve exact thresholds from `info.csv` or spm output image)
+3. keep premultiply `1`, enter thresholds, e.g. Z = 3.09 and k = 55 (retrieve exact thresholds from `info.csv` or spm output image)[alternatively to step 2+3, you can save the thresholded image from SPM and don't need to give thesholds in the Anatomy toolbox then]
 4. save tables in txt table by pressing <kbd><samp>Tab</samp></kbd>
+5. in txt file naming "result_resport.txt" in folder "Results", save "model_name" "path_to_txt" and "cluster_threshold"
 
 
 ### How to create the script in RMarkdown
