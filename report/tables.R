@@ -129,7 +129,7 @@ df9$covariates <- NA
 df9$covariates[1] <- "age, sex"
 
 ## merge tables 
-BMImodel <- rbind(df1,df2)
+BMImodel <- rbind(df2,df1)
 FDmodel <- rbind(df8,df9)
 BMIFDmodel <- rbind(df3,df4,df5,df6,df7)
 
@@ -187,14 +187,14 @@ label1 <- data.table::rbindlist(
   list(
     # for cluster of df1, df2
     # avgBMI
-    data.frame(ResultFCList[[1]][1])[1:3, ] %>% select(last_col()), # cl1
-    data.frame(ResultFCList[[1]][2])[1:2, ] %>% select(last_col()), # cl2
-    data.frame(ResultFCList[[1]][3])[1:3, ] %>% select(last_col()), # ...
-    data.frame(ResultFCList[[1]][4])[1:2, ] %>% select(last_col()),
     data.frame(ResultFCList[[2]][1])[1:3, ] %>% select(last_col()), # cl1
     data.frame(ResultFCList[[2]][2])[1:3, ] %>% select(last_col()),
     data.frame(ResultFCList[[2]][3])[1:2, ] %>% select(last_col()),
-    data.frame(ResultFCList[[2]][4])[1:2, ] %>% select(last_col())
+    data.frame(ResultFCList[[2]][4])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[1]][1])[1:3, ] %>% select(last_col()), # cl1
+    data.frame(ResultFCList[[1]][2])[1:2, ] %>% select(last_col()), # cl2
+    data.frame(ResultFCList[[1]][3])[1:3, ] %>% select(last_col()), # ...
+    data.frame(ResultFCList[[1]][4])[1:2, ] %>% select(last_col())
   ),
   use.names = FALSE
 )
@@ -276,8 +276,8 @@ for (i in 1:length(ModelList)){
 names(TableList) <- c("tab_BMImodel","tab_FDmodel","tab_BMIFDmodel")
 
 TableList[[1]] <- TableList[[1]] %>%
-  group_rows("average BMI (decrease)", 1, nrow(df1)) %>%
-  group_rows("average BMI (decrease)", nrow(df1)+1, nrow(df1)+nrow(df2)) 
+  group_rows("average BMI (decrease)", 1, nrow(df2)) %>%
+  group_rows("average BMI (decrease)", nrow(df2)+1, nrow(df2)+nrow(df1)) 
 
 TableList[[2]] <- TableList[[2]] %>%
   group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
