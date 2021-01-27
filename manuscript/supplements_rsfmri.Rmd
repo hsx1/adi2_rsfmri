@@ -1,0 +1,229 @@
+---
+title: "Supplementary Material for Effects of bariatric surgery and weight loss on resting state functional connectivity"
+author:
+- Hannah Sophie Heinrichs* [1]
+- Frauke Beyer* [1][2]
+- Kristin Prehn
+- Jürgen Ordemann 
+- Agnes Floel
+- A. Veronica Witte [1][2][3]
+date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
+  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
+  Day Clinic for Cognitive Neurology, University Clinic Leipzig
+output:
+  bookdown::pdf_book:
+    fig_caption: yes
+    always_allow_html: true
+    number_sections: yes
+    toc: yes
+    extra_dependencies: "subfig"
+bibliography: "bibliography.bib"
+editor_options:
+  chunk_output_type: console
+---
+
+```{r "load packages", include=FALSE}
+
+# load packages
+library(car) # version 3.0.9
+library(plyr) # version 1.8.6
+library(dplyr) # version 1.0.2
+library(tidyr) # version 1.1.2
+library(kableExtra) # version 1.2.1
+library(ggplot2) # version 3.3.2
+library(patchwork) # version 1.0.1; API for sequentially building up a plot (similar to gridExtra and cowplot)
+library(cowplot)
+library(RColorBrewer) # version 1.1.2
+library(psych) # version 2.0.8
+
+#library(lsr)
+library(wesanderson) # colour palette
+#library(haven)
+
+library(lme4)
+
+library(sjPlot) #only works for HTML output
+library(texreg) #works for Rmarkdown
+library(knitr) # version 1.30
+
+
+source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/glmm_stability.r')
+source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/diagnostic_fcns.r')
+
+```
+
+```{r "knit setup", include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
+options(knitr.table.format = "latex") 
+options(knitr.kable.NA = '') # hide NA in tables
+# set working directory of knit (RMarkdown) to directory of Rproj
+opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+setwd(knitr::opts_knit$get("root.dir"))
+```
+
+
+## Interaction effect group by time on aggregated FC (preregistered analysis)
+```{r load agg FC data and prepare, echo=FALSE}
+agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
+agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
+agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
+agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
+for (i in c(1:nrow(agg_FC_DMN_ID))){
+  agg_FC_Rew[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
+  agg_FC_DMN[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
+}
+
+colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID_tp")
+colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID_tp")
+
+final_FC=merge(final, agg_FC_Rew, by="subj.ID_tp", all.x=TRUE)
+final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
+final_FC$subj.ID=as.factor(final_FC$subj.ID)
+final_FC$group_factor=relevel(final_FC$group_factor, ref = "KG")
+
+#calculate mean BMI over timepoints
+final_FC.meanBMI=tapply(X=final_FC$BMI,
+                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
+final_FC$mean.BMI=
+  final_FC.meanBMI[as.numeric(final_FC$subj.ID)]
+final_FC$within.BMI=
+  final_FC$BMI-final_FC$mean.BMI
+
+
+#calculate mean FD over timepoints
+final_FC.meanFD=tapply(X=final_FC$logmFD,
+                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
+final_FC$mean.logmFD=
+  final_FC.meanFD[as.numeric(final_FC$subj.ID)]
+final_FC$within.logmFD=
+  final_FC$logmFD-final_FC$mean.logmFD
+```
+
+### Aggregated DMN for two timepoints, adjusted for age and sex (Model 1a)
+```{r calc DMN two tp, age and sex,results = 'asis', echo = FALSE}
+R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+anvDMN2tp=anova(R1,R0)
+```
+
+```{qa check DMN model age,sex, echo=FALSE}
+diagnostics.plot(R0)
+ranef.diagn.plot(R0)
+
+m.stab=glmm.model.stab(model.res = R0)
+#to check whether there were any converge issues:
+table(m.stab$detailed$warnings)
+m.stab$summary
+
+test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex, data=final_FC)
+vif_res=vif(test_vif)
+```
+
+```{r DMN2tp results age, sex, caption="DMN connectivity compared bl to fu, adjusted for age and sex", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+### Aggregated DMN for two timepoints, adjusted for age, sex, mean FD (Model 1b)
+
+```{r calc DMN two tp, age and sex and mFD,results = 'asis', echo = FALSE}
+R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+anvDMN2tp=anova(R1,R0)
+```
+
+```{qa check DMN model age,sex, mFD, echo=FALSE}
+diagnostics.plot(R0)
+ranef.diagn.plot(R0)
+
+m.stab=glmm.model.stab(model.res = R0)
+#to check whether there were any converge issues:
+table(m.stab$detailed$warnings)
+m.stab$summary
+
+test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=final_FC)
+vif_res=vif(test_vif)
+```
+
+```{r DMN2tp results age sex mFD, caption="DMN connectivity compared bl to fu, adjusted for age, sex and mFD", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "logmFD", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+### Aggregated DMN for three timepoints, adjusted for age, sex, mean FD (Model 1b)
+```{r calc DMN three tp, eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
+R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
+anvDMN3tp=anova(R1,R0)
+```
+
+```{r DMN3tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+```{r DMN conn over three timepoints, echo=FALSE}
+fig_DMNconn<-mk_figDMNdescr(final_FC)
+fig_DMNconn
+```
+
+### Reward network for two time points, adjusted for age and sex (Model 1a)
+```{r calc rew two tp, age, sex, eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +  (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+anvRew2tp=anova(R1,R0)
+```
+```{qa check Rew model age,sex, echo=FALSE}
+diagnostics.plot(R0)
+ranef.diagn.plot(R0)
+
+m.stab=glmm.model.stab(model.res = R0)
+#to check whether there were any converge issues:
+table(m.stab$detailed$warnings)
+m.stab$summary
+```
+
+```{r Rew2tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+### Reward network for two timepoints, adjusted for age, sex, mean FD (Model 1b)
+```{r calc rew two tp adjusted, eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+anvRew2tpadj=anova(R1,R0)
+```
+
+```{qa check Rew model age,sex,mFD, echo=FALSE}
+diagnostics.plot(R0)
+ranef.diagn.plot(R0)
+
+m.stab=glmm.model.stab(model.res = R0)
+#to check whether there were any converge issues:
+table(m.stab$detailed$warnings)
+m.stab$summary
+
+test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=final_FC)
+vif_res=vif(test_vif)
+```
+
+```{r Rew2tpadj results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 7, 4, 5, 6),custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex","logmFD","Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+### Reward network for three timepoints, adjusted for age, sex, mean FD (Model 1b)
+```{r calc rew three tp, eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC)
+anvRew3tp=anova(R1,R0)
+```
+```{r Rew3tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+```{r Rew conn over three timepoints, echo=FALSE}
+fig_Rewconn<-mk_figRewdescr(final_FC)
+fig_Rewconn
+```
