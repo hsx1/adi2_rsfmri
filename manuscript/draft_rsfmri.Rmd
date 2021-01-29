@@ -68,21 +68,20 @@ options(knitr.kable.NA = '') # hide NA in tables
 opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 setwd(knitr::opts_knit$get("root.dir"))
 
-source("report/figures.R")
-source("report/tables.R")
-source("report/create_sample_df.R")
+source("code/figures.R")
+source("code/tables.R")
+source("code/create_sample_df.R")
 ```
 
 \newpage
 # Methods
 
 ```{r "Load data", include=FALSE}
-final <- create_sample_df(group = "both", tp = "all")
+#final <- create_sample_df(group = "both", tp = "all")
+final <- readRDS(file = "./report/tab/final.rds")
 
-# sample size
-#nrow(subj_df)
-subj_idx <- match(unique(final$subj.ID), final$subj.ID) # indices of first row of each subject
-subj_df <- final[subj_idx,] # df with unique subjects
+# indices of first row of each subject
+subj_df <- final[match(unique(final$subj.ID), final$subj.ID),] # df with unique subjects
 
 # completed time points
 freqtable <- as.data.frame(table(final$subj.ID))
@@ -99,17 +98,18 @@ dfw <- tidyr::pivot_wider(data = final,
 ```
 
 ```{r "tableSample", echo=FALSE}
-tab_sample <- mk_SampleTable(final)
+#tableSample <- mk_SampleTable(final)
+tableSample <- readRDS(file = "report/tab/tableSample.rds")
 
-tab_sample <-
+tab <-
   knitr::kable(
-    tab_sample,
+    tableSample,
     row.names = TRUE,
     format = "latex",
     booktabs = T,
     linesep = "",
     caption = "Distribution of data points at months after intervention")
-tab_sample
+tab
 ```
 
 ## Sample and study design
@@ -139,7 +139,8 @@ or were waiting list controls
 $\pm$ `r round(sd(subj_df$Age_BL[subj_df$condition == "KG"]),2)` SD years old) 
 The study design was quasi-experimental, as patient in the waiting control list had also been recommended to undergo bariatric surgery, but were still waiting for their health insurance's approval.
 ```{r tableBaselineCharacteristics, include=FALSE}
-dfBL <- create_sample_df(group = "all", tp = "BL")
+#dfBL <- create_sample_df(group = "all", tp = "BL")
+dfBL <- readRDS(file = "./report/tab/dfBL.rds")
 
 # distributions per group
 # BMI
@@ -180,33 +181,25 @@ tab_sex <- table(dfBL$condition, dfBL$Sex)
 
 # table_descr <- mk_tableDescr()
 # table for descriptive statistics
-descr <- psych::describeBy(dfw[,5:ncol(dfw)], group=dfw$condition,mat=T)
-descr$predictor <- c(rep("BMI",6),rep("meanFD",6))
-descr$tp <- car::recode(descr$vars, "c(1,4)='fu2';c(2,5)='fu';c(3,6)='bl'")
-descr$group <- descr$group1
-descr <- descr[,c("predictor","tp","group","n","mean","sd")]
-descr <- descr[with(descr, order(predictor, tp)),]
-descr[,c("mean","sd")] <- round(descr[,c("mean","sd")],2)
-descr[c(2:6,8:12),"predictor"] <- ""
-descr[c(2,4,6,8,10,12),"tp"] <- ""
-rownames(descr) <- NULL
 
-tab_descr <-
+tableDescr <- readRDS(file = "./report/tab/tableDescr.rds")
+
+tab <-
   knitr::kable(
-    descr,
+    tableDescr,
     row.names = FALSE,
     format = "latex",
     booktabs = T,
     linesep = "",
     caption = "BMI and mean FD of participants acquired in each condition and time point")
 
-tab_descr
+tab
 
 ```
 <!-- STUDY PROCEDURE --> Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for <!-- standadized??  -->breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 ```{r figBMIdescr, fig.align='center', out.width="90%", fig.cap="BMI over time.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
-fig_BMIdescr <- mk_figBMIdescr(final)
+fig_BMIdescr <- readRDS(file = "./report/fig/fig_BMIdescr.rds")
 fig_BMIdescr
 ```
 
@@ -306,10 +299,10 @@ The second model on the influence of between-subject differences in average BMI 
 <!-- DESIGN MATRIX, vielleicht beide auch als Abbildung kurz zeigen? --> For the first model, time was introduced as factor because we did not assume strict linearity for the increase in connectivity and therefore refrained from modeling time as continuous variable (see Figure \@ref(fig:figDesignmatrix)). The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
 ```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap=c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
 # fig.show="hold",  out.width="40%", fig.height = 8,
-PlotList <- mk_figDesignMatrix()
 
-PlotList$plotA
-PlotList$plotB
+DesignMatricesList <- readRDS(file = "./report/fig/DesignMatricesList.rds")
+DesignMatricesList$plotA
+DesignMatricesList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 For the second and third model, we calculated the centered mean BMI and log mean FD per subject and the intra-subject-centered BMI as proposed by @Guillaume_2014. With a model containing average BMI and longitudinal change per subject, we investigated their differential effects on the complete sample and subsequently in a exploratory fashion for the intervention group only as the effect of longitudinal change in BMI was expected to be driven by this subsample.
@@ -340,29 +333,12 @@ As described in @Beyer_2020, group and time show an interaction effect for mFD w
 We also inspected DVARS, a measure of whole-brain signal variation which is reflective of noise in the data. We saw that DVARS did not qualitatively differ between groups and time points, and that the correlation of DVARS and mFD remained similar over time points.
 This indicates that even though there was a decrease in head motion in the intervention versus control group, the impact of head motion on imaging data remained similar over the study period.
 ```{r tableQcfc, echo=FALSE}
-res <- read.csv("report/FDFCcorrelations.csv")
-rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
-colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
-
-tab_qc_fc <- mk_tableQcfc(res)
-tab_qc_fc
+res <- read.csv("./report/FDFCcorrelations.csv")
+tab <- readRDS(file = "./report/fig/tableQcfc.rds")
+tab
 ```
 Further, we evaluated the impact of our denoising pipelines on different quality metrics following [@Ciric_2018]. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and FC between nodes was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`). This relationship was negatively associated with distance between nodes (mean Spearman's r = `r round(res[1,5],2)`).  
 Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
-
-```{r calculate summary of QA, eval=FALSE, echo=FALSE}
-for (i in 1:nrow(final)) {
-  tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
-  conf = read.csv(
-    paste0("/data/pt_02161/preprocessed/resting/detailedQA/metrics/",
-      tmp, "/confounds.csv"))
-  tmp = cor.test(conf$DVARS, conf$FD)
-  final[i, "corr_DVARS_FD"] = tmp$estimate
-  final[i, "mean_DVARS"] = mean(conf$DVARS, na.rm = TRUE)
-  final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
-  final
-}
-```
 
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD', echo=FALSE}
 final=read.csv(file = "report/all_QA_measures.csv")
@@ -380,8 +356,8 @@ write.csv(FDFC,"report/FDFCcorrelations.csv", row.names = FALSE)
 
 ```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens"),fig.show='hold',fig.align='center'}
 #setwd(knitr::opts_knit$get("root.dir"))
-networks = c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png",
-             "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png")
+networks = c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/DMN_thresholded_for_clusterFWE005.pdf",
+             "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/Rew_thresholded_for_clusterFWE005.pdf")
 knitr::include_graphics(networks)
 ```
 
