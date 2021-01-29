@@ -1,11 +1,13 @@
 # processes data to report later in manuscript .Rmd file
-
+ROOT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
 
 # Get functions -----------------------------------------------------------
-setwd("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/")
+setwd(ROOT_DIR)
 source("figures.R")
 source("tables.R")
 source("create_sample_df.R")
+source("../../../../../Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
+
 
 
 # Load data ---------------------------------------------------------------
@@ -28,10 +30,11 @@ for (i in 1:nrow(final)) {
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
   final
 }
-saveRDS(object = final, file = "../report/tab/final.rds")
 
+final <- within(final,  subj.ID_tp <- paste(subj.ID,tp, sep="_"))
 
-saveRDS(object = final, file = "../report/tab/final.rds")
+# save final data frame
+write.csv(final,"../report/final.csv", row.names = FALSE)
 
 # indices of first row of each subject
 subj_df <- final[match(unique(final$subj.ID), final$subj.ID),] # df with unique subjects
@@ -61,7 +64,7 @@ saveRDS(object = tableSample, file = "../report/tab/tableSample.rds")
 # tableBaselineCharacteristics --------------------------------------------
 
 dfBL <- create_sample_df(group = "all", tp = "BL")
-saveRDS(object = dfBL, file = "../report/tab/dfBL.rds")
+saveRDS(object = dfBL, file = "../report/dfBL.rds")
 
 
 # tableDescr --------------------------------------------------------------
@@ -98,6 +101,72 @@ res <- read.csv("../report/FDFCcorrelations.csv")
 rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
 colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
 
-tableQcfc <- mk_tableQcfc(res)
-saveRDS(object = tableQcfc, file = "../report/fig/tableQcfc.rds")
+# FDFC correlation computation --------------------------------------------
 
+# ############################ IMPORTANT ##################################
+# ONLY COMPUTE IF NECESSARY (long computation time)
+# #########################################################################
+
+#FDFC=calc_qc_fc(final)
+#write.csv(FDFC,"../report/FDFCcorrelations.csv", row.names = FALSE)
+
+
+# prepare tsnr ROI plot ---------------------------------------------------
+
+fig_tSNR <- mk_figtSNR(final)
+saveRDS(object = fig_tSNR, file = "../report/fig/fig_tSNR.rds")
+
+
+# load and prepare aggFC measures -----------------------------------------
+
+agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
+agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
+agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
+agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
+
+for (i in c(1:nrow(agg_FC_DMN_ID))){
+  agg_FC_Rew[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
+  agg_FC_DMN[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
+}
+
+colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID_tp")
+colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID_tp")
+
+final_FC=merge(final, agg_FC_Rew, by="subj.ID_tp", all.x=TRUE)
+final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
+final_FC$subj.ID=as.factor(final_FC$subj.ID)
+
+# calculate mean FD over time points
+final_FC.meanFD=tapply(X=final_FC$logmFD,
+                       INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
+final_FC$mean.logmFD=
+  final_FC.meanFD[as.numeric(final_FC$subj.ID)]
+final_FC$within.logmFD=
+  final_FC$logmFD-final_FC$mean.logmFD
+
+write.csv(final_FC,"../report/final_FC.csv", row.names = FALSE)
+
+
+# figDvarsmFD -------------------------------------------------------------
+
+figDvarsmFDList <- figDvarsmFD(final)
+saveRDS(object = figDvarsmFDList, file = "../report/fig/figDvarsmFDList.rds")
+
+
+# fig_DMNconn -------------------------------------------------------------
+
+# DMN conn over three time points
+fig_DMNconn <- mk_figDMNdescr(final_FC)
+saveRDS(object = fig_DMNconn, file = "../report/fig/figDMNconn.rds")
+
+# fig_RNconn --------------------------------------------------------------
+
+# RN conn over three time points
+fig_Rewconn <- mk_figRewdescr(final_FC)
+saveRDS(object = fig_Rewconn, file = "../report/fig/figRewconn.rds")
+
+
+# FCTables ----------------------------------------------------------------
+
+FCTableList <- mk_FCTables()
+saveRDS(object = FCTableList, file = "../report/tab/FCTableList.rds")

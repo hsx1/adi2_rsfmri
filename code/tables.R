@@ -253,6 +253,7 @@ fn3 <- "To identify significant clusters, we applied a cluster size threshold wi
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
 title_vec <- c("BMI", "FD", "BMI-FD") 
 
+tabnames <- c("tableBMImodel","tableFDmodel","tableBMIFDmodel")
 TableList <- list()
 for (i in 1:length(ModelList)){
   TableList[[i]] <-
@@ -264,7 +265,8 @@ for (i in 1:length(ModelList)){
       format = "latex",
       booktabs = T,
       linesep = "",      # disable "\\addlinespace" at every 5th line
-      caption = sprintf("Changes in functional connectivity in whole brain analysis for %s model",title_vec[i])
+      label = tabnames[i],
+      caption = sprintf("Changes in functional connectivity in whole brain analysis for %s model",title_vec[i]),
     ) %>%
     kable_styling(latex_options = c('scale_down')) %>% # "scale_down"
     #column_spec(c(11), width = "3.2cm") %>%
@@ -276,7 +278,7 @@ for (i in 1:length(ModelList)){
     add_footnote(c(fn3, fn4), notation = "number") %>%
     kableExtra::landscape()
 }
-names(TableList) <- c("tab_BMImodel","tab_FDmodel","tab_BMIFDmodel")
+names(TableList) <- tabnames
 
 TableList[[1]] <- TableList[[1]] %>%
   group_rows("average BMI (decrease)", 1, nrow(df2)) %>%
@@ -319,21 +321,4 @@ mk_SampleTable <- function(final) {
   rownames(tab_sample) <- c("count: only 0","count: only 6","count: only 12","count: 0 and 6","count: 6 and 12","count: complete data","total number of subjects","total data points")
   colnames(tab_sample) <- c("BARS","NBARS")
   return(tab_sample)
-}
-
-mk_tableQcfc <- function(res) {
-  
-  tab_qc_fc <-
-    knitr::kable(
-      round(res,3),
-      col.names = colnames(res),
-      row.names = TRUE,
-      format = "latex",
-      booktabs = T,
-      linesep = "",
-      caption = "Summary of quality metrics for different denoising pipelines across conditions and time points") %>%
-    column_spec(c(2:6), width = "1.8cm") 
-  
-  
-  return(tab_qc_fc)
 }
