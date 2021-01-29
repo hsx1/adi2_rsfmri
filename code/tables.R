@@ -1,3 +1,6 @@
+library(dplyr)
+
+
 DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
 
 # FC RESULTS -------------------------------------------------------------------
@@ -300,6 +303,7 @@ mk_SampleTable <- function(final) {
   # completed time points
   freqtable <- as.data.frame(table(final$subj.ID))
   tpfreq <- table(freqtable$Freq)
+  subj_df <- final[match(unique(final$subj.ID), final$subj.ID),]
   
   # overview distribution of data points
   tp1 <- as.character(freqtable$Var1[freqtable$Freq == 1])
@@ -309,7 +313,7 @@ mk_SampleTable <- function(final) {
   tp2_tab <- table(subset(final, subj.ID %in% tp2)$tp, subset(final, subj.ID %in% tp2)$condition)[c(1,3),]
   tp3_tab <- table(subset(final, subj.ID %in% tp3)$tp, subset(final, subj.ID %in% tp3)$condition)[1,]
   total_datapoints <- c(sum(final$group==1),sum(final$group==2))
-  total_subjects <- plyr::count(final[subj_idx,"group"])$freq
+  total_subjects <- plyr::count(subj_df$group)$freq
   tab_sample <- data.frame(rbind(tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints))
   rm(tp1,tp2,tp3,tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints)
   rownames(tab_sample) <- c("count: only 0","count: only 6","count: only 12","count: 0 and 6","count: 6 and 12","count: complete data","total number of subjects","total data points")

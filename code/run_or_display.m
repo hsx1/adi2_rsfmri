@@ -102,7 +102,7 @@ param.MASK_B = "MNI_resampled_brain_mask.nii,1";
 roi_prep = convertCharsToStrings(readcell(fullfile(param.INFO_DIR,"ROIs.txt"), "Delimiter"," ","Whitespace","'"));
 %% ------------------------------------------------------------------------
 
-param.PRESET = "manual";
+param.PRESET = "averageFC";
 param.ONLY_DISPLAY = true;         
 param.OVERWRITE = false; 
 param.WILD_BOOT = true;   
@@ -142,19 +142,19 @@ elseif param.PRESET == "fd"
     param.VIEW = true;
 elseif param.PRESET == "averageFC"
     param.MODEL = ["alltp"];
-    param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
-    param.COVARIATES = [41, 42, 43];  
+    param.ROI_PREP = roi_prep([4,6,12,14]); 
+    param.COVARIATES = [42];  
     param.MASK = "brain";           
     param.EXCLFD = false;     
-    param.INFERENCE_TYPE = ["voxel","cluster","tfce"];
+    param.INFERENCE_TYPE = ["cluster"];
     param.VIEW = true;
 elseif param.PRESET == "baselineFC"
     param.MODEL = ["singletp"];
-    param.ROI_PREP = roi_prep([6, 12, 14]); 
+    param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
     param.COVARIATES = [41, 42, 43];  
     param.MASK = "brain";           
     param.EXCLFD = false;         
-    param.INFERENCE_TYPE = ["voxel"];
+    param.INFERENCE_TYPE = ["cluster"];
     param.VIEW = true;
 elseif param.PRESET == "full"
     param.MODEL = ["grouptime","grouptime2tp", "bmi", "bmiIG","bmi2tp", "fd","fdIG", "alltp","singletp"];
@@ -180,8 +180,8 @@ elseif param.PRESET == "manual"
     % All three models have unique options for covariate definition, the
     % association to a model is indicated by the tens digit (GroupTime_: 1_; 
     % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-    param.MODEL = ["fd"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
-    param.COVARIATES = [31];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+    param.MODEL = ["alltp"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
+    param.COVARIATES = [42];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
     % define masking and type of inference
     param.MASK = "brain";               % "brain"
@@ -189,7 +189,7 @@ elseif param.PRESET == "manual"
     param.INFERENCE_TYPE = ["cluster"]; % ["voxel","cluster","tfce"];
 
     % analysis parameter (estimate or display?)
-    param.VIEW = true;
+    param.VIEW = false;
     % param.ACTION = "estimate" % "display" or "overwrite"
 else
     error("Preset '%s' not defined.",param.PRESET)
