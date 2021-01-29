@@ -19,4 +19,4 @@ report
 # test files
 tryout*
 test*
-sanity_check*
+sanity_checks
