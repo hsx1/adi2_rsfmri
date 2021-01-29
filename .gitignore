@@ -11,9 +11,11 @@ directories*
 *.bib.bak
 *.bib.sav
 
-# binary files and figures
+# binary files, log files and figures
 *.pdf
 *.docx
+*.odt
+*.log
 report
 
 # test files
