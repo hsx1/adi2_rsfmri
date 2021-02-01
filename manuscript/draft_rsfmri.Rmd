@@ -19,8 +19,8 @@ output:
     extra_dependencies: "subfig"
 bibliography: "bibliography.bib"
 editor_options:
-  chunk_output_type: console
   
+  chunk_output_type: console
 header-includes:
 - \usepackage[left]{lineno}
 - \linenumbers
