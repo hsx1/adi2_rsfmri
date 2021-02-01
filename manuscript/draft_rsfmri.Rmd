@@ -85,7 +85,7 @@ source("report/create_sample_df.R")
 Obesity is a worldwide health issue, enchaining huge personal and societal costs. Excess amount of fat not only affects cardiovascular and metabolic health, but also increases the risk for cognitive decline and dementia later in life. 
 Conservative treatment options including dietary modification, physical activity and behavioral therapy often do not yield the desired weight loss, especially in patients with very high BMI (> 35 kg/m2). Here, bariatric surgery is a viable option to rapidly induce weight loss and improve glycemic status. 
 Roux-en-Y gastric bypass (RYGB) is the most effective surgical procedure [@Berthoud_2011]. Here, a small pouch is formed from the proximal stomach and connected to the jejunum, disconnecting the larger part of the stomach and the proximal part of the small intestine intact from the digestive flow. Other techniques like vertical sleeve gastrectomy (VSG) and gastric banding (GB) reduce stomach volume, but leave the small intestine unchanged [@Mulla_2017]. 
-RYGB-induced weight loss is in part mediated by malabsorption of certain nutrients, especially fat, and reduced digestion efficiency [@Berthoud_2011] while the role of increased energy expenditure after RYGB is still unclear [@Yarmush_2017;@Lamarca_2019]. Most importantly, RYGB alters the signaling cascades between the gut, fat tissue and the brain and thereby induces profound changes in the regulation of food intake and energy homeostasis [@Berthoud_2011]. RYBG-patients frequently report altered smell and taste perception, i.e. increased sensitivity to sweet taste, show less desire to consume high-calorie and high-fat foods and actually reduce intake of such food items [@Mulla_2017, @Berthoud_2011].  These changes in appetitive and reward signaling probably go back to altered gut-brain signaling, mediated by afferent vagal nerve signaling and gut hormones like GLP-1, PYY and ghrelin. 
+RYGB-induced weight loss is in part mediated by malabsorption of certain nutrients, especially fat, and reduced digestion efficiency [@Berthoud_2011] while the role of increased energy expenditure after RYGB is still unclear [@Yarmush_2017;@Lamarca_2019]. Most importantly, RYGB alters the signaling cascades between the gut, fat tissue and the brain and thereby induces profound changes in the regulation of food intake and energy homeostasis [@Berthoud_2011]. RYBG-patients frequently report altered smell and taste perception, i.e. increased sensitivity to sweet taste, show less desire to consume high-calorie and high-fat foods and actually reduce intake of such food items [@Mulla_2017, @Berthoud_2011].  These changes in appetitive and reward signaling likely relate to altered gut-brain communication, mediated by afferent vagal nerve signaling and gut hormones like GLP-1, PYY and ghrelin [ @Brutman_2019]. 
 Yet, precise mechanisms how bariatric surgery leads to altered appetitive and reward signaling are yet to be elucidated.
 Resting state functional magnetic resonance imaging (rsfMRI) is a powerful technique to investigate the dynamic organization of the brain via the correlation of spontaneous neural activity. Anatomically distinct brain regions show functional connectivity (FC), i.e. correlated neural activity over time, in the absence of a cognitive task. Crucially, these brain networks correspond to networks activated during specific cognitive processes, e.g. visual, auditory and somatosensory processing, or higher-order cognitive functions, i.e. attention and executive control [@Smith_2009], and can thus be seen as default configuration of the brain. In the context of bariatric surgery, the default mode network, a higher-order network, involved in interoception and governing shifts between external-internal processes, and the reward network, processing hedonic value and internal motivation, are promising candidates to mediate altered gut-brain signaling.
 The default mode network has been discovered as a “task-negative” network, and is involved in a variety of largely internally-directed cognitive functions including interoception, mind wandering and memory. Its core hubs are the posterior cingulate cortex (PCC)/precuneus, the medial prefrontal cortex (mPFC) and the inferior and lateral parietal cortex (approx. BA 39) [@Raichle_2015]. 
@@ -363,6 +363,13 @@ First, we inspected parameters of head motion (mFD) and a measure of whole-brain
 As described in @Beyer_2020, there was a group-by-time interaction on mFD. The intervention group reduced in head motion in the follow-up assessments compared to the control group. 
 Further, DVARS did not qualitatively differ between groups and time points, and the correlation of DVARS and mFD remained similar over time points.
 We concluded that even though there was a decrease in head motion in the intervention versus control group, the impact of head motion on imaging data remained similar over the study period in both groups.
+```{r FDFC correlation, eval=FALSE, echo=FALSE}
+# do not evaluate if saved already
+source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
+FDFC=calc_qc_fc(final)
+write.csv(FDFC,"report/FDFCcorrelations.csv", row.names = FALSE)
+```
+
 ```{r tableQcfc, echo=FALSE}
 res <- read.csv("report/FDFCcorrelations.csv")
 rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
@@ -374,7 +381,7 @@ tab_qc_fc
 Further, we evaluated the impact of our denoising pipelines on different quality metrics following [@Ciric_2018]. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and FC between nodes was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`). This relationship was negatively associated with distance between nodes (mean Spearman's r = `r round(res[1,5],2)`).  
 Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency [@Power_2015]. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
 
-```{r calculate summary of QA, eval=FALSE, echo=FALSE}
+```{r calculate summary of QA, eval=TRUE, echo=FALSE}
 for (i in 1:nrow(final)) {
   tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
   conf = read.csv(
@@ -386,6 +393,7 @@ for (i in 1:nrow(final)) {
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
   final
 }
+write.csv(file = "report/all_QA_measures.csv", final)
 ```
 
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD', echo=FALSE}
@@ -395,14 +403,7 @@ FigureList <- figDvarsmFD(final)
 (FigureList$fig1 | FigureList$fig2) / FigureList$fig3
 ```
 
-```{r FDFC correlation, eval=FALSE, echo=FALSE}
-# do not evaluate if saved already
-source("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
-FDFC=calc_qc_fc(final)
-write.csv(FDFC,"report/FDFCcorrelations.csv", row.names = FALSE)
-```
-
-```{r prepare tsnr ROI plot, eval=FALSE}
+```{r prepare tsnr ROI plot, eval=TRUE}
 final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
 
 tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")

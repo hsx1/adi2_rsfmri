@@ -23,13 +23,8 @@ mk_figBMIdescr <- function(final) {
       size = 2,
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
-<<<<<<< HEAD
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
   figBMIdescr= figBMIdescr +
-=======
-    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
-    xlab("time points") +
->>>>>>> issuemergingwhannah
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
       values = c("#046C9A70", "#D69C4E70"),
@@ -47,10 +42,8 @@ mk_figBMIdescr <- function(final) {
   return(figBMIdescr)
 }
 
-<<<<<<< HEAD
-=======
 mk_figBMIdescr_for_OHBM <- function(final) {
-  
+
   condition.labs <- c("BS","NBS")
   names(condition.labs) <- c("IG","KG")
   # BMI over time each group
@@ -73,7 +66,7 @@ mk_figBMIdescr_for_OHBM <- function(final) {
     stat_summary(
       aes(group = condition),
       fun= mean,
-      fun.min = function(x) mean(x) - sd(x), 
+      fun.min = function(x) mean(x) - sd(x),
       fun.max = function(x) mean(x) + sd(x),
       geom  = "errorbar",
       size = 1, width = 0.1,
@@ -100,59 +93,6 @@ mk_figBMIdescr_for_OHBM <- function(final) {
   return(figBMIdescrOHBM)
 }
 
-mk_figFDdescr_for_OHBM <- function(final) {
-  
-  condition.labs <- c("BS","NBS")
-  names(condition.labs) <- c("IG","KG")
-  # BMI over time each group
-  figFDdescrOHBM <-
-    ggplot(final, aes(
-      x = tp,
-      y = meanFD,
-      group = subj.ID,
-      color = condition
-    )) +
-    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
-    stat_summary(
-      aes(group = condition),
-      fun = mean,
-      geom  = "line",
-      size = 1,
-      position=position_nudge(x = 0.02, y = 0),
-      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
-    ) +
-    stat_summary(
-      aes(group = condition),
-      fun= mean,
-      fun.min = function(x) mean(x) - sd(x), 
-      fun.max = function(x) mean(x) + sd(x),
-      geom  = "errorbar",
-      size = 1, width = 0.1,
-      position=position_nudge(x = 0.02, y = 0),
-      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
-    ) +
-    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
-    # geom_errorbar(aes(ymin=BMI-sd(BMI),ymax=BMI+sd(BMI))) +
-    xlab("time points") +
-    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
-    scale_color_manual(
-      values = c("#046C9A70", "#D69C4E70"),
-      labels = c("intervention", "control")
-    ) +
-    xlab("Time after intervention [months]") + ylab ("mean FD") +
-    theme_bw() +  theme(
-      axis.text = element_text(size = 10),
-      axis.title = element_text(size = 12),
-      strip.text = element_text(size = 12),
-      legend.text = element_text(size = 10),
-      legend.position = "none"
-    )
-  ggsave("/data/pt_02161/Publications/Abstracts/HeinrichsBeyer_OHBM2021/meanfd.pdf", units = "cm", width=15, height=8)
-  return(figFDdescrOHBM)
-}
-
-# Reward -----------------------------------------------------------------------
->>>>>>> issuemergingwhannah
 mk_figRewdescr <- function(final_FC) {
 
   condition.labs <- c("BARS","NBARS")
@@ -306,16 +246,16 @@ mk_figDesignMatrix <- function() {
 
 mk_figtSNR <- function (final) {
   final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
-  
+
   tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")
   tsnr=tsnr[tsnr$V1!="subj",]
   colnames(tsnr)=c("subj.ID_tp","roi","median","mean","sd")
   levels(tsnr$roi)=droplevels(tsnr$roi)
   levels(tsnr$roi)=c("NAcc", "precuneus")
   tsnr$mean=as.double(tsnr$mean)
-  
+
   final_tsnr=merge(final, tsnr, by="subj.ID_tp", all.x=TRUE)
-  
+
   p <- ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
     geom_violin(aes(fill=roi)) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
     scale_fill_manual(values=wes_palette("Darjeeling2",4,type="discrete")[2:3]) +

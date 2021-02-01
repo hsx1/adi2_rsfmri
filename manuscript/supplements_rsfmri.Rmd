@@ -49,35 +49,43 @@ library(knitr) # version 1.30
 
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/glmm_stability.r')
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/diagnostic_fcns.r')
-
 ```
 
 ```{r "knit setup", include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
-options(knitr.table.format = "latex") 
+options(knitr.table.format = "latex")
 options(knitr.kable.NA = '') # hide NA in tables
 # set working directory of knit (RMarkdown) to directory of Rproj
 opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 setwd(knitr::opts_knit$get("root.dir"))
+source('report/figures.R')
+source("report/tables.R")
+source("report/create_sample_df.R")
 ```
 
 
 ## Interaction effect group by time on aggregated FC (preregistered analysis)
 ```{r load agg FC data and prepare, echo=FALSE}
+final=readRDS("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/tab/final.rds")
+
 agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
 agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
 agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
 agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
 for (i in c(1:nrow(agg_FC_DMN_ID))){
-  agg_FC_Rew[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
-  agg_FC_DMN[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
+  tmp=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
+  agg_FC_Rew[i,"subj.ID"]=strsplit(tmp,"_")[[1]][1]
+  agg_FC_Rew[i,"tp"]=strsplit(tmp,"_")[[1]][2]
+  tmp=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
+  agg_FC_DMN[i,"subj.ID"]=strsplit(tmp,"_")[[1]][1]
+  agg_FC_DMN[i,"tp"]=strsplit(tmp,"_")[[1]][2]
 }
 
-colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID_tp")
-colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID_tp")
+colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID", "tp")
+colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID","tp")
 
-final_FC=merge(final, agg_FC_Rew, by="subj.ID_tp", all.x=TRUE)
-final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
+final_FC=merge(final, agg_FC_Rew, by=c("subj.ID","tp"), all.x=TRUE)
+final_FC=merge(final_FC, agg_FC_DMN, by=c("subj.ID","tp"), all.x=TRUE)
 final_FC$subj.ID=as.factor(final_FC$subj.ID)
 final_FC$group_factor=relevel(final_FC$group_factor, ref = "KG")
 
