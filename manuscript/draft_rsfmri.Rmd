@@ -19,7 +19,6 @@ output:
     extra_dependencies: "subfig"
 bibliography: "bibliography.bib"
 editor_options:
-
   chunk_output_type: console
 header-includes:
 - \usepackage[left]{lineno}
@@ -71,6 +70,7 @@ source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_m
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex")
 options(knitr.kable.NA = '') # hide NA in tables
+knitr::knit_engines$get()
 # set working directory of knit (RMarkdown) to directory of Rproj
 #opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 #setwd(knitr::opts_knit$get("root.dir"))
@@ -440,7 +440,7 @@ qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 
 There was no significant time by group interaction effect for aggregated DMN and reward network FC (see Figures \@ref(fig:figaggDMN) and \@ref(fig:figaggRew) and supplements for a detailed summary of the models).
 
-```{r calc DMN two tp, age and sex,results = 'asis', echo = FALSE}
+```{r "calc DMN two tp, age and sex" ,results = 'asis', echo = FALSE}
 #### Aggregated DMN for two timepoints, adjusted for age and sex (Model 1a)
 
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -448,7 +448,7 @@ R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), 
 anvDMN2tp=anova(R1,R0)
 ```
 
-```{qa check DMN model age,sex, echo=FALSE}
+```{r "qa check DMN model age,sex", echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -461,14 +461,14 @@ test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex, data=final_FC)
 vif_res=vif(test_vif)
 ```
 
-```{r DMN2tp results age, sex, caption="DMN connectivity compared bl to fu, adjusted for age and sex", results="asis", eval=FALSE}
+```{r "DMN2tp results age, sex", caption="DMN connectivity compared bl to fu, adjusted for age and sex", results="asis", eval=FALSE}
 #tab_model(R1,R0)
 texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 
 ```
 
 
-```{r calc DMN two tp, age and sex and mFD,results = 'asis', echo = FALSE}
+```{r "calc DMN two tp, age and sex and mFD", results = 'asis', echo = FALSE}
 #### Aggregated DMN for two timepoints, adjusted for age, sex, mean FD (Model 1b)
 
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -476,7 +476,7 @@ R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD + (1|s
 anvDMN2tp=anova(R1,R0)
 ```
 
-```{qa check DMN model age,sex, mFD, echo=FALSE}
+```{r, "qa check DMN model age,sex, mFD", echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -489,24 +489,24 @@ test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=fina
 vif_res=vif(test_vif)
 ```
 
-```{r DMN2tp results age sex mFD, caption="DMN connectivity compared bl to fu, adjusted for age, sex and mFD", results="asis", eval=FALSE}
+```{r "DMN2tp results age sex mFD", caption="DMN connectivity compared bl to fu, adjusted for age, sex and mFD", results="asis", eval=FALSE}
 #tab_model(R1,R0)
 texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "logmFD", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
-```{r calc DMN three tp, eval = TRUE, echo = FALSE}
+```{r "calc DMN three tp", eval = TRUE, echo = FALSE}
 #### Aggregated DMN for three timepoints, adjusted for age, sex, mean FD (Model 1b)
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
 anvDMN3tp=anova(R1,R0)
 ```
 
-```{r DMN3tp results, caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
+```{r "DMN3tp results", caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
 #tab_model(R1,R0)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
-```{r calc rew two tp, age, sex, eval = TRUE, echo = FALSE}
+```{r "calc rew two tp, age, sex", eval = TRUE, echo = FALSE}
 ### Reward network for two time points, adjusted for age and sex (Model 1a)
 
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -514,7 +514,7 @@ R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +  (1|subj.ID),
 anvRew2tp=anova(R1,R0)
 ```
 
-```{qa check Rew model age,sex, echo=FALSE}
+```{r, "qa check Rew model age,sex", echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -524,12 +524,12 @@ table(m.stab$detailed$warnings)
 m.stab$summary
 ```
 
-```{r Rew2tp results, caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
+```{r "Rew2tp results", caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
 #tab_model(R1,R0)
 texreg(list(R0,R1), custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
-```{r calc rew two tp adjusted, eval = TRUE, echo = FALSE}
+```{r "calc rew two tp adjusted", eval = TRUE, echo = FALSE}
 #### Reward network for two timepoints, adjusted for age, sex, mean FD (Model 1b)
 
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -537,7 +537,7 @@ R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|sub
 anvRew2tpadj=anova(R1,R0)
 ```
 
-```{qa check Rew model age,sex,mFD, echo=FALSE}
+```{r "qa check Rew model age, sex, mFD", echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -550,19 +550,20 @@ test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=fina
 vif_res=vif(test_vif)
 ```
 
-```{r Rew2tpadj results, caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
+```{r "Rew2tpadj results", caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
 #tab_model(R1,R0)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 7, 4, 5, 6),custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex","logmFD","Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
-```{r calc rew three tp, eval = TRUE, echo = FALSE}
+```{r "calc rew three tp", eval = TRUE, echo = FALSE}
 #### Reward network for three timepoints, adjusted for age, sex, mean FD (Model 1b)
 
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC)
 anvRew3tp=anova(R1,R0)
 ```
-```{r Rew3tp results, caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
+
+```{r "Rew3tp results", caption="DMN connectivity compared bl to fu", results="asis", eval=FALSE}
 #tab_model(R1,R0)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
@@ -604,7 +605,7 @@ knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
 
 
 #### Aggregated FC analysis
-```{r DMN model, mean, change BMI, eval = TRUE, echo = FALSE}
+```{r "DMN model, mean, change BMI", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_DMN_conn ~ mean.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
 R02 = lme4::lmer(mean_DMN_conn ~ within.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -617,7 +618,7 @@ R02a = lme4::lmer(mean_DMN_conn ~ within.BMI +  Age_BL + Sex + logmFD+(1|subj.ID
 anvmeanBMI_adjmFD=anova(R1,R02a)
 ```
 Corresponding to the whole brain results, there was a negative association of mean BMI and aggregated DMN connectivity (p = `r round(p_meanBMI,3)`), regardless of whether we adjusted for mFD.
-```{r Rew model, mean, change BMI,, eval = TRUE, echo = FALSE}
+```{r "Rew model, mean, change BMI", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
 R02 = lme4::lmer(mean_Rew_conn ~ within.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -625,7 +626,7 @@ anvwithinBMI=anova(R1,R01)
 anvmeanBMI=anova(R1,R02)
 ```
 
-```{r DMN model mean&change of BMI&logmFD, eval = TRUE, echo = FALSE}
+```{r "DMN model mean+change of BMI+logmFD", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_DMN_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
 R02 = lme4::lmer(mean_DMN_conn ~ within.BMI + mean.logmFD + within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -643,7 +644,7 @@ The association also remained significant when we split mFD into average and cha
 
 
 #### Reward network, mean and within variability in BMI and logmFD
-```{r Rew model mean&change of BMI&logmFD, eval = TRUE, echo = FALSE}
+```{r "Rew model mean&change of BMI&logmFD", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
 R02 = lme4::lmer(mean_Rew_conn ~ within.BMI + mean.logmFD + within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
