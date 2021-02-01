@@ -1,3 +1,5 @@
+library(kableExtra)
+
 # processes data to report later in manuscript .Rmd file
 ROOT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
 
@@ -14,7 +16,6 @@ source("../../../../../Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/
 
 final <- create_sample_df(group = "both", tp = "all")
 
-# calculate summary of QA -------------------------------------------------
 
 for (i in 1:nrow(final)) {
   tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
@@ -30,6 +31,7 @@ for (i in 1:nrow(final)) {
   final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
   final
 }
+#write.csv(file = "../report/all_QA_measures.csv", final)
 
 final <- within(final,  subj.ID_tp <- paste(subj.ID,tp, sep="_"))
 
@@ -114,16 +116,16 @@ colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH'
 # prepare tsnr ROI plot ---------------------------------------------------
 
 fig_tSNR <- mk_figtSNR(final)
-saveRDS(object = fig_tSNR, file = "../report/fig/fig_tSNR.rds")
+ggsave("../report/tsnr.jpeg", height = 6.604, units="cm", p)
+#saveRDS(object = fig_tSNR, file = "../report/fig/fig_tSNR.rds")
 
 
 # load and prepare aggFC measures -----------------------------------------
 
 agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
 agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
-agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
 agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
-
+agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
 for (i in c(1:nrow(agg_FC_DMN_ID))){
   agg_FC_Rew[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
   agg_FC_DMN[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
@@ -135,8 +137,17 @@ colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID_tp")
 final_FC=merge(final, agg_FC_Rew, by="subj.ID_tp", all.x=TRUE)
 final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
 final_FC$subj.ID=as.factor(final_FC$subj.ID)
+final_FC$group_factor=relevel(final_FC$group_factor, ref = "KG")
 
-# calculate mean FD over time points
+# alculate mean BMI over timepoints
+final_FC.meanBMI=tapply(X=final_FC$BMI,
+                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
+final_FC$mean.BMI=
+  final_FC.meanBMI[as.numeric(final_FC$subj.ID)]
+final_FC$within.BMI=
+  final_FC$BMI-final_FC$mean.BMI
+
+# calculate mean FD over timepoints
 final_FC.meanFD=tapply(X=final_FC$logmFD,
                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
 final_FC$mean.logmFD=

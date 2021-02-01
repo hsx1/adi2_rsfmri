@@ -261,7 +261,7 @@ FreeSurfer cross-sectional and longitudinal  segmentations were visually checked
 Resting state fMRI data quality control was performed according to the protocol by @Ciric_2018.
 As the expected average head motion was high in this sample, it was difficult to determine an appropriate exclusion threshold which would not lead to the exclusion of a high number of individuals [@Beyer_2020]. Thus, we did not exclude any participants based on mean framewise displacement (FD) estimates beyond those who failed the anatomical preprocessing. We applied best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. In addition, for models showing a significant time-by-group interaction, we performed a sensitivity analysis excluding the 10% data sets with highest mean FD (mFD).
 ```{r carpetplot, out.width="49%", out.height="30%", fig.cap="Carpet plot for quality control", fig.subcap=c("Example 1 with strong amount of structured noise", "Example 2 with less amount of structured noise"), fig.show='hold',fig.align='center', echo=FALSE}
-carpets=c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/carpetplotadi006fu2.jpeg","/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/carpetplotadi16fu.jpeg")
+carpets=c("../report/carpetplotadi006fu2.jpeg","../report/carpetplotadi16fu.jpeg")
 knitr::include_graphics(carpets)
 ```
 On the single-subject level, we used `plot_carpet` from `niworkflows.viz.plots` to generate carpet plots which depict denoising quality. Figure \@ref(fig:carpetplot) shows an exemplary carpet plot with (from top to bottom): percent outliers defined by AFNI, mFD, `OutlierCount`, DVARS (spatial root mean square of the data after temporal differencing),voxelwise timeseries from minimally preprocessed, AROMA non-aggressive and aggressive denoising, CC and CC + GSR data (red: GM voxels, green: WM voxels, blue: ventricle, green: cerebellum). All carpet plots were visually checked and if there was still structured noise in the CC+GSR-denoised functional data (such as black/white stripes, signal dropout), the participant was given a rating of 1 in `QA residuals`.
@@ -338,20 +338,6 @@ res <- read.csv("../report/FDFCcorrelations.csv")
 Further, we evaluated the impact of our denoising pipelines on different quality metrics following [@Ciric_2018]. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and FC between nodes was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`). This relationship was negatively associated with distance between nodes (mean Spearman's r = `r round(res[1,5],2)`).  
 Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency [@Power_2015]. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
 
-```{r calculate summary of QA, eval=TRUE, echo=FALSE}
-for (i in 1:nrow(final)) {
-  tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
-  conf = read.csv(
-    paste0("/data/pt_02161/preprocessed/resting/detailedQA/metrics/",
-      tmp, "/confounds.csv"))
-  tmp = cor.test(conf$DVARS, conf$FD)
-  final[i, "corr_DVARS_FD"] = tmp$estimate
-  final[i, "mean_DVARS"] = mean(conf$DVARS, na.rm = TRUE)
-  final[i, "max_DVARS"] = max(conf$DVARS, na.rm = TRUE)
-  final
-}
-write.csv(file = "report/all_QA_measures.csv", final)
-
 ```{r tableQcfc, echo=FALSE}
 tab_Qcfc <-
   knitr::kable(
@@ -370,43 +356,17 @@ tab_Qcfc
 Further, we evaluated the impact of our denoising pipelines on different quality metrics following [@Ciric_2018]. Table \@ref(tab:tableQcfc) shows that in the minimally preprocessed data, mFD and FC between nodes was significantly positively correlated (mean Spearman's r = `r round(res[1,1],2)`). This relationship was negatively associated with distance between nodes (mean Spearman's r = `r round(res[1,5],2)`).  
 Denoising procedures (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and connectivity, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's r = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's r = `r round(res[4,5],2)`). Yet, AROMA+CC also performed well, and we thus calculated our analysis models for both preprocessing schemes.
 
-```{r prepare tsnr ROI plot, eval=TRUE}
-final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
-
-tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")
-tsnr=tsnr[tsnr$V1!="subj",]
-colnames(tsnr)=c("subj.ID_tp","roi","median","mean","sd")
-levels(tsnr$roi)=droplevels(tsnr$roi)
-levels(tsnr$roi)=c("NAcc", "PCC/precuneus")
-tsnr$mean=as.double(tsnr$mean)
-
-final_tsnr=merge(final, tsnr, by="subj.ID_tp", all.x=TRUE)
-
-p<-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
-  geom_violin(aes(fill=roi), alpha=0.5) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
-  scale_fill_manual(values=wes_palette("Darjeeling2",5,type="discrete")[2:3]) +
-  theme(axis.text=element_text(size=10),
-  axis.title=element_text(size=12),
-  strip.text = element_text(size=12),
-  legend.position="")
-ggsave("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/tsnr.jpeg", height = 6.604, units="cm", p)
-```
-
-```{r figNetworks, echo=FALSE, out.width="33%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
-
-#networks=c("./report/DMN_thresholded_for_clusterFWE005.png","./report/Rew_thresholded_for_clusterFWE005.png")
-networks=c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/DMN_thresholded_for_clusterFWE005.png", "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/Rew_thresholded_for_clusterFWE005.png")
-tsnr=c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/tsnr.jpeg")
-```
 ```{r figDvarsmFD, fig.align = "center", out.width="100%", fig.cap='Summary of quality measures DVARS and mFD', echo=FALSE}
 figList <- readRDS(file = "../report/fig/figDvarsmFDList.rds")
 (figList$fig1 | figList$fig2) / figList$fig3
 ```
 
-```{r figNetworks, echo=FALSE, out.width="49%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens"),fig.show='hold',fig.align='center'}
+```{r figNetworks, echo=FALSE, out.width="33%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (p FWE<0.05)", fig.subcap=c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
+
 networks = c("../report/fig/DMN_thresholded_for_clusterFWE005.pdf",
              "../report/fig/Rew_thresholded_for_clusterFWE005.pdf")
 knitr::include_graphics(networks)
+tsnr <- "../report/tsnr.jpeg"
 knitr::include_graphics(tsnr)
 ```
 
@@ -414,7 +374,8 @@ Figure \@ref(fig:figNetworks) shows the DMN and reward network average maps whic
 Yet, the reward network was less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see Figure \@ref(fig:figNetworks)).
 
 ```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%",  eval=FALSE}
-readRDS(file = "../report/fig/fig_tSNR.rds")
+knitr::include_graphics(tsnr)
+#readRDS(file = "../report/fig/fig_tSNR.rds")
 ```
 
 
@@ -440,50 +401,18 @@ There was no significant time by group interaction for aggregated DMN and reward
 ```{r load agg FC data and prepare, echo=FALSE}
 
 final_FC <- read.csv("../report/final_FC.csv")
-
-agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
-agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
-agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
-agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
-for (i in c(1:nrow(agg_FC_DMN_ID))){
-  agg_FC_Rew[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
-  agg_FC_DMN[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
-}
-
-colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID_tp")
-colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID_tp")
-
-final_FC=merge(final, agg_FC_Rew, by="subj.ID_tp", all.x=TRUE)
-final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
-final_FC$subj.ID=as.factor(final_FC$subj.ID)
-final_FC$group_factor=relevel(final_FC$group_factor, ref = "KG")
-
-#calculate mean BMI over timepoints
-final_FC.meanBMI=tapply(X=final_FC$BMI,
-                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
-final_FC$mean.BMI=
-  final_FC.meanBMI[as.numeric(final_FC$subj.ID)]
-final_FC$within.BMI=
-  final_FC$BMI-final_FC$mean.BMI
-
-
-#calculate mean FD over timepoints
-final_FC.meanFD=tapply(X=final_FC$logmFD,
-                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
-final_FC$mean.logmFD=
-  final_FC.meanFD[as.numeric(final_FC$subj.ID)]
-final_FC$within.logmFD=
-  final_FC$logmFD-final_FC$mean.logmFD
-
 ```
+
 ```{r figaggDMN, fig.cap="DMN connectivity per group over time", out.width="75%", echo=FALSE}
-fig_DMNconn<-mk_figDMNdescr(final_FC)
+fig_DMNconn<-readRDS(file = "../report/fig/figDMNconn.rds")
 fig_DMNconn
 ```
+
 ```{r figaggRew,fig.cap="Reward network connectivity per group over time", out.width="75%", echo=FALSE}
-fig_Rewconn<-mk_figRewdescr(final_FC)
+fig_Rewconn<-readRDS(file = "../report/fig/figRewconn.rds")
 fig_Rewconn
 ```
+
 
 ```{r identify outliers in these plots, echo=FALSE}
 ### SUMMARY: all in all there is no reason to exclude the subjects with outlying values in mean Rew/DMN connectivity
@@ -508,7 +437,6 @@ qa_info[qa_info$subj.ID=="ADI069"&qa_info$tp=="bl",]
 qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 #no FS issues
 ```
-
 
 There was no significant time by group interaction effect for aggregated DMN and reward network FC (see Figures \@ref(fig:figaggDMN) and \@ref(fig:figaggRew) and supplements for a detailed summary of the models).
 
@@ -578,10 +506,6 @@ anvDMN3tp=anova(R1,R0)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
-```{r figDMNconn, echo=FALSE}
-readRDS(file = "../report/fig/figDMNconn.rds")
-```
-
 ```{r calc rew two tp, age, sex, eval = TRUE, echo = FALSE}
 ### Reward network for two time points, adjusted for age and sex (Model 1a)
 
@@ -589,6 +513,7 @@ R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), da
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +  (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tp=anova(R1,R0)
 ```
+
 ```{qa check Rew model age,sex, echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
@@ -642,9 +567,6 @@ anvRew3tp=anova(R1,R0)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 
-```{r figRewconn, echo=FALSE}
-readRDS(file = "../report/fig/figRewconn.rds")
-```
 
 ## Exploratory Analyses
 ### Effect of mean and change in BMI
@@ -654,9 +576,8 @@ Next, we tested for significant effects of the average BMI and the individual ch
 <!-- ### DMN -->
 Using the images preprocessed with AROMA+CC, we found a significant negative association of average BMI and DMN connectivity in the lingual gyrus, mid orbital gyrus and temporal gyrus, which remained stable after including mFD as nuisance covariate (FWE cluster p<0.05). When using GSR preprocessed data, none of the clusters was significantly associated with average BMI (Table \@ref(tab:tableBMImodel).
 ```{r "BMIagesexPCCccavgBMIdeact",fig.cap="Negative association of average BMI and FC with PCC/precuneus in AROMA+CC preprocessed data", fig.subcap=c("adjusted for age and sex", "adjusted for age, sex and mFD"), fig.hold=TRUE, out.width = "50%"}
-knitr::include_graphics(c("../report/BMIagesex_PCCcc_avgBMI_deact.pdf", "../report/BMIagesexfd_PCCcc_avgBMI_deact.pdf"))
+knitr::include_graphics(c("../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf", "../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf"))
 ```
-
 
 NAcc connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes.
 Results with significant cluster co-activation are depicted in Table \@ref(tab:tableBMImodel).
@@ -668,23 +589,17 @@ To disentangle effects of change in BMI and mFD in this dataset, we split mFD in
 Test statistics only differed slightly from the effect found when using mFD as nuisance covariate.
 <!-- gsr -->As before, the effect did not survive when using GSR-corrected data.
 
-```{r "BMIagesexfd_PCCcc_avgBMI_deact", fig.cap="Negative association of average BMI and FC with PCC/precuneus in AROMA+CC preprocessed data, adjusted for BMI change, average mFD and change in mFD", fig.hold=TRUE, out.width = "85%"}
-knitr::include_graphics("../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf")
-```
-
-```{r "BMIagesex_PCCcc_avgBMI_deact", fig.cap="Negative association of average BMI and FC with PCC/precuneus in AROMA+CC preprocessed data, adjusted for BMI change, average mFD and change in mFD", fig.hold=TRUE, out.width = "85%"}
-knitr::include_graphics("../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf")
-```
-
 <!-- ### Reward -->
 <!-- cc -->
 For the reward network, we found a significant negative association of change in BMI with FC between NAcc and a cluster in the posterior-medial frontal region, i.e. supplementary motor area (see Table \@ref(tab:tableBMIFDmodel)). Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction (p=$0.028$), also when evaluating the GSR corrected data (p=$0.038$).
-```{r "BMIFDagesexNACCcccgnBMIdeact", fig.cap="Significant cluster with a negative Effect of change BMI on NAcc to posterior-medial frontal region, adjusted for age, sex, mean BMI, average mFD and change in mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
-knitr::include_graphics(c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_cngBMI_deact.pdf","/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_cngBMI_deact.pdf"))
+```{r "BMIFDagesexNACCcgnBMIdeact", fig.cap="Significant cluster with a negative Effect of change BMI on NAcc to posterior-medial frontal region, adjusted for age, sex, mean BMI and mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
+knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf",
+                          "../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf"))
 ```
 Moreover, FC between the NAcc and one cluster in a more posterior region, i.e. motor cortex, was significantly positively related to average mFD. This result remained similar when using GSR corrected data.
-```{r "BMIFDagesexNACCccavgFDact", fig.cap="Significant cluster with a positive Effect of average mFD on connectivity between NAcc and motor cortex, adjusted for age, sex, mean BMI, change in BMI and change in mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", eval=TRUE}
-knitr::include_graphics(c("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCcc_avgFD_act.pdf","/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/BMIFDagesex_NACCgsr_avgFD_act.pdf"))
+```{r "BMIFDagesexNACCavgFDact", fig.cap="Significant cluster with a positive Effect of average mFD on connectivity between NAcc and motor cortex, adjusted for age, sex, mean BMI, change in BMI and change in mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", eval=TRUE}
+knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
+                          "../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf"))
 ```
 
 
@@ -746,8 +661,6 @@ vif_res=vif(test_vif)
 As expected from the whole-brain findings, there was no association of mean BMI or within-subject BMI change and reward network connectivity in models adjusting for age, sex and mFD.
 
 
-
-
 <!-- [OLD stuff] GM mask: Group*Time Interaction -->
 <!-- ### DMN for two timepoints
 BMIONLYIG
@@ -771,8 +684,8 @@ As shown in Table \@ref(tab:tableFDmodel), there was a significant association b
 We did not find a any clusters for functional connectivity with the PCC.
 
 ```{r "FDagesexNACCccavgFDact", fig.show = "hold", out.width = "50%", fig.cap="Positive association of mean mFD and FC of NAcc with cluster, adjusted for age, sex, mean BMI, change BMI and change mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data")}
-knitr::include_graphics("../report/FDagesex_NACCcc_avgFD_act.pdf")
-knitr::include_graphics("../report/FDagesex_NACCgsr_avgFD_act.pdf")
+knitr::include_graphics("../report/fig/FDagesex_NACCcc_avgFD_act.pdf")
+knitr::include_graphics("../report/fig/FDagesex_NACCgsr_avgFD_act.pdf")
 ```
 
 
@@ -807,19 +720,13 @@ tab_BMIFDmodel
 <!-- cc -->The effect of average BMI on connectivity between the PCC and other regions reported previously is confirmed. There is a significant association between average BMI and the connectivity between PCC and three other clusters. Results are detailed in Table \@ref(tab:tableBMIFDmodel).
 Test statistics of these clusters differ only slightly from the effect found for average BMI when using mFD as nuisance covariate.
 <!-- gsr -->As before, the effect did not survive when thresholding if the images had been GSR corrected.
-```{r "BMIFDagesex_NACCcc_avgFD_act", out.width = "75%"}
+```{r "BMIFDagesex_NACC_avgFD_act", fig.show = "hold", out.width = "50%", fig.cap="Positive association of mean mFD and FC of NAcc with cluster, adjusted for age, sex, average BMI, change BMI and change mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data")}
 knitr::include_graphics("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf")
-```
-
-```{r "BMIFDagesex_NACCcc_cgnBMI_deact", out.width = "75%"}
-knitr::include_graphics("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf")
-```
-
-```{r "BMIFDagesex_NACCgsr_avgFD_act", out.width = "75%"}
 knitr::include_graphics("../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf")
 ```
 
-```{r "BMIFDagesex_NACCgsr_cgnBMI_deact", out.width = "75%"}
+```{r "BMIFDagesex_NACC_cgnBMI_deact", fig.show = "hold", out.width = "50%", fig.cap="Positive association of change in BMI and FC of NAcc with cluster, adjusted for age, sex, average BMI, average mFD and change mFD", fig.subcap=c("in AROMA+CC", "in AROMA+CC+GSR data")}
+knitr::include_graphics("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf")
 knitr::include_graphics("../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf")
 ```
 

@@ -1,3 +1,5 @@
+library(ggplot2)
+library(wesanderson)
 
 pink_blue = c("#00305E", "#C00045")
 blue_organge = c("#046C9A", "#D69C4E")
@@ -22,8 +24,7 @@ mk_figBMIdescr <- function(final) {
       geom  = "line",
       size = 2,
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
-    ) +
-  figBMIdescr= figBMIdescr +
+    ) + 
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
       values = c("#046C9A70", "#D69C4E70"),
@@ -296,23 +297,23 @@ mk_figDesignMatrix <- function() {
 
 mk_figtSNR <- function (final) {
   final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
-
+  
   tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")
   tsnr=tsnr[tsnr$V1!="subj",]
   colnames(tsnr)=c("subj.ID_tp","roi","median","mean","sd")
   levels(tsnr$roi)=droplevels(tsnr$roi)
-  levels(tsnr$roi)=c("NAcc", "precuneus")
+  levels(tsnr$roi)=c("NAcc", "PCC/precuneus")
   tsnr$mean=as.double(tsnr$mean)
-
+  
   final_tsnr=merge(final, tsnr, by="subj.ID_tp", all.x=TRUE)
-
-  p <- ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
-    geom_violin(aes(fill=roi)) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
-    scale_fill_manual(values=wes_palette("Darjeeling2",4,type="discrete")[2:3]) +
-    theme_bw() + theme(axis.text=element_text(size=10),
-                       axis.title=element_text(size=12),
-                       strip.text = element_text(size=12),
-                       legend.position="")
+  
+  p <-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
+    geom_violin(aes(fill=roi), alpha=0.5) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
+    scale_fill_manual(values=wes_palette("Darjeeling2",5,type="discrete")[2:3]) +
+    theme(axis.text=element_text(size=10),
+          axis.title=element_text(size=12),
+          strip.text = element_text(size=12),
+          legend.position="")
   return(p)
 }
 
