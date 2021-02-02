@@ -37,15 +37,14 @@ library(RColorBrewer) # version 1.1.2
 library(psych) # version 2.0.8
 
 #library(lsr)
-library(wesanderson) # colour palette
 #library(haven)
+library(wesanderson) # colour palette
 
 library(lme4)
 
 library(sjPlot) #only works for HTML output
 library(texreg) #works for Rmarkdown
 library(knitr) # version 1.30
-
 
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/glmm_stability.r')
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/diagnostic_fcns.r')
@@ -54,57 +53,54 @@ source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_m
 ```{r "knit setup", include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex")
-options(knitr.kable.NA = '') # hide NA in tables
+options(knitr.kable.NA = ' ') # hide NA in tables
 # set working directory of knit (RMarkdown) to directory of Rproj
-opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-setwd(knitr::opts_knit$get("root.dir"))
-source('report/figures.R')
-source("report/tables.R")
-source("report/create_sample_df.R")
+```
+
+```{r "tableSample", echo=FALSE}
+
+tableSample <- readRDS(file = "../report/tab/tableSample.rds")
+
+tab <-
+  knitr::kable(
+    tableSample,
+    row.names = TRUE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = "Distribution of data points at months after intervention")
+tab
+```
+
+```{r tableDescr, include=FALSE}
+# table for descriptive statistics
+tableDescr <- readRDS(file = "../report/tab/tableDescr.rds")
+
+knitr::kable(
+    tableDescr,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = "BMI and mean FD of participants acquired in each condition and time point")
 ```
 
 
+```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap = c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
+DesignMatricesList <- readRDS(file = "../report/fig/DesignMatricesList.rds")
+DesignMatricesList$plotA
+DesignMatricesList$plotB
+#gridExtra::grid.arrange(plotA, plotB, nrow=1)
+```
+
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%", eval=FALSE}
+tsnr <- "../report/tsnr.pdf"
+knitr::include_graphics(tsnr)
+```
+
 ## Interaction effect group by time on aggregated FC (preregistered analysis)
 ```{r load agg FC data and prepare, echo=FALSE}
-final=readRDS("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/tab/final.rds")
-
-agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
-agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
-agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
-agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
-for (i in c(1:nrow(agg_FC_DMN_ID))){
-  tmp=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
-  agg_FC_Rew[i,"subj.ID"]=strsplit(tmp,"_")[[1]][1]
-  agg_FC_Rew[i,"tp"]=strsplit(tmp,"_")[[1]][2]
-  tmp=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
-  agg_FC_DMN[i,"subj.ID"]=strsplit(tmp,"_")[[1]][1]
-  agg_FC_DMN[i,"tp"]=strsplit(tmp,"_")[[1]][2]
-}
-
-colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID", "tp")
-colnames(agg_FC_DMN)=c("mean_DMN_conn","sd_DMN_conn","subj.ID","tp")
-
-final_FC=merge(final, agg_FC_Rew, by=c("subj.ID","tp"), all.x=TRUE)
-final_FC=merge(final_FC, agg_FC_DMN, by=c("subj.ID","tp"), all.x=TRUE)
-final_FC$subj.ID=as.factor(final_FC$subj.ID)
-final_FC$group_factor=relevel(final_FC$group_factor, ref = "KG")
-
-#calculate mean BMI over timepoints
-final_FC.meanBMI=tapply(X=final_FC$BMI,
-                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
-final_FC$mean.BMI=
-  final_FC.meanBMI[as.numeric(final_FC$subj.ID)]
-final_FC$within.BMI=
-  final_FC$BMI-final_FC$mean.BMI
-
-
-#calculate mean FD over timepoints
-final_FC.meanFD=tapply(X=final_FC$logmFD,
-                        INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
-final_FC$mean.logmFD=
-  final_FC.meanFD[as.numeric(final_FC$subj.ID)]
-final_FC$within.logmFD=
-  final_FC$logmFD-final_FC$mean.logmFD
+final_FC <- read.csv("../report/final_FC.csv")
 ```
 
 ### Aggregated DMN for two timepoints, adjusted for age and sex (Model 1a)
@@ -114,7 +110,7 @@ R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), 
 anvDMN2tp=anova(R1,R0)
 ```
 
-```{qa check DMN model age,sex, echo=FALSE}
+```{r qa check DMN model age,sex, echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -140,7 +136,7 @@ R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD + (1|s
 anvDMN2tp=anova(R1,R0)
 ```
 
-```{qa check DMN model age,sex, mFD, echo=FALSE}
+```{r qa check DMN model age,sex, mFD, echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -171,7 +167,7 @@ texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("I
 ```
 
 ```{r DMN conn over three timepoints, echo=FALSE}
-fig_DMNconn<-mk_figDMNdescr(final_FC)
+fig_DMNconn <- readRDS(file = "../report/fig/figDMNconn.rds")
 fig_DMNconn
 ```
 
@@ -181,7 +177,7 @@ R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), da
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +  (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tp=anova(R1,R0)
 ```
-```{qa check Rew model age,sex, echo=FALSE}
+```{r qa check Rew model age,sex, echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -203,7 +199,7 @@ R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|sub
 anvRew2tpadj=anova(R1,R0)
 ```
 
-```{qa check Rew model age,sex,mFD, echo=FALSE}
+```{r qa check Rew model age,sex,mFD, echo=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -232,6 +228,6 @@ anvRew3tp=anova(R1,R0)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 ```{r Rew conn over three timepoints, echo=FALSE}
-fig_Rewconn<-mk_figRewdescr(final_FC)
+fig_Rewconn <- readRDS(file = "../report/fig/figRewconn.rds")
 fig_Rewconn
 ```

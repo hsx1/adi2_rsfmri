@@ -1,3 +1,7 @@
+library(dplyr)
+library(kableExtra)
+
+
 DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
 
 # FC RESULTS -------------------------------------------------------------------
@@ -129,7 +133,7 @@ df9$covariates <- NA
 df9$covariates[1] <- "age, sex"
 
 ## merge tables 
-BMImodel <- rbind(df1,df2)
+BMImodel <- rbind(df2,df1)
 FDmodel <- rbind(df8,df9)
 BMIFDmodel <- rbind(df3,df4,df5,df6,df7)
 
@@ -187,14 +191,14 @@ label1 <- data.table::rbindlist(
   list(
     # for cluster of df1, df2
     # avgBMI
-    data.frame(ResultFCList[[1]][1])[1:3, ] %>% select(last_col()), # cl1
-    data.frame(ResultFCList[[1]][2])[1:2, ] %>% select(last_col()), # cl2
-    data.frame(ResultFCList[[1]][3])[1:3, ] %>% select(last_col()), # ...
-    data.frame(ResultFCList[[1]][4])[1:2, ] %>% select(last_col()),
     data.frame(ResultFCList[[2]][1])[1:3, ] %>% select(last_col()), # cl1
     data.frame(ResultFCList[[2]][2])[1:3, ] %>% select(last_col()),
     data.frame(ResultFCList[[2]][3])[1:2, ] %>% select(last_col()),
-    data.frame(ResultFCList[[2]][4])[1:2, ] %>% select(last_col())
+    data.frame(ResultFCList[[2]][4])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[1]][1])[1:3, ] %>% select(last_col()), # cl1
+    data.frame(ResultFCList[[1]][2])[1:2, ] %>% select(last_col()), # cl2
+    data.frame(ResultFCList[[1]][3])[1:3, ] %>% select(last_col()), # ...
+    data.frame(ResultFCList[[1]][4])[1:2, ] %>% select(last_col())
   ),
   use.names = FALSE
 )
@@ -250,6 +254,7 @@ fn3 <- "To identify significant clusters, we applied a cluster size threshold wi
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
 title_vec <- c("BMI", "FD", "BMI-FD") 
 
+tabnames <- c("tableBMImodel","tableFDmodel","tableBMIFDmodel")
 TableList <- list()
 for (i in 1:length(ModelList)){
   TableList[[i]] <-
@@ -261,7 +266,8 @@ for (i in 1:length(ModelList)){
       format = "latex",
       booktabs = T,
       linesep = "",      # disable "\\addlinespace" at every 5th line
-      caption = sprintf("Changes in functional connectivity in whole brain analysis for %s model",title_vec[i])
+      label = tabnames[i],
+      caption = sprintf("Changes in functional connectivity in whole brain analysis for %s model",title_vec[i]),
     ) %>%
     kable_styling(latex_options = c('scale_down')) %>% # "scale_down"
     #column_spec(c(11), width = "3.2cm") %>%
@@ -273,22 +279,22 @@ for (i in 1:length(ModelList)){
     add_footnote(c(fn3, fn4), notation = "number") %>%
     kableExtra::landscape()
 }
-names(TableList) <- c("tab_BMImodel","tab_FDmodel","tab_BMIFDmodel")
+names(TableList) <- tabnames
 
 TableList[[1]] <- TableList[[1]] %>%
-  group_rows("average BMI (decrease)", 1, nrow(df1)) %>%
-  group_rows("average BMI (decrease)", nrow(df1)+1, nrow(df1)+nrow(df2)) 
+  kableExtra::group_rows("average BMI (decrease)", 1, nrow(df2)) %>%
+  kableExtra::group_rows("average BMI (decrease)", nrow(df2)+1, nrow(df2)+nrow(df1)) 
 
 TableList[[2]] <- TableList[[2]] %>%
-  group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
-  group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
+  kableExtra::group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
 
 TableList[[3]] <- TableList[[3]] %>%
-  group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
-  group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
-  group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
-  group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
-  group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
+  kableExtra::group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
+  kableExtra::group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
+  kableExtra::group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
 
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)
@@ -300,6 +306,7 @@ mk_SampleTable <- function(final) {
   # completed time points
   freqtable <- as.data.frame(table(final$subj.ID))
   tpfreq <- table(freqtable$Freq)
+  subj_df <- final[match(unique(final$subj.ID), final$subj.ID),]
   
   # overview distribution of data points
   tp1 <- as.character(freqtable$Var1[freqtable$Freq == 1])
@@ -309,27 +316,10 @@ mk_SampleTable <- function(final) {
   tp2_tab <- table(subset(final, subj.ID %in% tp2)$tp, subset(final, subj.ID %in% tp2)$condition)[c(1,3),]
   tp3_tab <- table(subset(final, subj.ID %in% tp3)$tp, subset(final, subj.ID %in% tp3)$condition)[1,]
   total_datapoints <- c(sum(final$group==1),sum(final$group==2))
-  total_subjects <- plyr::count(final[subj_idx,"group"])$freq
+  total_subjects <- plyr::count(subj_df$group)$freq
   tab_sample <- data.frame(rbind(tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints))
   rm(tp1,tp2,tp3,tp1_tab, tp2_tab, tp3_tab, total_subjects, total_datapoints)
   rownames(tab_sample) <- c("count: only 0","count: only 6","count: only 12","count: 0 and 6","count: 6 and 12","count: complete data","total number of subjects","total data points")
   colnames(tab_sample) <- c("BARS","NBARS")
   return(tab_sample)
-}
-
-mk_tableQcfc <- function(res) {
-  
-  tab_qc_fc <-
-    knitr::kable(
-      round(res,3),
-      col.names = colnames(res),
-      row.names = TRUE,
-      format = "latex",
-      booktabs = T,
-      linesep = "",
-      caption = "Summary of quality metrics for different denoising pipelines across conditions and time points") %>%
-    column_spec(c(2:6), width = "1.8cm") 
-  
-  
-  return(tab_qc_fc)
 }
