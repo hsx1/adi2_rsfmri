@@ -10,7 +10,8 @@ source("tables.R")
 source("create_sample_df.R")
 source("../../../../../Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/calc_qc_fc_correlations.R")
 
-
+options(knitr.table.format = "latex")
+options(knitr.kable.NA = ' ') # hide NA in tables
 
 # Load data ---------------------------------------------------------------
 
@@ -116,7 +117,7 @@ colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH'
 # prepare tsnr ROI plot ---------------------------------------------------
 
 fig_tSNR <- mk_figtSNR(final)
-ggsave("../report/tsnr.jpeg", height = 6.604, units="cm", p)
+ggsave("../report/tsnr.pdf", height = 6.604, units="cm", fig_tSNR)
 #saveRDS(object = fig_tSNR, file = "../report/fig/fig_tSNR.rds")
 
 
@@ -181,3 +182,4 @@ saveRDS(object = fig_Rewconn, file = "../report/fig/figRewconn.rds")
 
 FCTableList <- mk_FCTables()
 saveRDS(object = FCTableList, file = "../report/tab/FCTableList.rds")
+

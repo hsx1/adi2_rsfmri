@@ -1,4 +1,5 @@
 library(dplyr)
+library(kableExtra)
 
 
 DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
@@ -281,19 +282,19 @@ for (i in 1:length(ModelList)){
 names(TableList) <- tabnames
 
 TableList[[1]] <- TableList[[1]] %>%
-  group_rows("average BMI (decrease)", 1, nrow(df2)) %>%
-  group_rows("average BMI (decrease)", nrow(df2)+1, nrow(df2)+nrow(df1)) 
+  kableExtra::group_rows("average BMI (decrease)", 1, nrow(df2)) %>%
+  kableExtra::group_rows("average BMI (decrease)", nrow(df2)+1, nrow(df2)+nrow(df1)) 
 
 TableList[[2]] <- TableList[[2]] %>%
-  group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
-  group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
+  kableExtra::group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
 
 TableList[[3]] <- TableList[[3]] %>%
-  group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
-  group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
-  group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
-  group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
-  group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
+  kableExtra::group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
+  kableExtra::group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
+  kableExtra::group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
 
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)

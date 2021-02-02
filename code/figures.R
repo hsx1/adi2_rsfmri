@@ -1,5 +1,4 @@
 library(ggplot2)
-library(wesanderson)
 
 pink_blue = c("#00305E", "#C00045")
 blue_organge = c("#046C9A", "#D69C4E")
@@ -17,19 +16,31 @@ mk_figBMIdescr <- function(final) {
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
       size = 2,
+      position=position_nudge(x = -0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) + 
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x),
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
       values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
     xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
@@ -156,12 +167,23 @@ mk_figRewdescr <- function(final_FC) {
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
@@ -194,13 +216,24 @@ mk_figDMNdescr <- function(final_FC) {
       y = mean_DMN_conn,
       group = subj.ID,
       color = condition
-    )) +
-    geom_line() + geom_point() +
+    )) +    
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
@@ -307,14 +340,14 @@ mk_figtSNR <- function (final) {
   
   final_tsnr=merge(final, tsnr, by="subj.ID_tp", all.x=TRUE)
   
-  p <-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
+  figtSNR <-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
     geom_violin(aes(fill=roi), alpha=0.5) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
-    scale_fill_manual(values=wes_palette("Darjeeling2",5,type="discrete")[2:3]) +
+    scale_fill_manual(values=wesanderson::wes_palette("Darjeeling2",5,type="discrete")[2:3]) +
     theme(axis.text=element_text(size=10),
           axis.title=element_text(size=12),
           strip.text = element_text(size=12),
           legend.position="")
-  return(p)
+  return(figtSNR)
 }
 
 # exploratory and example plots ------------------------------------------------

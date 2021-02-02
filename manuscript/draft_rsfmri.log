@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.6.11)  1 FEB 2021 13:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.11.1)  2 FEB 2021 11:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -987,8 +987,7 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 \rotheadsize=\dimen174
 \c@nlinenum=\count151
 \TeXr@lab=\toks35
-)
-No file draft_rsfmri.aux.
+) (./draft_rsfmri.aux)
 \openout1 = `draft_rsfmri.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 93.
@@ -1149,6 +1148,13 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 95.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+) (./draft_rsfmri.toc
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 4.
 )
 \tf@toc=\write3
 \openout3 = `draft_rsfmri.toc'.
@@ -1156,137 +1162,71 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 134.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 134.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 134.
-
-LaTeX Warning: Reference `tab:tableSample' on page 5 undefined on input line 15
-8.
-
-
-LaTeX Warning: Reference `fig:figBMIdescr' on page 5 undefined on input line 16
-0.
-
-<draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=33, 463.7325pt x 318.188
-75pt>
+<draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=71, 463.7325pt x 316.181
+24pt>
 File: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf Graphic file (type pdf)
 
 <use draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf  use
-d on input line 167.
-(pdftex.def)             Requested size: 422.78265pt x 290.09113pt.
-
-LaTeX Warning: Reference `fig:figBMIdescr' on page 5 undefined on input line 17
-4.
-
-[5]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 182.
+d on input line 157.
+(pdftex.def)             Requested size: 463.76672pt x 316.20457pt.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 172.
 
 (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [6 <./draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 195.
+) [5] [6 <./draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>]
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 185.
 
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [7]
-<../report/carpetplotadi006fu2.jpeg, id=88, 388.36pt x 312.44pt>
+) [7] [8]
+<../report/carpetplotadi006fu2.jpeg, id=131, 388.36pt x 312.44pt>
 File: ../report/carpetplotadi006fu2.jpeg Graphic file (type jpg)
 <use ../report/carpetplotadi006fu2.jpeg>
 Package pdftex.def Info: ../report/carpetplotadi006fu2.jpeg  used on input line
- 243.
-(pdftex.def)             Requested size: 230.19113pt x 185.19138pt.
-<../report/carpetplotadi16fu.jpeg, id=89, 388.36pt x 312.44pt>
+ 233.
+(pdftex.def)             Requested size: 234.88445pt x 188.9672pt.
+<../report/carpetplotadi16fu.jpeg, id=132, 388.36pt x 312.44pt>
 File: ../report/carpetplotadi16fu.jpeg Graphic file (type jpg)
 <use ../report/carpetplotadi16fu.jpeg>
 Package pdftex.def Info: ../report/carpetplotadi16fu.jpeg  used on input line 2
-43.
-(pdftex.def)             Requested size: 230.19113pt x 185.19138pt.
+33.
+(pdftex.def)             Requested size: 234.88445pt x 188.9672pt.
 
-LaTeX Warning: Reference `fig:carpetplot' on page 8 undefined on input line 250
-.
-
-[8]
-
-LaTeX Warning: Reference `fig:figDesignmatrix' on page 9 undefined on input lin
-e 269.
-
-[9 <../report/carpetplotadi006fu2.jpeg> <../report/carpetplotadi16fu.jpeg>]
-<draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf, id=116, 457.71pt x 317.
-185pt>
-File: draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf Graphic file (type 
-pdf)
-<use draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf 
- used on input line 273.
-(pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
-<draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf, id=117, 457.71pt x 317.
-185pt>
-File: draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf Graphic file (type 
-pdf)
-<use draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDesignmatrix-2.pdf 
- used on input line 273.
-(pdftex.def)             Requested size: 234.87473pt x 162.76404pt.
-
-Overfull \hbox (6.66109pt too wide) in paragraph at lines 273--274
+Overfull \hbox (6.68053pt too wide) in paragraph at lines 233--234
  [][][][] 
  []
 
-[10 <./draft_rsfmri_files/figure-latex/figDesignmatrix-1.pdf> <./draft_rsfmri_f
-iles/figure-latex/figDesignmatrix-2.pdf>] [11]
-
-LaTeX Warning: Reference `tab:tableQcfc' on page 12 undefined on input line 327
-.
-
-
-LaTeX Warning: Reference `tab:tableQcfc' on page 12 undefined on input line 346
-.
-
-<draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=150, 453.695pt x 306.143
-75pt>
+[9 <../report/carpetplotadi006fu2.jpeg> <../report/carpetplotadi16fu.jpeg>] [10
+] [11]
+<draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=165, 463.7325pt x 316.18
+124pt>
 File: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf Graphic file (type pdf)
 
 <use draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf  use
-d on input line 351.
-(pdftex.def)             Requested size: 453.71466pt x 306.157pt.
-<../report/fig/DMN_thresholded_for_clusterFWE005.pdf, id=151, 527.57097pt x 187
+d on input line 333.
+(pdftex.def)             Requested size: 463.76672pt x 316.20457pt.
+<../report/fig/DMN_thresholded_for_clusterFWE005.pdf, id=166, 527.57097pt x 187
 .902pt>
 File: ../report/fig/DMN_thresholded_for_clusterFWE005.pdf Graphic file (type pd
 f)
 <use ../report/fig/DMN_thresholded_for_clusterFWE005.pdf>
 Package pdftex.def Info: ../report/fig/DMN_thresholded_for_clusterFWE005.pdf  u
-sed on input line 360.
-(pdftex.def)             Requested size: 155.02028pt x 55.21269pt.
-<../report/fig/Rew_thresholded_for_clusterFWE005.pdf, id=152, 527.57097pt x 187
+sed on input line 342.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+<../report/fig/Rew_thresholded_for_clusterFWE005.pdf, id=167, 527.57097pt x 187
 .902pt>
 File: ../report/fig/Rew_thresholded_for_clusterFWE005.pdf Graphic file (type pd
 f)
 <use ../report/fig/Rew_thresholded_for_clusterFWE005.pdf>
 Package pdftex.def Info: ../report/fig/Rew_thresholded_for_clusterFWE005.pdf  u
-sed on input line 360.
-(pdftex.def)             Requested size: 155.02028pt x 55.21269pt.
-<../report/tsnr.jpeg, id=153, 505.89pt x 187.902pt>
-File: ../report/tsnr.jpeg Graphic file (type jpg)
-<use ../report/tsnr.jpeg>
-Package pdftex.def Info: ../report/tsnr.jpeg  used on input line 360.
-(pdftex.def)             Requested size: 155.01796pt x 57.5781pt.
+sed on input line 342.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (5.30348pt too wide) in paragraph at lines 360--361
- [][][][][][] 
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 342--343
+ [][][][] 
  []
-
-
-LaTeX Warning: Reference `fig:figNetworks' on page 12 undefined on input line 3
-67.
-
-
-LaTeX Warning: Reference `fig:figNetworks' on page 12 undefined on input line 3
-68.
 
 [12] [13 <./draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf> <../report/fig/D
 MN_thresholded_for_clusterFWE005.pdf> <../report/fig/Rew_thresholded_for_cluste
@@ -1294,230 +1234,95 @@ rFWE005.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/Rew_thresholded_for_clusterFWE005.
 pdf): PDF inclusion: multiple pdfs with page group included in a single page
-> <../report/tsnr.jpeg>]
+>]
+<draft_rsfmri_files/figure-latex/figaggFC-1.pdf, id=255, 463.7325pt x 316.18124
+pt>
+File: draft_rsfmri_files/figure-latex/figaggFC-1.pdf Graphic file (type pdf)
+<use draft_rsfmri_files/figure-latex/figaggFC-1.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggFC-1.pdf  used o
+n input line 375.
+(pdftex.def)             Requested size: 234.88004pt x 160.14548pt.
+<draft_rsfmri_files/figure-latex/figaggFC-2.pdf, id=256, 463.7325pt x 316.18124
+pt>
+File: draft_rsfmri_files/figure-latex/figaggFC-2.pdf Graphic file (type pdf)
+<use draft_rsfmri_files/figure-latex/figaggFC-2.pdf>
+Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggFC-2.pdf  used o
+n input line 375.
+(pdftex.def)             Requested size: 234.88004pt x 160.14548pt.
 
-LaTeX Warning: Reference `fig:figaggDMN' on page 14 undefined on input line 391
-.
-
-
-LaTeX Warning: Reference `fig:figaggRew' on page 14 undefined on input line 391
-.
-
-<draft_rsfmri_files/figure-latex/figaggDMN-1.pdf, id=242, 463.7325pt x 316.1812
-4pt>
-File: draft_rsfmri_files/figure-latex/figaggDMN-1.pdf Graphic file (type pdf)
-<use draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggDMN-1.pdf  used 
-on input line 394.
-(pdftex.def)             Requested size: 352.32005pt x 240.21822pt.
-<draft_rsfmri_files/figure-latex/figaggRew-1.pdf, id=243, 463.7325pt x 316.1812
-4pt>
-File: draft_rsfmri_files/figure-latex/figaggRew-1.pdf Graphic file (type pdf)
-<use draft_rsfmri_files/figure-latex/figaggRew-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggRew-1.pdf  used 
-on input line 398.
-(pdftex.def)             Requested size: 352.32005pt x 240.21822pt.
-[14 <./draft_rsfmri_files/figure-latex/figaggDMN-1.pdf>]
-<draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf, id=269
-, 437.635pt x 250.9375pt>
-File: draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf Gr
-aphic file (type pdf)
-<use draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/identify outliers in t
-hese plots-1.pdf  used on input line 451.
-(pdftex.def)             Requested size: 437.6406pt x 250.94069pt.
-[15 <./draft_rsfmri_files/figure-latex/figaggRew-1.pdf>]
-Overfull \hbox (181.24309pt too wide) in paragraph at lines 472--472
-[]\T1/lmtt/m/n/10 ##                                                           
-                                          long.timepoints_check[] 
+Overfull \hbox (6.6717pt too wide) in paragraph at lines 375--376
+ [][][][] 
  []
 
-
-Overfull \hbox (181.24309pt too wide) in paragraph at lines 472--472
-[]\T1/lmtt/m/n/10 ## 93 could be further corrected but no large parts of skull 
-in brainmask, especially fu2 includes more skull but also other[] 
- []
-
-
-LaTeX Warning: Reference `fig:figaggDMN' on page 16 undefined on input line 491
-.
-
-
-LaTeX Warning: Reference `fig:figaggRew' on page 16 undefined on input line 491
-.
-
-[16 <./draft_rsfmri_files/figure-latex/identify outliers in these plots-1.pdf>]
-<draft_rsfmri_files/figure-latex/qa check DMN model age,sex-1.pdf, id=298, 450.
-68375pt x 311.1625pt>
-File: draft_rsfmri_files/figure-latex/qa check DMN model age,sex-1.pdf Graphic 
-file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check DMN model age,sex-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check DMN model age
-,sex-1.pdf  used on input line 493.
-(pdftex.def)             Requested size: 450.6895pt x 311.16649pt.
-<draft_rsfmri_files/figure-latex/qa check DMN model age,sex-2.pdf, id=299, 445.
-665pt x 299.1175pt>
-File: draft_rsfmri_files/figure-latex/qa check DMN model age,sex-2.pdf Graphic 
-file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check DMN model age,sex-2.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check DMN model age
-,sex-2.pdf  used on input line 493.
-(pdftex.def)             Requested size: 445.6707pt x 299.12132pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 493--494
-[][]
- []
-
-
-Overfull \hbox (34.24352pt too wide) in paragraph at lines 497--497
-[]\T1/lmtt/m/n/10 ## [1] "please carefully evaluate whether the result makes se
-nse, and if not, please contact me"[] 
- []
-
-[17 <./draft_rsfmri_files/figure-latex/qa check DMN model age,sex-1.pdf> <./dra
-ft_rsfmri_files/figure-latex/qa check DMN model age,sex-2.pdf>]
-<draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-1.pdf, id=322,
- 450.68375pt x 311.1625pt>
-File: draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-1.pdf Gra
-phic file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check DMN model age
-,sex, mFD-1.pdf  used on input line 524.
-(pdftex.def)             Requested size: 450.6895pt x 311.16649pt.
-<draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-2.pdf, id=323,
- 445.665pt x 299.1175pt>
-File: draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-2.pdf Gra
-phic file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-2.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check DMN model age
-,sex, mFD-2.pdf  used on input line 524.
-(pdftex.def)             Requested size: 445.6707pt x 299.12132pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 524--525
-[][]
- []
-
-[18 <./draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-1.pdf>]
-Overfull \hbox (34.24352pt too wide) in paragraph at lines 528--528
-[]\T1/lmtt/m/n/10 ## [1] "please carefully evaluate whether the result makes se
-nse, and if not, please contact me"[] 
- []
-
-<draft_rsfmri_files/figure-latex/qa check Rew model age,sex-1.pdf, id=339, 450.
-68375pt x 311.1625pt>
-File: draft_rsfmri_files/figure-latex/qa check Rew model age,sex-1.pdf Graphic 
-file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check Rew model age,sex-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check Rew model age
-,sex-1.pdf  used on input line 557.
-(pdftex.def)             Requested size: 450.6895pt x 311.16649pt.
-<draft_rsfmri_files/figure-latex/qa check Rew model age,sex-2.pdf, id=340, 442.
-65375pt x 299.1175pt>
-File: draft_rsfmri_files/figure-latex/qa check Rew model age,sex-2.pdf Graphic 
-file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check Rew model age,sex-2.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check Rew model age
-,sex-2.pdf  used on input line 557.
-(pdftex.def)             Requested size: 442.67966pt x 299.13501pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 557--558
-[][]
- []
-
-[19 <./draft_rsfmri_files/figure-latex/qa check DMN model age,sex, mFD-2.pdf>]
-Overfull \hbox (34.24352pt too wide) in paragraph at lines 561--561
-[]\T1/lmtt/m/n/10 ## [1] "please carefully evaluate whether the result makes se
-nse, and if not, please contact me"[] 
- []
-
-[20 <./draft_rsfmri_files/figure-latex/qa check Rew model age,sex-1.pdf> <./dra
-ft_rsfmri_files/figure-latex/qa check Rew model age,sex-2.pdf>]
-<draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-1.pdf, id=375
-, 450.68375pt x 311.1625pt>
-File: draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-1.pdf Gr
-aphic file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-1.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check Rew model age
-, sex, mFD-1.pdf  used on input line 588.
-(pdftex.def)             Requested size: 450.6895pt x 311.16649pt.
-<draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-2.pdf, id=376
-, 442.65375pt x 299.1175pt>
-File: draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-2.pdf Gr
-aphic file (type pdf)
-<use draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-2.pdf>
-Package pdftex.def Info: draft_rsfmri_files/figure-latex/qa check Rew model age
-, sex, mFD-2.pdf  used on input line 588.
-(pdftex.def)             Requested size: 442.67966pt x 299.13501pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 588--589
-[][]
- []
-
-[21 <./draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-1.pdf>]
-
-Overfull \hbox (34.24352pt too wide) in paragraph at lines 592--592
-[]\T1/lmtt/m/n/10 ## [1] "please carefully evaluate whether the result makes se
-nse, and if not, please contact me"[] 
- []
-
-[22 <./draft_rsfmri_files/figure-latex/qa check Rew model age, sex, mFD-2.pdf>]
-
-LaTeX Warning: Reference `tab:tableBMImodel' on page 23 undefined on input line
- 634.
-
-<../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf, id=404, 527.57097pt x 187.902p
+[14 <./draft_rsfmri_files/figure-latex/figaggFC-1.pdf> <./draft_rsfmri_files/fi
+gure-latex/figaggFC-2.pdf>]
+<../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf, id=303, 527.57097pt x 187.902p
 t>
 File: ../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
 <use ../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf  used o
-n input line 637.
+n input line 402.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf, id=405, 527.57097pt x 187.90
+<../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf, id=304, 527.57097pt x 187.90
 2pt>
 File: ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
 <use ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf  used
- on input line 637.
+ on input line 402.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 637--637
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 402--402
 [][][][] 
  []
 
-
-LaTeX Warning: Reference `tab:tableBMImodel' on page 23 undefined on input line
- 641.
-
-
-LaTeX Warning: Reference `tab:tableBMIFDmodel' on page 23 undefined on input li
-ne 647.
-
-
-LaTeX Warning: Reference `tab:tableBMIFDmodel' on page 23 undefined on input li
-ne 651.
-
-<../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf, id=406, 527.57097pt x 187.9
+<../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf, id=308, 527.57097pt x 187.9
 02pt>
 File: ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf Graphic file (type pdf)
 
 <use ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf  use
-d on input line 654.
+d on input line 419.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf, id=407, 527.57097pt x 187.
+<../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf, id=309, 527.57097pt x 187.
 902pt>
 File: ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf Graphic file (type pdf
 )
 <use ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf  us
-ed on input line 654.
+ed on input line 419.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 654--654
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 419--419
 [][][][] 
  []
 
-[23 <../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf> <../report/fig/BMIagesexfd
+<../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf, id=310, 527.57097pt x 187.902p
+t>
+File: ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
+<use ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf>
+Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf  used o
+n input line 425.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+<../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf, id=311, 527.57097pt x 187.902
+pt>
+File: ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf)
+<use ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf>
+Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf  used 
+on input line 425.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 425--425
+[][][][] 
+ []
+
+<../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf, id=312, 527.57097pt x 187.90
+2pt>
+File: ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
+<use ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf  used
+ on input line 429.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+[15 <../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf> <../report/fig/BMIagesexfd
 _PCCcc_avgBMI_deact.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf
@@ -1531,85 +1336,81 @@ f): PDF inclusion: multiple pdfs with page group included in a single page
 pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.p
 df): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf, id=545, 527.57097pt x 187.902p
-t>
-File: ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
-<use ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf>
-Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf  used o
-n input line 660.
-(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf, id=546, 527.57097pt x 187.902
-pt>
-File: ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf)
-<use ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf>
-Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf  used 
-on input line 660.
-(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 660--660
-[][][][] 
- []
-
-
-LaTeX Warning: Reference `tab:tableFDmodel' on page 24 undefined on input line 
-684.
-
-<../report/fig/FDagesex_NACCcc_avgFD_act.pdf, id=547, 527.57097pt x 187.902pt>
+<../report/fig/FDagesex_NACCcc_avgFD_act.pdf, id=448, 527.57097pt x 187.902pt>
 File: ../report/fig/FDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
 <use ../report/fig/FDagesex_NACCcc_avgFD_act.pdf>
 Package pdftex.def Info: ../report/fig/FDagesex_NACCcc_avgFD_act.pdf  used on i
-nput line 688.
+nput line 457.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/FDagesex_NACCgsr_avgFD_act.pdf, id=548, 527.57097pt x 187.902pt>
+<../report/fig/FDagesex_NACCgsr_avgFD_act.pdf, id=449, 527.57097pt x 187.902pt>
 
 File: ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf)
 <use ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf>
 Package pdftex.def Info: ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf  used on 
-input line 688.
+input line 457.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 688--688
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 457--457
 [][][][] 
  []
 
-[24 <../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf> <../report/fig/BMIFDagesex
+[16 <../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf> <../report/fig/BMIFDagesex
 _NACCgsr_avgFD_act.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf)
 : PDF inclusion: multiple pdfs with page group included in a single page
-> <../report/fig/FDagesex_NACCcc_avgFD_act.pdf
+> <../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf
 
-pdfTeX warning: pdflatex (file ../report/fig/FDagesex_NACCcc_avgFD_act.pdf): PD
-F inclusion: multiple pdfs with page group included in a single page
-> <../report/fig/FDagesex_NACCgsr_avgFD_act.pdf
+pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+>] [17 <../report/fig/FDagesex_NACCcc_avgFD_act.pdf> <../report/fig/FDagesex_NA
+CCgsr_avgFD_act.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf): P
 DF inclusion: multiple pdfs with page group included in a single page
->] [25] [26] [27]
+>] [18] [19]
 
-LaTeX Warning: Float too large for page by 5.38551pt on input line 834.
+LaTeX Warning: Float too large for page by 5.38551pt on input line 593.
 
-[28]
-
-LaTeX Warning: Reference `tab:tableBMIFDmodel' on page 29 undefined on input li
-ne 837.
+[20] [21
 
 
-! LaTeX Error: \subfloat outside float.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.841 \subfloat
-               [in AROMA+CC(\#fig:BMIFDagesex_NACC_avgFD_act-1)]{\includegra...
- 
+
+
+
+] [22] [23] [24] [25] [26]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 853.
+[27]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 853.
+(./draft_rsfmri.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 853.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 853.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 853.
+ ) 
 Here is how much of TeX's memory you used:
- 16624 strings out of 494847
- 248328 string characters out of 6179080
- 371912 words of memory out of 5000000
- 19385 multiletter control sequences out of 15000+600000
- 73097 words of font info for 132 fonts, out of 8000000 for 9000
+ 16769 strings out of 494847
+ 248516 string characters out of 6179080
+ 377765 words of memory out of 5000000
+ 19422 multiletter control sequences out of 15000+600000
+ 74740 words of font info for 145 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 44i,14n,51p,1845b,473s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 44i,14n,51p,1845b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
+ips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/shar
+e/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ma
+thit.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/f
+onts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi10.
+pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/t
+ype1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></us
+r/share/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/publ
+ic/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/t
+exmf/fonts/type1/public/lm/lmss8.pfb></usr/share/texmf/fonts/type1/public/lm/lm
+sy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb>
+Output written on draft_rsfmri.pdf (27 pages, 1073172 bytes).
+PDF statistics:
+ 961 PDF objects out of 1000 (max. 8388607)
+ 708 compressed objects within 8 object streams
+ 214 named destinations out of 1000 (max. 500000)
+ 14574 words of extra memory for PDF output out of 17280 (max. 10000000)
+
