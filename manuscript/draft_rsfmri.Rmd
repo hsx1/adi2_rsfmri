@@ -31,7 +31,6 @@ header-includes:
 
 ```{r "To do", include=FALSE}
 # [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [ ] Swap mFD with logmFD ??
 ```
 
 ```{r "load packages", include=FALSE}
@@ -212,7 +211,7 @@ The skull-stripped brain (`brainmask.mgz`) was then coregistered to the MNI152 1
 ## Functional preprocessing
 
 ### Minimal functional preprocessing
-The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step.
+The function preprocessing module included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step. We calculated mean framewise displacement (mFD) from the outputs of the motion correction procedure according to @Power_2012.
 For further analysis and ICA-AROMA processing, the minimally preprocessed data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
 <!-- *This part of the analysis was described in the preregistration as "After removing the first four volumes, transforms for motion correction (FSL’s MCFLIRT), fieldmap distortion correction (based on fieldmap and FSL’s FUGUE) and coregistration to the subject’s individual anatomical space (using FREESURFER’s bbregister) are calculated."*   -->
 
@@ -240,13 +239,13 @@ FreeSurfer cross-sectional and longitudinal  segmentations were visually checked
 
 #### Functional Quality control
 Resting state fMRI data quality control was performed according to the protocol by @Ciric_2018.
-As the expected average head motion was high in this sample, it was difficult to determine an appropriate exclusion threshold which would not lead to the exclusion of a high number of individuals [@Beyer_2020]. Thus, we did not exclude any participants based on mean FD estimates beyond those who failed the anatomical preprocessing. We applied best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. In addition, for models showing a significant time-by-group interaction, we performed a sensitivity analysis excluding the 10% data sets with highest mean FD.
+As the expected average head motion was high in this sample, it was difficult to determine an appropriate exclusion threshold which would not lead to the exclusion of a high number of individuals [@Beyer_2020]. Thus, we did not exclude any participants based on mFD estimates beyond those who failed the anatomical preprocessing. We applied best-practice motion correction (ICA-AROMA and CC, plus optionally GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. In addition, for models showing a significant time-by-group interaction, we performed a sensitivity analysis excluding the 10% data sets with highest mFD.
 ```{r carpetplot, out.width="50%", out.height="30%", fig.cap="Carpet plot for quality control", fig.subcap = c("Example 1 with strong amount of structured noise", "Example 2 with less amount of structured noise"), fig.show='hold',fig.align='center', echo=FALSE}
 carpets=c("../report/carpetplotadi006fu2.jpeg","../report/carpetplotadi16fu.jpeg")
 knitr::include_graphics(carpets)
 ```
 On the single-subject level, we used `plot_carpet` from `niworkflows.viz.plots` to generate carpet plots which depict denoising quality. Figure \@ref(fig:carpetplot) shows an exemplary carpet plot with (from top to bottom): percent outliers defined by AFNI, mFD, `OutlierCount`, DVARS (spatial root mean square of the data after temporal differencing),voxelwise timeseries from minimally preprocessed, AROMA non-aggressive and aggressive denoising, CC and CC + GSR data (red: GM voxels, green: WM voxels, blue: ventricle, green: cerebellum). All carpet plots were visually checked and if there was still structured noise in the CC+GSR-denoised functional data (such as black/white stripes, signal dropout), the participant was given a rating of 1 in `QA residuals`.
-We evaluated mFD-FC relationships by computing a functional connectome based on [@Power_2012]. In more detail, we used the MNI coordinates of 246 cortical and subcortical spherical seed regions with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we correlated mean FD and QC values for each node across participants, and plotted the resulting mFD-FC correlation values in histogram (see Figure \@ref{exampleFC}. We reported the mFD-FC correlation per preprocessing scheme.
+We evaluated mFD-FC relationships by computing a functional connectome based on [@Power_2012]. In more detail, we used the MNI coordinates of 246 cortical and subcortical spherical seed regions with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we correlated mFD and QC values for each node across participants, and plotted the resulting mFD-FC correlation values in histogram (see Figure \@ref{exampleFC}. We reported the mFD-FC correlation per preprocessing scheme.
 Further, we evaluated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation and report mean, median and standard deviations of mFD, DVARS and number of outliers over all participants.
 
 ### Aggregated FC values
@@ -260,13 +259,13 @@ Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MA
 ### Design Specification
 
 <!-- MODEL SETUP --> In a first group of models, we tested the interaction of time and group $FC = group + time + group*time$ as specified in the preregistration (*We will use the SwE toolbox (implemented in SPM 12.7486 run in MATLAB version > 9.0) to calculate the group-by-timepoint interaction*)
-We did not perform the analysis as preregistered (i.e. without covariates and additional sensitivity analyses), but adjusted for baseline age and sex (Model 1a), and baseline age, sex and the logarithm of mean FD (Model 1b).
+We did not perform the analysis as preregistered (i.e. without covariates and additional sensitivity analyses), but adjusted for baseline age and sex (Model 1a), and baseline age, sex and the logarithm of mFD (Model 1b).
 <!-- DESIGN MATRIX --> In this first model, time was represented as factor because we did not consider the effect of time to be strictly linear, and thus continuous modeling of time, inappropriate. The resulting factorial design <!-- check: flexible factorial? --> contained one regressor for each time point per group.
 
 We did not adjust for baseline BMI as described in the preregistration, but explored the relationship of average and change in BMI in a separate group of models.
-As proposed by @Guillaume_2014, we calculated the between- and within subject centered values of BMI. This model, containing average BMI and BMI variability, allowed us to disentangle the differential effects of overall BMI and change in BMI on FC. We first estimated their effects in a model adjusting for baseline age and sex (Model 2a) and then additionally controlling for log mean FD (Model 2b).
-As we previously reported correlated change in BMI and mFD in this sample [@Beyer_2019], we explored a refined model including average BMI and log mean FD and variability in both measures, along with baseline age and sex (Model 3). Here, we aimed to see whether any effect of change in BMI would be detectable when adjusting for the change in head motion.
-<!-- POST HOC -> können wir nochmal überlegen, ob wir das drinhaben wollen. -->For a better understanding of the unique contribution of average and longitudinal change FD measures, we separately employed a third post-hoc, exploratory model: $FC = between-subject FD + within-subject FD$ with nuisance covariates age and sex.
+As proposed by @Guillaume_2014, we calculated the between- and within subject centered values of BMI. This model, containing average BMI and BMI variability, allowed us to disentangle the differential effects of overall BMI and change in BMI on FC. We first estimated their effects in a model adjusting for baseline age and sex (Model 2a) and then additionally controlling for the logarithm of mFD (Model 2b).
+As we previously reported correlated change in BMI and mFD in this sample [@Beyer_2019], we explored a refined model including average BMI and the logarithm of mFD and variability in both measures, along with baseline age and sex (Model 3). Here, we aimed to see whether any effect of change in BMI would be detectable when adjusting for the change in head motion.
+<!-- POST HOC -> können wir nochmal überlegen, ob wir das drinhaben wollen. -->For a better understanding of the unique contribution of average and longitudinal change mFD measures, we separately employed a third post-hoc, exploratory model: $FC = between-subject mFD + within-subject mFD$ with nuisance covariates age and sex.
 
 ### Model input and brain mask
 For each brain network, we examined the models for the two preprocessing pipelines (AROMA+CC / AROMA+CC with GSR), resulting in $8$ preregistered analyses <!-- timexgroup (2 models) * 2* 2 --> , and $16$ <!-- bmi change (2 models), bmi + mfd change, fd change=4 * 2* 2 --> exploratory whole brain analysis.
@@ -283,13 +282,13 @@ Unlike the description in the preregistration, we used a cluster forming thresho
 ### Aggregated FC analysis
 <!-- R analysis of aggregated values -->
 We analyzed the aggregate connectivity values using linear mixed models in the R package lme4 [@Bates_2007].
-Following the preregistration, we first investigated the time-by-group interaction between baseline and follow-up. In order to conform with our whole-brain analyses, we adjusted for baseline age, sex (and mFD) in two separate models, instead of performing *sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI* (as stated in the preregistration).
+Following the preregistration, we first investigated the time-by-group interaction between baseline and follow-up. In order to conform with our whole-brain analyses, we adjusted for baseline age, sex (and logarithm of mFD) in two separate models, instead of performing *sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI* (as stated in the preregistration).
 We performed model comparison between R1 and R0 models
 `R1= lmer(agg FC ~ timepoint*group + age + sex + (1|subj))`
-`R0 = lmer(agg FC ~ timepoint + group +  + age + (1|subj))`
+`R0 = lmer(agg FC ~ timepoint + group +  age + sex + (1|subj))`
 and the time-by-group point interaction was considered significant if the model comparison between R1 and Null models showed $p < 0.05$ compared with `anova`.
 As specified in the preregistration, we repeated the above-mentioned interaction analysis for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 yielded $p < 0.05$.
-Further, we performed an exploratory analysis with average BMI and variability in BMI for the aggregated FC, in line with our whole brain analysis, and also included average mFD and variability in mFD.
+Further, we performed an exploratory analysis with average BMI and variability in BMI for the aggregated FC, in line with our whole brain analysis, and also included average mFD and change in mFD.
 
 ### Functinal decoding
 In an exploratory analysis, we compared the resulting contrast maps with whole-brain activation maps from the [NeuroSynth](https://www.neurosynth.org/) database [@Yarkoni_2011]. We uploaded the contrast images for change BMI and average mFD on [Neurovault](), and applied the decoding classifier. This classifier estimates the similarity of meta-analytic activation maps of +500 search terms with our our contrast maps. We reported the three top terms for both contrasts.
@@ -360,7 +359,7 @@ Yet, the reward network was less pronounced (overall lower T-values) and symmetr
 <!-- Brain mask: Group*Time Interaction [CORRECTED] -->
 Against our initial hypothesis, there was no interaction effect of group and time point for FC for neither the PCC nor the NAcc seeds. There also was no significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE correction.
 
-####  Model 1b (with adjustment for age and sex, meanFD)
+####  Model 1b (with adjustment for age, sex and mFD)
 Similarly, there were no significant clusters when including mFD. Results did not differ between AROMA+CC and AROMA+CC+GSR preprocessing pipelines.
 
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
@@ -550,10 +549,10 @@ knitr::include_graphics(c("../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf", "../
 Reward network connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes.
 Results with significant cluster co-activation are depicted in Table \@ref(tab:tableBMImodel).
 
-##### BMI and FD model
+##### BMI and mFD model
 To disentangle effects of change in BMI and mFD in this dataset, we split mFD into average mFD and change in mFD. Age and sex were kept as nuisance covariates.
 <!-- ### DMN -->
-<!-- cc --> Average BMI remained significantly negatively associated with the three clusters above when splitting FD into its components. Results are detailed in Table \@ref(tab:tableBMIFDmodel).
+<!-- cc --> Average BMI remained significantly negatively associated with the three clusters above when splitting mFD into its components. Results are detailed in Table \@ref(tab:tableBMIFDmodel).
 Test statistics only differed slightly from the effect found when using mFD as nuisance covariate.
 <!-- gsr -->As before, the effect did not survive when using GSR-corrected data.
 
@@ -630,7 +629,7 @@ vif_res=vif(test_vif)
 
 As expected from the whole-brain findings, there was no association of mean BMI or within-subject BMI change and reward network connectivity in models adjusting for age, sex and mFD.
 
-### Effect of FD (exploratory analysis)
+### Effect of mFD (exploratory analysis)
 #### Whole-brain analysis
 To investigate the unique contributions of the average value of and the longitudinal change in mFD, we constructed two additional models.
 First, BMI measures are excluded from the design matrix. Covariance of the mFD and outcome measures is investigated by splitting mFD into average mFD and longitudinal mFD change and by inspecting associations with each predictor. Age and sex were nuisance covariates.
@@ -678,7 +677,7 @@ Test statistics of these clusters differ only slightly from the effect found for
 <!-- gsr As before, the effect did not survive when thresholding if the images had been GSR corrected.-->
 
 <!-- Neurovault -->
-Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average FD and change FD will be are published on NeuroVault.
+Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average mFD and change mFD will be are published on NeuroVault.
 
 # Discussion
 #### Summary
