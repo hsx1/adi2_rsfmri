@@ -21,7 +21,7 @@ library(MuMIn)
 Messueberblick_path <- "/data/p_02161/ADI_studie/metadata/ADI_MRT_Messueberblick_2019_04_10.csv"
 
 # ADI_Aktuell  -  main table, BMI info is refilled with Messueberblick entries
-ADIAktuell_üath <- "/data/p_02161/ADI_studie/metadata/Daten ADI aktuell.sav"
+ADIAktuell_path <- "/data/p_02161/ADI_studie/metadata/Daten ADI aktuell.sav"
 
 # QOL_sheet  -  correct group information (unused, just for comparison)
 QOLsheet_path <- "/data/pt_02161/Results/Project1_headmotion/QOL_sheet_of_ADI_Messueberblick.csv"

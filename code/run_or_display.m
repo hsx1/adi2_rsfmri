@@ -127,7 +127,7 @@ elseif param.PRESET == "bmi"
 elseif param.PRESET == "gt"
     param.MODEL = ["grouptime"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
-    param.COVARIATES = [11,12];  
+    param.COVARIATES = [11, 12];  
     param.MASK = "brain";           
     param.EXCLFD = false;          
     param.INFERENCE_TYPE = ["cluster"];
@@ -174,14 +174,14 @@ elseif param.PRESET == "test"
     param.VIEW = true;
 elseif param.PRESET == "manual"
     % define ROI
-    param.ROI_PREP = roi_prep([4]); % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {"Nacc_cc_z","Nacc_gsr_z","PCC_cc_z","PCC_gsr_z","LH_cc_z","LH_gsr_z","MH_cc_z","MH_gsr_z"}
+    param.ROI_PREP = roi_prep([12,14]); % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {"Nacc_cc_z","Nacc_gsr_z","PCC_cc_z","PCC_gsr_z","LH_cc_z","LH_gsr_z","MH_cc_z","MH_gsr_z"}
 
     % Model definition
     % All three models have unique options for covariate definition, the
     % association to a model is indicated by the tens digit (GroupTime_: 1_; 
     % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-    param.MODEL = ["alltp"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
-    param.COVARIATES = [42];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+    param.MODEL = ["fd"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
+    param.COVARIATES = [31];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
     % define masking and type of inference
     param.MASK = "brain";               % "brain"
@@ -189,7 +189,7 @@ elseif param.PRESET == "manual"
     param.INFERENCE_TYPE = ["cluster"]; % ["voxel","cluster","tfce"];
 
     % analysis parameter (estimate or display?)
-    param.VIEW = false;
+    param.VIEW = true;
     % param.ACTION = "estimate" % "display" or "overwrite"
 else
     error("Preset '%s' not defined.",param.PRESET)

@@ -133,7 +133,7 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
   # Model specification incl. design matrix for different options
   output_dir <- parentdir
   if (exclFD == FALSE){
-    output_dir <- file.path(parentdir, "noExclFD")
+    output_dir <- file.path(parentdir, "noExclFD") 
     if (!dir.exists(output_dir)) {dir.create(output_dir)}
   }else if (exclFD == TRUE){
     output_dir <- file.path(parentdir, "ExclFD")
@@ -188,7 +188,7 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
     df <- df[df$tp != "fu2",]
   }
   cat("Data from",group,"group(s) and",tp,"measurements were selected to be kept in the data frame, therefore n =",nrow(df),".\n")
-  
+  cat("All txt files will be saved in:", output_dir)
   
   
   # order dataframe by group / subject / time point
@@ -251,7 +251,7 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
             file='KG_fu.txt')
   write.table(dfo$KG_bl, col.names=FALSE,row.names=FALSE,quote=FALSE,
             file='KG_bl.txt')
-
+  
   # end of computations --------------------------------------------------------
   
   # reset to original working directory

@@ -9,7 +9,7 @@ import pandas as pd
 
 def main():
 
-    OUT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report"
+    OUT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/fig"
     INFO_FILE = "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/noExclFD/result_report.txt"
 
     # dataframe with filenames, path list, cluster threshold

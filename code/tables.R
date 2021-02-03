@@ -134,11 +134,11 @@ df9$covariates[1] <- "age, sex"
 
 ## merge tables 
 BMImodel <- rbind(df2,df1)
-FDmodel <- rbind(df8,df9)
 BMIFDmodel <- rbind(df3,df4,df5,df6,df7)
+FDmodel <- rbind(df8,df9)
 
-ModelList <- list(BMImodel,FDmodel,BMIFDmodel)
-names(ModelList) <- c("BMImodel","FDmodel","BMIFDmodel")
+ModelList <- list(BMImodel,BMIFDmodel,FDmodel)
+names(ModelList) <- c("BMImodel","BMIFDmodel","FDmodel")
   
 for (i in 1:length(ModelList)) {
   ModelList[[i]]$anat <- NA
@@ -190,37 +190,44 @@ for (i in 1:length(ModelList)) {
 label1 <- data.table::rbindlist(
   list(
     # for cluster of df1, df2
-    # avgBMI
+    # avgBMI - age,sex
     data.frame(ResultFCList[[2]][1])[1:3, ] %>% select(last_col()), # cl1
-    data.frame(ResultFCList[[2]][2])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[2]][2])[1:2, ] %>% select(last_col()),
     data.frame(ResultFCList[[2]][3])[1:2, ] %>% select(last_col()),
     data.frame(ResultFCList[[2]][4])[1:2, ] %>% select(last_col()),
+    # avgBMI - age,sex, mFD
     data.frame(ResultFCList[[1]][1])[1:3, ] %>% select(last_col()), # cl1
     data.frame(ResultFCList[[1]][2])[1:2, ] %>% select(last_col()), # cl2
-    data.frame(ResultFCList[[1]][3])[1:3, ] %>% select(last_col()), # ...
+    data.frame(ResultFCList[[1]][3])[1:2, ] %>% select(last_col()), # ...
     data.frame(ResultFCList[[1]][4])[1:2, ] %>% select(last_col())
   ),
   use.names = FALSE
 )
-# FD
+# BMI FD
 label2 <- data.table::rbindlist(
   list(
-    data.frame(ResultFCList[[8]][1])[1:3, ] %>% select(last_col()),
-    data.frame(ResultFCList[[9]][1])[1:2, ] %>% select(last_col())
-    ), 
-  use.names = FALSE
-  )
-# BMI FD
-label3 <- data.table::rbindlist(
-  list(
-    data.frame(ResultFCList[[3]][1])[1:2, ] %>% select(last_col()),
+    # cgnBMI - NAcc cc age,sex
+    data.frame(ResultFCList[[3]][1])[1, ] %>% select(last_col()),
+    # avgFD - NAcc cc age,sex
     data.frame(ResultFCList[[4]][1])[1:3, ] %>% select(last_col()),
+    # cgnBMI - NAcc gsr age,sex
     data.frame(ResultFCList[[5]][1])[1:2, ] %>% select(last_col()),
+    # avgFD - NAcc gsr age,sex
     data.frame(ResultFCList[[6]][1])[1:3, ] %>% select(last_col()),
+    # avgBMI - PCC cc age,sex
     data.frame(ResultFCList[[7]][1])[1:3, ] %>% select(last_col()),
     data.frame(ResultFCList[[7]][2])[1:2, ] %>% select(last_col()),
-    data.frame(ResultFCList[[7]][3])[1:3, ] %>% select(last_col())
+    data.frame(ResultFCList[[7]][3])[1:2, ] %>% select(last_col()),
+    data.frame(ResultFCList[[7]][4])[1:2, ] %>% select(last_col())
   ),
+  use.names = FALSE
+)
+# FD
+label3 <- data.table::rbindlist(
+  list(
+    data.frame(ResultFCList[[8]][1])[1:3, ] %>% select(last_col()),
+    data.frame(ResultFCList[[9]][1])[1:3, ] %>% select(last_col())
+  ), 
   use.names = FALSE
 )
 LabelList <- list(label1,label2,label3)
@@ -254,7 +261,7 @@ fn3 <- "To identify significant clusters, we applied a cluster size threshold wi
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
 title_vec <- c("BMI", "FD", "BMI-FD") 
 
-tabnames <- c("tableBMImodel","tableFDmodel","tableBMIFDmodel")
+tabnames <- c("tableBMImodel","tableBMIFDmodel","tableFDmodel")
 TableList <- list()
 for (i in 1:length(ModelList)){
   TableList[[i]] <-
@@ -286,15 +293,15 @@ TableList[[1]] <- TableList[[1]] %>%
   kableExtra::group_rows("average BMI (decrease)", nrow(df2)+1, nrow(df2)+nrow(df1)) 
 
 TableList[[2]] <- TableList[[2]] %>%
-  kableExtra::group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
-  kableExtra::group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
-
-TableList[[3]] <- TableList[[3]] %>%
   kableExtra::group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
   kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
   kableExtra::group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
   kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
   kableExtra::group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
+
+TableList[[3]] <- TableList[[3]] %>%
+  kableExtra::group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
+  kableExtra::group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
 
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)
@@ -323,3 +330,4 @@ mk_SampleTable <- function(final) {
   colnames(tab_sample) <- c("BARS","NBARS")
   return(tab_sample)
 }
+

@@ -334,6 +334,7 @@ mk_figtSNR <- function (final) {
   tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")
   tsnr=tsnr[tsnr$V1!="subj",]
   colnames(tsnr)=c("subj.ID_tp","roi","median","mean","sd")
+  tsnr <- tsnr[stringr::str_detect(tsnr$subj.ID_tp, "^ADI\\d{3}_(bl|fu|fu2)$"),]
   levels(tsnr$roi)=droplevels(tsnr$roi)
   levels(tsnr$roi)=c("NAcc", "PCC/precuneus")
   tsnr$mean=as.double(tsnr$mean)
