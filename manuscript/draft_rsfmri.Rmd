@@ -365,7 +365,7 @@ Similarly, there were no significant clusters when including mFD. Results did no
 <!-- There was no other significant co-activation for any other region of interest for neither of the preprocessing variants. -->
 
 <!-- Neurovault -->
-Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) as well as contrasts of group, time and group-by-time interaction are on [NeuroVault](insert link here).
+Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) as well as contrasts of group, time and group-by-time interaction are on [NeuroVault](https://neurovault.org/collections/9426/).
 
 ## Interaction effect group by time on aggregated FC (preregistered analysis)
 ```{r load agg FC data and prepare, echo = FALSE}
@@ -569,7 +569,8 @@ knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
                           "../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf"))
 ```
 ###### Functional decoding
-Functional decoding of these two activation patterns showed different top association terms. For the BMI change cluster (frontal	0.246; anterior insula	0.23; inferior frontal	0.194) were the top terms, while for the average mFD () were the meta-analytic activation maps most similar to this contract. The FC contrasts were thus somewhat distinct, though the decoding method [does not allow](https://www.talyarkoni.org/blog/tag/neurosynth/) to conclude specificity. 
+Functional decoding of these two activation patterns showed different top association terms. For the [negative BMI change cluster](https://neurosynth.org/decode/?neurovault=441783) frontal, anterior insula	and inferior frontal were the top terms, while for the [average mFD](https://neurosynth.org/decode/?neurovault=441784) primary motor, motor cortex and
+premotor were the meta-analytic activation maps most similar to this contract. The FC contrasts were thus somewhat distinct, though the decoding method [does not allow](https://www.talyarkoni.org/blog/tag/neurosynth/) to conclude specificity. 
 
 #### Aggregated FC analysis
 ##### DMN (BMI and mFD model)

@@ -3,13 +3,13 @@ title: "Supplementary Material for Effects of bariatric surgery and weight loss 
 author:
 - Hannah Sophie Heinrichs* [1]
 - Frauke Beyer* [1][2]
-- Kristin Prehn
-- Jürgen Ordemann 
-- Agnes Floel
-- A. Veronica Witte [1][2][3]
+- Evelyn Medawar [1]
+- Kristin Prehn [3][4]
+- Jürgen Ordemann [8][9]
+- Agnes Floel [5][6][7]
+- A. Veronica Witte [1][2][10]
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
-  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3
-  Day Clinic for Cognitive Neurology, University Clinic Leipzig
+  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3 Department of Neurology and NeuroCure Clinical Research Center, Charité University Medicine, Berlin \newline 4 Department of Psychology, Medical School Hamburg, Hamburg \newline 5 Department of Neurology, University of Greifswald, Greifswald \newline 6 German Center for Neurodegenerative Diseases, Standort Rostock/Greifswald, Greifswald \newline 7 Center for Stroke Research, Charité University Medicine, Berlin \newline 8 Center for Bariatric and Metabolic Surgery, Charité University Medicine, Berlin \newline 9 Zentrum für Adipositas und Metabolische Chirurgie, Vivantes Klinikum Spandau, Berlin \newline 10 Day Clinic for Cognitive Neurology, University Clinic Leipzig 
 output:
   bookdown::pdf_book:
     fig_caption: yes
@@ -93,7 +93,12 @@ DesignMatricesList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%", eval=FALSE}
+```{r fighistograms,fig.cap="Histograms of FC-QC correlations for different preprocessing schemes)", out.width="40%", eval=FALSE}
+tsnr <- "../report/tsnr.pdf"
+knitr::include_graphics(tsnr)
+```
+
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%", eval=TRUE}
 tsnr <- "../report/tsnr.pdf"
 knitr::include_graphics(tsnr)
 ```
