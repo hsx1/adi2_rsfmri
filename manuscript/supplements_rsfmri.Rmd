@@ -15,7 +15,7 @@ output:
     fig_caption: yes
     always_allow_html: true
     number_sections: yes
-    toc: yes
+    toc: no
     extra_dependencies: "subfig"
 bibliography: "bibliography.bib"
 editor_options:
@@ -56,7 +56,10 @@ options(knitr.table.format = "latex")
 options(knitr.kable.NA = ' ') # hide NA in tables
 # set working directory of knit (RMarkdown) to directory of Rproj
 ```
+\newpage
 
+# Methods
+## Sample
 ```{r "tableSample", echo=FALSE}
 
 tableSample <- readRDS(file = "../report/tab/tableSample.rds")
@@ -82,10 +85,10 @@ knitr::kable(
     format = "latex",
     booktabs = T,
     linesep = "",
-    caption = "BMI and mean FD of participants acquired in each condition and time point")
+    caption = "BMI and mFD of participants acquired in each condition and time point")
 ```
 
-
+## Design
 ```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap = c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
 DesignMatricesList <- readRDS(file = "../report/fig/DesignMatricesList.rds")
 DesignMatricesList$plotA
@@ -93,8 +96,10 @@ DesignMatricesList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%", eval=FALSE}
-tsnr <- "../report/tsnr.pdf"
+# Results
+## Quality Control
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%", eval=TRUE}
+tsnr <- "../report/tsnr.jpeg"
 knitr::include_graphics(tsnr)
 ```
 
@@ -110,9 +115,9 @@ R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), 
 anvDMN2tp=anova(R1,R0)
 ```
 
-```{r qa check DMN model age,sex, echo=FALSE}
-diagnostics.plot(R0)
-ranef.diagn.plot(R0)
+```{r qa check DMN model age,sex, eval=FALSE}
+diag=diagnostics.plot(R0)
+randefplot=ranef.diagn.plot(R0)
 
 m.stab=glmm.model.stab(model.res = R0)
 #to check whether there were any converge issues:
@@ -136,7 +141,7 @@ R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD + (1|s
 anvDMN2tp=anova(R1,R0)
 ```
 
-```{r qa check DMN model age,sex, mFD, echo=FALSE}
+```{r qa check DMN model age,sex, mFD, eval=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -177,7 +182,7 @@ R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), da
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +  (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tp=anova(R1,R0)
 ```
-```{r qa check Rew model age,sex, echo=FALSE}
+```{r qa check Rew model age,sex, eval=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -199,7 +204,7 @@ R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|sub
 anvRew2tpadj=anova(R1,R0)
 ```
 
-```{r qa check Rew model age,sex,mFD, echo=FALSE}
+```{r qa check Rew model age,sex,mFD,eval=FALSE}
 diagnostics.plot(R0)
 ranef.diagn.plot(R0)
 
@@ -230,4 +235,117 @@ texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("I
 ```{r Rew conn over three timepoints, echo=FALSE}
 fig_Rewconn <- readRDS(file = "../report/fig/figRewconn.rds")
 fig_Rewconn
+```
+
+## Effects of average and change BMI on FC
+### DMN
+#### Model 2a and 2b (adjusting for mFD)
+```{r "DMN model, mean, change BMI", eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
+R01 = lme4::lmer(mean_DMN_conn ~ mean.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+R02 = lme4::lmer(mean_DMN_conn ~ within.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+anvwithinBMI=anova(R1,R01)
+anvmeanBMI=anova(R1,R02)
+p_meanBMI=anvmeanBMI$`Pr(>Chisq)`[2]
+
+R11 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC)
+R12a = lme4::lmer(mean_DMN_conn ~ within.BMI +  Age_BL + Sex + logmFD+(1|subj.ID), data=final_FC)
+anvmeanBMI_adjmFD=anova(R11,R12a)
+```
+
+```{r DMN_BMIFD results, caption="Model 2a and 2b for aggregated DMN FC", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R1,R11), custom.coef.names=c("Intercept", "average BMI", "change BMI", "Age", "Sex","logmFD"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+#### Model 2c (adjusting for average and change in mFD)
+```{r "DMN model mean+change of BMI+logmFD", eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
+R01 = lme4::lmer(mean_DMN_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
+R02 = lme4::lmer(mean_DMN_conn ~ within.BMI + mean.logmFD + within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+R03 = lme4::lmer(mean_DMN_conn ~ mean.BMI  + within.BMI +  within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+R03 = lme4::lmer(mean_DMN_conn ~ mean.BMI  + within.BMI +  mean.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+anvwithinBMI=anova(R1,R01)
+anvmeanBMI=anova(R1,R02)
+anvmeanFD=anova(R1,R03)
+anvwithinFD=anova(R1,R03)
+
+p_mean_BMI=anvmeanBMI$`Pr(>Chisq)`
+```
+
+```{r DMN_BMI_splitFD results, caption="Model 2c for aggregated DMN FC", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average mFD", "change mFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+\newpage
+```{r, include = FALSE}
+library(dplyr)
+DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
+df <- file.path(DIR_ANALYSIS,"noExclFD/result_report.txt")
+AnatomyResults <- read.table(df, sep="\t",col.names = c("model","dir","k"),stringsAsFactors = FALSE)
+
+  
+txtList <- list()
+
+for (r in 1:nrow(AnatomyResults)) {
+  
+  file = AnatomyResults[r,"dir"]
+  txt_cols <- c("VoxelCount","equals","PercClusterVolumeAssignedTo","in","Hem","Region","PercentOfArea","V8","V9","V10","V11","V12","V13")
+  txt <- read.table(trimws(f),sep="\t",fill=TRUE,col.names=txt_cols) # paste0("V", 1:13)
+  
+
+  
+  txt <- txt[sort(c(which(grepl("Cluster", txt$VoxelCount)),which(grepl("voxel", txt$equals)))),]
+  txt <- txt[,c("VoxelCount","PercClusterVolumeAssignedTo", "Hem","Region","PercentOfArea")]
+  
+  idxClusterStart <- which(grepl("Cluster", txt$VoxelCount))
+  
+  #txt$VoxelCount <- as.character(txt$VoxelCount)
+  txt <- cbind(descr = NA, txt)
+  txt$descr[idxClusterStart] <- stringr::str_remove(string = as.character(txt$VoxelCount[idxClusterStart]), pattern = "\\:[^:]*$")
+  txt$VoxelCount[idxClusterStart] <- NA
+  
+  # attach model with  cluster list to list of models
+  name_model <- AnatomyResults$model[r]
+  txtList[[name_model]] <- txt
+}
+
+txt_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\n in cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
+
+TableList <- list()
+for (i in 1:length(txtList)){
+  TableList[[i]] <-
+    txtList[[i]] %>%
+    knitr::kable(
+      escape = FALSE,     # use font spec of latex with kableExtra
+      col.names = txt_colname,
+      row.names = FALSE,
+      format = "latex",
+      booktabs = T,
+      linesep = "",      # disable "\\addlinespace" at every 5th line
+      #label = name_model[i],
+      caption = sprintf("Anatomical labelling for %s",name_model[i]),
+    ) %>%
+    kableExtra::kable_styling(latex_options = c('scale_down')) #%>% 
+    #kableExtra::landscape()
+}
+```
+
+### Anatomical Labelling for models
+
+```{r, echo=FALSE}
+
+AnatomyResults$model <- read.table(df, sep="\t",col.names = c("model","dir","k"),stringsAsFactors = FALSE)[1]
+l <- stringr:: str_split(AnatomyResults$model, '_')
+d <- data.frame(matrix(unlist(l), nrow=length(l), byrow=T))
+#stringr::str_replace(as.character(d[,2]),"^\\(PCC|NACC)cc$"," (cc)") # , "\\(PCC|NACC)(gsr)" = "(gsr)"
+
+TableList[[1]]
+TableList[[2]]
+TableList[[3]]
+TableList[[4]]
+TableList[[5]]
+TableList[[6]]
+TableList[[7]]
+TableList[[8]] 
+TableList[[9]]
 ```

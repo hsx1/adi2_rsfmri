@@ -128,8 +128,8 @@ agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connecti
 agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
 agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
 for (i in c(1:nrow(agg_FC_DMN_ID))){
-  agg_FC_Rew[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][10],'_nacc')[[1]][1]
-  agg_FC_DMN[i,"subj.ID_tp"]=strsplit(base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][10],'_pcc')[[1]][1]
+  agg_FC_Rew[i,"subj.ID_tp"]=base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][8]
+  agg_FC_DMN[i,"subj.ID_tp"]=base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][8]
 }
 
 colnames(agg_FC_Rew)=c("mean_Rew_conn","sd_Rew_conn","subj.ID_tp")
