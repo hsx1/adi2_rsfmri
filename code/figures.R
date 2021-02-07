@@ -1,3 +1,7 @@
+# contact: heinrichs@cbs.mpg.de
+# info: creates figures
+
+# Load packages -----------------------------------------------------------
 library(ggplot2)
 
 pink_blue = c("#00305E", "#C00045")
@@ -16,13 +20,14 @@ mk_figBMIdescr <- function(final) {
       group = subj.ID,
       color = condition
     )) +
-    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    geom_line(position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
       size = 2,
-      position=position_nudge(x = -0.02, y = 0),
+      position=position_nudge(x = 0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) + 
     stat_summary(
@@ -167,7 +172,8 @@ mk_figRewdescr <- function(final_FC) {
       group = subj.ID,
       color = condition
     )) +
-    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    geom_line(position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
@@ -217,7 +223,8 @@ mk_figDMNdescr <- function(final_FC) {
       group = subj.ID,
       color = condition
     )) +    
-    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    geom_line(position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
@@ -526,12 +533,24 @@ figDvarsmFD <- function(final){
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(size = 0.8, position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
+      size = 0.8,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 0.8, width = 0.15,
+      position=position_nudge(x = 0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
@@ -557,12 +576,24 @@ figDvarsmFD <- function(final){
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(size = 0.8, position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
+      size = 0.8,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 0.8, width = 0.15,
+      position=position_nudge(x = 0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
@@ -588,12 +619,24 @@ figDvarsmFD <- function(final){
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(size = 0.8,position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
+      size = 0.8,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 0.8, width = 0.15,
+      position=position_nudge(x = 0.02, y = 0),
       color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
