@@ -1,3 +1,8 @@
+# contact: heinrichs@cbs.mpg.de
+# info: processes all computations, figure and tables required for the .Rmd file
+
+
+# Load packages -----------------------------------------------------------
 library(kableExtra)
 
 # processes data to report later in manuscript .Rmd file

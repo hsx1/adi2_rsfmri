@@ -281,52 +281,25 @@ texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "
 ```
 \newpage
 ```{r, include = FALSE}
-library(dplyr)
-DIR_ANALYSIS <- "/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis"
-df <- file.path(DIR_ANALYSIS,"noExclFD/result_report.txt")
-AnatomyResults <- read.table(df, sep="\t",col.names = c("model","dir","k"),stringsAsFactors = FALSE)
 
+source("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/tables.R")
 
-txtList <- list()
-
-for (r in 1:nrow(AnatomyResults)) {
-
-  file = AnatomyResults[r,"dir"]
-  txt_cols <- c("VoxelCount","equals","PercClusterVolumeAssignedTo","in","Hem","Region","PercentOfArea","V8","V9","V10","V11","V12","V13")
-  txt <- read.table(trimws(f),sep="\t",fill=TRUE,col.names=txt_cols) # paste0("V", 1:13)
-
-
-
-  txt <- txt[sort(c(which(grepl("Cluster", txt$VoxelCount)),which(grepl("voxel", txt$equals)))),]
-  txt <- txt[,c("VoxelCount","PercClusterVolumeAssignedTo", "Hem","Region","PercentOfArea")]
-
-  idxClusterStart <- which(grepl("Cluster", txt$VoxelCount))
-
-  #txt$VoxelCount <- as.character(txt$VoxelCount)
-  txt <- cbind(descr = NA, txt)
-  txt$descr[idxClusterStart] <- stringr::str_remove(string = as.character(txt$VoxelCount[idxClusterStart]), pattern = "\\:[^:]*$")
-  txt$VoxelCount[idxClusterStart] <- NA
-
-  # attach model with  cluster list to list of models
-  name_model <- AnatomyResults$model[r]
-  txtList[[name_model]] <- txt
-}
-
-txt_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\n in cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
+ToolboxOutputList <- mk_DetailedLabelTab()
+TableList_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\n in cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
 
 TableList <- list()
-for (i in 1:length(txtList)){
+for (i in 1:length(ToolboxOutputList$EntryList)){
   TableList[[i]] <-
-    txtList[[i]] %>%
+    ToolboxOutputList$EntryList[[i]] %>%
     knitr::kable(
       escape = FALSE,     # use font spec of latex with kableExtra
-      col.names = txt_colname,
+      col.names = TableList_colname,
       row.names = FALSE,
       format = "latex",
       booktabs = T,
       linesep = "",      # disable "\\addlinespace" at every 5th line
       #label = name_model[i],
-      caption = sprintf("Anatomical labelling for %s",name_model[i]),
+      caption = ToolboxOutputList$CaptionList[i],
     ) %>%
     kableExtra::kable_styling(latex_options = c('scale_down')) #%>%
     #kableExtra::landscape()
@@ -336,12 +309,6 @@ for (i in 1:length(txtList)){
 ### Anatomical Labelling for models
 
 ```{r, echo=FALSE}
-
-AnatomyResults$model <- read.table(df, sep="\t",col.names = c("model","dir","k"),stringsAsFactors = FALSE)[1]
-l <- stringr:: str_split(AnatomyResults$model, '_')
-d <- data.frame(matrix(unlist(l), nrow=length(l), byrow=T))
-#stringr::str_replace(as.character(d[,2]),"^\\(PCC|NACC)cc$"," (cc)") # , "\\(PCC|NACC)(gsr)" = "(gsr)"
-
 TableList[[1]]
 TableList[[2]]
 TableList[[3]]
