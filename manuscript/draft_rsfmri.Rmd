@@ -29,14 +29,7 @@ header-includes:
 - \linenumbers
 ---
 
-```{r "To do", include=FALSE}
-# [ ] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [ ] Swap mFD with logmFD ??
-```
-
 ```{r "load packages", include=FALSE}
-
-# load packages
 library(car) # version 3.0.9
 library(plyr) # version 1.8.6
 library(dplyr) # version 1.0.2
@@ -60,17 +53,12 @@ library(knitr) # version 1.30
 
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/glmm_stability.r')
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/diagnostic_fcns.r')
-
 ```
 
 ```{r "knit setup", include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex")
 options(knitr.kable.NA = ' ') # hide NA in tables
-# set working directory of knit (RMarkdown) to directory of Rproj
-#opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
-#setwd(knitr::opts_knit$get("root.dir"))
-
 ```
 
 \newpage
