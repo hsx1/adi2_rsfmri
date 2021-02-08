@@ -265,7 +265,7 @@ ModelList[[3]]$Hem <- LabelList[[3]]$Hem
 fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X sagittal; Y, coronal; Z, axial; cc, preprocessing with AROMA-ICA + CompCor; gsr, preprocessing with AROMA-ICA + CompCor + GSR."
 fn3 <- "To identify significant clusters, we applied a cluster size threshold with p < 0.001 determined by Wild Bootstrap of 1000 samples."
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
-title_vec <- c("BMI", "BMI-FD", "FD") 
+title_vec <- c("models 2a and 2b", "models 2c", "the post-hoc FD model") 
 
 tabnames <- c("tableBMImodel","tableBMIFDmodel","tableFDmodel")
 TableList <- list()
@@ -280,7 +280,7 @@ for (i in 1:length(ModelList)){
       booktabs = T,
       linesep = "",      # disable "\\addlinespace" at every 5th line
       label = tabnames[i],
-      caption = sprintf("Changes in functional connectivity in whole brain analysis for %s model",title_vec[i]),
+      caption = sprintf("Changes in functional connectivity in whole brain analysis in %s",title_vec[i]),
     ) %>%
     kable_styling(latex_options = c('scale_down')) %>% # "scale_down"
     #column_spec(c(11), width = "3.2cm") %>%
@@ -422,7 +422,7 @@ mk_DetailedLabelTab <- function(){
     tidyr::extract(col = "label", into = "model", regex = "([A-Z]+)")
   
   AnatomyResults$model <- AnatomyResults$model %>%
-    stringr::str_replace_all('BMIFD', 'BMI-FD')
+    stringr::str_replace_all('BMIFD', 'BMI-mFD')
   
   AnatomyResults$adjust <- AnatomyResults$adjust %>%
     stringr::str_replace_all('agesexfd', 'age, sex and mFD') %>%

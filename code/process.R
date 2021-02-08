@@ -145,7 +145,7 @@ final_FC=merge(final_FC, agg_FC_DMN, by="subj.ID_tp", all.x=TRUE)
 final_FC$subj.ID=as.factor(final_FC$subj.ID)
 final_FC$group_factor=relevel(final_FC$group_factor, ref = "KG")
 
-# alculate mean BMI over timepoints
+# calculate mean BMI over timepoints
 final_FC.meanBMI=tapply(X=final_FC$BMI,
                         INDEX=final_FC$subj.ID, FUN=mean, na.rm=TRUE)
 final_FC$mean.BMI=
@@ -188,3 +188,7 @@ saveRDS(object = fig_Rewconn, file = "../report/fig/figRewconn.rds")
 FCTableList <- mk_FCTables()
 saveRDS(object = FCTableList, file = "../report/tab/FCTableList.rds")
 
+
+# DetailedFCTables ----------------------------------------------------------------
+ToolboxOutputList <- mk_DetailedLabelTab()
+saveRDS(object = ToolboxOutputList, file = "../report/tab/DetailedFCTableList.rds")

@@ -23,8 +23,6 @@ editor_options:
 ---
 
 ```{r "load packages", include=FALSE}
-
-# load packages
 library(car) # version 3.0.9
 library(plyr) # version 1.8.6
 library(dplyr) # version 1.0.2
@@ -42,8 +40,8 @@ library(wesanderson) # colour palette
 
 library(lme4)
 
-library(sjPlot) #only works for HTML output
-library(texreg) #works for Rmarkdown
+library(sjPlot) # only works for HTML output
+library(texreg) # for works for Rmarkdown
 library(knitr) # version 1.30
 
 source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_models_course_rogermundry_2018/functions/glmm_stability.r')
@@ -61,9 +59,7 @@ options(knitr.kable.NA = ' ') # hide NA in tables
 # Methods
 ## Sample
 ```{r "tableSample", echo=FALSE}
-
 tableSample <- readRDS(file = "../report/tab/tableSample.rds")
-
 tab <-
   knitr::kable(
     tableSample,
@@ -78,7 +74,6 @@ tab
 ```{r tableDescr, include=FALSE}
 # table for descriptive statistics
 tableDescr <- readRDS(file = "../report/tab/tableDescr.rds")
-
 knitr::kable(
     tableDescr,
     row.names = FALSE,
@@ -96,12 +91,12 @@ DesignMatricesList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 
-```{r fighistograms,fig.cap="Histograms of FC-QC correlations for different preprocessing schemes)", out.width="40%", eval=FALSE}
+```{r fighistograms,fig.cap="Histograms of FC-QC correlations for different preprocessing schemes)", out.width="100%", fig.align = "center", eval=FALSE}
 tsnr <- "../report/tsnr.pdf"
 knitr::include_graphics(tsnr)
 ```
 
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="40%", eval=TRUE}
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="100%", fig.align = "center", eval=TRUE}
 tsnr <- "../report/tsnr.pdf"
 knitr::include_graphics(tsnr)
 ```
@@ -133,7 +128,27 @@ vif_res=vif(test_vif)
 
 ```{r DMN2tp results age, sex, caption="DMN connectivity compared bl to fu, adjusted for age and sex", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R0, R1),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  custom.coef.names = c(
+    "Intercept (BL, NBARS)",
+    "Timepoint FU",
+    "Group BARS",
+    "Age",
+    "Sex",
+    "Timepoint x Group"
+  ),
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 
 ### Aggregated DMN for two timepoints, adjusted for age, sex, mean FD (Model 1b)
@@ -159,7 +174,28 @@ vif_res=vif(test_vif)
 
 ```{r DMN2tp results age sex mFD, caption="DMN connectivity compared bl to fu, adjusted for age, sex and mFD", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "logmFD", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R0, R1),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  custom.coef.names = c(
+    "Intercept (BL, NBARS)",
+    "Timepoint FU",
+    "Group BARS",
+    "Age",
+    "Sex",
+    "logmFD",
+    "Timepoint x Group"
+  ),
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 
 ### Aggregated DMN for three timepoints, adjusted for age, sex, mean FD (Model 1b)
@@ -171,7 +207,31 @@ anvDMN3tp=anova(R1,R0)
 
 ```{r DMN3tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R0, R1),
+  reorder.coef = c(1, 2, 3, 4, 8, 9, 5, 6, 7),
+  custom.coef.names = c(
+    "Intercept (BL, NBARS)",
+    "Timepoint FU",
+    "Timepoint FU2",
+    "Group BARS",
+    "Age",
+    "Sex",
+    "logmFD",
+    "Timepoint FU x Group",
+    "Timepoint FU2 x Group"
+  ),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 
 ```{r DMN conn over three timepoints, echo=FALSE}
@@ -197,7 +257,27 @@ m.stab$summary
 
 ```{r Rew2tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R0,R1), custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R0, R1),
+  custom.coef.names = c(
+    "Intercept (BL, NBARS)",
+    "Timepoint FU",
+    "Group BARS",
+    "Age",
+    "Sex",
+    "Timepoint x Group"
+  ),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 
 ### Reward network for two timepoints, adjusted for age, sex, mean FD (Model 1b)
@@ -222,7 +302,29 @@ vif_res=vif(test_vif)
 
 ```{r Rew2tpadj results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 7, 4, 5, 6),custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex","logmFD","Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R0, R1),
+  reorder.coef = c(1, 2, 3, 7, 4, 5, 6),
+  custom.coef.names = c(
+    "Intercept (BL, NBARS)",
+    "Timepoint FU",
+    "Group BARS",
+    "Age",
+    "Sex",
+    "logmFD",
+    "Timepoint x Group"
+  ),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 
 ### Reward network for three timepoints, adjusted for age, sex, mean FD (Model 1b)
@@ -233,7 +335,31 @@ anvRew3tp=anova(R1,R0)
 ```
 ```{r Rew3tp results, caption="DMN connectivity compared bl to fu", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 4, 8,9,5,6,7),custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Timepoint FU2", "Group BARS", "Age", "Sex","logmFD","Timepoint FU x Group", "Timepoint FU2 x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R0, R1),
+  reorder.coef = c(1, 2, 3, 4, 8, 9, 5, 6, 7),
+  custom.coef.names = c(
+    "Intercept (BL, NBARS)",
+    "Timepoint FU",
+    "Timepoint FU2",
+    "Group BARS",
+    "Age",
+    "Sex",
+    "logmFD",
+    "Timepoint FU x Group",
+    "Timepoint FU2 x Group"
+  ),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 ```{r Rew conn over three timepoints, echo=FALSE}
 fig_Rewconn <- readRDS(file = "../report/fig/figRewconn.rds")
@@ -258,7 +384,20 @@ anvmeanBMI_adjmFD=anova(R11,R12a)
 
 ```{r DMN_BMIFD results, caption="Model 2a and 2b for aggregated DMN FC", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R1,R11), custom.coef.names=c("Intercept", "average BMI", "change BMI", "Age", "Sex","logmFD"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+texreg(
+  list(R1, R11),
+  custom.coef.names = c("Intercept", "average BMI", "change BMI", "Age", "Sex", "logmFD"),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
 ```
 #### Model 2c (adjusting for average and change in mFD)
 ```{r "DMN model mean+change of BMI+logmFD", eval = TRUE, echo = FALSE}
@@ -279,12 +418,14 @@ p_mean_BMI=anvmeanBMI$`Pr(>Chisq)`
 #tab_model(R1,R0)
 texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average mFD", "change mFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
+
 \newpage
+### Anatomical Labelling for models
+
+Find in Table \@ref(tab:firstTab) to Table \@ref(tab:lastTab) with the detailed Output of the SPM Anatomy toolbox, version 2.2c. For Clusters without any labels, the toolbox was unable to assign any grey matter area.
+
 ```{r, include = FALSE}
-
-source("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/tables.R")
-
-ToolboxOutputList <- mk_DetailedLabelTab()
+ToolboxOutputList <- readRDS(file = "../report/tab/DetailedFCTableList.rds")
 TableList_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\n in cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
 
 TableList <- list()
@@ -306,10 +447,27 @@ for (i in 1:length(ToolboxOutputList$EntryList)){
 }
 ```
 
-### Anatomical Labelling for models
+
+```{r "firstTab", echo=FALSE}
+i = 1
+TableList[[i]] <-
+    ToolboxOutputList$EntryList[[i]] %>%
+    knitr::kable(
+      escape = FALSE,     # use font spec of latex with kableExtra
+      col.names = TableList_colname,
+      row.names = FALSE,
+      format = "latex",
+      booktabs = T,
+      linesep = "",      # disable "\\addlinespace" at every 5th line
+      #label = name_model[i],
+      caption = ToolboxOutputList$CaptionList[i],
+    ) %>%
+    kableExtra::kable_styling(latex_options = c('scale_down')) #%>%
+    #kableExtra::landscape()
+TableList[[1]] 
+```
 
 ```{r, echo=FALSE}
-TableList[[1]]
 TableList[[2]]
 TableList[[3]]
 TableList[[4]]
@@ -317,5 +475,23 @@ TableList[[5]]
 TableList[[6]]
 TableList[[7]]
 TableList[[8]]
-TableList[[9]]
+```
+
+```{r "lastTab", echo=FALSE}
+i = 9
+TableList[[i]] <-
+    ToolboxOutputList$EntryList[[i]] %>%
+    knitr::kable(
+      escape = FALSE,     # use font spec of latex with kableExtra
+      col.names = TableList_colname,
+      row.names = FALSE,
+      format = "latex",
+      booktabs = T,
+      linesep = "",      # disable "\\addlinespace" at every 5th line
+      #label = name_model[i],
+      caption = ToolboxOutputList$CaptionList[i],
+    ) %>%
+    kableExtra::kable_styling(latex_options = c('scale_down')) #%>%
+    #kableExtra::landscape()
+TableList[[9]] 
 ```

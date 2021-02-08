@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.5.20)  6 FEB 2021 17:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.3.15)  8 FEB 2021 19:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -619,9 +619,7 @@ LaTeX Info: Redefining \lslig on input line 913.
 Package microtype Info: Loading configuration file microtype.cfg.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2018/01/14 v2.7a microtype main configuration file (RS)
-)) (/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty
-Package: parskip 2001/04/09 non-zero parskip adjustments
-) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+)) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
@@ -858,6 +856,8 @@ Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \bframesep=\dimen146
 \bframebox=\box33
 LaTeX Info: Redefining \\ on input line 3056.
+) (/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2011/12/19 v6.7a set line spacing
 ) (/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
@@ -990,33 +990,33 @@ Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
 ) (./draft_rsfmri.aux)
 \openout1 = `draft_rsfmri.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 93.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 93.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 85.
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 93.
-LaTeX Font Info:    ... okay on input line 93.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 93.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 85.
 (/usr/share/texmf/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 93.
+LaTeX Info: Redefining \microtypecontext on input line 85.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -1058,7 +1058,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box47
-Package hyperref Info: Link coloring OFF on input line 93.
+Package hyperref Info: Link coloring OFF on input line 85.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
@@ -1066,9 +1066,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count158
 )
-LaTeX Info: Redefining \ref on input line 93.
-LaTeX Info: Redefining \pageref on input line 93.
-LaTeX Info: Redefining \nameref on input line 93.
+LaTeX Info: Redefining \ref on input line 85.
+LaTeX Info: Redefining \pageref on input line 85.
+LaTeX Info: Redefining \nameref on input line 85.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1109,41 +1109,41 @@ Package caption Info: float package is loaded.
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for T1+lmss on input line 95.
+LaTeX Font Info:    Try loading font information for T1+lmss on input line 87.
 (/usr/share/texmf/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 95.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 87.
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 95.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 87.
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 95.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 87.
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 95.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 87.
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 95.
+(Font)              <12> on input line 87.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 95.
+(Font)              <8> on input line 87.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 95.
-LaTeX Font Info:    Try loading font information for U+msa on input line 95.
+(Font)              <6> on input line 87.
+LaTeX Font Info:    Try loading font information for U+msa on input line 87.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 95.
+LaTeX Font Info:    Try loading font information for U+msb on input line 87.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg
@@ -1155,247 +1155,253 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 4.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 4.
-)
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 \tf@toc=\write3
 \openout3 = `draft_rsfmri.toc'.
 
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
-<draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=71, 463.7325pt x 316.181
+[2] [3] [4] [5]
+<draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf, id=77, 463.7325pt x 316.181
 24pt>
 File: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf Graphic file (type pdf)
 
 <use draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf  use
-d on input line 157.
-(pdftex.def)             Requested size: 234.88004pt x 160.14548pt.
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 172.
+d on input line 147.
+(pdftex.def)             Requested size: 463.76672pt x 316.20457pt.
+[6] [7 <./draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>]
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 162.
 
 (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [5]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 185.
+)
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 175.
 
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [6 <./draft_rsfmri_files/figure-latex/figBMIdescr-1.pdf>] [7]
-<../report/carpetplotadi006fu2.jpeg, id=122, 388.36pt x 312.44pt>
+) [8] [9]
+<../report/carpetplotadi006fu2.jpeg, id=134, 388.36pt x 312.44pt>
 File: ../report/carpetplotadi006fu2.jpeg Graphic file (type jpg)
 <use ../report/carpetplotadi006fu2.jpeg>
 Package pdftex.def Info: ../report/carpetplotadi006fu2.jpeg  used on input line
- 233.
+ 223.
 (pdftex.def)             Requested size: 234.88445pt x 188.9672pt.
-<../report/carpetplotadi16fu.jpeg, id=123, 388.36pt x 312.44pt>
+<../report/carpetplotadi16fu.jpeg, id=135, 388.36pt x 312.44pt>
 File: ../report/carpetplotadi16fu.jpeg Graphic file (type jpg)
 <use ../report/carpetplotadi16fu.jpeg>
 Package pdftex.def Info: ../report/carpetplotadi16fu.jpeg  used on input line 2
-33.
+23.
 (pdftex.def)             Requested size: 234.88445pt x 188.9672pt.
 
-Overfull \hbox (6.68053pt too wide) in paragraph at lines 233--234
+Overfull \hbox (6.68053pt too wide) in paragraph at lines 223--224
  [][][][] 
  []
 
-[8 <../report/carpetplotadi006fu2.jpeg> <../report/carpetplotadi16fu.jpeg>] [9]
-[10]
-<draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=161, 463.7325pt x 316.18
+[10 <../report/carpetplotadi006fu2.jpeg> <../report/carpetplotadi16fu.jpeg>] [1
+1] [12]
+
+Package hyperref Warning: Suppressing link with empty target on input line 287.
+
+
+<draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf, id=172, 463.7325pt x 316.18
 124pt>
 File: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf Graphic file (type pdf)
 
 <use draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf  use
-d on input line 333.
+d on input line 322.
 (pdftex.def)             Requested size: 463.76672pt x 316.20457pt.
-<../report/fig/DMN_thresholded_for_clusterFWE005.pdf, id=162, 527.57097pt x 187
+<../report/fig/DMN_thresholded_for_clusterFWE005.pdf, id=173, 527.57097pt x 187
 .902pt>
 File: ../report/fig/DMN_thresholded_for_clusterFWE005.pdf Graphic file (type pd
 f)
 <use ../report/fig/DMN_thresholded_for_clusterFWE005.pdf>
 Package pdftex.def Info: ../report/fig/DMN_thresholded_for_clusterFWE005.pdf  u
-sed on input line 342.
+sed on input line 330.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/Rew_thresholded_for_clusterFWE005.pdf, id=163, 527.57097pt x 187
+<../report/fig/Rew_thresholded_for_clusterFWE005.pdf, id=174, 527.57097pt x 187
 .902pt>
 File: ../report/fig/Rew_thresholded_for_clusterFWE005.pdf Graphic file (type pd
 f)
 <use ../report/fig/Rew_thresholded_for_clusterFWE005.pdf>
 Package pdftex.def Info: ../report/fig/Rew_thresholded_for_clusterFWE005.pdf  u
-sed on input line 342.
+sed on input line 330.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 342--343
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 330--331
  [][][][] 
  []
 
-[11] [12 <./draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf> <../report/fig/D
+[13] [14 <./draft_rsfmri_files/figure-latex/figDvarsmFD-1.pdf> <../report/fig/D
 MN_thresholded_for_clusterFWE005.pdf> <../report/fig/Rew_thresholded_for_cluste
 rFWE005.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/Rew_thresholded_for_clusterFWE005.
 pdf): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<draft_rsfmri_files/figure-latex/figaggFC-1.pdf, id=250, 463.7325pt x 316.18124
+<draft_rsfmri_files/figure-latex/figaggFC-1.pdf, id=263, 463.7325pt x 316.18124
 pt>
 File: draft_rsfmri_files/figure-latex/figaggFC-1.pdf Graphic file (type pdf)
 <use draft_rsfmri_files/figure-latex/figaggFC-1.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggFC-1.pdf  used o
-n input line 375.
+n input line 362.
 (pdftex.def)             Requested size: 234.88004pt x 160.14548pt.
-<draft_rsfmri_files/figure-latex/figaggFC-2.pdf, id=251, 463.7325pt x 316.18124
+<draft_rsfmri_files/figure-latex/figaggFC-2.pdf, id=264, 463.7325pt x 316.18124
 pt>
 File: draft_rsfmri_files/figure-latex/figaggFC-2.pdf Graphic file (type pdf)
 <use draft_rsfmri_files/figure-latex/figaggFC-2.pdf>
 Package pdftex.def Info: draft_rsfmri_files/figure-latex/figaggFC-2.pdf  used o
-n input line 375.
+n input line 362.
 (pdftex.def)             Requested size: 234.88004pt x 160.14548pt.
 
-Overfull \hbox (6.6717pt too wide) in paragraph at lines 375--376
+Overfull \hbox (6.6717pt too wide) in paragraph at lines 362--363
  [][][][] 
  []
 
-[13 <./draft_rsfmri_files/figure-latex/figaggFC-1.pdf> <./draft_rsfmri_files/fi
+[15 <./draft_rsfmri_files/figure-latex/figaggFC-1.pdf> <./draft_rsfmri_files/fi
 gure-latex/figaggFC-2.pdf>]
-<../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf, id=299, 527.57097pt x 187.902p
+<../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf, id=307, 527.57097pt x 187.902p
 t>
 File: ../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
 <use ../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf  used o
-n input line 402.
+n input line 388.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf, id=300, 527.57097pt x 187.90
+<../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf, id=308, 527.57097pt x 187.90
 2pt>
 File: ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
 <use ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf  used
- on input line 402.
+ on input line 388.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 402--402
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 388--388
 [][][][] 
  []
 
-<../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf, id=304, 527.57097pt x 187.9
+<../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf, id=311, 527.57097pt x 187.90
+2pt>
+File: ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
+<use ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf>
+Package pdftex.def Info: ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf  used
+ on input line 398.
+(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
+[16 <../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf> <../report/fig/BMIagesexfd
+_PCCcc_avgBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+> <../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf
+
+pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf
+): PDF inclusion: multiple pdfs with page group included in a single page
+>]
+<../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf, id=423, 527.57097pt x 187.9
 02pt>
 File: ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf Graphic file (type pdf)
 
 <use ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf  use
-d on input line 419.
+d on input line 415.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf, id=305, 527.57097pt x 187.
+<../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf, id=424, 527.57097pt x 187.
 902pt>
 File: ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf Graphic file (type pdf
 )
 <use ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf>
 Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf  us
-ed on input line 419.
+ed on input line 415.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 419--419
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 415--415
 [][][][] 
  []
 
-<../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf, id=306, 527.57097pt x 187.902p
+<../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf, id=426, 527.57097pt x 187.902p
 t>
 File: ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
 <use ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf>
 Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf  used o
-n input line 422.
+n input line 421.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf, id=307, 527.57097pt x 187.902
+<../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf, id=427, 527.57097pt x 187.902
 pt>
 File: ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf)
 <use ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf>
 Package pdftex.def Info: ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf  used 
-on input line 422.
+on input line 421.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 422--422
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 421--421
 [][][][] 
  []
 
-<../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf, id=308, 527.57097pt x 187.90
-2pt>
-File: ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf Graphic file (type pdf)
-<use ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf>
-Package pdftex.def Info: ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf  used
- on input line 425.
-(pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-[14 <../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf> <../report/fig/BMIagesexfd
-_PCCcc_avgBMI_deact.pdf
-
-pdfTeX warning: pdflatex (file ../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf
-): PDF inclusion: multiple pdfs with page group included in a single page
-> <../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf
-
-pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pd
-f): PDF inclusion: multiple pdfs with page group included in a single page
-> <../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf
+[17 <../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf> <../report/fig/BMIFDage
+sex_NACCgsr_cngBMI_deact.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.p
 df): PDF inclusion: multiple pdfs with page group included in a single page
+> <../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf):
+ PDF inclusion: multiple pdfs with page group included in a single page
+> <../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf
+
+pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf)
+: PDF inclusion: multiple pdfs with page group included in a single page
 >]
-<../report/fig/FDagesex_NACCcc_avgFD_act.pdf, id=444, 527.57097pt x 187.902pt>
+<../report/fig/FDagesex_NACCcc_avgFD_act.pdf, id=567, 527.57097pt x 187.902pt>
 File: ../report/fig/FDagesex_NACCcc_avgFD_act.pdf Graphic file (type pdf)
 <use ../report/fig/FDagesex_NACCcc_avgFD_act.pdf>
 Package pdftex.def Info: ../report/fig/FDagesex_NACCcc_avgFD_act.pdf  used on i
-nput line 455.
+nput line 456.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
-<../report/fig/FDagesex_NACCgsr_avgFD_act.pdf, id=445, 527.57097pt x 187.902pt>
+<../report/fig/FDagesex_NACCgsr_avgFD_act.pdf, id=568, 527.57097pt x 187.902pt>
 
 File: ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf Graphic file (type pdf)
 <use ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf>
 Package pdftex.def Info: ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf  used on 
-input line 455.
+input line 456.
 (pdftex.def)             Requested size: 234.87701pt x 83.65483pt.
 
-Overfull \hbox (6.66566pt too wide) in paragraph at lines 455--455
+Overfull \hbox (6.66566pt too wide) in paragraph at lines 456--456
 [][][][] 
  []
 
-[15 <../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf> <../report/fig/BMIFDagesex
-_NACCgsr_avgFD_act.pdf
-
-pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf)
-: PDF inclusion: multiple pdfs with page group included in a single page
-> <../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf
-
-pdfTeX warning: pdflatex (file ../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf
-): PDF inclusion: multiple pdfs with page group included in a single page
->] [16 <../report/fig/FDagesex_NACCcc_avgFD_act.pdf> <../report/fig/FDagesex_NA
-CCgsr_avgFD_act.pdf
+[18 <../report/fig/FDagesex_NACCcc_avgFD_act.pdf> <../report/fig/FDagesex_NACCg
+sr_avgFD_act.pdf
 
 pdfTeX warning: pdflatex (file ../report/fig/FDagesex_NACCgsr_avgFD_act.pdf): P
 DF inclusion: multiple pdfs with page group included in a single page
->] [17]
+>] [19]
 
-LaTeX Warning: Float too large for page by 5.38551pt on input line 555.
+LaTeX Warning: Float too large for page by 5.38551pt on input line 556.
 
-[18] [19] [20
-
-
+[20] [21] [22
 
 
 
 
-] [21] [22] [23] [24] [25]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 850.
-[26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 850.
+
+
+] [23] [24] [25] [26] [27] [28] [29]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 870.
+[30]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 870.
 (./draft_rsfmri.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 850.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 850.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 850.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 870.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 870.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 870.
  ) 
 Here is how much of TeX's memory you used:
- 16770 strings out of 494847
- 248531 string characters out of 6179080
- 377763 words of memory out of 5000000
- 19422 multiletter control sequences out of 15000+600000
- 74870 words of font info for 146 fonts, out of 8000000 for 9000
+ 16817 strings out of 494847
+ 249338 string characters out of 6179080
+ 379431 words of memory out of 5000000
+ 19446 multiletter control sequences out of 15000+600000
+ 74831 words of font info for 146 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 44i,14n,51p,1845b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,14n,51p,1826b,458s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
 ips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/shar
 e/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ma
@@ -1407,10 +1413,10 @@ r/share/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/publ
 ic/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/t
 exmf/fonts/type1/public/lm/lmss8.pfb></usr/share/texmf/fonts/type1/public/lm/lm
 sy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb>
-Output written on draft_rsfmri.pdf (26 pages, 1074327 bytes).
+Output written on draft_rsfmri.pdf (30 pages, 1083775 bytes).
 PDF statistics:
- 958 PDF objects out of 1000 (max. 8388607)
- 705 compressed objects within 8 object streams
- 213 named destinations out of 1000 (max. 500000)
+ 1014 PDF objects out of 1200 (max. 8388607)
+ 757 compressed objects within 8 object streams
+ 235 named destinations out of 1000 (max. 500000)
  14574 words of extra memory for PDF output out of 17280 (max. 10000000)
 
