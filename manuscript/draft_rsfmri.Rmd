@@ -134,7 +134,7 @@ Participants were recruited from the Center for Bariatric and Metabolic Surgery.
 Participants were aged between $18$ and $70$ and had no history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (MMSE score $< 34$).
 In total, $51$ participants out of the originally enrolled $69$ subjects received MRI, and we analyzed a total of $101$ data points. Five data points of three subjects had to be excluded due to bad anatomical image quality (see section [Anatomical Quality control]).
 <!-- DESCRIPTIVE STATISTICS -->
-The final sample entailed `r nrow(subj_df)` morbidly obese individuals (`r nrow(filter(subj_df,Sex == "f"))` females; aged `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`). Participants either underwent surgery (n = `r cs["Sum","IG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female), who waited for their health insurance's approval to undergo surgery. Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery or after the baseline appointment. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data available. In more detail, `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for only one time point. In the intervention group, data is not missing completely at random, as the pre-surgery timepoint MRI could not be obtained in some patients due to the limited scanner bore.
+The final sample entailed `r nrow(subj_df)` morbidly obese individuals (`r nrow(filter(subj_df,Sex == "f"))` females; aged `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`). Participants either underwent surgery (n = `r cs["Sum","IG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female), who waited for their health insurance's approval to undergo surgery. Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery or after the baseline appointment. Analyses were performed on all participants that provided at least one data point of fMRI data (detailed information on data available. In more detail, `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for only one time point. In the intervention group, data is not missing completely at random, as the pre-surgery time point MRI could not be obtained in some patients due to the limited scanner bore.
 ```{r tableBaselineCharacteristics, include=FALSE}
 #dfBL <- create_sample_df(group = "all", tp = "BL")
 dfBL <- readRDS(file = "../report/dfBL.rds")
@@ -246,7 +246,7 @@ We evaluated mFD-FC relationships by computing a functional connectome based on 
 Further, we evaluated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation and report mean, median and standard deviations of mFD, DVARS and number of outliers over all participants.
 
 ### Aggregated FC values
-To extract aggregated FC values, we first calculated the mean DMN and reward network over all participants and timepoints, adjusted for age and sex. We used GSR regressed data as input and clusterwise bootstrapping with $N = 1000$. Network masks were formed from all voxels within clusters which survived a clusterwise multiple comparison correction of FWE-corrected $p < 0.05$. We extracted the average connectivity from these masks for GSR regressed data.
+To extract aggregated FC values, we first calculated the mean DMN and reward network over all participants and NAccs, adjusted for age and sex. We used GSR regressed data as input and clusterwise bootstrapping with $N = 1000$. Network masks were formed from all voxels within clusters which survived a clusterwise multiple comparison correction of FWE-corrected $p < 0.05$. We extracted the average connectivity from these masks for GSR regressed data.
 *In the preregistration we wrote: "We will use the average of connectivity values within masks of the respective networks as aggregate network connectivity measure. The mask will include all voxels surviving FWE-correction of .05 in a one-sample t-test of the individual connectivity maps across all participants and time points, calculated with the modified SwE option in the SwE toolbox"*
 
 ## Analysis
@@ -328,7 +328,7 @@ lay <- rbind(c(1,1,2,2),
              c(NA,3,3,NA))
 gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
 ```
-```{r figNetworks, echo=FALSE, out.width="50%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all timepoints and participants with bootstrapped clusterwise inference (FWE-corrected $p < 0.05$)", fig.subcap = c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
+```{r figNetworks, echo=FALSE, out.width="50%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all NAccs and participants with bootstrapped clusterwise inference (FWE-corrected $p < 0.05$)", fig.subcap = c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
 
 networks = c("../report/fig/DMN_thresholded_for_clusterFWE005.pdf",
              "../report/fig/Rew_thresholded_for_clusterFWE005.pdf")
@@ -390,7 +390,7 @@ qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 ```
 
 ```{r "calc DMN two tp age and sex" ,results = 'asis', echo = FALSE}
-#### Aggregated DMN for two timepoints, adjusted for age and sex (Model 1a)
+#### Aggregated DMN for two NAccs, adjusted for age and sex (Model 1a)
 
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -416,7 +416,7 @@ texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom
 
 ```
 ```{r "calc DMN two tp, age and sex and logmFD", results = 'asis', echo = FALSE}
-#### Aggregated DMN for two timepoints, adjusted for age, sex, mean FD (Model 1b)
+#### Aggregated DMN for two NAccs, adjusted for age, sex, mean FD (Model 1b)
 
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -439,7 +439,7 @@ vif_res=vif(test_vif)
 texreg(list(R0,R1), custom.model.names = c("R0", "R1"), float.pos = "h",  custom.coef.names=c("Intercept (BL, NBARS)", "Timepoint FU", "Group BARS", "Age", "Sex", "logmFD", "Timepoint x Group"),  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 ```{r "calc DMN three tp", eval = TRUE, echo = FALSE}
-#### Aggregated DMN for three timepoints, adjusted for age, sex, mean FD (Model 1b)
+#### Aggregated DMN for three NAccs, adjusted for age, sex, mean FD (Model 1b)
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
 anvDMN3tp=anova(R1,R0)
@@ -470,7 +470,7 @@ m.stab$summary
 texreg(list(R0,R1), custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex", "Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 ```{r "calc rew two tp adjusted", eval = TRUE, echo = FALSE}
-#### Reward network for two timepoints, adjusted for age, sex, mean FD (Model 1b)
+#### Reward network for two NAccs, adjusted for age, sex, mean FD (Model 1b)
 
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -493,7 +493,7 @@ vif_res=vif(test_vif)
 texreg(list(R0,R1), reorder.coef=c(1, 2, 3, 7, 4, 5, 6),custom.coef.names=c("Intercept (BL, NBARS)","Timepoint FU", "Group BARS", "Age", "Sex","logmFD","Timepoint x Group"), custom.model.names = c("R0", "R1"), float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
 ```{r "calc rew three tp", eval = TRUE, echo = FALSE}
-#### Reward network for three timepoints, adjusted for age, sex, mean FD (Model 1b)
+#### Reward network for three NAccs, adjusted for age, sex, mean FD (Model 1b)
 
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + logmFD +(1|subj.ID), data=final_FC)
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +logmFD +(1|subj.ID), data=final_FC)
@@ -646,7 +646,7 @@ To our surprise, the effect of weight loss on the connectivity of the NAcc with 
 Head motion also played a role in the association of higher BMI and reduced DMN connectivity. While this result was no longer significant on a whole-brain level when using stringent denoising, aggregated within-DMN connectivity was negatively associated with BMI in both denoising schemes. Thereby, this results echos a previous finding from our group, and may be interpreted as accelerated age-related decline of the DMN  in relation to the cardiometabolic risk factor BMI. Yet, midline regions are prone to motion artifacts and doubts regarding the complete removal of motion confounding also remain in this study [@Savalia_2017].
 
 The major strength of our study is prospective intervention controlled design. We compared BS patients to an obese control group who did not differ in baseline BMI, comorbidities (?), treatment history and  treatment recommendation and were scanned after the same time intervals [@Thiese_2014]. Another strength of our study was the preregistered analysis plan, which was corrected after we realized some major flaws in the first version. In particular, we fixed the number of preprocessing schemes and models and determined that we would use SwE toolbox, a recommended statistical toolbox to deal with longitudinal repeated measures [@Guillaume_2014].  Opposed to the flexible factorial models which is the standard in SPM, marginal models are parsimonious and preserve the degrees of freedom, allowing for the inclusion of covariates and higher power.
-Limitations of our study include the low number of patients who participated in all three time points. In total, only $34$ participants contributed to the estimation of the longitudinal effects with at least two time points. Furthermore, patients in the intervention group were not missing at random over time points, as often, before surgery, they did not fit into the MRI. While this sample size is comparable to previous resting state fMRI studies in bariatric surgery, it seems unlikely that our power was high enough to detect small effect sizes.
+Limitations of our study include the low number of patients who participated in all three time points. In total, only $34$ participants contributed to the estimation of the longitudinal effects with at least two time points. Furthermore, patients in the intervention group were not missing at random over time points, as often, before surgery, they did not fit into the MRI scanner. While this sample size is comparable to previous resting state fMRI studies in bariatric surgery, it seems unlikely that our power was high enough to detect small effect sizes.
 
 We used seed-based connectivity to derive large-scale brain networks. While this approach yielded reasonable DMN and reward network maps, it is a univariate approach not taking into account the interrelatedness of subnetworks and assuming that the connectivity of a central hub reflects the connectivity of the network as a whole. Furthermore, we did not explicitly investigate the connectivity of the DMN and reward network with other large-scale brain networks attention, e.g. cognitive control or sensorimotor networks, which has been previously proposed to be altered by obesity and bariatric surgery [@Lips_2014; @Olivo_2016; @Cerit_2019].
 
