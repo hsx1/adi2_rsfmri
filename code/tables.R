@@ -358,17 +358,20 @@ mk_DetailedLabelTab <- function(){
     txt_cols <- c("VoxelCount","equals","PercClusterVolumeAssignedTo","in","Hem","Region","PercentOfArea","V8","V9","V10","V11","V12","V13")
     txt <- read.table(trimws(file),sep="\t",fill=TRUE,col.names=txt_cols) # paste0("V", 1:13)
     
-    
-    
     txt <- txt[sort(c(which(grepl("Cluster", txt$VoxelCount)),which(grepl("voxel", txt$equals)))),]
     txt <- txt[,c("VoxelCount","PercClusterVolumeAssignedTo", "Hem","Region","PercentOfArea")]
     
     idxClusterStart <- which(grepl("Cluster", txt$VoxelCount))
     
-    #txt$VoxelCount <- as.character(txt$VoxelCount)
     txt <- cbind(descr = NA, txt)
     txt$descr[idxClusterStart] <- stringr::str_remove(string = as.character(txt$VoxelCount[idxClusterStart]), pattern = "\\:[^:]*$")
+    txt$descr <- stringr::str_replace_all(txt$descr,'vox', 'voxel')
     txt$VoxelCount[idxClusterStart] <- NA
+    
+    txt$VoxelCount <- as.numeric(as.character(txt$VoxelCount))
+    txt$PercClusterVolumeAssignedTo <- as.numeric(as.character(txt$PercClusterVolumeAssignedTo))
+    txt$Region <- as.character(txt$Region)
+    txt$Region[(txt$Region == "" & is.na(txt$descr))] = "assigned in total" # "cluster volume assigned in total"
     
     # attach model with  cluster list to list of models
     name_model <- AnatomyResults$label[r]
@@ -411,22 +414,22 @@ mk_DetailedLabelTab <- function(){
     stringr::str_replace_all('avg', 'average ') %>%
     stringr::str_replace_all('FD', 'mFD')
   
-  AnatomyResults <-
-    tidyr::extract(
-      data = AnatomyResults,
-      col = "label",
-      into = "adjust",
-      regex = "([a-z]+)",
-      remove = FALSE
-    ) %>%
-    tidyr::extract(col = "label", into = "model", regex = "([A-Z]+)")
-  
-  AnatomyResults$model <- AnatomyResults$model %>%
-    stringr::str_replace_all('BMIFD', 'BMI-mFD')
-  
-  AnatomyResults$adjust <- AnatomyResults$adjust %>%
-    stringr::str_replace_all('agesexfd', 'age, sex and mFD') %>%
-    stringr::str_replace_all('agesex', 'age and sex')
+  # AnatomyResults <- 
+  #   tidyr::extract(data = AnatomyResults,
+  #                  col = "label", into = "adjust", regex = "([a-z]+)", remove = FALSE) %>%
+  #   tidyr::extract(col = "label", into = "model", regex = "([A-Z]+)")
+  # 
+  # AnatomyResults$model <- AnatomyResults$model %>%
+  #   stringr::str_replace_all('BMIFD', 'BMI-mFD')
+  # 
+  # AnatomyResults$adjust <- AnatomyResults$adjust %>%
+  #   stringr::str_replace_all('agesexfd', 'age, sex and mFD') %>%
+  #   stringr::str_replace_all('agesex', 'age and sex')
+  AnatomyResults$label <- AnatomyResults$label %>%
+    stringr::str_replace_all('BMIagesexfd', 'model 2b') %>%
+    stringr::str_replace_all('BMIagesex', 'model 2a') %>%
+    stringr::str_replace_all('BMIFDagesex', 'model 2c') %>%
+    stringr::str_replace_all('FDagesex', 'the FD model') 
   
   AnatomyResults$roi <- AnatomyResults$roi %>%
     stringr::str_replace_all('NACC', 'NAcc')
@@ -440,11 +443,11 @@ mk_DetailedLabelTab <- function(){
       association,
       "association with",
       variable,
-      "adjusted for",
-      adjust,
-      "in the",
-      model,
-      "model on",
+      # "adjusted for",
+      # adjust,
+      "in", #"in the",
+      label,
+      "on", #"model on",
       denoising,
       "preprocessed data."
     )
@@ -452,7 +455,7 @@ mk_DetailedLabelTab <- function(){
   
   # knitr tables ------------------------------------------------------------
   
-  txt_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\n in cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
+  txt_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\nin cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
   
   ToolboxOutputList <- list(EntryList, CaptionList)
   names(ToolboxOutputList) <- c("EntryList", "CaptionList")

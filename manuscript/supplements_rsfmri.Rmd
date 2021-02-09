@@ -52,6 +52,7 @@ source('/data/gh_gr_agingandobesity_share/literature/methods/statistics/linear_m
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE) # fig.height=2, fig.width=4)
 options(knitr.table.format = "latex")
 options(knitr.kable.NA = ' ') # hide NA in tables
+knitr::opts_chunk$set(fig.pos = "!ht", out.extra = "")
 # set working directory of knit (RMarkdown) to directory of Rproj
 ```
 \newpage
@@ -422,11 +423,12 @@ texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "
 \newpage
 ### Anatomical Labelling for models
 
-Find in Table \@ref(tab:firstTab) to Table \@ref(tab:lastTab) with the detailed Output of the SPM Anatomy toolbox, version 2.2c. For Clusters without any labels, the toolbox was unable to assign any grey matter area.
+Find in the detailed Output of the SPM Anatomy toolbox, version 2.2c. For Clusters without any labels, the toolbox was unable to assign any grey matter area. Models evaluated were model 2a estimating the effects of average BMI and change in BMI, adjusting for age and sex (Table \@ref(tab:Tab2a)), then model 2b where we additionally adjusted for logmFD (Table \@ref(tab:Tab2b)), and model 2c estimating the effects of average BMI and BMI variability as well as average logmFD and change in logmFD, adjusting for age and sex (Table \@ref(tab:Tab2cfirst) to Table \@ref(tab:Tab2clast)). Last, the FD model estimating the unique effects of average logmFD and change in logmFD when adjusting for age and sex was evaluated (Table \@ref(tab:TabFDfirst) and Table \@ref(tab:TabFDlast)).
+
 
 ```{r, include = FALSE}
 ToolboxOutputList <- readRDS(file = "../report/tab/DetailedFCTableList.rds")
-TableList_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\n in cluster","\\% of cluster volume\nassigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
+TableList_colname <- kableExtra::linebreak(c("Cluster","Number of voxels\nin cluster","\\% of cluster\nvolume assigned", "Hemisphere","Area","\\% of area overlap\nwith cluster"))
 
 TableList <- list()
 for (i in 1:length(ToolboxOutputList$EntryList)){
@@ -442,56 +444,103 @@ for (i in 1:length(ToolboxOutputList$EntryList)){
       #label = name_model[i],
       caption = ToolboxOutputList$CaptionList[i],
     ) %>%
-    kableExtra::kable_styling(latex_options = c('scale_down')) #%>%
-    #kableExtra::landscape()
+    kableExtra::kable_styling(latex_options = c('scale_down'))
 }
 ```
 
+```{r Tab2a, echo=FALSE}
+i = 2
+ToolboxOutputList$EntryList[[i]] %>%
+  knitr::kable(
+    escape = FALSE,
+    col.names = TableList_colname,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = ToolboxOutputList$CaptionList[i],
+  ) %>%
+  kableExtra::kable_styling(latex_options = c('scale_down')) 
+```
 
-```{r "firstTab", echo=FALSE}
+```{r "Tab2b", echo=FALSE}
 i = 1
-TableList[[i]] <-
-    ToolboxOutputList$EntryList[[i]] %>%
-    knitr::kable(
-      escape = FALSE,     # use font spec of latex with kableExtra
-      col.names = TableList_colname,
-      row.names = FALSE,
-      format = "latex",
-      booktabs = T,
-      linesep = "",      # disable "\\addlinespace" at every 5th line
-      #label = name_model[i],
-      caption = ToolboxOutputList$CaptionList[i],
-    ) %>%
-    kableExtra::kable_styling(latex_options = c('scale_down')) #%>%
-    #kableExtra::landscape()
-TableList[[1]] 
+ToolboxOutputList$EntryList[[i]] %>%
+  knitr::kable(
+    escape = FALSE,
+    col.names = TableList_colname,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = ToolboxOutputList$CaptionList[i],
+  ) %>%
+  kableExtra::kable_styling(latex_options = c('scale_down')) 
+```
+
+```{r "Tab2cfirst", echo=FALSE}
+i = 3
+ToolboxOutputList$EntryList[[i]] %>%
+  knitr::kable(
+    escape = FALSE,
+    col.names = TableList_colname,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = ToolboxOutputList$CaptionList[i],
+  ) %>%
+  kableExtra::kable_styling(latex_options = c('scale_down')) 
 ```
 
 ```{r, echo=FALSE}
-TableList[[2]]
-TableList[[3]]
 TableList[[4]]
 TableList[[5]]
 TableList[[6]]
-TableList[[7]]
-TableList[[8]]
 ```
 
-```{r "lastTab", echo=FALSE}
-i = 9
-TableList[[i]] <-
-    ToolboxOutputList$EntryList[[i]] %>%
-    knitr::kable(
-      escape = FALSE,     # use font spec of latex with kableExtra
-      col.names = TableList_colname,
-      row.names = FALSE,
-      format = "latex",
-      booktabs = T,
-      linesep = "",      # disable "\\addlinespace" at every 5th line
-      #label = name_model[i],
-      caption = ToolboxOutputList$CaptionList[i],
-    ) %>%
-    kableExtra::kable_styling(latex_options = c('scale_down')) #%>%
-    #kableExtra::landscape()
-TableList[[9]] 
+```{r "Tab2clast", echo=FALSE}
+i = 7
+ToolboxOutputList$EntryList[[i]] %>%
+  knitr::kable(
+    escape = FALSE,
+    col.names = TableList_colname,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = ToolboxOutputList$CaptionList[i],
+  ) %>%
+  kableExtra::kable_styling(latex_options = c('scale_down')) 
+```
+
+```{r "TabFDfirst", echo=FALSE}
+i = 8
+ToolboxOutputList$EntryList[[i]] %>%
+  knitr::kable(
+    escape = FALSE,
+    col.names = TableList_colname,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = ToolboxOutputList$CaptionList[i],
+  ) %>%
+  kableExtra::kable_styling(latex_options = c('scale_down')) 
+```
+
+```{r "TabFDlast", echo=FALSE}
+i = 8
+ToolboxOutputList$EntryList[[i]] %>%
+  knitr::kable(
+    escape = FALSE,
+    col.names = TableList_colname,
+    row.names = FALSE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = ToolboxOutputList$CaptionList[i],
+  ) %>%
+  kableExtra::kable_styling(latex_options = c('scale_down'))
+    
 ```
