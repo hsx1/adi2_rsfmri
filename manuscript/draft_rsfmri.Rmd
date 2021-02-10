@@ -127,7 +127,7 @@ dfw <- tidyr::pivot_wider(data = final,
 
 ## Sample and study design
 
-<!-- STUDY DESIGN --> The ADIPOSITAS-Study investigated the effects of bariatric surgery on brain structure and function in a prospective design at the Charité Berlin. For more details see @Prehn_2020. We used all data acquired until April 2019.  
+<!-- STUDY DESIGN --> The ADIPOSITAS-Study investigated the effects of bariatric surgery on brain structure and function in a prospective design at the Charité Berlin. For more details see Prehn et al. -@Prehn_2020. We used all data acquired until April 2019.  
 The study protocol was in accordance with the Helsinki Declaration and approved by the local ethics committee. The study was registered at clinicaltrials.gov as NCT01554228. We preregistered the present resting state analyses on the [OSF](https://osf.io/yp42s). We made [additional changes](https://osf.io/59bh7/) to the preregistration after preprocessing as we realized some aspects of the analysis were inadequately described in the first preregistration.   
 <!-- RECRUITEMENT, INCLUSION/EXCLUSION CRITERIA -->
 Participants were recruited from the Center for Bariatric and Metabolic Surgery. Inclusion criteria were, in accordance with BARS guidelines, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease)[@Mechanick_2013].
@@ -173,17 +173,14 @@ p <- ggplot(data = dfBL, aes(x = condition, fill = Sex)) +
 tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
 <!-- BASELINE CHARACTERISTICS -->
-Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and mean framewise displacement (FD), and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). Change in BMI throughout the study is depicted in \@ref(fig:figBMIdescr).
-<!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
+Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and mean framewise displacement (FD), and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). Change in BMI throughout the study is depicted in Figure \@ref(fig:figBMIdescr).
+<!-- SURGICAL PROCEDURE --> As intervention, $?$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $?$ surgery purely restricting energy intake (VSG: n = $?$, GB: n = $?$).
 
-<!-- STUDY PROCEDURE --> Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for <!-- standadized??  -->breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
+<!-- STUDY PROCEDURE --> Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one our break for <!-- standadized??  -->breakfast. MRI scanning was done after further psychological tests (for details see Prehn et al. -@Prehn_2020).
 ```{r figBMIdescr, fig.align='center', out.width="100%", fig.cap="Trajectoriy of BMI separately for the bariatric surgery group (BARS) and the waiting-list control group (NBARS); individual trajectories are plotted in transparent, mean trajectories including standard deviations in opaque colors.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
 readRDS(file = "../report/fig/fig_BMIdescr.rds")
 ```
-<!-- BASELINE CHARACTERISTICS --> Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and mean FD, and only slightly in distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). Change in BMI throughout the study is depicted in \@ref(fig:figBMIdescr).
-<!-- SURGICAL PROCEDURE --> As intervention, $0$ participants received surgery that combines restrictive and malabsorptive mechanisms (RYGB) and $0$ surgery purely restricting energy intake (VSG: n = $0$, GB: n = $0$).
-<!-- STUDY PROCEDURE --> Subjects arrived in the morning (between 07:00 and 12:00) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropocentric measurements before having a one our break for <!-- standadized??  -->breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020).
 
 
 ## fMRI acquisition
@@ -257,7 +254,7 @@ Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MA
 
 <!-- MODEL SETUP --> In a first group of models, we tested the interaction of time and group $FC = group + time + group*time$ as specified in the preregistration. (*We will use the SwE toolbox (implemented in SPM 12.7486 run in MATLAB version > 9.0) to calculate the group-by-timepoint interaction*)
 
-We did not perform the analysis as preregistered (i.e. without covariates and additional sensitivity analyses), but adjusted for baseline age and sex (Model 1a), and baseline age, sex and the logarithm of mean FD (logmFD) (Model 1b).
+We did not perform the analysis as preregistered (i.e. without covariates and additional sensitivity analyses), but adjusted for baseline age and sex (Model 1a), and baseline age, sex and the logarithm of mean FD (called logmFD in the following) (Model 1b).
 <!-- DESIGN MATRIX -->In this first model, time was represented as factor because we did not consider the effect of time to be strictly linear, and thus continuous modeling of time, inappropriate. The resulting factorial design contained one regressor for each time point per group.
 
 We did not adjust for baseline BMI as described in the preregistration, but explored the relationship of average and change in BMI in a separate group of models.
@@ -266,7 +263,7 @@ As we previously reported correlated change in BMI and mFD in this sample [@Beye
 For a better understanding of the unique contribution of average and longitudinal change FD measures, we separately employed a third post-hoc, exploratory model, solely including the head motion measures as covariates of interest: $FC = between-subject FD + within-subject FD$ with nuisance covariates age and sex.
 
 ### Model input and brain mask
-For each brain network, we examined the models for the two preprocessing pipelines (AROMA+CC / AROMA+CC with GSR), resulting in $8$ preregistered analyses, and $16$ <!-- bmi change (2 models), bmi + mfd change, fd change=4 * 2* 2 --> exploratory whole brain analysis.
+For each brain network, we examined the models for the two preprocessing pipelines (AROMA+CC / AROMA+CC+GSR), resulting in $8$ preregistered analyses, and $16$ <!-- bmi change (2 models), bmi + mfd change, fd change=4 * 2* 2 --> exploratory whole brain analysis.
 For all analyses, we used an explicit mask, which was a whole brain derived from the MNI ICBM "152 nonlinear 6th generation" atlas (re-sampled to 3 x 3 x 3 mm$^3$ and thresholded at 0.5 GM probability).<!--  This resulted in a number of tests (voxels of interest) from $52378$. MNI ICBM 2009a Nonlinear Symmetric grey matter mask ([http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009](http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009)) were re-sampled to 3 x 3 x 3 mm$^3$ and binarized at threshold $0.5$. -->
 
 ### SwE settings
@@ -276,7 +273,7 @@ For all analyses, we used an explicit mask, which was a whole brain derived from
 <!-- INFERENCE --> To ensure robustness of our results, we computed estimates with non-parametric test using wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference.
 Type C2 for small sample bias adjustment is applied before the bootstrap resampling as recommended in the SwE manual.
 In contrast to the parametric estimation, wild bootstrap avoids any parametric distributional assumptions (e.g. random field theory), and unlike permutation testing it is also suitable <!-- permutations don't work with multilevel data (dependencies)--> for longitudinal data.
-Opposed to the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more rigorous multiple comparison adjustment (instead of $p < 0.01)$, and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$. The anatomical localization of significant clusters was investigated with the SPM Anatomy toolbox, version 2.2c [@Eickhoff_2005].<!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p < 0.01). Significant clusters are defined as family-wise error - corrected p < 0.05. -->
+Opposed to the description in the preregistration, we used a cluster forming threshold of $p < 0.001$ for a more rigorous multiple comparison adjustment (instead of $p < 0.01)$, and $1000$ bootstraps due to required computation time (instead of 5000). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$. The anatomical localization of significant clusters was investigated with the SPM Anatomy toolbox, version 2.2c [@Eickhoff_2005] and the Harvard-Oxford Atlas in FSL version 5.0.11.<!-- Prereg: We will use Type 3 small samples bias adjustment and “Approx” option for estimating the degrees of freedom. We will use the Non-Parametric Wild Bootstrap approach with default parameters, 5000 bootstraps and clusterwise inference (cluster forming threshold of p < 0.01). Significant clusters are defined as family-wise error - corrected p < 0.05. -->
 
 ### Aggregated FC analysis
 <!-- R analysis of aggregated values -->
@@ -284,10 +281,10 @@ We analyzed the aggregate connectivity values using linear mixed models in the R
 Following the preregistration, we first investigated the time-by-group interaction between baseline and follow-up. In order to conform with our whole-brain analyses, we adjusted for baseline age, sex (and logmFD) in two separate models, instead of performing *sensitivity analysis adjusting for baseline age, sex, average of mean FD of both time points and baseline BMI* (as stated in the preregistration).
 We performed model comparison between R1 and R0 models, where `R1 = lmer(aggFC ~ timepoint*group + age + sex + (1|subj))`, and `R0 = lmer(aggFC ~ timepoint + group +  age + sex + (1|subj))`, and the time-by-group point interaction was considered significant if the model comparison between R1 and Null models using the `anova` command showed $p < 0.05$.
 As specified in the preregistration, we repeated the above-mentioned interaction analysis for all three time points. Again, the interaction was considered significant if a model comparison between R1 and R0 yielded $p < 0.05$.
-Further, we performed an exploratory analysis with average BMI and variability in BMI for the aggregated FC, in line with our whole brain analysis, and also included average mFD and change in mFD.
+Further, we performed an exploratory analysis with average BMI and variability in BMI for the aggregated FC, in line with our whole brain analysis, and also included average logmFD and change in logmFD.
 
 ### Functional decoding
-In an exploratory analysis, we compared the resulting contrast maps with whole-brain activation maps from the [NeuroSynth](https://www.neurosynth.org/) database [@Yarkoni_2011]. We uploaded the contrast images for change BMI and average mFD on [Neurovault](), and applied the decoding classifier. This classifier estimates the similarity of meta-analytic activation maps of +500 search terms with our our contrast maps. We reported the three top terms for both contrasts.
+In an exploratory analysis, we compared the resulting contrast maps with whole-brain activation maps from the [NeuroSynth](https://www.neurosynth.org/) database [@Yarkoni_2011]. We uploaded the contrast images for change BMI and average logmFD on [Neurovault](), and applied the decoding classifier. This classifier estimates the similarity of meta-analytic activation maps of +500 search terms with our our contrast maps. We reported the three top terms for both contrasts.
 
 # Results
 
@@ -328,7 +325,7 @@ lay <- rbind(c(1,1,2,2),
              c(NA,3,3,NA))
 gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
 ```
-```{r figNetworks, echo=FALSE, out.width="50%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all NAccs and participants with bootstrapped clusterwise inference (FWE-corrected $p < 0.05$)", fig.subcap = c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
+```{r figNetworks, echo=FALSE, out.width="50%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all time points and participants with bootstrapped clusterwise inference (FWE-corrected $p < 0.05$)", fig.subcap = c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
 
 networks = c("../report/fig/DMN_thresholded_for_clusterFWE005.pdf",
              "../report/fig/Rew_thresholded_for_clusterFWE005.pdf")
@@ -336,7 +333,7 @@ knitr::include_graphics(networks)
 ```
 
 Figure \@ref(fig:figNetworks) shows the DMN and reward network average maps which we used for extracting aggregated FC values. Both networks included the typically described brain regions (i.e. medial prefrontal cortex, parietal lobules and posterior hippocampus for the DMN, and anterior cingulate, right amygdala and ventromedial-prefrontal cortex for the reward network).
-Yet, the reward network was less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see Figure \@ref(fig:figNetworks)).
+Yet, the reward network was less pronounced (overall lower T-values) and symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see supplements).
 
 
 
@@ -348,8 +345,8 @@ Yet, the reward network was less pronounced (overall lower T-values) and symmetr
 
 Against our initial hypothesis, there was no interaction effect of group and time point for FC for neither the PCC nor the NAcc seeds. There also was no significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE-correction.
 
-####  Model 1b (adjusted for age, sex and mFD)
-Similarly, there were no significant clusters when including mFD. Results did not differ between AROMA+CC and AROMA+CC+GSR preprocessing pipelines.
+####  Model 1b (adjusted for age, sex and logmFD)
+Similarly, there were no significant clusters when including logmFD. Results did not differ between AROMA+CC and AROMA+CC+GSR preprocessing pipelines.
 <!-- Neurovault -->Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) as well as contrasts of group, time and group-by-time interaction are uploaded on [NeuroVault](https://neurovault.org/collections/9426/)).
 
 ## Interaction effect group by time on aggregated FC
@@ -357,13 +354,13 @@ Similarly, there were no significant clusters when including mFD. Results did no
 final_FC <- read.csv("../report/final_FC.csv")
 ```
 
-```{r figaggFC, fig.cap="Mean network connectivity per group over time separately gor the bariatric surgery group (BARS) and the waiting-list control group (NBARS); individual trajectories are plotted in transparent, mean trajectories including standard deviations in opaque colors.", fig.subcap = c("for the DMN", "for the Reward network"), fig.hold=TRUE, out.width = "50%", fig.align="center", echo = FALSE}
+```{r figaggFC, fig.cap="Mean network connectivity per group over time separately for the bariatric surgery group (BARS) and the waiting-list control group (NBARS); individual trajectories are plotted in transparent, mean trajectories including standard deviations in opaque colors.", fig.subcap = c("for the DMN", "for the Reward network"), fig.hold=TRUE, out.width = "50%", fig.align="center", echo = FALSE}
 fig_DMNconn<-readRDS(file = "../report/fig/figDMNconn.rds")
 fig_Rewconn<-readRDS(file = "../report/fig/figRewconn.rds")
    fig_DMNconn
 fig_Rewconn
 ```
-There was no significant group-by-time interaction for aggregated DMN and reward network FC (see Figure \@ref(fig:figaggFC) and supplements for a detailed summary of the models), regardless whether we adjusted for mFD.
+There was no significant group-by-time interaction for aggregated DMN and reward network FC (see Figure \@ref(fig:figaggFC) and supplements for a detailed summary of the models), regardless whether we adjusted for logmFD. Thus, we did not repeat the analysis without the 10% of highest motion subjects, as preregistered.
 
 ```{r identify outliers in these plots, eval=FALSE}
 ### SUMMARY: all in all there is no reason to exclude the subjects with outlying values in mean Rew/DMN connectivity
@@ -513,14 +510,14 @@ Next, we tested for significant effects of the average BMI and the individual ch
 
 #### DMN
 
-##### Model 2a and 2b (average and change in BMI, adjusted for mFD)
+##### Model 2a and 2b (average and change in BMI, adjusted for logmFD)
 Using the images preprocessed with AROMA+CC, we found a significant negative association of average BMI and DMN connectivity in the lingual gyrus, mid orbital gyrus and temporal gyrus, which remained stable after including logmFD as nuisance covariate (FWE-cluster p < 0.05, see Figure \@ref(fig:BMIagesexPCCccavgBMIdeact)). When using GSR preprocessed data, none of the clusters was significantly associated with average BMI. Results with significant cluster activation are shown in Table \@ref(tab:tableBMImodel).
 ```{r "BMIagesexPCCccavgBMIdeact",fig.cap="Negative association of average BMI and FC with PCC/precuneus in AROMA+CC preprocessed data", fig.subcap = c("adjusted for age and sex", "adjusted for age, sex and logmFD"), fig.hold=TRUE, out.width = "50%"}
 knitr::include_graphics(c("../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf", "../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf"))
 ```
 
-##### Model 2c (average and change in BMI and split mFD)
-To disentangle effects of change in BMI and mFD in this dataset, we split mFD into average mFD and change in mFD. Age and sex were kept as nuisance covariates.
+##### Model 2c (average and change in BMI and split logmFD)
+To disentangle effects of change in BMI and logmFD in this dataset, we split logmFD into average logmFD and change in logmFD. Age and sex were kept as nuisance covariates.
 <!-- cc --> Average BMI remained significantly negatively associated with the three clusters above when splitting logmFD into its components (Figure \@ref(fig:BMIFDagesexPCCccavgBMIdeact2)). <!-- gsr -->As before, the effect did not survive when using GSR-corrected data (see Table \@ref(tab:tableBMIFDmodel).
 ```{r "BMIFDagesexPCCccavgBMIdeact2", fig.cap="Negative association of average BMI and FC of PCC/precuneus with a cluster, adjusted for age, sex, average BMI, average logmFD, and change in logmFD in AROMA+CC denoised data", out.width = "50%"}
 knitr::include_graphics("../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf")
@@ -528,12 +525,13 @@ knitr::include_graphics("../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf")
 
 #### Reward network
 
-##### Model 2a and 2b (average and change in BMI, adjusted for mFD)
-NAcc connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes and regardless whether we adjusted for mFD.
+##### Model 2a and 2b (average and change in BMI, adjusted for logmFD)
+NAcc connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes and regardless whether we adjusted for logmFD.
 
-##### Model 2c (average and change in BMI and split mFD)
-<!-- cc -->For the reward network, we found a significant negative association of change in BMI with FC between NAcc and a cluster in the posterior-medial frontal region. The peak voxel was classified 45% superior frontal gyrus and 37% supplementary motor area (SMA) in the Harvard-Oxford atlas (see Table \@ref(tab:tableBMIFDmodel)). Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction ($p = 0.028$), even if data was GSR ($p = 0.038$).
-```{r "BMIFDagesexNACCcgnBMIdeact", fig.cap="Significant cluster with a negative Effect of change BMI on NAcc to posterior-medial frontal region, adjusted for age, sex, mean BMI and mFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
+##### Model 2c (average and change in BMI and split logmFD)
+<!-- cc -->For the reward network, we found a significant negative association of change in BMI with FC between NAcc and a cluster in the posterior-medial frontal region. 
+The peak voxel derived from investigating the effect of average logmFD was classified 45% superior frontal gyrus and 37% supplementary motor area (SMA) in the Harvard-Oxford atlas (see Table \@ref(tab:tableBMIFDmodel)). Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction ($p = 0.028$), even if data was GSR ($p = 0.038$).
+```{r "BMIFDagesexNACCcgnBMIdeact", fig.cap="Significant cluster with a negative Effect of change BMI on NAcc to posterior-medial frontal region, adjusted for age, sex, mean BMI and logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
 knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf",
                           "../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf"))
 ```
@@ -545,7 +543,7 @@ knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
 <!-- Reward network connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes. Results with significant cluster co-activation are depicted in Table \@ref(tab:tableBMImodel). -->
 
 ##### Functional decoding
-Functional decoding of these two activation patterns showed different top association terms. For the [negative BMI change cluster](https://neurosynth.org/decode/?neurovault=441783) frontal, anterior insula	and inferior frontal were the top terms, while for the [average mFD](https://neurosynth.org/decode/?neurovault=441784) primary motor, motor and
+Functional decoding of these two activation patterns showed different top association terms. For the [negative BMI change cluster](https://neurosynth.org/decode/?neurovault=441783) frontal, anterior insula	and inferior frontal were the top terms, while for the [average logmFD](https://neurosynth.org/decode/?neurovault=441784) primary motor, motor and
 premotor cortex were the meta-analytic activation maps most similar to this contract. The FC contrasts were thus somewhat distinct, though the decoding method [does not allow](https://www.talyarkoni.org/blog/tag/neurosynth/) to conclude specificity.
 
 
@@ -598,7 +596,7 @@ vif_res=vif(test_vif)
 ```
 As expected from the whole-brain findings, there was no association of average BMI or within-subject BMI change and reward network connectivity in models 2a, 2b or 2c adjusting for age, sex and logmFD.
 
-### Effect of mFD (exploratory analysis)
+### Effect of logmFD (exploratory analysis)
 #### Whole-brain analysis
 
 To investigate the unique contributions of the average value of and the longitudinal change in logmFD, we constructed an additional model, where BMI measures are excluded from the design matrix. Covariance of the logmFD and outcome measures is investigated by splitting logmFD into average logmFD and longitudinal logmFD change and by inspecting associations with each predictor. Age and sex were nuisance covariates.
@@ -650,7 +648,7 @@ Limitations of our study include the low number of patients who participated in 
 
 We used seed-based connectivity to derive large-scale brain networks. While this approach yielded reasonable DMN and reward network maps, it is a univariate approach not taking into account the interrelatedness of subnetworks and assuming that the connectivity of a central hub reflects the connectivity of the network as a whole. Furthermore, we did not explicitly investigate the connectivity of the DMN and reward network with other large-scale brain networks attention, e.g. cognitive control or sensorimotor networks, which has been previously proposed to be altered by obesity and bariatric surgery [@Lips_2014; @Olivo_2016; @Cerit_2019].
 
-We did not control for hunger or satiety in our design, although all participants were scanned after the intake of a standardized (?) breakfast following an overnight fast.  Hunger feelings and levels of appetite regulating hormones such as insulin and ghrelin have been shown to predict reward network responsivity to food cues, as well as resting state brain organization [@Kroemer_2015; @Lepping_2015; @Wiemerslage_2016; @Ochner_2012], and might thus have confounded our results [@Li_2019].
+We did not control for hunger or satiety in our design, although all participants were scanned after the intake of a standardized (?) breakfast following an overnight fast.  Hunger feelings and levels of appetite regulating hormones such as insulin and ghrelin have been shown to predict reward network responsivity to food cues, as well as resting state brain organization [@Kroemer_2013; @Lepping_2015; @Wiemerslage_2016; @Ochner_2012], and might thus have confounded our results [@Li_2019].
 Size and composition of our sample did not allow separate analyses for the sexes. However, the disproportionate sex distribution is reflective of the prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
 
 Taken together, this study showed that effects of bariatric surgery on resting state are subtle, and often confounded by head motion. Yet, changes in BMI might relate to altered reward and salience processing, which might contribute to observed changes in food wanting and choice in patients after bariatric surgery. Further, larger, well-controlled and preregistered neuroimaging studies are necessary to understand the neural underpinnings of altered gut-brain communication after bariatric surgery.

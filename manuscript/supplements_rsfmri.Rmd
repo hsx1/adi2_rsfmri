@@ -109,8 +109,8 @@ final_FC <- read.csv("../report/final_FC.csv")
 
 ### Aggregated DMN for two timepoints, adjusted for age and sex (Model 1a)
 ```{r calc DMN two tp, age and sex,results = 'asis', echo = FALSE}
-R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvDMN2tp=anova(R1,R0)
 ```
 
@@ -416,6 +416,58 @@ p_mean_BMI=anvmeanBMI$`Pr(>Chisq)`
 ```
 
 ```{r DMN_BMI_splitFD results, caption="Model 2c for aggregated DMN FC", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average mFD", "change mFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
+```
+
+### Reward network
+#### Model 2a and 2b (adjusting for mFD)
+```{r "reward model, mean, change BMI", eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
+R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+R02 = lme4::lmer(mean_Rew_conn ~ within.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+anvwithinBMI=anova(R1,R01)
+anvmeanBMI=anova(R1,R02)
+p_meanBMI=anvmeanBMI$`Pr(>Chisq)`[2]
+
+R11 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + Age_BL + Sex + logmFD + (1|subj.ID), data=final_FC)
+R12a = lme4::lmer(mean_Rew_conn ~ within.BMI +  Age_BL + Sex + logmFD+(1|subj.ID), data=final_FC)
+anvmeanBMI_adjmFD=anova(R11,R12a)
+```
+
+```{r reward model_BMIFD results, caption="Model 2a and 2b for aggregated DMN FC", results="asis", echo=FALSE}
+#tab_model(R1,R0)
+texreg(
+  list(R1, R11),
+  custom.coef.names = c("Intercept", "average BMI", "change BMI", "Age", "Sex", "logmFD"),
+  custom.model.names = c("R0", "R1"),
+  float.pos = "h",
+  center = TRUE,
+  digits = 3,
+  leading.zero = FALSE,
+  single.row = TRUE,
+  include.adjrs = FALSE,
+  include.bic = FALSE,
+  table = FALSE,
+  use.packages = FALSE
+)
+```
+#### Model 2c (adjusting for average and change in mFD)
+```{r "reward model mean+change of BMI+logmFD", eval = TRUE, echo = FALSE}
+R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
+R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
+R02 = lme4::lmer(mean_Rew_conn ~ within.BMI + mean.logmFD + within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+R03 = lme4::lmer(mean_Rew_conn ~ mean.BMI  + within.BMI +  within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+R03 = lme4::lmer(mean_Rew_conn ~ mean.BMI  + within.BMI +  mean.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
+anvwithinBMI=anova(R1,R01)
+anvmeanBMI=anova(R1,R02)
+anvmeanFD=anova(R1,R03)
+anvwithinFD=anova(R1,R03)
+
+p_mean_BMI=anvmeanBMI$`Pr(>Chisq)`
+```
+
+```{r reward_BMI_splitFD results, caption="Model 2c for aggregated DMN FC", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average mFD", "change mFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = FALSE)
 ```
