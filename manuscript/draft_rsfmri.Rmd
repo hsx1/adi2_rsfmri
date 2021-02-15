@@ -20,8 +20,6 @@ bibliography: "bibliography.bib"
 editor_options:
   chunk_output_type: console
 header-includes:
-- \usepackage[left]{lineno}
-- \linenumbers
 - \usepackage{setspace}
 - \onehalfspacing
 indent: true
