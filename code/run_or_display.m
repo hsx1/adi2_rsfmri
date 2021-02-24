@@ -26,14 +26,13 @@
 % "singletp"
 %
 % Specify the model further with an integer for *COVARIATES definition*
-% 11: group-timef-age-sex-meanFD
+% 11: group-timef-age-sex-mFD
 % 12: group-timef-age-sex
-% 13: group-timec-age-sex-meanFD
-% 14: group-timec-age
+% 13: group-time-splitmFD-age-sex
 % 21: bmi-age-sex-meanFD
 % 22: bmi-age-sex
-% 31: bmi-fd-age-sex
-% 32: fd-age-sex
+% 31: bmi-splitmFD-age-sex
+% 32: splitmFDage-sex
 % 41: network-meanFD-age-sex
 % 42: network-age-sex
 % 43: network (= one-sample t-test to check for network topography)
@@ -102,8 +101,8 @@ param.MASK_B = "MNI_resampled_brain_mask.nii,1";
 roi_prep = convertCharsToStrings(readcell(fullfile(param.INFO_DIR,"ROIs.txt"), "Delimiter"," ","Whitespace","'"));
 %% ------------------------------------------------------------------------
 
-param.PRESET = "averageFC";
-param.ONLY_DISPLAY = true;         
+param.PRESET = "test";
+param.ONLY_DISPLAY = true;      
 param.OVERWRITE = false; 
 param.WILD_BOOT = true;   
 param.parallel = false;
@@ -127,7 +126,7 @@ elseif param.PRESET == "bmi"
 elseif param.PRESET == "gt"
     param.MODEL = ["grouptime"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
-    param.COVARIATES = [11, 12];  
+    param.COVARIATES = [11, 12, 13];  
     param.MASK = "brain";           
     param.EXCLFD = false;          
     param.INFERENCE_TYPE = ["cluster"];
@@ -165,23 +164,23 @@ elseif param.PRESET == "full"
     param.INFERENCE_TYPE = ["voxel","cluster","tfce"];
     param.VIEW = true;
 elseif param.PRESET == "test"
-    param.MODEL = ["bmi"];
-    param.ROI_PREP = roi_prep([4]); 
-    param.COVARIATES = [21];  
+    param.MODEL = ["grouptime"];
+    param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
+    param.COVARIATES = [13];  
     param.MASK = "brain";           
     param.EXCLFD = false;        
     param.INFERENCE_TYPE = ["cluster"];
     param.VIEW = true;
 elseif param.PRESET == "manual"
     % define ROI
-    param.ROI_PREP = roi_prep([12,14]); % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {"Nacc_cc_z","Nacc_gsr_z","PCC_cc_z","PCC_gsr_z","LH_cc_z","LH_gsr_z","MH_cc_z","MH_gsr_z"}
+    param.ROI_PREP = roi_prep([6]); % {roi_prep{[4, 6, 12, 14, 20, 22, 28, 30]}} or {"Nacc_cc_z","Nacc_gsr_z","PCC_cc_z","PCC_gsr_z","LH_cc_z","LH_gsr_z","MH_cc_z","MH_gsr_z"}
 
     % Model definition
     % All three models have unique options for covariate definition, the
     % association to a model is indicated by the tens digit (GroupTime_: 1_; 
     % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
-    param.MODEL = ["fd"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
-    param.COVARIATES = [31];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+    param.MODEL = ["bmi"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
+    param.COVARIATES = [21];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
     % define masking and type of inference
     param.MASK = "brain";               % "brain"

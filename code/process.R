@@ -90,10 +90,16 @@ tableDescr[c(2,4,6,8,10,12),"tp"] <- ""
 rownames(tableDescr) <- NULL
 saveRDS(object = tableDescr, file = "../report/tab/tableDescr.rds")
 
-
+S
 # figBMIdescr -------------------------------------------------------------
 
-fig_BMIdescr <- mk_figBMIdescr(final)
+S <- mk_figBMIdescr(final)
+saveRDS(object = fig_BMIdescr, file = "../report/fig/fig_BMIdescr.rds")
+
+
+# figFDdescr -------------------------------------------------------------
+
+fig_BMIdescr <- mk_figFDdescr_for_OHBM(final)
 saveRDS(object = fig_BMIdescr, file = "../report/fig/fig_BMIdescr.rds")
 
 
