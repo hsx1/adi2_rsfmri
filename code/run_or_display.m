@@ -26,11 +26,13 @@
 % "singletp"
 %
 % Specify the model further with an integer for *COVARIATES definition*
-% 11: group-timef-age-sex-mFD
+%     group-timef
 % 12: group-timef-age-sex
+% 11: group-timef-age-sex-mFD
+%     group-timef-age-sex-mFD-BMIbl
 % 13: group-time-splitmFD-age-sex
-% 21: bmi-age-sex-meanFD
 % 22: bmi-age-sex
+% 21: bmi-age-sex-meanFD
 % 31: bmi-splitmFD-age-sex
 % 32: splitmFDage-sex
 % 41: network-meanFD-age-sex

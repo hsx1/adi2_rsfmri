@@ -1,5 +1,5 @@
 library(dplyr) # version 1.0.2
-library(tidyr) # version 1.1.2
+library(tidyr) # version 1.1.2setwd()
 
 get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
   # group = IG/KG/both
@@ -128,6 +128,16 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
   
   levels(df$tp)=c("bl","fu","fu2")
 
+  df$BMIbl <- NA
+  df$BMIbl[df$tp == "bl"] <- df$BMI[df$tp == "bl"]
+  for (i in 1:nrow(df)){
+    # check if bl exist for subject
+    if (any(df$tp[df$subj.ID == df$subj.ID[i]] == "bl")){
+      # replace with value of same subject at bl
+      df$BMIbl[i] <- df$BMIbl[df$subj.ID == df$subj.ID[i] & df$tp =="bl"]
+    }
+  }
+  
 # Modify Design matrix for subsamples -------------------------------------
   
   # Model specification incl. design matrix for different options
@@ -212,22 +222,24 @@ get_txt_for_swe <- function(group = "both", tp = "all",exclFD = FALSE){
   
   ## Covariates
   # nuisance covariates
-  write.table(dfo$Age_BL, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$Age_BL, col.names=FALSE, row.names=FALSE, quote=FALSE,
               file='Age.txt')
-  write.table(dfo$Sex, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$Sex, col.names=FALSE, row.names=FALSE, quote=FALSE,
               file='Sex.txt')
-  write.table(dfo$logmFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$logmFD, col.names=FALSE, row.names=FALSE, quote=FALSE,
               file='logmeanFD.txt')
+  write.table(dfo$BMIbl, col.names=FALSE, row.names=FALSE, quote=FALSE,
+              file='bmiBL.txt')
   # for covariates of interest
   write.table(dfo$IG, col.names=FALSE,row.names=FALSE, quote=FALSE,
               file='group_IG.txt')
-  write.table(dfo$KG, col.names=FALSE,row.names=FALSE,quote=FALSE,
+  write.table(dfo$KG, col.names=FALSE,row.names=FALSE, quote=FALSE,
               file='group_KG.txt')
   
   # other important variables
-  write.table(dfo$BMI, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$BMI, col.names=FALSE, row.names=FALSE, quote=FALSE,
               file='BMI.txt')
-  write.table(dfo$meanFD, col.names=FALSE, row.names=FALSE,quote=FALSE,
+  write.table(dfo$meanFD, col.names=FALSE, row.names=FALSE, quote=FALSE,
               file='meanFD.txt')
   
   # ----------------------------------------------------------------------------
