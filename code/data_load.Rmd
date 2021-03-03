@@ -19,26 +19,19 @@ library(MuMIn)
 ```{r All info files}
 # Messueberblick
 Messueberblick_path <- "/data/p_02161/ADI_studie/metadata/ADI_MRT_Messueberblick_2019_04_10.csv"
-
 # ADI_Aktuell  -  main table, BMI info is refilled with Messueberblick entries
 ADIAktuell_path <- "/data/p_02161/ADI_studie/metadata/Daten ADI aktuell.sav"
-
 # QOL_sheet  -  correct group information (unused, just for comparison)
 QOLsheet_path <- "/data/pt_02161/Results/Project1_headmotion/QOL_sheet_of_ADI_Messueberblick.csv"
-
-# summary_with_SPSS  - table has errors (contradictions for ADI080 and ADI036 with other table, but contains missing subjects)
+# summary_with_SPSS  - table has errors (contradictions for ADI080 and ADI036 with other table, but contains missing subjects group allocation)
 GroupCodingWitErrors_path <- "/data/pt_02161/Results/Project1_headmotion/summary_with_SPSS_data_sheet_of_ADI_Messueberblick.csv"
-
 # rs QA infos
 rsQA_path <- "/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv"
-
-# FS infos
+# Freesurfer infos
 FSqa_path <- "/data/p_02161/ADI_studie/BIDS/derivatives/freesurfer/QA/freesurfer_qa_qoala_11.7.csv"
-
 # subjects_rs  -  Loading mean/max FD values
 rsID_path <- "/data/pt_02161/Results/Project1_headmotion/subjects_rs.csv"
-FDvals_path <- "/data/pt_02161/Results/Project1_headmotion/summary_FDvals_correctADI061.csv"
-
+FDvals_path <- FDvals_path
 # output
 out_path <- "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv"
 ```
@@ -51,7 +44,7 @@ Furthermore, ADI061 was measured 4 times as bariatric surgery was performed afte
 # read "Messüberblick"
 # collect subject IDs in one column "BMI"
 bmi = read.csv(
-  "/data/p_02161/ADI_studie/metadata/ADI_MRT_Messueberblick_2019_04_10.csv",
+  Messueberblick_path,
   na.strings = c("", "NA"),
   stringsAsFactors = FALSE
 )[, c("X.1",
@@ -70,7 +63,7 @@ bmi = bmi[, c("subj.ID", "BMI", "BMI.1", "BMI.2", "Geschlecht", "Alter")]
 
 # get BMI data from another ADI table which contains more subjects
 # select variables: only BMI
-bmi_repl = haven::read_sav("/data/p_02161/ADI_studie/metadata/Daten ADI aktuell.sav")[, c(
+bmi_repl = haven::read_sav(ADIAktuell_üath)[, c(
   "ADI_Code",
   "BMI_BL",
   "BMI_6m",
@@ -120,7 +113,7 @@ levels(lbmi$Sex) = c("male", "female", "male", "female")
 # does not use QOL list further on
 # compare merged_bmi (ADI_aktuell.sav/ Messueberblick) with bmi from QOL list for those subjects who have it
 QOL_sheet = read.csv(
-  "/data/pt_02161/Results/Project1_headmotion/QOL_sheet_of_ADI_Messueberblick.csv"
+  QOLsheet_path
 )
 QOL_sheet$subj.ID = gsub("-", "", QOL_sheet$X.1)
 
@@ -147,7 +140,7 @@ bmi_group = merge(lbmi, adi_group, by = "subj.ID", all.x = TRUE)
 
 # this table has errors (contradictions for ADI080 and ADI036 with other table, but contains missing subjects)
 group_coding_with_errors = read.csv(
-  "/data/pt_02161/Results/Project1_headmotion/summary_with_SPSS_data_sheet_of_ADI_Messueberblick.csv"
+  GroupCodingWitErrors_path
 )
 group_coding_with_errors$subj.ID = gsub("-", "", group_coding_with_errors$Copy.SPSS)
 
@@ -171,7 +164,7 @@ write.csv(bmi_group[bmi_group$tp=="bl",], "/data/p_02161/ADI_studie/metadata/gro
 These infos were gathered during data copying, organizing and preprocessing, especially of the rs data. Yet, infos from other sequences are also included. See `/data/pt_02161/Analysis/Preprocessing/qa/README.md` for further information.
 
 ```{r "Loading rs QA infos from /data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv", echo=FALSE}
-rs_QA=read.csv("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv")
+rs_QA=read.csv(rsQA_path)
 for (i in 1:nrow(rs_QA)){
   #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
   rs_QA[i,"subj.ID"]=strsplit(toString(rs_QA[i,1]),'_')[[1]][1]
@@ -186,7 +179,7 @@ bmi_group_MRI=merge(bmi_group, rs_QA[,c(2,3,11,12,13,14,15,16,17,18,19)],by=c("s
 
 See `/data/pt_02161/Analysis/Preprocessing/qa/README.md` for further information.
 ```{r "Loading FS infos from /data/p_02161/ADI_studie/BIDS/derivatives/freesurfer/QA/freesurfer_qa_qoala_11.7.csv", echo=FALSE}
-FS_QA=read.csv("/data/p_02161/ADI_studie/BIDS/derivatives/freesurfer/QA/freesurfer_qa_qoala_11.7.csv")
+FS_QA=read.csv(FSqa_path)
 for (i in 1:nrow(FS_QA)){
   #print(strsplit(toString(rs_QA[i,1]),'_')[[1]][1])
   FS_QA[i,"subj.ID"]=strsplit(toString(FS_QA[i,1]),'_')[[1]][1]
@@ -206,10 +199,10 @@ bmi_group_MRI_QA=merge(bmi_group_MRI,FS_QA, by=c("subj.ID","tp"),all=TRUE)
 
 These values describe the average and maximal motion during rsfMRI scans. Used for manuscript on head motion. See further information in `/data/pt_02161/Analysis/Project1_headmotion/`.
 ```{r "Loading mean/max FD values from /data/pt_02161/Analysis/Preprocessing/qa/rs_qa/ADI_rs_qa.csv", echo=FALSE}
-rs_ID = read.csv("/data/pt_02161/Results/Project1_headmotion/subjects_rs.csv")
+rs_ID = read.csv(rsID_path)
 colnames(rs_ID)[1] = "subj"
 res = read.csv(
-  "/data/pt_02161/Results/Project1_headmotion/summary_FDvals_correctADI061.csv",
+  FDvals_path,
   header = FALSE
 )
 colnames(res) = c("meanFD_bl",
@@ -255,7 +248,7 @@ For anatomical imaging, we have `r sum(!is.na(final_sample$longtemplate.run))` l
 For functional imaging, we have `r sum(!is.na(final_sample$meanFD))` mean FD vals. For subj `r final_sample[!is.na(final_sample$meanFD)&is.na(final_sample$longtemplate.run),"subj.ID"]` at time point `r final_sample[!is.na(final_sample$meanFD)&is.na(final_sample$longtemplate.run),"tp"]` FS did not run through correctly.
 
 ```{r, include=FALSE}
-write.csv(final_sample, "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv")
+write.csv(final_sample, out_path)
 ```
 
 README: "`group_list_all.csv` contains basic demographics and group coding for 77 participants. This table also includes participants without MRI.
