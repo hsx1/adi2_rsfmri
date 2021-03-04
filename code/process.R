@@ -1,12 +1,17 @@
 # contact: heinrichs@cbs.mpg.de
-# info: processes all computations, figure and tables required for the .Rmd file
+#
+# This script takes the prepared dataframe and performs all computations and 
+# creates figure and tables required for the .Rmd file
 
 
 # Load packages -----------------------------------------------------------
 library(kableExtra)
+library(mice)
+library(VIM)
 
 # processes data to report later in manuscript .Rmd file
 ROOT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
+
 
 # Get functions -----------------------------------------------------------
 setwd(ROOT_DIR)
@@ -18,10 +23,78 @@ source("../../../../../Preprocessing/qa/rs_qa/group_level_QA/QC_FC_correlations/
 options(knitr.table.format = "latex")
 options(knitr.kable.NA = ' ') # hide NA in tables
 
+
 # Load data ---------------------------------------------------------------
 
+# only data points with mri
 final <- create_sample_df(group = "both", tp = "all")
+# all data points
+full <- create_sample_df(group = "both", tp = "all", out = "full")
 
+
+# missingness -------------------------------------------------------------
+
+VIM::barMiss(full[ ,c("condition","BMI")])
+VIM::histMiss(full[,c("BMI_BL","BMI")])
+
+
+# mice for imputation in multilevel data ---------------------------------------
+
+# see: https://stackoverflow.com/questions/47950304/random-effects-in-longitudinal-multilevel-imputation-models-using-mice
+# imputation based on following variables
+tmp <- full[,c("subj.ID","condition", "tp", "Age_BL", "BMI")]
+tmp$subj.ID <- as.integer(tmp$subj.ID)
+
+# set imputation method
+impmethod <- c("", "","", "", "2l.pan") # why 2l.pan?
+names(impmethod) <- colnames(tmp)
+
+# set default predictor matrix
+ini <- mice::mice(tmp, maxit=0)
+
+# create imputation model for BMI, predictor matrix (following 'type')
+pred <- ini$predictorMatrix
+pred["BMI",] <- c(-2, 1, 2, 1, 0) 
+# (cluster variable, fixef with randint, fixef with randint + randslo, dependent)
+
+dfs = 50
+iter = 10
+imp <- mice::mice(
+  tmp,
+  method = impmethod,
+  pred = pred,
+  maxit = iter,
+  m = dfs,
+  seed = 8745
+)
+imp$predictorMatrix
+summary(imp)
+
+# compute mean from imputed values in complete datasets 
+com <- complete(imp, "repeated")
+com <- cbind(tmp,com[,(ncol(com)-(dfs-1)):ncol(com)])
+meanval <- apply(com[,(ncol(tmp)+1):ncol(com)],1,mean)
+sdval <- apply(com[,(ncol(tmp)+1):ncol(com)],1,sd)
+
+# impute data only for baseline (bl) and construct BMI_BLi
+full$BMI_BLi <- meanval # imputed data for all tp
+full$BMI_BLi[full$tp != "bl"] <- NA
+full$BMI_BLi[full$tp == "bl"] <-
+  meanval[full$tp == "bl"]
+for (i in 1:nrow(full)) {
+  # check if bl exist for subject
+  if (any(full$tp[full$subj.ID == full$subj.ID[i]] == "bl")) {
+    # replace with value of same subject at bl
+    full$BMI_BLi[i] <-
+      full$BMI_BLi[full$subj.ID == full$subj.ID[i] &
+                     full$tp == "bl"]
+  }
+}
+
+full[,c("BMI_BL","BMI_BLi")]
+
+
+# quality metrix + save final df ------------------------------------------
 
 for (i in 1:nrow(final)) {
   tmp = strsplit(toString(final[i, "scan_dir"]), '/')[[1]][8]
@@ -29,7 +102,7 @@ for (i in 1:nrow(final)) {
   #  next
   #}
   conf = read.csv(
-    paste0("/data/pt_02161/preprocessed/resting/detailedQA/metrics/",
+    paste0("../../../../../../preprocessed/resting/detailedQA/metrics/",
            tmp, "/confounds.csv"))
   tmp = cor.test(conf$DVARS, conf$FD)
   final[i, "corr_DVARS_FD"] = tmp$estimate
@@ -90,10 +163,10 @@ tableDescr[c(2,4,6,8,10,12),"tp"] <- ""
 rownames(tableDescr) <- NULL
 saveRDS(object = tableDescr, file = "../report/tab/tableDescr.rds")
 
-S
+
 # figBMIdescr -------------------------------------------------------------
 
-S <- mk_figBMIdescr(final)
+fig_BMIdescr <- mk_figBMIdescr(final)
 saveRDS(object = fig_BMIdescr, file = "../report/fig/fig_BMIdescr.rds")
 
 
