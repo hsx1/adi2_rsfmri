@@ -2,7 +2,7 @@ library(dplyr) # version 1.0.2
 library(tidyr) # version 1.1.2
 
 ConnectMapsPath <- "/data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity"
-DataframePath <- "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv"
+dfPath <- "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv"
 
 create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "final"){
   # group = IG/KG/both
@@ -40,6 +40,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
           "meanFD",
           "BMI",
           "BMI_BL",
+          "BMI_BLi",
           "exclude_prep"
         )], by = c("subj.ID", "tp"))
       cat("n =", nrow(mri_sample), "fMRI data points, ")
@@ -110,7 +111,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   
   # load info from full sample -------------------------------------------------
   
-  full = read.csv(DataframePath) # CAVE: info file elsewhere !!!
+  full = read.csv(dfPath) # CAVE: info file elsewhere !!!
   full = full[, c(
     "subj.ID",
     "condition",
@@ -140,6 +141,67 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
     }
   }
   
+  
+  # missingness -------------------------------------------------------------
+  
+  VIM::barMiss(full[ ,c("condition","BMI")])
+  VIM::histMiss(full[,c("BMI_BL","BMI")])
+  
+  
+  # mice for imputation in multilevel data ---------------------------------------
+  
+  # see: https://stackoverflow.com/questions/47950304/random-effects-in-longitudinal-multilevel-imputation-models-using-mice
+  # imputation based on following variables
+  tmp <- full[,c("subj.ID","condition", "tp", "Age_BL", "BMI")]
+  tmp$subj.ID <- as.integer(tmp$subj.ID)
+  
+  # set imputation method
+  impmethod <- c("", "","", "", "2l.pan") # why 2l.pan?
+  names(impmethod) <- colnames(tmp)
+  
+  # set default predictor matrix
+  ini <- mice::mice(tmp, maxit=0)
+  
+  # create imputation model for BMI, predictor matrix (following 'type')
+  pred <- ini$predictorMatrix
+  pred["BMI",] <- c(-2, 1, 2, 1, 0) 
+  # (cluster variable, fixef with randint, fixef with randint + randslo, dependent)
+  
+  dfs = 50
+  iter = 10
+  imp <- mice::mice(
+    tmp,
+    method = impmethod,
+    pred = pred,
+    maxit = iter,
+    m = dfs,
+    seed = 8745
+  )
+  imp$predictorMatrix
+  summary(imp)
+  
+  # compute mean from imputed values in complete datasets 
+  com <- complete(imp, "repeated")
+  com <- cbind(tmp,com[,(ncol(com)-(dfs-1)):ncol(com)])
+  meanval <- apply(com[,(ncol(tmp)+1):ncol(com)],1,mean)
+  sdval <- apply(com[,(ncol(tmp)+1):ncol(com)],1,sd)
+  
+  # impute data only for baseline (bl) and construct BMI_BLi
+  full$BMI_BLi <- meanval # imputed data for all tp
+  full$BMI_BLi[full$tp != "bl"] <- NA
+  full$BMI_BLi[full$tp == "bl"] <-
+    meanval[full$tp == "bl"]
+  for (i in 1:nrow(full)) {
+    # check if bl exist for subject
+    if (any(full$tp[full$subj.ID == full$subj.ID[i]] == "bl")) {
+      # replace with value of same subject at bl
+      full$BMI_BLi[i] <-
+        full$BMI_BLi[full$subj.ID == full$subj.ID[i] &
+                       full$tp == "bl"]
+    }
+  }
+  
+  full[,c("BMI_BL","BMI_BLi")]
   
   # Exclusion of participants --------------------------------------------------
   final_sample <-
