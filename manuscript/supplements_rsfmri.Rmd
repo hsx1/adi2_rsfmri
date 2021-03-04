@@ -123,8 +123,6 @@ DesignMatricesList$plotB
 ```{r load agg FC data and prepare, echo=FALSE}
 final_FC <- read.csv("../report/final_FC.csv")
 final_FC$group_factor=relevel(final_FC$group_factor, "KG")
-final_FC=merge(final_FC,subset(final_FC, tp=="bl",select=c("subj.ID", "BMI")), by='subj.ID')
-colnames(final_FC)[27]="BMI.bl"
 ```
 
 
@@ -155,8 +153,6 @@ qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 
 ### Reward network 
 #### Two time points, without adjustments (Model CA1) 
-
-<b>
 
 ```{r calc rew two tp, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])

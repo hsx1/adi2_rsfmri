@@ -107,7 +107,7 @@ param.PRESET = "manual";
 param.ONLY_DISPLAY = false;      
 param.OVERWRITE = true; 
 param.WILD_BOOT = true;   
-param.parallel = true;
+param.parallel = false;
 
 if param.PRESET == "standard"
     param.MODEL = ["grouptime","grouptime2tp", "bmi", "bmiIG","bmi2tp", "fd","fdIG"];
@@ -168,7 +168,7 @@ elseif param.PRESET == "full"
 elseif param.PRESET == "test"
     param.MODEL = ["grouptime"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
-    param.COVARIATES = [13];  
+    param.COVARIATES = [14];  
     param.MASK = "brain";           
     param.EXCLFD = false;        
     param.INFERENCE_TYPE = ["cluster"];
