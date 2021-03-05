@@ -158,6 +158,7 @@ qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor +  (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tp=anova(R1,R0)
+anvRew2tp
 ```
 
 ```{r qa check Rew model age,sex, eval=FALSE}
@@ -210,7 +211,7 @@ m.stab=glmm.model.stab(model.res = R0)
 table(m.stab$detailed$warnings)
 m.stab$summary
 
-test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=final_FC)
+test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + mean.logmFD, data=final_FC)
 vif_res=vif(test_vif)
 ```
 
@@ -244,8 +245,8 @@ texreg(
 #### Two timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
 
 ```{r calc rew two tp adjusted 3, eval = TRUE, echo = FALSE}
-R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI.bl + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI.bl + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI_BLi + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tpadj=anova(R1,R0)
 ```
 
@@ -258,7 +259,7 @@ m.stab=glmm.model.stab(model.res = R0)
 table(m.stab$detailed$warnings)
 m.stab$summary
 
-test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +  BMI.bl, data=final_FC)
+test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +  BMI_BLi, data=final_FC)
 vif_res=vif(test_vif)
 ```
 
@@ -349,7 +350,7 @@ m.stab=glmm.model.stab(model.res = R0)
 table(m.stab$detailed$warnings)
 m.stab$summary
 
-test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=final_FC)
+test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + mean.logmFD, data=final_FC)
 vif_res=vif(test_vif)
 ```
 
@@ -385,9 +386,9 @@ texreg(
 #### Three timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
 
 ```{r calc rew three tp adjusted 3, eval = TRUE, echo = FALSE}
-R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI.bl + (1|subj.ID), data=final_FC)
-R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI.bl + (1|subj.ID), data=final_FC)
-anvRew2tpadj=anova(R1,R0)
+R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC)
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI_BLi + (1|subj.ID), data=final_FC)
+anvRew3tpadj=anova(R1,R0)
 ```
 
 ```{r qa check Rew model age,sex,mFD,baselineBMI, three timepoints,eval=FALSE}
@@ -531,8 +532,8 @@ texreg(
 #### Two timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
 
 ```{r calc DMN two tp adjusted 3, eval = TRUE, echo = FALSE}
-R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI.bl + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI.bl + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI_BLi + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvDMN2tpadj=anova(R1,R0)
 ```
 
@@ -671,8 +672,8 @@ texreg(
 
 #### Three timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
 ```{r calc DMN three tp adjusted 3, eval = TRUE, echo = FALSE}
-R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI.bl + (1|subj.ID), data=final_FC)
-R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI.bl + (1|subj.ID), data=final_FC)
+R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC)
+R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI_BLi + (1|subj.ID), data=final_FC)
 anvDMN3tpadj=anova(R1,R0)
 ```
 
@@ -684,9 +685,6 @@ m.stab=glmm.model.stab(model.res = R0)
 #to check whether there were any converge issues:
 table(m.stab$detailed$warnings)
 m.stab$summary
-
-test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +  BMI.bl, data=final_FC)
-vif_res=vif(test_vif)
 ```
 
 ```{r DMN3tpadj 3 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex, average of mFD and baseline BMI", results="asis", echo=FALSE}
