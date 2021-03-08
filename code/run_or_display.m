@@ -107,7 +107,7 @@ param.PRESET = "manual";
 param.ONLY_DISPLAY = false;      
 param.OVERWRITE = true; 
 param.WILD_BOOT = true;   
-param.parallel = false;
+param.parallel = true;
 
 if param.PRESET == "standard"
     param.MODEL = ["grouptime","grouptime2tp", "bmi", "bmiIG","bmi2tp", "fd","fdIG"];

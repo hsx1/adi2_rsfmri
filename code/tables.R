@@ -1,7 +1,11 @@
-# contact: heinrichs@cbs.mpg.de
-# info: creates tables for called upon by process.R, partly as R objects, partly
+# This script creates tables for called upon by process.R, partly as R objects, partly
 # as LateX text obtained by knitr/kable. CAVE: especially FCTables requires manual
-# adaptation
+# adaptation if anything changes.
+#
+# contact: heinrichs@cbs.mpg.de
+# dependencies:
+# - result_report.txt
+#
 
 # Load packages -----------------------------------------------------------
 library(dplyr)

@@ -1,17 +1,27 @@
-# contact: heinrichs@cbs.mpg.de
-#
 # This script takes the prepared dataframe and performs all computations and 
 # creates figure and tables required for the .Rmd file
-
+# 
+# contact: heinrichs@cbs.mpg.de
+# dependencies: 
+# - calc_qc_fc_correlations.R
+# - figures.R
+# - tables.R
+# - create_sample_df.R
 
 # Load packages -----------------------------------------------------------
 library(kableExtra)
 library(mice)
 library(VIM)
 
-# processes data to report later in manuscript .Rmd file
-ROOT_DIR = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
 
+# Constants ---------------------------------------------------------------
+
+# processes data to report later in manuscript .Rmd file
+ROOT_DIR ="/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
+aggFCDMN_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt"
+aggFCDMNID_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt"
+aggFCRewID_TAB_PATH="data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt"
+aggFCRew_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt"
 
 # Get functions -----------------------------------------------------------
 setwd(ROOT_DIR)
@@ -145,10 +155,10 @@ ggsave("../report/tsnr.pdf", height = 6.604, units="cm", fig_tSNR)
 
 # load and prepare aggFC measures -----------------------------------------
 
-agg_FC_DMN=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt")
-agg_FC_DMN_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt")
-agg_FC_Rew_ID=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt")
-agg_FC_Rew=read.table("/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt")
+agg_FC_DMN=read.table(aggFCDMN_TAB_PATH)
+agg_FC_DMN_ID=read.table(aggFCDMNID_TAB_PATH)
+agg_FC_Rew_ID=read.table(aggFCRewID_TAB_PATH)
+agg_FC_Rew=read.table(aggFCRew_TAB_PATH)
 for (i in c(1:nrow(agg_FC_DMN_ID))){
   agg_FC_Rew[i,"subj.ID_tp"]=base::strsplit(as.character(agg_FC_Rew_ID[i,"V1"]),'/')[[1]][8]
   agg_FC_DMN[i,"subj.ID_tp"]=base::strsplit(as.character(agg_FC_DMN_ID[i,"V1"]),'/')[[1]][8]

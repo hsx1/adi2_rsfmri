@@ -1,8 +1,9 @@
 library(dplyr) # version 1.0.2
 library(tidyr) # version 1.1.2
 
-ConnectMapsPath <- "/data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity"
-dfPath <- "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv"
+CONNMAPS_PATH <- "/data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity"
+DF_PATH <- "/data/p_02161/ADI_studie/metadata/final_sample_MRI_QA_info.csv"
+ADDITIONALINFO_FILE <-"/data/pt_02161/Data/metadata/Prehn_metadata/ADI_Rekrutierung_noPW.xls"
 
 create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "final"){
   # group = IG/KG/both
@@ -91,7 +92,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   
   # participants with mri data (txt file with path to .nii file) ---------------
   
-  mri_files = data.frame(list.files(ConnectMapsPath,
+  mri_files = data.frame(list.files(CONNMAPS_PATH,
                                     full.names = TRUE))
   # split info from path in txt
   for (i in 1:nrow(mri_files)) {
@@ -111,7 +112,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   
   # load info from full sample -------------------------------------------------
   
-  full = read.csv(dfPath) # CAVE: info file elsewhere !!!
+  full = read.csv(DF_PATH) # CAVE: info file elsewhere !!!
   full = full[, c(
     "subj.ID",
     "condition",
@@ -181,10 +182,11 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   summary(imp)
   
   # compute mean from imputed values in complete datasets 
-  com <- complete(imp, "repeated")
+  com <- suppressMessages(complete(imp, "repeated"))
   com <- cbind(tmp,com[,(ncol(com)-(dfs-1)):ncol(com)])
   meanval <- apply(com[,(ncol(tmp)+1):ncol(com)],1,mean)
   sdval <- apply(com[,(ncol(tmp)+1):ncol(com)],1,sd)
+  rm(com, ini, imp, tmp, pred)
   
   # impute data only for baseline (bl) and construct BMI_BLi
   full$BMI_BLi <- meanval # imputed data for all tp
@@ -203,13 +205,51 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   
   full[,c("BMI_BL","BMI_BLi")]
   
+  
+  # add surgery & comorbidities ------------------------------------------------
+  
+  addit_info <- data.frame(t(readxl::read_excel(ADDITIONALINFO_FILE,
+                                                sheet = 2,
+                                                col_names = FALSE)
+                             ), 
+                           stringsAsFactors = FALSE
+                           )
+  colnames(addit_info) <- addit_info[1,]
+  addit_info <- addit_info[2:nrow(addit_info),c(1:38)]
+  addit_info$subj.ID <- gsub("-", "", addit_info$Code)
+  comorbidities <- addit_info %>%
+    dplyr::select(c("Adipositas durch Kalorienzufuhr, [BMI] 40 und mehr":"Migräne")) %>%
+    sapply(as.numeric, na.rm=T) %>%
+    data.frame() %>%
+    sapply(as.logical, na.rm=T) %>%
+    data.frame() %>%
+    rowSums(., na.rm = T) 
+  addit_info$comorbidities <- comorbidities
+  rm(comorbidities)
+  
+  addit_bl <- addit_info
+  addit_bl$tp <- "bl"
+  addit_fu <- addit_info
+  addit_fu$tp <- "fu"
+  addit_fu2 <- addit_info
+  addit_fu2$tp <- "fu2"
+  addit_info <- rbind(addit_bl,addit_fu,addit_fu2)
+  rm(addit_bl,addit_fu,addit_fu2)
+  addit_info$intervention <- addit_info$Operationsverfahren
+  addit_info$tp <- as.factor(addit_info$tp)
+  addit_info$subj.ID <- as.factor(addit_info$subj.ID)
+  
+  blub <- merge(full, addit_info, by=c("subj.ID","tp"), all = TRUE)
+  
+  
+  
   # Exclusion of participants --------------------------------------------------
   final_sample <-
     apply_excl_criteria(full, mri_files, exclFD)
   
   df = suppressMessages(plyr::join(mri_files, final_sample))
   df = df[!is.na(df$include), ]
-  rm(apply_excl_criteria, mri_files, final_sample, tmp, i)
+  rm(apply_excl_criteria, mri_files, final_sample, i)
   
   
   # preparation of variables ---------------------------------------------------
@@ -235,7 +275,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   # Model specification incl. design matrix for different options
   # selection of groups
   if (group == "both") {
-    # total: both groups = original dataframe
+  # total: both groups = original dataframe
   } else if (group == "IG") {
     df <- df[df$condition == "IG", ]
   } else if (group == "KG") {
