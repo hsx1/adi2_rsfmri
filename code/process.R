@@ -20,7 +20,7 @@ library(VIM)
 ROOT_DIR ="/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
 aggFCDMN_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt"
 aggFCDMNID_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN_ID.txt"
-aggFCRewID_TAB_PATH="data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt"
+aggFCRewID_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew_ID.txt"
 aggFCRew_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/Rew/agg_FC_Rew.txt"
 
 # Get functions -----------------------------------------------------------
@@ -110,6 +110,10 @@ tableDescr[c(2:6,8:12),"predictor"] <- ""
 tableDescr[c(2,4,6,8,10,12),"tp"] <- ""
 rownames(tableDescr) <- NULL
 saveRDS(object = tableDescr, file = "../report/tab/tableDescr.rds")
+
+
+# Surgery+Comorbidities ---------------------------------------------------
+
 
 
 # figBMIdescr -------------------------------------------------------------

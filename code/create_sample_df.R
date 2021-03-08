@@ -42,6 +42,9 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
           "BMI",
           "BMI_BL",
           "BMI_BLi",
+          "comorbidities",
+          "interv",
+          "intervention_de",
           "exclude_prep"
         )], by = c("subj.ID", "tp"))
       cat("n =", nrow(mri_sample), "fMRI data points, ")
@@ -235,17 +238,27 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   addit_fu2$tp <- "fu2"
   addit_info <- rbind(addit_bl,addit_fu,addit_fu2)
   rm(addit_bl,addit_fu,addit_fu2)
-  addit_info$intervention <- addit_info$Operationsverfahren
+  addit_info$intervention_de <- addit_info$Operationsverfahren
   addit_info$tp <- as.factor(addit_info$tp)
   addit_info$subj.ID <- as.factor(addit_info$subj.ID)
+
   
-  blub <- merge(full, addit_info, by=c("subj.ID","tp"), all = TRUE)
-  
+  full_surg_comorbid <- merge(full, addit_info, by=c("subj.ID","tp"), all = TRUE)
+  rm(addit_info)
+  # check if KG have 
+  t(table(full_surg_comorbid$condition, full_surg_comorbid$intervention_de))
+  full_surg_comorbid$interv <- NA
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, stringr::regex("resektion|schlauch",ignore_case = T)) & !is.na(full_surg_comorbid$intervention_de)] <- "VSG"
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, stringr::regex("band",ignore_case = T)) & !is.na(full_surg_comorbid$intervention_de)] <- "GB"
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, stringr::regex("bypass",ignore_case = T)) & !is.na(full_surg_comorbid$intervention_de)] <- "RYGB"
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, "KG") & !is.na(full_surg_comorbid$intervention_de)] <- "no"
+  full_surg_comorbid[,c("interv", "intervention_de")]
+  full_surg_comorbid$intervention 
   
   
   # Exclusion of participants --------------------------------------------------
   final_sample <-
-    apply_excl_criteria(full, mri_files, exclFD)
+    apply_excl_criteria(full_surg_comorbid, mri_files, exclFD)
   
   df = suppressMessages(plyr::join(mri_files, final_sample))
   df = df[!is.na(df$include), ]
@@ -311,6 +324,6 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   if (out == "final") {
     return(df)
   } else if (out == "full") {
-    return(full)
+    return(full_surg_comorbid)
   }
 }

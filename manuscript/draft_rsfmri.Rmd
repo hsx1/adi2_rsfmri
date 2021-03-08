@@ -26,8 +26,12 @@ indent: true
 ---
 
 ```{r "To do", include=FALSE}
-# [x] Upload auf Neurovolt, cf. cobidas reporting guidelines
-# [x] Swap mFD with logmFD ??
+# [ ] add grouptime2tp results
+# [ ] check stringency
+# [ ] check model names
+# [ ] add dropout to discussion
+# [ ] add comorbidities to methods
+# [ ] add imputations to methods
 ```
 
 ```{r "load packages", include=FALSE}
@@ -80,17 +84,17 @@ This pre-registered analysis of longitudinal neuroimaging data did not support a
 
 \newpage
 # Introduction
-Obesity is a worldwide health issue, entailing huge personal and societal costs. Ex-cess amount of body fat not only affects cardiovascular and metabolic health, but also increases the risk for cognitive decline and dementia later in life (hier eine Ref). Conservative treatment options including behavioral therapy often do not yield the desired weight loss, especially in patients with very high BMI (> 35 kg/m2). Here, bariatric surgery is a viable option to rapidly induce weight loss and improve glycemic status. RYBG is the most invasive, yet most effective surgical pro-cedure, but other techniques like vertical sleeve gastrectomy (VSG) and gadstric banding (GB)are also common [@Berthoud_2011]. 
+Obesity is a worldwide health issue, entailing huge personal and societal costs. Excess amount of body fat not only affects cardiovascular and metabolic health, but also increases the risk for cognitive decline and dementia later in life (hier eine Ref). Conservative treatment options including behavioral therapy often do not yield the desired weight loss, especially in patients with very high BMI ($> 35$ kg/m$^2$). Here, bariatric surgery is a viable option to rapidly induce weight loss and improve glycemic status. RYBG is the most invasive, yet most effective surgical pro-cedure, but other techniques like vertical sleeve gastrectomy (VSG) and gastric banding (GB) are also common [@Berthoud_2011]. 
 Bariatric surgery induces weight loss  in part by malabsorption of nutrients, especially fat, and reduced digestion efficiency. More importantly, weight loss following the surgical procedures, and especially RYGB, is related to profound alterations in appetite, food perception and the central regulation of food intake [@Mulla_2017; @Brutman_2019]. 
-Precise mechanisms how bariatric surgery leads to altered appetitive and reward signaling are yet to be elucidated. Resting-state functional magnetic resonance imaging (rsfMRI) is a technique to investigate the dynamic organization of the brain. Functional connectivity (FC) networks, i.e. brain regions with correlated neural activity over time, are in anatomical correspondence with specific brain networks involved in cognitive processes, including attention and executive control [@Smith_2009]. The RN (RN), processing hedonic value and internal motivation, and the default mode network (DMN), a higher-order network, involved in interoception and governing shifts between external-internal processes,  are promising candidates to mediate altered central regulation of food intake after bariatric surgery.
-The RN (RN), comprises the ventromedial prefrontal cortex (vmPFC), the striatum (STR), the amygdala (AMY) and the anterior insula (antINS) [@Odoherty_2004;@Liu_2011]. These brain regions have been found to guide food valuation processes and decision-making in humans [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018]. Frequently, obesity has been associated with hyperactivation of RN regions during anticipation of (high-caloric) food cues, and in contrast, reduced activation to actual taste of these foods [@Devoto_2018; @Garcia_2014; @Meng_2020; @Stoeckel_2009; though see @Morys_2020]. resting-state rsfMRI studies also shown increased local FC of re-ward network regions, i.e. NAcc, vmPFC, putamen, insula [@Contreras_2017; @Coveleskie_2015;@Hogenkamp_2016], and altered connectivity with salience, homeostatic and sensorimotor networks [@Lips_2014;  @Wijngaarden_2015]. In bariatric surgery patients, connectivity  within the RN (e.g. putamen, OFC) might be normalized by the surgery, however the evidence is limited due to a lack of longitudinal obese control groups  [@Duan_2020; @Wiemerslage_2016]. Possibly, a reconfiguration of the fronto-striatal brain networks could emerge from altered gut signaling , e.g. changes in ghrelin levels, via hypothalamic-striatal projections [@Li_2019; @Karra_2013; but @Zoon_2018] . 
- The DMN includes the posterior cingulate cortex (PCC)/precuneus, the medial prefrontal cortex (mPFC) and the inferior and lateral parietal cortex (approx. BA 39) [@Raichle_2015]. Higher BMI and obesity have been associated with a pattern of decreased within DMN FC and increased FC of DMN regions to other networks, i.e. salience and sensory networks in several resting-state and task-based rsfMRI studies [@Beyer_2017; @Kullmann_2011; @Chao_2018; @Wijngaarden_2015; @Borowitz_2020; @Ding_2020; @Doucet_2017; @Sadler_2018]. Studies in bariatric surgery patients have pointed to a normalization of the connectivity between DMN and cognitive control and salience brain regions after the procedure, yet no study has included a longitudinal control group [@Li_2018; @Olivo_2017; @Frank_2013].
+Precise mechanisms how bariatric surgery leads to altered appetitive and reward signaling are yet to be elucidated. Resting-state functional magnetic resonance imaging (rsfMRI) is a technique to investigate the dynamic organization of the brain. Functional connectivity (FC) networks, i.e. brain regions with correlated neural activity over time, are in anatomical correspondence with specific brain networks involved in cognitive processes, including attention and executive control [@Smith_2009]. The reward network (RN), processing hedonic value and internal motivation, and the default mode network (DMN), a higher-order network, involved in interoception and governing shifts between external-internal processes,  are promising candidates to mediate altered central regulation of food intake after bariatric surgery.
+The RN (RN), comprises the ventromedial prefrontal cortex (vmPFC), the striatum, the amygdala and the anterior insula  [@Odoherty_2004;@Liu_2011]. These brain regions have been found to guide food valuation processes and decision-making in humans [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018]. Frequently, obesity has been associated with hyperactivation of RN regions during anticipation of (high-caloric) food cues, and in contrast, reduced activation to actual taste of these foods [@Devoto_2018; @Garcia_2014; @Meng_2020; @Stoeckel_2009; though see @Morys_2020]. resting-state rsfMRI studies also shown increased local FC of re-ward network regions, i.e. NAcc, vmPFC, putamen, insula [@Contreras_2017; @Coveleskie_2015;@Hogenkamp_2016], and altered connectivity with salience, homeostatic and sensorimotor networks [@Lips_2014;  @Wijngaarden_2015]. In bariatric surgery patients, connectivity  within the RN (e.g. putamen, OFC) might be normalized by the surgery, however the evidence is limited due to a lack of longitudinal obese control groups  [@Duan_2020; @Wiemerslage_2016]. Possibly, a reconfiguration of the fronto-striatal brain networks could emerge from altered gut signaling , e.g. changes in ghrelin levels, via hypothalamic-striatal projections [@Li_2019; @Karra_2013; but @Zoon_2018] . 
+The DMN includes the posterior cingulate cortex (PCC)/precuneus, the medial prefrontal cortex (mPFC) and the inferior and lateral parietal cortex (approx. BA 39) [@Raichle_2015]. Higher BMI and obesity have been associated with a pattern of decreased within DMN FC and increased FC of DMN regions to other networks, i.e. salience and sensory networks in several resting-state and task-based rsfMRI studies [@Beyer_2017; @Kullmann_2011; @Chao_2018; @Wijngaarden_2015; @Borowitz_2020; @Ding_2020; @Doucet_2017; @Sadler_2018]. Studies in bariatric surgery patients have pointed to a normalization of the connectivity between DMN and cognitive control and salience brain regions after the procedure, yet no study has included a longitudinal control group [@Li_2018; @Olivo_2017; @Frank_2013].
 In sum, while there is some evidence hinting to a role for DMN and RN FC in altered regulation of food intake after bariatric surgery, the existing evidence is inconclusive. Most studies have investigated small cohorts of patients, without adequate obese control groups, and did not rigorously separate confirmatory from exploratory analyses [@George_2016].
 Most rsfMRI studies in obesity have reported an association of higher BMI and higher head motion during MRI [@Beyer_2017;@Hodgson_2016]. Head motion is a major confounder in rsfMRI as it increases short-range and disrupts long-range connectivity FC. In this sample, we previously reported a group-by-time interaction on head motion [@Beyer_2020]. Here, we thus aimed to rigorously control for motion-related variance. 
 In this pre-registered study, our confirmatory hypotheses were:
 1. Whole-brain FC of the RN and DMN changes differently from baseline to followup in the bariatric surgery compared to a waiting-list control group
 2. Within-network FC of the RN and DMN changes differently from baseline to followup in the bariatric surgery compared to a waiting-list control group
-We tested hypothesis 1 by investigating the interaction of bariatric surgery and time on DMN and RN whole-brain FC. We pre-registed two denoising pipelines, and three covariate schemes. For hypothesis 2, we performed a planned analysis of the group-by-time interaction on aggregated, within-network FC, for two and three time points and the same covariate schemes.
+We tested hypothesis 1 by investigating the interaction of bariatric surgery and time on DMN and RN whole-brain FC. We pre-registered two denoising pipelines, and three covariate schemes. For hypothesis 2, we performed a planned analysis of the group-by-time interaction on aggregated, within-network FC, for two and three time points and the same covariate schemes.
 In exploratory analyses, we examined the whole-brain interaction effect for three time points, the effects of head motion on FC and whether weight loss, a proxy of treatment success, predicted changes in FC.
 
 # Methods
@@ -113,6 +117,18 @@ dfw <- tidyr::pivot_wider(data = final,
                           id_cols = c("subj.ID","condition","Sex","Age_BL"),
                           names_from = "tp",
                           values_from = c("BMI","meanFD"))
+# patients at baseline
+dfBL <- readRDS(file = "../report/dfBL.rds")
+
+
+# surgeries
+data.frame(table(subj_df$interv, subj_df$condition, exclude=NULL))
+# why NA ?
+subj_df$intervention_de[is.na(subj_df$interv)]
+sum(subj_df$comorbidities[subj_df$condition=="IG"])
+sum(subj_df$comorbidities[subj_df$condition=="KG"])
+
+subj_df$comorbidities
 ```
 
 
@@ -128,7 +144,7 @@ Participants were recruited from the Center for Bariatric and Metabolic Surgery 
 The final sample entailed `r nrow(subj_df)` morbidly obese individuals (`r nrow(filter(subj_df,Sex == "f"))` females; aged `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`). Participants either underwent surgery (n = `r cs["Sum","IG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female), who waited for their health insurance's approval to undergo surgery. Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery/baseline appointment to capture both phases of rapid weight-loss and maintenance [@Maciejewski_2016]. 
 Analyses were performed on all participants that provided at least one data point of rsfMRI data. `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for one time point (for more details see Table S1). The pre-planned analysis of changes from baseline to follow-up included $24$ participants with both time points, in total $72$ data points. 
 
-**N patients underwent RYGB, N underwent VSG and N GB.** 
+`r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="RYGB" & !is.na(subj_df$interv),])` patients underwent RYGB, `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="VSG" & !is.na(subj_df$interv),])` underwent VSG and `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="GB" & !is.na(subj_df$interv),])` GB, for `r nrow(subj_df[subj_df$condition=="IG" & is.na(subj_df$interv),])` patients in the BARS group information was not available. 
 
 Participants arrived in the morning (between 07:00 and 12:00 a.m.) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one hour break for breakfast. MRI scanning was done after further psychological tests (for details see @Prehn_2020)). 
 
@@ -237,8 +253,8 @@ Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MA
 <!-- MODEL SETUP --> 
 #### Confirmatory Analysis
 We tested the pre-registered hypothesis of a  time by group interaction:  $FC=group + time + group * time$. 
-As pre-registered, we performed the analysis for baseline and followup time points only, in both denoising pipelines and adjusting for no confounders (CA 1), age, sex and average logmFD of both timepoints (CA2) and age,sex, average logmFD and baseline BMI (CA3). 
- In this model, time was represented as factor because we took into account possible non-linear time courses in the increase and decrease of FC over the course of one year, which may occur depending on the phase of weight management [@Olivo_2017]. The resulting factorial design contained one regressor for each time point per group (see supplements for depiction of design matrix). 
+As pre-registered, we performed the analysis for baseline and followup time points only, in both denoising pipelines and adjusting for no confounders (CA 1), age, sex and average logmFD of both timepoints (CA2) and age, sex, average logmFD and baseline BMI (CA3). 
+In this model, time was represented as factor because we took into account possible non-linear time courses in the increase and decrease of FC over the course of one year, which may occur depending on the phase of weight management [@Olivo_2017]. The resulting factorial design contained one regressor for each time point per group (see supplements for depiction of design matrix). 
 
 #### Exploratory analysis
 ##### Group-by-time interaction in three time points
@@ -272,9 +288,6 @@ We performed an exploratory analysis with average BMI and variability in BMI as 
 # Results
 <!-- BASELINE CHARACTERISTICS -->
 ```{r tableBaselineCharacteristics, include=FALSE}
-#dfBL <- create_sample_df(group = "all", tp = "BL")
-dfBL <- readRDS(file = "../report/dfBL.rds")
-
 # distributions per group
 # BMI
 p <- ggplot(data=dfBL, aes(group = condition, x=BMI, fill=condition)) +
