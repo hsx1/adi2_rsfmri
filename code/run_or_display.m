@@ -104,8 +104,8 @@ roi_prep = convertCharsToStrings(readcell(fullfile(param.INFO_DIR,"ROIs.txt"), "
 %% ------------------------------------------------------------------------
 
 param.PRESET = "manual";
-param.ONLY_DISPLAY = false;      
-param.OVERWRITE = true; 
+param.ONLY_DISPLAY = false;
+param.OVERWRITE = false; 
 param.WILD_BOOT = true;   
 param.parallel = true;
 
@@ -182,7 +182,7 @@ elseif param.PRESET == "manual"
     % association to a model is indicated by the tens digit (GroupTime_: 1_; 
     % BMI_ = 2_; FD_ = 3_) the specific covariate combination by the ones digit
     param.MODEL = ["grouptime2tp"]; % ["grouptime","grouptime2tp"] % ["bmi","bmiIG","bmi2tp"] % ["fd","fdIG"] % ["alltp"] % ["singletp"]
-    param.COVARIATES = [14];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
+    param.COVARIATES = [11,12,13,14];     % [11, 12];                    % [21, 22];                % [31, 32];  % [41, 42, 43]    % [41, 42, 43]
 
     % define masking and type of inference
     param.MASK = "brain";               % "brain"
