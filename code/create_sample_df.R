@@ -32,21 +32,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
       full$exclude_prep <- full$Exclude
       full$exclude_prep[is.na(full$exclude_prep)] = FALSE
       mri_sample <-
-        merge(mri_files, full[!is.na(full$condition), c(
-          "subj.ID",
-          "condition",
-          "tp",
-          "Age_BL",
-          "Sex",
-          "meanFD",
-          "BMI",
-          "BMI_BL",
-          "BMI_BLi",
-          "comorbidities",
-          "interv",
-          "intervention_de",
-          "exclude_prep"
-        )], by = c("subj.ID", "tp"))
+        merge(mri_files, full[!is.na(full$condition),], by = c("subj.ID", "tp"))
       cat("n =", nrow(mri_sample), "fMRI data points, ")
       
       mri_sample[mri_sample$exclude_prep == TRUE, ] # ADI063_bl ADI063_fu ADI116_bl ADI116_fu ADI116_fu2
@@ -238,13 +224,17 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   addit_fu2$tp <- "fu2"
   addit_info <- rbind(addit_bl,addit_fu,addit_fu2)
   rm(addit_bl,addit_fu,addit_fu2)
-  addit_info$intervention_de <- addit_info$Operationsverfahren
+  
+  addit_info$diabetes_type_I <- addit_info$`Typ-1-Diabetes mellitus`
+  addit_info$diabetes_type_II <- addit_info$`Typ-1-Diabetes mellitus`
+  addit_info$arterial_hypotension <- addit_info$`Arterielle Hypertonie`
+  addit_info$intervention <- addit_info$Operationsverfahren
   addit_info$tp <- as.factor(addit_info$tp)
   addit_info$subj.ID <- as.factor(addit_info$subj.ID)
-
-  
-  full_surg_comorbid <- merge(full, addit_info, by=c("subj.ID","tp"), all = TRUE)
+  surg_comorbid <- addit_info[,c("intervention", "diabetes_type_I", "diabetes_type_II", "arterial_hypotension", "subj.ID", "tp")]
   rm(addit_info)
+  
+  full_surg_comorbid <- merge(full, surg_comorbid, by=c("subj.ID","tp"), all = TRUE)
   # check if KG have 
   t(table(full_surg_comorbid$condition, full_surg_comorbid$intervention_de))
   full_surg_comorbid$interv <- NA
