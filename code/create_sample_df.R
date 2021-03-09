@@ -204,7 +204,7 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
                            stringsAsFactors = FALSE
                            )
   colnames(addit_info) <- addit_info[1,]
-  addit_info <- addit_info[2:nrow(addit_info),c(1:38)]
+  addit_info <- addit_info[2:nrow(addit_info),c(1:38,48)]
   addit_info$subj.ID <- gsub("-", "", addit_info$Code)
   comorbidities <- addit_info %>%
     dplyr::select(c("Adipositas durch Kalorienzufuhr, [BMI] 40 und mehr":"Migräne")) %>%
@@ -228,21 +228,24 @@ create_sample_df <- function(group = "both", tp = "all", exclFD = FALSE, out = "
   addit_info$diabetes_type_I <- addit_info$`Typ-1-Diabetes mellitus`
   addit_info$diabetes_type_II <- addit_info$`Typ-1-Diabetes mellitus`
   addit_info$arterial_hypotension <- addit_info$`Arterielle Hypertonie`
+  addit_info$smoking_status <- NA
+  addit_info$smoking_status[addit_info$`BL - Rauchen aktuell (ja/nein)` == "ja"] = 1
+  addit_info$smoking_status[addit_info$`BL - Rauchen aktuell (ja/nein)` == "nein"] = 0
   addit_info$intervention <- addit_info$Operationsverfahren
   addit_info$tp <- as.factor(addit_info$tp)
   addit_info$subj.ID <- as.factor(addit_info$subj.ID)
-  surg_comorbid <- addit_info[,c("intervention", "diabetes_type_I", "diabetes_type_II", "arterial_hypotension", "subj.ID", "tp")]
+  surg_comorbid <- addit_info[,c("intervention", "diabetes_type_I", "diabetes_type_II", "arterial_hypotension", "smoking_status", "subj.ID", "tp")]
   rm(addit_info)
   
   full_surg_comorbid <- merge(full, surg_comorbid, by=c("subj.ID","tp"), all = TRUE)
   # check if KG have 
-  t(table(full_surg_comorbid$condition, full_surg_comorbid$intervention_de))
+  t(table(full_surg_comorbid$condition, full_surg_comorbid$intervention))
   full_surg_comorbid$interv <- NA
-  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, stringr::regex("resektion|schlauch",ignore_case = T)) & !is.na(full_surg_comorbid$intervention_de)] <- "VSG"
-  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, stringr::regex("band",ignore_case = T)) & !is.na(full_surg_comorbid$intervention_de)] <- "GB"
-  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, stringr::regex("bypass",ignore_case = T)) & !is.na(full_surg_comorbid$intervention_de)] <- "RYGB"
-  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention_de, "KG") & !is.na(full_surg_comorbid$intervention_de)] <- "no"
-  full_surg_comorbid[,c("interv", "intervention_de")]
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention, stringr::regex("resektion|schlauch",ignore_case = T)) & !is.na(full_surg_comorbid$intervention)] <- "VSG"
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention, stringr::regex("band",ignore_case = T)) & !is.na(full_surg_comorbid$intervention)] <- "GB"
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention, stringr::regex("bypass",ignore_case = T)) & !is.na(full_surg_comorbid$intervention)] <- "RYGB"
+  full_surg_comorbid$interv[stringr::str_detect(full_surg_comorbid$intervention, "KG") & !is.na(full_surg_comorbid$intervention)] <- "no"
+  full_surg_comorbid[,c("interv", "intervention")]
   full_surg_comorbid$intervention 
   
   

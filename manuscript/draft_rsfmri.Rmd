@@ -128,7 +128,6 @@ subj_df$intervention_de[is.na(subj_df$interv)]
 sum(subj_df$comorbidities[subj_df$condition=="IG"])
 sum(subj_df$comorbidities[subj_df$condition=="KG"])
 
-subj_df$comorbidities
 ```
 
 
@@ -141,11 +140,11 @@ The study protocol was in accordance with the Helsinki Declaration and approved 
 Participants were recruited from the Center for Bariatric and Metabolic Surgery at the Charité University Medicine Berlin. Inclusion criteria were, in accordance with German guidelines for bariatric surgery, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease)[@Mechanick_2013]. Participants were aged between $18$ and $70$ years and had no history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (defined as MMSE score < $34$).
  In total, $51$ participants out of the originally enrolled $69$ subjects received MRI. Five data points of three subjects had to be excluded due to bad anatomical image quality (see below), which led to a final data set with $101$ rsfMRI sessions.  
 <!-- DESCRIPTIVE STATISTICS -->
-The final sample entailed `r nrow(subj_df)` morbidly obese individuals (`r nrow(filter(subj_df,Sex == "f"))` females; aged `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`)). $X$% of participants had clinically diagnosed hypertension, $x$% had type-2 or type-1 diabetes, and $X$% smoked.
+The final sample entailed `r nrow(subj_df)` morbidly obese individuals (`r nrow(filter(subj_df,Sex == "f"))` females; aged `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`)). `r round(sum(subj_df$arterial_hypotension == 1, na.rm = T) / nrow(subj_df), 3)*100`% of participants had clinically diagnosed hypertension, `r round((sum(subj_df$diabetes_type_II == 1, na.rm = T) + sum(subj_df$diabetes_type_I == 1, na.rm = T))  / nrow(subj_df), 3)*100`% had type-2 or type-1 diabetes, and `r round(sum(subj_df$smoking_status == 1, na.rm = T) / nrow(subj_df), 3)*100`% reported to smoke.
 Participants either underwent surgery (n = `r cs["Sum","IG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female), who waited for their health insurance's approval to undergo surgery. Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery/baseline appointment to capture both phases of rapid weight-loss and maintenance [@Maciejewski_2016]. 
 Analyses were performed on all participants who provided at least one data point of rsfMRI data. `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for one time point (for more details see Table S1). The pre-planned analysis of changes from baseline to follow-up included $24$ participants with both time points, in total $72$ data points. 
 
-`r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="RYGB" & !is.na(subj_df$interv),])` patients underwent RYGB, `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="VSG" & !is.na(subj_df$interv),])` underwent VSG and `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="GB" & !is.na(subj_df$interv),])` GB, for `r nrow(subj_df[subj_df$condition=="IG" & is.na(subj_df$interv),])` patients in the BARS group information was not available. 
+`r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="RYGB" & !is.na(subj_df$interv),])` patients underwent RYGB, `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="VSG" & !is.na(subj_df$interv),])` underwent VSG and `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="GB" & !is.na(subj_df$interv),])` GB, for `r nrow(subj_df[subj_df$condition=="IG" & is.na(subj_df$interv),])` patients in the intervention group information was not available. 
 
 Participants arrived in the morning (between 07:00 and 12:00 a.m.) after an overnight fast. They underwent medical assessments including an interview, blood draw and anthropometric measurements before having a one hour break for breakfast. MRI scanning was done after performing a psychological test battery (for details see @Prehn_2020)). 
 
@@ -253,16 +252,17 @@ Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MA
 <!-- MODEL SETUP --> 
 #### Confirmatory Analysis
 We tested the pre-registered hypothesis of a time-by-group interaction:  $FC=group + time + group * time$. 
-As pre-registered, we performed the analysis for baseline and followup time points only, for AROMA+CC and AROMA+CC+GSR denoising pipelines and adjusting for no confounders (CA 1), age, sex and average logmFD of both timepoints (CA2) and age, sex, average logmFD and baseline BMI (CA3). 
+As pre-registered, we performed the analysis for baseline and followup time points only, for AROMA+CC and AROMA+CC+GSR denoising pipelines and adjusting for no confounders (CA1), age, sex and average logmFD of both timepoints (CA2) and age, sex, average logmFD and baseline BMI (CA3). 
 In this model, time was represented as factor taking into account possible non-linear time courses in the increase and decrease of FC over the course of one year, which may occur depending on the phase of weight management [@Olivo_2017]. The resulting factorial design contained one regressor for each time point per group (see supplements for depiction of design matrix). 
+Because the information about the BMI at baseline of one participant in the intervention group was missing, we employed multivariate imputation using the package mice based on subject identification, condition, baseline age, and available BMI values. This package allows taking into account the multi-level structure of the data and averaging across multiple possible values, in this case 50 different values, each derived from 10 iterations.
 
 #### Exploratory analysis
 ##### Group-by-time interaction in three time points
 Then, we extended our whole-brain analysis of the group-by-time point interaction to the data from all three time points. This analysis had not been pre-registered. Here, we used individual logmFD values (not averaged) as covariate to capture variance in logmFD change over time points. We investigated two models (EA1.1: group x time, age, sex and EA1.2: group x time, age, sex and logmFD). 
 
 ##### Average and change BMI
-We further  explored the relationship of average and change in BMI in a separate group of models. As proposed by @Guillaume_2014, we calculated the between- and within subject centered values of BMI. This model, containing average BMI and BMI change, allowed us to disentangle the differential effects of these variables on FC. We first estimated their effects in a model adjusting for baseline age and sex (Model EA2.1) and then additionally controlling for logmFD (Model EA 2.2). As we previously reported correlated change in BMI and mFD in this sample [@Beyer_2019], we explored a refined model including average BMI and logmFD and change in both measures, along with baseline age and sex (Model EA 2.3c). Here, we aimed to see whether any effect of change in BMI would be detectable when adjusting for the change in head motion. 
-For a better understanding of the unique contribution of average and longitudinal change in logmFD measures, we separately employed a third post-hoc, exploratory model (EA 2.4), solely including the head motion measures as covariates of interest: $FC = between-subject logmFD + within-subject logmFD$ with age and sex as nuisance covariates.
+We further  explored the relationship of average and change in BMI in a separate group of models. As proposed by @Guillaume_2014, we calculated the between- and within subject centered values of BMI. This model, containing average BMI and BMI change, allowed us to disentangle the differential effects of these variables on FC. We first estimated their effects in a model adjusting for baseline age and sex (Model EA2.1) and then additionally controlling for logmFD (Model EA 2.2). As we previously reported correlated change in BMI and mFD in this sample [@Beyer_2019], we explored a refined model including average BMI and logmFD and change in both measures, along with baseline age and sex (Model EA 2.3). Here, we aimed to see whether any effect of change in BMI would be detectable when adjusting for the change in head motion. 
+For a better understanding of the unique contribution of average and longitudinal change in logmFD measures, we separately employed a third post-hoc, exploratory model (EA 2.4), solely including the head motion measures as covariates of interest: `FC = between-subject logmFD + within-subject logmFD` with age and sex as nuisance covariates.
 
 ### Functional decoding
 In an exploratory analysis, we compared the resulting contrast maps with whole-brain activation maps from the [NeuroSynth](https://www.neurosynth.org/) database [@Yarkoni_2011]. We uploaded the contrast images for change BMI and average logmFD on [Neurovault](), and applied the decoding classifier. This classifier estimates the similarity of meta-analytic activation maps of +500 search terms with our our contrast maps. We reported the three top terms for both contrasts.
@@ -356,13 +356,13 @@ Nacc connectivity was not significantly related to neither mean nor change in BM
 <!-- cc -->For the RN, we found a significant negative association of change in BMI with FC between Nacc and a cluster in the posterior-medial frontal region. 
 The peak voxel derived from investigating the effect of average logmFD was classified 45% superior frontal gyrus and 37% supplementary motor area (SMA) in the Harvard-Oxford atlas (see Table \@ref(tab:tableBMIFDmodel)). Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction ($p = 0.028$), even if data was GSR ($p = 0.038$).
 ```{r "BMIFDagesexNacccgnBMIdeact", fig.cap="Cluster showing a significant negative effect of change BMI on Nacc to posterior-medial frontal region, adjusted for age, sex, mean BMI and logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
-knitr::include_graphics(c("../report/fig/BMIFDagesex_Nacccc_cngBMI_deact.pdf",
-                          "../report/fig/BMIFDagesex_Naccgsr_cngBMI_deact.pdf"))
+knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf",
+                          "../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf"))
 ```
 <!-- gsr -->Moreover, FC between the Nacc and one cluster in a more posterior region, i.e. motor cortex, was significantly positively related to average logmFD (see  Figure \@ref(fig:BMIFDagesexNaccavgFDact)). This result was similar for AROMA+CC+GSR preprocessed data.
 ```{r "BMIFDagesexNaccavgFDact", fig.cap="Cluster showing a significant positive Effect of average logmFD on FC between Nacc and motor cortex, adjusted for age, sex, average BMI, change in BMI, and change in logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", eval=TRUE}
-knitr::include_graphics(c("../report/fig/BMIFDagesex_Nacccc_avgFD_act.pdf",
-                          "../report/fig/BMIFDagesex_Naccgsr_avgFD_act.pdf"))
+knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
+                          "../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf"))
 ```
 <!-- RN connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes. Results with significant cluster co-activation are depicted in Table \@ref(tab:tableBMImodel). -->
 
@@ -391,11 +391,11 @@ Functional decoding of these two activation patterns showed different top associ
 
 To explore the unique contributions of the average value of and the longitudinal change in logmFD, we constructed an additional model, where BMI measures were excluded from the design matrix. Covariance of the logmFD and outcome measures was investigated by splitting logmFD into average logmFD and longitudinal logmFD change and by inspecting associations with each predictor. Age and sex were used as nuisance covariates.
 
-<!-- #### Reward -->As shown in Table \@ref(tab:tableFDmodel) and Figure \@ref(fig:FDagesexNaccccavgFDact), there was a significant positive association between average logmFD and co-activation of Nacc with one cluster located in proximity to the central sulcus and motor areas. Cluster co-activation appeared irrespective of the preprocessing procedure, differing mainly in cluster size.
+<!-- #### Reward -->As shown in Table \@ref(tab:tableFDmodel) and Figure \@ref(fig:FDagesexNACCccavgFDact), there was a significant positive association between average logmFD and co-activation of Nacc with one cluster located in proximity to the central sulcus and motor areas. Cluster co-activation appeared irrespective of the preprocessing procedure, differing mainly in cluster size.
 <!-- ### DMN -->We did not find any clusters with a significant association of logmFD and PCC FC.
-```{r "FDagesexNaccccavgFDact", fig.show = "hold", out.width = "50%", fig.cap = "Positive association of average logmFD and FC of Nacc with cluster, adjusted for age, sex, average BMI, change BMI and change logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data")}
-knitr::include_graphics("../report/fig/FDagesex_Nacccc_avgFD_act.pdf")
-knitr::include_graphics("../report/fig/FDagesex_Naccgsr_avgFD_act.pdf")
+```{r "FDagesexNACCccavgFDact", fig.show = "hold", out.width = "50%", fig.cap = "Positive association of average logmFD and FC of Nacc with cluster, adjusted for age, sex, average BMI, change BMI and change logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data")}
+knitr::include_graphics("../report/fig/FDagesex_NACCcc_avgFD_act.pdf")
+knitr::include_graphics("../report/fig/FDagesex_NACCgsr_avgFD_act.pdf")
 ```
 
 
