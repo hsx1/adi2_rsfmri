@@ -16,7 +16,10 @@ directories*
 *.docx
 *.odt
 *.log
+
+# folders
 report
+submission
 
 # test files
 tryout*
