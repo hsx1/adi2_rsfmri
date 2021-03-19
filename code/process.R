@@ -124,8 +124,8 @@ saveRDS(object = fig_BMIdescr, file = "../report/fig/fig_BMIdescr.rds")
 
 # figFDdescr -------------------------------------------------------------
 
-fig_BMIdescr <- mk_figFDdescr_for_OHBM(final)
-saveRDS(object = fig_BMIdescr, file = "../report/fig/fig_BMIdescr.rds")
+fig_FDdescr <- mk_figFDdescr_for_OHBM(final)
+saveRDS(object = fig_FDdescr, file = "../report/fig/fig_FDdescr.rds")
 
 
 # figDesignmatrix ---------------------------------------------------------

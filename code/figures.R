@@ -199,7 +199,7 @@ mk_figRewdescr <- function(final_FC) {
       values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time after intervention [months]") + ylab ("mean reward connectivity") +
+    xlab("Time after intervention [months]") + ylab ("mean RN FC [Z-score]") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
@@ -250,7 +250,7 @@ mk_figDMNdescr <- function(final_FC) {
       values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time after intervention [months]") + ylab ("mean DMN connectivity") +
+    xlab("Time after intervention [months]") + ylab ("mean DMN FC [Z-score]") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
@@ -560,14 +560,16 @@ figDvarsmFD <- function(final){
       values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time [months]") + ylab ("Mean DVARS") +
+    xlab("Time [months]") + ylab (expression(paste("Mean DVARS in\n 10% BOLD change"))) +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
       strip.text = element_text(size = 12),
       legend.text = element_text(size = 10),
-      legend.position = "none"
+      legend.position = "none",
+      plot.margin=unit(c(5.5, 5.5, 5.5, 15), "points")
     )
+  
   # mFD over time each group
   fig_mFDdescr <-
     ggplot(final, aes(
@@ -646,7 +648,7 @@ figDvarsmFD <- function(final){
       values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time [months]") + ylab ("DVARS-FD correlation") +
+    xlab("Time [months]") + ylab ("DVARS-FD correlation r") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),

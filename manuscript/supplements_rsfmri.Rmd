@@ -4,12 +4,12 @@ author:
 - Hannah Sophie Heinrichs* [1]
 - Frauke Beyer* [1][2]
 - Evelyn Medawar [1]
-- Kristin Prehn [3][4]
+- Kristin Prehn [4][5]
 - Jürgen Ordemann [8][9]
-- Agnes Floel [5][6][7]
-- A. Veronica Witte [1][2][10]
+- Agnes Floel [4][5]
+- A. Veronica Witte [3][1][2]
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
-  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3 Department of Neurology and NeuroCure Clinical Research Center, Charité University Medicine, Berlin \newline 4 Department of Psychology, Medical School Hamburg, Hamburg \newline 5 Department of Neurology, University of Greifswald, Greifswald \newline 6 German Center for Neurodegenerative Diseases, Standort Rostock/Greifswald, Greifswald \newline 7 Center for Stroke Research, Charité University Medicine, Berlin \newline 8 Center for Bariatric and Metabolic Surgery, Charité University Medicine, Berlin \newline 9 Zentrum für Adipositas und Metabolische Chirurgie, Vivantes Klinikum Spandau, Berlin \newline 10 Day Clinic for Cognitive Neurology, University Clinic Leipzig
+  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3 Clinic of Cognitive Neurology, University Clinic Leipzig \newline 4 Department of Neurology and NeuroCure Clinical Research Center, Charité University Medicine, Berlin \newline 5 Department of Psychology, Medical School Hamburg, Hamburg \newline 6 Department of Neurology, University of Greifswald, Greifswald \newline 7 German Center for Neurodegenerative Diseases, Standort Rostock/Greifswald, Greifswald \newline 8 Center for Bariatric and Metabolic Surgery, Charité University Medicine, Berlin \newline 9 Center for Bariatric and Metabolic Surgery, Vivantes Clinic Spandau, Berlin
 output:
   bookdown::pdf_book:
     fig_caption: yes
@@ -58,7 +58,10 @@ knitr::opts_chunk$set(fig.pos = "!ht", out.extra = "")
 \newpage
 
 # Methods
+Table \@ref(tab:tableSample) shows the distribution of data points in the present rsfMRI study, for the bariatric surgery group (BARS) and the waiting-list control group (NBARS).
+
 ## Sample
+
 ```{r "tableSample", echo=FALSE}
 tableSample <- readRDS(file = "../report/tab/tableSample.rds")
 tab <-
@@ -84,16 +87,73 @@ knitr::kable(
     caption = "BMI and mFD of participants acquired in each condition and time point")
 ```
 
+## Denoising Pipelines
+We pre-registered two distinct denoising pipelines which were previously shown to efficiently remove motion artifacts in fMRI. In @Parkes_2018,  ICA-AROMA provided an acceptable trade-off between the mitigation of motion-FC correlation and the introduction of a distance-dependence on motion-FC relationship. @Ciric_2017 showed that GSR is very efficient in removing the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. 
+
+### ICA-AROMA denoising pipeline   
+As described in @pruim2015ica, the minimally preprocessed data underwent independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the raw rsfMRI timeseries non-aggressively.
+As recommended in the original paper, we performed regression of WM and CSF signal on the ICA-AROMA result. We used CompCor to estimate 5 variance components from a combined WM and CSF mask, which was further eroded using `fslmaths -nan -thr 0.99 -ero -bin` [@Behzadi_2007;@Muschelli_2014]. After regression of these nuisance components from the data, we performed high-pass filtering at 0.01 Hz.
+
+### Global Signal Regression (GSR) 
+The global signal was derived from the average of all voxels in the brain mask. Then, we regressed WM and CSF CompCor components along with the GS from the ICA-AROMA rsfMRI data and high-pass filtered the resulting file as above.
 
 ## Quality Control
+### Individual level resting-state rsfMRI QC
+```{r carpetplot, out.width="50%", out.height="30%", fig.cap="Carpet plot for quality control", fig.subcap = c("Example 1 with strong amount of structured noise", "Example 2 with less amount of structured noise"), fig.show='hold',fig.align='center', echo=FALSE}
+carpets=c("../report/carpetplotadi006fu2.jpeg","../report/carpetplotadi16fu.jpeg")
+knitr::include_graphics(carpets)
+```
+On the individual level, we used `plot_carpet` from `niworkflows.viz.plots` to generate carpet plots which depict denoising quality. Figure \@ref(fig:carpetplot) shows an exemplary carpet plot with (from top to bottom): percent outliers defined by AFNI, mFD, `OutlierCount`, DVARS (spatial root mean square of the data after temporal differencing),voxelwise timeseries from minimally preprocessed, AROMA non-aggressive and aggressive denoising, CC and CC + GSR data (red: GM voxels, green: WM voxels, blue: ventricle, green: cerebellum). All carpet plots were visually checked and if there was still structured noise in the CC+GSR-denoised functional data (such as black/white stripes, signal dropout), the participant was given a rating of 1 in `QA residuals`, and checked again visually. No participant was excluded based on this visual inspection.
 
-```{r fighistograms,fig.cap="Histograms of FC-QC correlations for different preprocessing schemes)", out.width="100%", fig.align = "center", eval=FALSE}
+### Group level rsfMRI QC
+
+As described in @Beyer_2020, there was a group-by-time interaction on mFD (see Figure \@ref(fig:figDvarsmFD), upper right panel). The intervention group reduced in head motion in the followup assessments compared to the control group. For this study, we further explored mFD and its relation to DVARS, the root mean square of the temporal change of the voxel-wise signal at each time point. DVARS measures volume-to-volume signal variation.
+DVARS did not qualitatively differ between groups and time points, and the correlation of DVARS and mFD remained similar over time points (see Figure S2 in suppplements).
+To further assess the confounding of head motion and FC, we evaluated mFD-FC relationships by computing a functional connectome based on the protocol by [@Ciric_2018]. We used the MNI coordinates of 246 cortical and subcortical spherical seed regions from @Power_2012 with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we calculated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation.
+```{r mFDFC, echo=FALSE}
+res <- read.csv("../report/FDFCcorrelations.csv")
+rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
+colnames(res) <- c('mean mFD-FC', 'median mFD-FC', 'sig. conn.', 'sig. conn. BH', 'mean distance-mFDFC', 'p distance')
+```
+```{r tableQcfc, out.width="100%", echo=FALSE}
+tab_Qcfc <-
+  knitr::kable(
+    round(res, 3),
+    col.names = colnames(res),
+    row.names = TRUE,
+    format = "latex",
+    booktabs = T,
+    linesep = "",
+    caption = "Summary of quality metrics mean mFD-FC (mean Spearman's correlation of mFD and FC),median mFD-FC (median Spearman's correlation of mFD and FC), sig. conn. (number of significant connections), sig. conn. BH (number of FDR-corrected, significant connections), mean distance-mFDFC (mean Spearman's correlation of distance and mFD-FC correlation), p distance (p-value of distance dependency),  for minimal preprocessing,AROMA, AROMA+CC and AROMA+CC+GSR denoising pipelines over all data points"
+  ) %>%
+  column_spec(c(2:6), width = "1.8cm")
+tab_Qcfc
+```
+In the minimally preprocessed data, mFD and FC between nodes were significantly positively correlated (mean Spearman's $r$ = `r round(res[1,1],2)`)(see Table \@ref(tab:tableQcfc)). This relationship was negatively associated with distance between nodes (mean Spearman's $r$ = `r round(res[1,5],2)`).  
+Denoising pipelines (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and FC, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency [@Power_2015]. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's $r$ = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's $r$ = `r round(res[4,5],2)`)
+In addition, for models showing a significant time-by-group interaction, we planned to perform a sensitivity analysis excluding the 10% data sets with Fhighest mFD. 
+
+
+```{r figDvarsmFD, out.width="100%", fig.cap='Summary of quality measures DVARS, mFD and their correlation', fig.show='hold',fig.align='center', echo=FALSE}
+figList <- readRDS(file = "../report/fig/figDvarsmFDList.rds")
+#(figList$fig1 | figList$fig2) / figList$fig3
+
+lay <- rbind(c(1,1,2,2),
+             c(NA,3,3,NA))
+gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
+```
+
+```{r fighistograms,fig.cap="Histograms of FC-QC correlations for different denoising pipelines)", out.width="100%", fig.align = "default", echo=FALSE}
+knitr::include_graphics("/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/report/dp_aranged.jpeg")
+```
+Figure \@ref(fig:fighistograms) shows the distribution of FC-QC correlations for minimally preprocessed, AROMA, AROMA+CC and AROMA+CC+GSR preprocessed data. With more denoising, there is a decreasing number of high correlations between FC and the measure of head motion, supporting the positive effect of denoising.
+
+```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="100%", fig.align = "center", eval=TRUE}
 tsnr <- "../report/tsnr.pdf"
 knitr::include_graphics(tsnr)
 ```
 
-
-## Networks
+## DMN and RN Networks
 Figure \@ref(fig:figNetworks) shows the DMN and reward network average maps which we used for extracting aggregated FC values. Both networks included the typically described brain regions (i.e. medial prefrontal cortex, parietal lobules and posterior hippocampus for the DMN, and anterior cingulate, right amygdala and ventromedial-prefrontal cortex for the reward network).
 Yet, the reward network was less pronounced (overall lower T-values) and less symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see \@ref(fig:figtSNR)).
 Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) are on Neurovault.
@@ -104,12 +164,6 @@ networks = c("../report/fig/DMN_thresholded_for_clusterFWE005.pdf",
 knitr::include_graphics(networks)
 ```
 
-```{r figtSNR,fig.cap="Lower tSNR in the region of interest NAcc versus precuneus used for seed-based connectivity (shown are all 101 timepoints)", out.width="100%", fig.align = "center", eval=TRUE}
-tsnr <- "../report/tsnr.pdf"
-knitr::include_graphics(tsnr)
-```
-
-
 
 ## Design
 ```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap = c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
@@ -117,6 +171,18 @@ DesignMatricesList <- readRDS(file = "../report/fig/DesignMatricesList.rds")
 DesignMatricesList$plotA
 DesignMatricesList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
+```
+
+# Results
+
+## Confirmatory Analysis
+
+```{r "GT2tpagesexmFDBMIblNaccgsrTimeDeact", fig.cap="Main effect of time: Negative Association of FC between NAcc and this cluster in lateral parietal cortex, adjusted for age, sex, avgFD, and baseline BMI in AROMA+CC+GSR preprocessed data", fig.hold=TRUE, out.width = "50%", fig.align="center"}
+knitr::include_graphics(c("../report/fig/GroupTime2tp_NACCgsr_time_deact.pdf"))
+```
+
+```{r "GT2tpagesexmFDBMIblPCCgsrTimeDeact", fig.cap="Main effect of time: Negative Association of FC between PCC/precuneus and this cluster in ACC, adjusted for age, sex, avgFD, and baseline BMI in AROMA+CC+GSR preprocessed data", fig.hold=TRUE, out.width = "50%", fig.align="center"}
+knitr::include_graphics(c("../report/fig/GroupTime2tp_PCCgsr_time_deact.pdf"))
 ```
 
 ## Aggregated FC: confirmatory analysis of an interaction effect of group and time 
@@ -158,7 +224,6 @@ qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor +  (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tp=anova(R1,R0)
-anvRew2tp
 ```
 
 ```{r qa check Rew model age,sex, eval=FALSE}
@@ -198,7 +263,7 @@ texreg(
 
 ```{r calc rew two tp adjusted 2, fig.cap="Two timepoints, adjusted for age, sex and average mFD (Model CA2)", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
-R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +(1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
+R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tpadj=anova(R1,R0)
 ```
 

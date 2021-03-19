@@ -4,12 +4,12 @@ author:
 - Hannah Sophie Heinrichs* [1]
 - Frauke Beyer* [1][2]
 - Evelyn Medawar [1]
-- Kristin Prehn [3][4]
-- Jürgen Ordemann [7][8]
-- Agnes Floel [5][6]
-- A. Veronica Witte [1][2][9]
+- Kristin Prehn [4][5]
+- Jürgen Ordemann [8][9]
+- Agnes Floel [4][5]
+- A. Veronica Witte [3][1][2]
 date: 1 Max-Planck-Institute for Human Cognitive and Brain Sciences, Leipzig \newline
-  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3 Department of Neurology and NeuroCure Clinical Research Center, Charité University Medicine, Berlin \newline 4 Department of Psychology, Medical School Hamburg, Hamburg \newline 5 Department of Neurology, University of Greifswald, Greifswald \newline 6 German Center for Neurodegenerative Diseases, Standort Rostock/Greifswald, Greifswald \newline 7 Center for Bariatric and Metabolic Surgery, Charité University Medicine, Berlin \newline 8 Center for Bariatric and Metabolic Surgery, Vivantes Clinic Spandau, Berlin \newline 9 Day Clinic for Cognitive Neurology, University Clinic Leipzig
+  2 CRC 1052 "Obesity Mechanisms", Subproject A1, University of Leipzig \newline 3 Clinic of Cognitive Neurology, University Clinic Leipzig \newline 4 Department of Neurology and NeuroCure Clinical Research Center, Charité University Medicine, Berlin \newline 5 Department of Psychology, Medical School Hamburg, Hamburg \newline 6 Department of Neurology, University of Greifswald, Greifswald \newline 7 German Center for Neurodegenerative Diseases, Standort Rostock/Greifswald, Greifswald \newline 8 Center for Bariatric and Metabolic Surgery, Charité University Medicine, Berlin \newline 9 Center for Bariatric and Metabolic Surgery, Vivantes Clinic Spandau, Berlin
 output:
   bookdown::pdf_book:
     extra_dependencies: "subfig"
@@ -84,17 +84,16 @@ This pre-registered analysis of longitudinal neuroimaging data did not support a
 
 \newpage
 # Introduction
-Obesity is a worldwide health issue, entailing huge personal and societal costs. Excess amount of body fat not only affects cardiovascular and metabolic health, but also increases the risk for cognitive decline and dementia later in life [@Albanese_2017]. Conservative treatment options including behavioral therapy often do not yield the desired weight loss, especially in patients with very high BMI ($> 35$ kg/m$^2$). Here, bariatric surgery is a viable option to rapidly induce weight loss and improve glycemic status. RYBG is the most invasive, yet most effective surgical pro-cedure, but other techniques like vertical sleeve gastrectomy (VSG) and gastric banding (GB) are also common [@Berthoud_2011]. 
-Bariatric surgery leads to weight loss due to malabsorption of nutrients, reduced digestion efficiency and altered food perception, appetite and central regulation of food intake [@Mulla_2017; @Brutman_2019]. Precise mechanisms how bariatric surgery leads to altered appetitive signaling are yet to be elucidated. 
-Resting-state functional magnetic resonance imaging (rsfMRI) is a technique to investigate the dynamic organization of the brain. Functional connectivity (FC) networks, i.e. brain regions with correlated neural activity over time, are in anatomical correspondence with specific brain networks involved in cognitive processes, including attention and executive control [@Smith_2009]. The reward network (RN), processing hedonic value and internal motivation, and the default mode network (DMN), a higher-order network, involved in interoception and governing shifts between external-internal processes,  are promising candidates to mediate altered central regulation of food intake after bariatric surgery.
-The RN (RN), comprises the ventromedial prefrontal cortex (vmPFC), the nucleus accumbens (Nacc), the putamen, the amygdala and the anterior insula  [@Odoherty_2004;@Liu_2011]. These brain regions have been found to guide food valuation processes and decision-making in humans [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018]. Frequently, obesity has been associated with hyperactivation of RN regions during anticipation of (high-caloric) food cues, and in contrast, reduced activation to actual taste of these foods [@Devoto_2018; @Garcia_2014; @Meng_2020; @Stoeckel_2009; though see @Morys_2020]. RsfMRI studies also showed increased local FC of reward network regions, i.e. Nacc, vmPFC, putamen, insula [@Contreras_2017; @Coveleskie_2015;@Hogenkamp_2016], and altered connectivity with salience, homeostatic and sensorimotor networks [@Lips_2014;  @Wijngaarden_2015]. In bariatric surgery patients, connectivity  within the RN (e.g. putamen, OFC) might be normalized by the surgery, however the evidence is limited due to a lack of longitudinal obese control groups  [@Duan_2020; @Wiemerslage_2016]. Possibly, a reconfiguration of the fronto-striatal brain networks could emerge from altered gut signaling , e.g. changes in ghrelin levels, via hypothalamic-striatal projections [@Li_2019; @Karra_2013; but @Zoon_2018] . 
+Obesity is a worldwide health issue, entailing huge personal and societal costs. Excess amount of body fat not only affects cardiovascular and metabolic health, but also increases the risk for cognitive decline and dementia later in life [@Albanese_2017]. Conservative treatment options including behavioral therapy often do not yield the desired weight loss, especially in patients with very high BMI ($> 35$ kg/m$^2$). Here, bariatric surgery is a viable option to rapidly induce weight loss and improve glycemic status. RYBG is the most invasive, yet most effective surgical procedure, but other techniques like vertical sleeve gastrectomy (VSG) and gastric banding (GB) are also common [@Berthoud_2011]. 
+Bariatric surgery leads to weight loss due to malabsorption of nutrients, reduced digestion efficiency and altered food perception, appetite and central regulation of food intake [@Mulla_2017; @Brutman_2019]. Precise mechanisms how bariatric surgery leads to altered appetitive signaling are yet to be elucidated. One option to adress these questions on brain-behavior relationships is to use resting-state functional magnetic resonance imaging (rsfMRI), a technique capturing the dynamic organization of the brain. Functional connectivity (FC) networks, i.e. brain regions with correlated neural activity over time, are in anatomical correspondence with specific brain networks involved in cognitive processes, including attention and executive control [@Smith_2009]. The reward network (RN), processing hedonic value and internal motivation, and the default mode network (DMN), a higher-order network, involved in interoception and governing shifts between external-internal processes,  are promising candidates to mediate altered central regulation of food intake after bariatric surgery.
+The RN (RN) comprises the ventromedial prefrontal cortex (vmPFC), the nucleus accumbens (NAcc), the putamen, the amygdala and the anterior insula  [@Odoherty_2004;@Liu_2011]. These brain regions have been suggested to guide food valuation processes and decision-making in humans [@Bartra_2013; @Hare_2011; @Hutcherson_2012; @Schmidt_2018]. Frequently, obesity has been associated with hyperactivation of RN regions during anticipation of (high-caloric) food cues, and in contrast, reduced activation to actual taste of these foods [@Devoto_2018; @Garcia_2014; @Meng_2020; @Stoeckel_2009; though see @Morys_2020]. RsfMRI studies also showed increased local FC of reward network regions, i.e. NAcc, vmPFC, putamen, insula [@Contreras_2017; @Coveleskie_2015;@Hogenkamp_2016], and altered connectivity with salience, homeostatic and sensorimotor networks [@Lips_2014;  @Wijngaarden_2015]. In bariatric surgery patients, connectivity  within the RN (e.g. putamen, OFC) might be normalized by the surgery, however the evidence is limited due to a lack of longitudinal obese control groups  [@Duan_2020; @Wiemerslage_2016]. Possibly, a reconfiguration of the fronto-striatal brain networks could emerge from altered gut signaling , e.g. changes in ghrelin levels, via hypothalamic-striatal projections [@Li_2019; @Karra_2013; but @Zoon_2018]. 
 The DMN includes the posterior cingulate cortex (PCC)/precuneus, the medial prefrontal cortex (mPFC) and the inferior and lateral parietal cortex [@Raichle_2015]. Higher BMI and obesity have been associated with a pattern of decreased within DMN FC and increased FC of DMN regions to other networks, i.e. salience and sensory networks in several resting-state and task-based rsfMRI studies [@Beyer_2017; @Kullmann_2011; @Chao_2018; @Wijngaarden_2015; @Borowitz_2020; @Ding_2020; @Doucet_2017; @Sadler_2018]. After bariatric surgery, a normalization of the connectivity between DMN and cognitive control and salience brain regions might occur, yet no study has included a longitudinal control group [@Li_2018; @Olivo_2017; @Frank_2013].
 In sum, while there is some evidence hinting to a role for DMN and RN FC in altered regulation of food intake after bariatric surgery, the existing evidence is inconclusive. Most studies have investigated small cohorts of patients, without adequate obese control groups, and did not rigorously separate confirmatory from exploratory analyses [@George_2016].
-Further, while higher BMI has been consistently associated with more head motion during rsfMRI, previous studies in bariatric surgery patients have not taken this important confounder of FC into account [@Beyer_2017;@Hodgson_2016]. In the present sample, we previously reported a group-by-time interaction on head motion [@Beyer_2020]. Thus, we aimed to rigorously control for motion-related variance in our analyses. 
+Further, while higher BMI has been consistently associated with more head motion during rsfMRI [@Beyer_2017;@Hodgson_2016], previous studies in bariatric surgery patients have not taken this important confounder of FC into account. In the present sample, we previously reported a group-by-time interaction on head motion [@Beyer_2020]. Thus, we aimed to rigorously control for motion-related variance in our analyses. 
 We had the following confirmatory hypotheses:
 1. Whole-brain FC of the RN and DMN changes differently from baseline to followup in the bariatric surgery compared to a waiting-list control group
 2. Within-network FC of the RN and DMN changes differently from baseline to followup in the bariatric surgery compared to a waiting-list control group
-We tested hypothesis 1 by investigating the interaction of bariatric surgery and time on DMN and RN whole-brain FC. We pre-registered two denoising pipelines, and three covariate schemes. For hypothesis 2, we performed a planned analysis of the group-by-time interaction on aggregated, within-network FC, for two and three time points and the same covariate schemes.
+We tested hypothesis 1 by investigating the interaction of bariatric surgery and time on DMN and RN whole-brain FC. We pre-registered two denoising pipelines, and three covariate schemes. For hypothesis 2, we performed a confirmatory analysis of the group-by-time interaction on aggregated, within-network FC, for two and three time points and the same covariate schemes.
 In exploratory analyses, we examined the whole-brain interaction effect for three time points, the effects of head motion on FC and whether weight loss, a proxy of treatment success, predicted changes in FC.
 
 # Methods
@@ -134,7 +133,7 @@ sum(subj_df$comorbidities[subj_df$condition=="KG"])
 ## Sample and study design
 
 <!-- STUDY DESIGN --> The ADIPOSITAS-Study investigated the effects of bariatric surgery on brain structure and function in a prospective design at the Charité University Medicine Berlin, Germany. For more details see [@Prehn_2020]. We used all data acquired until April 2019.
-The study protocol was in accordance with the Helsinki Declaration and approved by the ethics committee of the Charité University Medicine Berlin. The study was registered at clinicaltrials.gov as NCT01554228. We pre-registered the present resting-state analyses on the OSF https://osf.io/yp42s. We made additional changes https://osf.io/59bh7/ to the pre-registration after preprocessing as we realized some aspects of the analysis were inadequately described in the initial pre-registration.
+The study protocol was in accordance with the Helsinki Declaration and approved by the ethics committee of the Charité University Medicine Berlin. The study was registered at clinicaltrials.gov as NCT01554228. We pre-registered the present resting-state analyses on the OSF https://osf.io/yp42s. We made additional changes https://osf.io/59bh7/ to the pre-registration after denoising as we realized some aspects of the analysis were inadequately described in the initial pre-registration.
 <!-- RECRUITEMENT, INCLUSION/EXCLUSION CRITERIA -->   
 
 Participants were recruited from the Center for Bariatric and Metabolic Surgery at the Charité University Medicine Berlin. Inclusion criteria were, in accordance with German guidelines for bariatric surgery, a failure of conservative obesity treatment and either (1) a BMI $> 40$ km/m$^2$ or (2) a BMI $> 35$ kg/m$^2$ and at least one typical co-morbidity (e.g. type-2 diabetes, hypertension, non-alcoholic fatty liver disease)[@Mechanick_2013]. Participants were aged between $18$ and $70$ years and had no history of cancer, chronic inflammatory disease and addiction, other severe untreated diseases, brain pathologies identified in the MRI scan or cognitive impairments (defined as MMSE score < $34$).
@@ -142,7 +141,7 @@ Participants were recruited from the Center for Bariatric and Metabolic Surgery 
 <!-- DESCRIPTIVE STATISTICS -->
 The final sample entailed `r nrow(subj_df)` morbidly obese individuals (`r nrow(filter(subj_df,Sex == "f"))` females; aged `r round(mean(subj_df$Age_BL),2)` $\pm$ `r round(sd(subj_df$Age_BL),2)` SD years (range `r min(subj_df$Age_BL)`-`r max(subj_df$Age_BL)`)). `r round(sum(subj_df$arterial_hypotension == 1, na.rm = T) / nrow(subj_df), 3)*100`% of participants had clinically diagnosed hypertension, `r round((sum(subj_df$diabetes_type_II == 1, na.rm = T) + sum(subj_df$diabetes_type_I == 1, na.rm = T))  / nrow(subj_df), 3)*100`% had type-2 or type-1 diabetes, and `r round(sum(subj_df$smoking_status == 1, na.rm = T) / nrow(subj_df), 3)*100`% reported to smoke.
 Participants either underwent surgery (n = `r cs["Sum","IG"]`, `r cs["f","IG"]` female) or were waiting list controls (n = `r cs["Sum","KG"]`, `r cs["f","KG"]` female), who waited for their health insurance's approval to undergo surgery. Measures were taken at baseline (BL), $6$ (FU1) and $12$ (FU2) months post-surgery/baseline appointment to capture both phases of rapid weight-loss and maintenance [@Maciejewski_2016]. 
-Analyses were performed on all participants who provided at least one data point of rsfMRI data. `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for one time point (for more details see Table S1). The pre-planned analysis of changes from baseline to follow-up included $24$ participants with both time points, in total $72$ data points. 
+Analyses were performed on all participants who provided at least one data point of rsfMRI data. `r sum(freqtable$Freq == 3)` participants had complete data, `r sum(freqtable$Freq == 2)` provided data for two time points and `r sum(freqtable$Freq == 1)` for one time point (for more details see Table S1). The pre-registered analysis of changes from baseline to followup included $24$ participants with both time points, in total $72$ data points. 
 
 `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="RYGB" & !is.na(subj_df$interv),])` patients underwent RYGB, `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="VSG" & !is.na(subj_df$interv),])` underwent VSG and `r nrow(subj_df[subj_df$condition=="IG" & subj_df$interv=="GB" & !is.na(subj_df$interv),])` GB, for `r nrow(subj_df[subj_df$condition=="IG" & is.na(subj_df$interv),])` patients in the intervention group information was not available. 
 
@@ -158,131 +157,80 @@ Participants were instructed to close their eyes but to remain awake during scan
 
 ## Preprocessing
 
+### Minimal preprocessing
 Imaging data was conducted using AFNI 19.1.05, ANTS '2.3.1', FSL '6.0.1' and FreeSurfer '6.0.0p1', wrapped in a nipype workflow (version 1.2.0) in Python 2.7.15.
 The preprocessing workflow included modules to process anatomical, functional and diffusion-weighted imaging in parallel. The workflow can be found on https://github.com/fBeyer89/ADI_preproc/.
-
-### Anatomical preprocessing
-Within the module for anatomical preprocessing, the T1-weighted images were first processed by FreeSurfer's cross-sectional pipeline [@fs_cross]. Then, Freesurfer's longitudinal stream was applied to all cross-sectional runs [@fs_long]. Here, white matter (WM) and cerebral spinal fluid (CSF) masks were derived based on FreeSurfer's `aseg.mgz` segmentation file for quality control of rsfMRI preprocessing.  
+T1-weighted images were first processed by FreeSurfer's cross-sectional pipeline [@fs_cross]. Then, Freesurfer's longitudinal stream was applied to all cross-sectional runs [@fs_long]. Here, white matter (WM) and cerebral spinal fluid (CSF) masks were derived based on FreeSurfer's `aseg.mgz` segmentation file for quality control of rsfMRI preprocessing.  
 The skull-stripped brain (`brainmask.mgz`) was then coregistered to the MNI152 1x1x1x mm template using ANTS [@avants2009ants]. The following parameters were used for rigid [metric: mutual information, number of iterations: [1000, 500, 250, 100]], affine [metric: mutual information, number of iterations: [1000, 500, 250, 100]] and SyN: [metric: cross-correlation, iterations: [100, 70, 50, 20]] registration steps with shrink factors [8, 4, 2, 1], and smoothing sigmas=[3, 2, 1, 0] for each step.
-
-## Functional preprocessing
-
-### Minimal functional preprocessing
-The functional preprocessing included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step. 
+Minimal functional preprocessing included the removal of first four volumes, motion correction (FSL's `MCFLIRT`), fieldmap distortion correction (FSL's `fsl_prepare_fieldmap` and `FUGUE`) and coregistration to the subject’s individual longitudinal anatomical space (FreeSurfer's `bbregister`). In more detail, the transformations derived from the latter three steps were combined into one and applied in a single step. 
 For further analysis and ICA-AROMA processing, the minimally preprocessed data were intensity normalized and smoothed with a 6mm Gaussian kernel (`fslmaths -kernel gauss 2.548`).
 
-## Denoising pipelines
-Among several denoising pipelines, ICA-AROMA provides an acceptable trade-off between the mitigation of motion-FC correlation and the introduction of a distance-dependence on motion-FC relation-ship [@Parkes_2018]. @Ciric_2017 showed that GSR is very efficient in re-moving the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. Thus, we pre-registered the main analyses to be performed with both denoising pipelines. 
-
-### ICA-AROMA denoising pipeline   
-As described in @pruim2015ica, the minimally preprocessed data underwent independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the raw rsfMRI timeseries non-aggressively.
-As recommended in the original paper, we performed regression of WM and CSF signal on the ICA-AROMA result. We used CompCor to estimate 5 variance components from a combined WM and CSF mask, which was further eroded using `fslmaths -nan -thr 0.99 -ero -bin` [@Behzadi_2007;@Muschelli_2014]. After regression of these nuisance components from the data, we performed high-pass filtering at 0.01 Hz.
-
-### Global Signal Regression (GSR) 
-The global signal was derived from the average of all voxels in the brain mask. Then, we regressed WM and CSF CompCor components along with the GS from the ICA-AROMA rsfMRI data and high-pass filtered the resulting file as above.
-
-### Functional connectivity (FC)
-To derive RN and DMN FC maps, we used Nacc and precuneus as seed regions of interest (ROI), respectively. We did not select vmPFC for the RN due to low SNR. Because we knew about the large amount of motion in this dataset beforehand, we decided against ICA to construct the networks, as ICA is recommended to work on minimally preprocessed data. Based on FreeSurfer’s aseg.mgz and Desikan-Killiany parcellation, we created seed masks using mri_binarize (thresholded for Nacc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used NiftiLabelsMasker and NiftiMasker to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson’s correlation between them with numpy.dot, performed r-to-z Fisher-transformation and saved the resulting correlation maps for each preprocessing pipeline (minimally preprocessed,AROMA, AROMA+CC, AROMA+GSR). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived with ANTS during anatomical preprocessing. 
-
+### Denoising pipelines
+We specified two denoising pipelines (ICA-AROMA + CompCor and ICA-AROMA + CompCor + global signal regression (GSR) in the pre-registration. AROMA+CC and AROMA+CC+GSR [@Parkes_2018; @Ciric_2017, for details see SI]. 
 
 ### Quality Assessment
 
-#### Anatomical Quality control
+**Anatomical quality control**
 FreeSurfer cross-sectional and longitudinal  segmentations were visually checked according to @Klapwijk_2019. We excluded 5 datasets from 3 participants because of excessive head motion leading to failed pial reconstruction and anatomical-functional coregistration.
 <!--ADI009_fu2, ADI063_bl, ADI063_fuADI116_bl, ADI116_fu, ADI116_fu2-->
 
 
-#### RsfMRI quality control (QC)
-RsfMRI quality control was performed according to the protocol by @Ciric_2018. 
+**RsfMRI quality control**
+RsfMRI quality control was performed according to the protocol by @Ciric_2018 (see SI for more details). 
 We calculated mean framewise displacement (mFD) according to @Power_2012, and log-transformed it for further analysis (logmFD).
-As pre-registered, we did not exclude anybody based on high average head motion [@Beyer_2020]. Instead, we applied best-practice motion correction (AROMA+CC and AROMA+CC+GSR) and monitored the reduction of motion-related artifact according to current recommendations [@Ciric_2018]. 
+As pre-registered, we did not exclude anybody based on high average head motion [@Beyer_2020]. 
 
-##### Individual level resting-state rsfMRI QC
-```{r carpetplot, out.width="50%", out.height="30%", fig.cap="Carpet plot for quality control", fig.subcap = c("Example 1 with strong amount of structured noise", "Example 2 with less amount of structured noise"), fig.show='hold',fig.align='center', echo=FALSE}
-carpets=c("../report/carpetplotadi006fu2.jpeg","../report/carpetplotadi16fu.jpeg")
-knitr::include_graphics(carpets)
-```
-On the individual level, we used `plot_carpet` from `niworkflows.viz.plots` to generate carpet plots which depict denoising quality. Figure \@ref(fig:carpetplot) shows an exemplary carpet plot with (from top to bottom): percent outliers defined by AFNI, mFD, `OutlierCount`, DVARS (spatial root mean square of the data after temporal differencing),voxelwise timeseries from minimally preprocessed, AROMA non-aggressive and aggressive denoising, CC and CC + GSR data (red: GM voxels, green: WM voxels, blue: ventricle, green: cerebellum). All carpet plots were visually checked and if there was still structured noise in the CC+GSR-denoised functional data (such as black/white stripes, signal dropout), the participant was given a rating of 1 in `QA residuals`, and checked again visually. No participant was excluded based on this visual inspection.
+## Functional connectivity (FC)
+To derive RN and DMN FC maps, we used NAcc and PCC/precuneus as seed regions of interest (ROI), respectively. We did not select vmPFC for the RN due to low SNR. Based on FreeSurfer's aseg.mgz and Desikan-Killiany parcellation, we created seed masks using mri_binarize (thresholded for NAcc at 26,58; precuneus at 1025,2025) and averaged them over hemispheres. Then, we used NiftiLabelsMasker and NiftiMasker to extract the standardized timeseries from the seed regions and the whole brain. We calculated the Pearson’s correlation between them with numpy.dot, performed r-to-z Fisher-transformation and saved the resulting correlation maps for each preprocessing pipeline (minimally preprocessed,AROMA, AROMA+CC, AROMA+GSR). Finally, the connectivity maps were transformed into MNI space using the affine transformation and non-linear warp derived with ANTS during anatomical preprocessing. 
 
-##### Group level rsfMRI QC
 
-As described in @Beyer_2020, there was a group-by-time interaction on mFD (see Figure \@ref(fig:figDvarsmFD), upper right panel). The intervention group reduced in head motion in the follow-up assessments compared to the control group. For this study, we further explored mFD and its relation to DVARS, the root mean square of the temporal change of the voxel-wise signal at each time point. DVARS measures volume-to-volume signal variation.
-```{r figDvarsmFD, out.width="100%", fig.cap='Summary of quality measures DVARS and mFD', fig.show='hold',fig.align='center', echo=FALSE}
-figList <- readRDS(file = "../report/fig/figDvarsmFDList.rds")
-#(figList$fig1 | figList$fig2) / figList$fig3
+## Aggregated FC values
+To extract aggregated FC values, we first calculated the mean DMN and RN over all participants and NAccs, adjusted for age and sex. We used GSR regressed data as input and clusterwise bootstrapping with $N = 1000$. Network masks were formed from all voxels within clusters which survived a clusterwise multiple comparison correction of FWE-corrected $p < 0.05$. We extracted the average FC from these masks for GSR-data.
 
-lay <- rbind(c(1,1,2,2),
-             c(NA,3,3,NA))
-gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
-```
-DVARS did not qualitatively differ between groups and time points, and the correlation of DVARS and mFD remained similar over time points (see Figure \@ref(fig:figDvarsmFD).
-To further assess the confounding of head motion and FC, we evaluated mFD-FC relationships by computing a functional connectome based on the protocol by [@Ciric_2018]. We used the MNI coordinates of 246 cortical and subcortical spherical seed regions from @Power_2012 with 5mm radius in `NiftiSpheresMasker`, and calculated the Spearman rank correlation between these time series. Then, we calculated the distance-dependence of mFD-FC correlations by correlating the euclidean distance between nodes with the mFD-QC correlation.
-```{r mFDFC, echo=FALSE}
-res <- read.csv("../report/FDFCcorrelations.csv")
-rownames(res) <- c("minimally processed", "AROMA", "AROMA + CC", "AROMA + CC + GSR")
-colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH', 'distance-FD-QC', 'pval')
-```
-```{r tableQcfc, out.width="100%", echo=FALSE}
-tab_Qcfc <-
-  knitr::kable(
-    round(res, 3),
-    col.names = colnames(res),
-    row.names = TRUE,
-    format = "latex",
-    booktabs = T,
-    linesep = "",
-    caption = "Summary of quality metrics for different denoising pipelines across conditions and time points"
-  ) %>%
-  column_spec(c(2:6), width = "1.8cm")
-tab_Qcfc
-```
-In the minimally preprocessed data, mFD and FC between nodes were significantly positively correlated (mean Spearman's $r$ = `r round(res[1,1],2)`)(see Table \@ref(tab:tableQcfc)). This relationship was negatively associated with distance between nodes (mean Spearman's $r$ = `r round(res[1,5],2)`).  
-Denoising pipelines (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and FC, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency [@Power_2015]. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's $r$ = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's $r$ = `r round(res[4,5],2)`)
-In addition, for models showing a significant time-by-group interaction, we planned to perform a sensitivity analysis excluding the 10% data sets with highest mFD. 
+## Statistical Analysis
 
-### Aggregated FC values
-To extract aggregated FC values, we first calculated the mean DMN and RN over all participants and Naccs, adjusted for age and sex. We used GSR regressed data as input and clusterwise bootstrapping with $N = 1000$. Network masks were formed from all voxels within clusters which survived a clusterwise multiple comparison correction of FWE-corrected $p < 0.05$. We extracted the average FC from these masks for GSR-data.
+Statistical analyses were performed in MATLAB version 9.7.0.1190202 (R2019b, @MATLAB2018) using the SwE toolbox version 2.2.2 [@Guillaume_2014] as implemented in the Statistical Parametric Mapping software (SPM12.7770, Ashburner et al. -@spm12). The marginal model implemented in the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered. We used an explicit brain mask, derived from the MNI ICBM “152 nonlinear 6th generation” atlas (re-sampled to 3 x 3 x 3 mm$^3$ and thresholded at 0.5 GM probability) for all analyses. Statistical analyses on the aggregated FC and imputation were performed in R version 3.6.1 [@team2013r].
 
-## Analysis
-
-Statistical analysis were performed in MATLAB version 9.7.0.1190202 (R2019b, @MATLAB2018) using the SwE toolbox version 2.2.2 [@Guillaume_2014] as implemented in the Statistical Parametric Mapping software (SPM12.7770, Ashburner et al. -@spm12)<!-- spm_check_installation('rev') -->, and R version 3.6.1 [@team2013r].
-
-### Design Specification
 
 <!-- MODEL SETUP --> 
-#### Confirmatory Analysis
-We tested the pre-registered hypothesis of a time-by-group interaction:  $FC=group + time + group * time$. 
+### Confirmatory analyses
+#### Whole-brain analysis
+We tested the pre-registered hypothesis of a time-by-group interaction:  `FC=group + time + group * time`. 
 As pre-registered, we performed the analysis for baseline and followup time points only, for AROMA+CC and AROMA+CC+GSR denoising pipelines and adjusting for no confounders (CA1), age, sex and average logmFD of both timepoints (CA2) and age, sex, average logmFD and baseline BMI (CA3). 
-In this model, time was represented as factor taking into account possible non-linear time courses in the increase and decrease of FC over the course of one year, which may occur depending on the phase of weight management [@Olivo_2017]. The resulting factorial design contained one regressor for each time point per group (see supplements for depiction of design matrix). 
 Because the information about the BMI at baseline of one participant in the intervention group was missing, we employed multivariate imputation using the package mice based on subject identification, condition, baseline age, and available BMI values. This package allows taking into account the multi-level structure of the data and averaging across multiple possible values, in this case 50 different values, each derived from 10 iterations.
 
-#### Exploratory analysis
-##### Group-by-time interaction in three time points
-Then, we extended our whole-brain analysis of the group-by-time point interaction to the data from all three time points. This analysis had not been pre-registered. Here, we used individual logmFD values (not averaged) as covariate to capture variance in logmFD change over time points. We investigated two models (EA1.1: group x time, age, sex and EA1.2: group x time, age, sex and logmFD). 
+#### Aggregated FC analysis
+We analyzed the aggregate FC using linear mixed models in the R package lme4 [@Bates_2007]. We deviated from the pre-registration by only investigating data from the AROMA+CC+GSR denoising pipeline. First, we investigated the time-by-group interaction for baseline and followup time points only. We either performed no correction (CA1), adjusted for baseline age, sex, average of logmFD of both time points (CA2) or additionally adjusted for baseline BMI (CA3). We performed model comparison between R1 and R0 models, where $R1 = lmer(aggFC ~ timepoint*group + age + sex + (1|subj))$, and $R0 = lmer(aggFC ~ timepoint + group +  age + sex + (1|subj))$. As specified in the pre-registration, we repeated the above-mentioned interaction analysis for all three time points. 
 
-##### Average and change BMI
-We further  explored the relationship of average and change in BMI in a separate group of models. As proposed by @Guillaume_2014, we calculated the between- and within subject centered values of BMI. This model, containing average BMI and BMI change, allowed us to disentangle the differential effects of these variables on FC. We first estimated their effects in a model adjusting for baseline age and sex (Model EA2.1) and then additionally controlling for logmFD (Model EA 2.2). As we previously reported correlated change in BMI and mFD in this sample [@Beyer_2019], we explored a refined model including average BMI and logmFD and change in both measures, along with baseline age and sex (Model EA 2.3). Here, we aimed to see whether any effect of change in BMI would be detectable when adjusting for the change in head motion. 
-For a better understanding of the unique contribution of average and longitudinal change in logmFD measures, we separately employed a third post-hoc, exploratory model (EA 2.4), solely including the head motion measures as covariates of interest: `FC = between-subject logmFD + within-subject logmFD` with age and sex as nuisance covariates.
+
+### Exploratory analysis (pre-registered)
+#### Whole-brain analysis
+As described in the pre-registration, we performed an exploratory analysis of the relationship of average and change in BMI in a separate group of models. As proposed by @Guillaume_2014, we calculated the between- and within subject centered values of BMI. This model, containing average BMI and BMI change, allowed us to disentangle the differential effects of these variables on FC. We first estimated their effects in a model adjusting for baseline age and sex (Model EA 1) and then additionally controlling for logmFD (Model EA 2). As we previously reported correlated change in BMI and mFD in this sample [@Beyer_2019], we explored a refined model including average BMI and logmFD and change in both measures, along with baseline age and sex (Model EA 3). Here, we aimed to see whether any effect of change in BMI would be detectable when adjusting for the change in head motion. 
+
+#### Aggregated FC analysis
+We also performed an exploratory analysis with average BMI and change in BMI as predictors of the aggregated FC from AROMA+CC+GSR denoised data of both networks. We calculated three models with average and change in BMI as predictors of interest and adjusted for baseline age and sex (Model EA 1), logmFD (Model EA 2) and average and change in logmFD (Model EA 3).
+
+### Exploratory analysis (not pre-registered)
+#### Whole-brain analysis
+##### Group-by-time interaction in three time points
+We explored our whole-brain group-by-time point interaction models for the data of all three time points. In this model, time was represented as factor taking into account possible non-linear time courses in the increase and decrease of FC over the course of one year, which may occur depending on the phase of weight management [@Olivo_2017]. The resulting factorial design contained one regressor for each time point per group (see supplements for depiction of design matrix). This analysis had not been pre-registered. Here, we used individual logmFD values (not averaged) as covariate to capture variance in logmFD change over time points. We investigated two models (EA 4: group x time, age, sex and EA 5: group x time, age, sex and logmFD). 
+##### Average and change in logmFD
+Further, we tested the association of head motion and FC in another exploratory model (EA 6): `FC = between-subject logmFD + within-subject logmFD` with age and sex as nuisance covariates. With this model, we aimed for a better understanding of the unique contribution of average and longitudinal change in logmFD measures.
+
+
+### Statistical Inference
+
+#### Whole-brain analysis
+<!-- INFERENCE --> To ensure robustness of our results, we used non-parametric inference testing based on wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. Deviating from the pre-registration, we used type C2 instead of type 3 for small sample bias adjustment as this was recommended for wild bootstraps in the SwE manual. Opposed to the description in the pre-registration, we used a cluster forming threshold of $p < 0.001$ for a more rigorous multiple comparison adjustment (instead of $p < 0.01$, and 1000 bootstraps due to required computation time (instead of 5000)). Significant clusters are defined as family-wise error (FWE) corrected $p < 0.05$. The anatomical localization of significant clusters was investigated with the SPM Anatomy toolbox, version 2.2c [@Eickhoff_2005] and the Harvard-Oxford Atlas in FSL version 5.0.11.
+
+
+#### Aggregated FC analysis
+The interaction effect of group and time point in the models of aggregated FC was considered significant if the model comparison between R1 and R0 models using the anova command showed $p < 0.05$. In all exploratory models, we considered all coefficients with $p < 0.05$ as significant.
+
 
 ### Functional decoding
 In an exploratory analysis, we compared the resulting contrast maps with whole-brain activation maps from the [NeuroSynth](https://www.neurosynth.org/) database [@Yarkoni_2011]. We uploaded the contrast images for change BMI and average logmFD on [Neurovault](), and applied the decoding classifier. This classifier estimates the similarity of meta-analytic activation maps of +500 search terms with our our contrast maps. We reported the three top terms for both contrasts.
 
-### Model input and brain mask
-For each brain network, we examined the models for the two denoising pipelines (AROMA+CC/AROMA+CC+GSR) as pre-registered. For all analyses, we used an explicit brain mask, which was a whole brain derived from the MNI ICBM “152 nonlinear 6th generation” atlas (re-sampled to 3 x 3 x 3 mm$^3$ and thresholded at 0.5 GM probability).
-
-### SwE settings
-<!-- MODEL SPECIFICATION --> The marginal model implemented via the SwE toolbox implicitly accounts for random effects without the need to specify them through the error term. It therefore accommodates any repeated measurement covariance structures. We used a modified SwE assuming different covariance structures for the intervention and the control group because of their unbalanced sample size, so heteroscedasticity would be considered.
-
-<!-- INFERENCE --> To ensure robustness of our results, we used non-parametric inference testing based on wild bootstrap with an unrestricted SwE on all contrasts of interest for clusterwise inference. Deviating from the pre-registration, we used type C2 instead of type 3 for small sample bias adjustment as this was recommended for wild bootstraps in the SwE manual. Opposed to the description in the pre-registration, we used a cluster forming threshold of p<0.001 for a more rigorous multiple comparison adjustment (instead of p<0.01, and 1000 bootstraps due to required computation time (instead of 5000)). Significant clusters are defined as family-wise error (FWE) corrected p<0.05. The anatomical localization of significant clusters was investigated with the SPM Anatomy toolbox, version 2.2c [@Eickhoff_2005] and the Harvard-Oxford Atlas in FSL version 5.0.11.
-
-### Aggregated FC analysis
-#### Confirmatory analyses
-<!-- R analysis of aggregated values -->
-We analyzed the aggregate FC using linear mixed models in the R package lme4 [@Bates_2007]. We deviated from the pre-registration by only investigating data from the AROMA+CC+GSR denoising pipeline. First, we investigated the time-by-group interaction for baseline and follow-up time points only. We either performed no correction (CA1), adjusted for baseline age, sex, average of logmFD of both time points (CA2) or additionally adjusted for baseline BMI (CA3). We performed model comparison between R1 and R0 models, where $R1 = lmer(aggFC ~ timepoint*group + age + sex + (1|subj))$, and $R0 = lmer(aggFC ~ timepoint + group +  age + sex + (1|subj))$. As planned in the pre-registration, we repeated the above-mentioned interaction analysis for all three time points. 
-The interaction effect was considered significant if the model comparison between R1 and R0 models using the anova command showed p<0.05.
-
-#### Exploratory analysis
-We performed an exploratory analysis with average BMI and change in BMI as predictors of the aggregated FC from AROMA+CC+GSR denoised data of both networks, in line with our exploratory whole brain analysis. We calculated three models with average and change in BMI as predictors of interest and adjusted for baseline age and sex (Model EA2.1), logmFD (Model EA 2.2) and average and change in logmFD (Model EA 2.3).
 
 
 # Results
@@ -323,101 +271,19 @@ tab_sex <- table(dfBL$condition, dfBL$Sex)
 ```
 Histograms on baseline characteristics revealed, that patients in the control group did not differ notably from the intervention group regarding BMI and mFD. There were slight differences in the distribution of sex and age, the control group had a higher number of male participants (n = `r tab_sex[2,2]` vs. n = `r tab_sex[2,1]`) and a higher mean age (`r round(tab_age$mean[tab_age$group1=="KG"],2)` vs. `r round(tab_age$mean[tab_age$group1=="IG"],2)`). In the intervention group, baseline MRI data is not missing completely at random, due to the limited scanner bore. Similarly, we observed a higher drop-out in the control than in the surgery group (baseline timepoint only, n control = ; n surgery = ). Change in BMI throughout the study is depicted in Figure \@ref(fig:figBMIdescr).
 
-```{r figBMIdescr, fig.align='center', out.width="100%", fig.cap="Trajectoriy of BMI separately for the bariatric surgery group (BARS) and the waiting-list control group (NBARS); individual trajectories are plotted in transparent, mean trajectories including standard deviations in opaque colors.", echo=FALSE}
+```{r figBMIdescr, fig.align='center', out.width="100%", fig.cap="Trajectory of BMI separately for the bariatric surgery group (BARS) and the waiting-list control group (NBARS); individual trajectories are plotted in transparent, mean trajectories including standard deviations in opaque colors.", echo=FALSE}
 # eval = TRUE, fig.asp = 0.7, fig.width = 6
 readRDS(file = "../report/fig/fig_BMIdescr.rds")
 ```
 
-## Whole-brain analyses: Confirmatory analysis 
-First, we performed the pre-registered analysis in participants with baseline and followup data, using two denoising pipelines and three covariate adjustements.
+## Confirmatory analysis 
+### Whole-brain analysis
+Against our initial hypothesis, there was no interaction effect of group and time point on neither RN nor DMN FC in model CA 1 (no adjustments). There also was no significant main effect for any of the effects of interest (time, group) in clusterwise inference with FWE-correction.
+The same was true for models CA2 (adjusting for age, sex and average of logmFD). Results did not differ between AROMA+CC and AROMA+CC+GSR denoising pipelines.
+In Model CA3 (adjusting for age, sex, average of logmFD and baseline BMI) there also was no significant interaction when adding baseline BMI. Yet, we found a significant main effect of time in this model. For AROMA+CC+GSR denoised data, we found decreased FC of the NAcc with the lateral occipital cortex at baseline compared to followup (FWE-corrected $p = 0.030$), and decreased FC of the PCC within the DMN to the medial anterior cingulate cortex (FWE-corrected $p = 0.046$) (see SI).
+<!-- Neurovault -->The unthresholded contrast maps of group, time and group-by-time interaction for the unadjusted model for AROMA+CC+GSR are uploaded on NeuroVault [https://neurovault.org/collections/9426/](https://neurovault.org/collections/9426/).
 
-### Model CA1 (without adjustments)
-Against our initial hypothesis, there was no interaction effect of group and time point for FC for neither the Nacc nor the PCC seeds. There also was no significant main effect for any of the covariates of interest (time, group) in clusterwise inference with FWE-correction.
-
-###  Model CA2 (adjusted for age, sex and average of logmFD)
-Similarly, there were no significant clusters when adjusting for age, sex and average of logmFD. Results did not differ between AROMA+CC and AROMA+CC+GSR preprocessing pipelines.
-
-###  Model CA3 (adjusted for age, sex, average of logmFD and baseline BMI)
-There was no significant interaction when adding baseline BMI. Yet, we found a significant main effect of time in this model. For AROMA+CC+GSR preprocessed data, we found higher FC of the Nacc with the lateral occipital cortex at baseline compared to followup (FWE $p=0.030$), and higher FC of the PCC within the DMN to the medial ACC (FWE $p=0.046$)(see supplements).
-
-<!-- Neurovault -->The unthresholded contrast maps of group, time and group-by-time interaction for the unadjusted model are uploaded on [NeuroVault](https://neurovault.org/collections/9426/)).
-
-## Whole-brain: Exploratory Analyses
-### Group-by-time interaction for three time points (EA 1.1 and EA 1.2)
-Similarly to the analysis with two time points, there was no significant interaction or main effect when analyzing models EA 1.1 and EA 1.2 in the full data set for neither RN nor DMN.
-
-### Whole-brain effects of mean and change in BMI
-#### RN
-
-##### Average and change in BMI, adjusted for logmFD (EA 2.1 and EA 2.2)
-Nacc connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes and regardless whether we adjusted for logmFD.
-
-##### Average and change in BMI, adjusted for split logmFD (EA 2.3)
-<!-- cc -->For the RN, we found a significant negative association of change in BMI with FC between Nacc and a cluster in the posterior-medial frontal region. 
-The peak voxel derived from investigating the effect of average logmFD was classified 45% superior frontal gyrus and 37% supplementary motor area (SMA) in the Harvard-Oxford atlas (see Table \@ref(tab:tableBMIFDmodel)). Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction ($p = 0.028$), even if data was GSR ($p = 0.038$).
-```{r "BMIFDagesexNacccgnBMIdeact", fig.cap="Cluster showing a significant negative effect of change BMI on Nacc to posterior-medial frontal region, adjusted for age, sex, mean BMI and logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
-knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf",
-                          "../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf"))
-```
-<!-- gsr -->Moreover, FC between the Nacc and one cluster in a more posterior region, i.e. motor cortex, was significantly positively related to average logmFD (see  Figure \@ref(fig:BMIFDagesexNaccavgFDact)). This result was similar for AROMA+CC+GSR preprocessed data.
-```{r "BMIFDagesexNaccavgFDact", fig.cap="Cluster showing a significant positive Effect of average logmFD on FC between Nacc and motor cortex, adjusted for age, sex, average BMI, change in BMI, and change in logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", eval=TRUE}
-knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
-                          "../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf"))
-```
-<!-- RN connectivity was not significantly related to neither mean nor change in BMI, for either of the preprocessing schemes. Results with significant cluster co-activation are depicted in Table \@ref(tab:tableBMImodel). -->
-
-#### DMN
-
-##### Average and change in BMI, adjusted for mFD (EA 2.1 and EA 2.2)
-Using the images preprocessed with AROMA+CC, we found a significant negative association of average BMI and DMN connectivity in the lingual gyrus, mid orbital gyrus and temporal gyrus, which remained stable after including logmFD as nuisance covariate (FWE-cluster p < 0.05, see Figure \@ref(fig:BMIagesexPCCccavgBMIdeact)). When using GSR-data, none of the clusters was significantly associated with average BMI. Results with significant cluster activation are shown in Table \@ref(tab:tableBMImodel).
-```{r "BMIagesexPCCccavgBMIdeact",fig.cap="Negative association of average BMI and FC with PCC/precuneus in AROMA+CC preprocessed data", fig.subcap = c("adjusted for age and sex", "adjusted for age, sex and logmFD"), fig.hold=TRUE, out.width = "50%"}
-knitr::include_graphics(c("../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf", "../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf"))
-```
-
-##### Average and change in BMI, adjusted for split logmFD (EA 2.3)
-
-To disentangle effects of change in BMI and logmFD in this dataset, we split logmFD into average logmFD and change in logmFD. Age and sex were kept as nuisance covariates.
-<!-- cc --> Average BMI remained significantly negatively associated with the three clusters above when splitting logmFD into its components (Figure \@ref(fig:BMIFDagesexPCCccavgBMIdeact2)). <!-- gsr -->As before, the effect did not survive when using AROMA+CC+GSR preprocessed (see Table \@ref(tab:tableBMIFDmodel).
-```{r "BMIFDagesexPCCccavgBMIdeact2", fig.cap="Negative association of average BMI and FC of PCC/precuneus with a cluster, adjusted for age, sex, average BMI, average logmFD, and change in logmFD in AROMA+CC denoised data", out.width = "50%"}
-knitr::include_graphics("../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf")
-```
-<!-- Neurovault -->
-Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average logmFD and change in logmFD are published on NeuroVault https://neurovault.org/collections/9426/.
-
-##### Functional decoding
-Functional decoding of these two activation patterns showed different top association terms. For the [negative BMI change cluster](https://neurosynth.org/decode/?neurovault=441783) frontal, anterior insula	and inferior frontal were the top terms, while for the [average logmFD](https://neurosynth.org/decode/?neurovault=441784) primary motor, motor and premotor cortex were the meta-analytic activation maps most similar to this contract. The FC contrasts were thus somewhat distinct, though the decoding method [does not allow](https://www.talyarkoni.org/blog/tag/neurosynth/) to conclude specificity.
-
-##### Effect of logmFD (EA 2.4)
-
-To explore the unique contributions of the average value of and the longitudinal change in logmFD, we constructed an additional model, where BMI measures were excluded from the design matrix. Covariance of the logmFD and outcome measures was investigated by splitting logmFD into average logmFD and longitudinal logmFD change and by inspecting associations with each predictor. Age and sex were used as nuisance covariates.
-
-<!-- #### Reward -->As shown in Table \@ref(tab:tableFDmodel) and Figure \@ref(fig:FDagesexNACCccavgFDact), there was a significant positive association between average logmFD and co-activation of Nacc with one cluster located in proximity to the central sulcus and motor areas. Cluster co-activation appeared irrespective of the preprocessing procedure, differing mainly in cluster size.
-<!-- ### DMN -->We did not find any clusters with a significant association of logmFD and PCC FC.
-```{r "FDagesexNACCccavgFDact", fig.show = "hold", out.width = "50%", fig.cap = "Positive association of average logmFD and FC of Nacc with cluster, adjusted for age, sex, average BMI, change BMI and change logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data")}
-knitr::include_graphics("../report/fig/FDagesex_NACCcc_avgFD_act.pdf")
-knitr::include_graphics("../report/fig/FDagesex_NACCgsr_avgFD_act.pdf")
-```
-
-
-
-```{r tableBMImodel}
-# do not change chunk label as it corresponds to the manually defined (in table.R) table label
-tab_BMImodel <- readRDS(file = "../report/tab/FCTableList.rds")[[1]]
-tab_BMImodel
-```
-```{r tableBMIFDmodel}
-# do not change chunk label as it corresponds to the manually defined (in table.R) table label
-tab_BMIFDmodel <- readRDS(file = "../report/tab/FCTableList.rds")[[2]]
-tab_BMIFDmodel
-```
-```{r tableFDmodel}
-# do not change chunk labelsas it corresponds to the manually defined (in table.R) table label
-tab_FDmodel <- readRDS(file = "../report/tab/FCTableList.rds")[[3]]
-tab_FDmodel
-```
-
-## Aggregated FC analysis
-### Confirmatory analysis of group-by-time interaction (CA1, CA2, CA3)
+### Aggregated FC analysis
 ```{r load agg FC data and prepare, echo = FALSE}
 final_FC <- read.csv("../report/final_FC.csv")
 ```
@@ -428,12 +294,40 @@ fig_Rewconn<-readRDS(file = "../report/fig/figRewconn.rds")
    fig_DMNconn
 fig_Rewconn
 ```
-There was no significant group-by-time interaction for aggregated DMN and RN FC (see Figure @ref(fig:figaggFC) and supplements for a detailed summary of the models), regardless of the adjustments (CA1: without adjustment, CA2 adjusting for age,sex and average of mFD or CA3 age,sex, average of mFD and baseline BMI), and whether the analyses were performed in two and three timepoints. Thus, we did not repeat the analysis with-out the 10% of highest motion subjects, as pre-registered.
+There was no significant group-by-time interaction for aggregated DMN and RN FC (see Figure \@ref(fig:figaggFC) and SI for a detailed summary of the models), regardless of the adjustments (CA1: without adjustment, CA2 adjusting for age,sex and average of mFD or CA3 age,sex, average of mFD and baseline BMI), and whether the analyses were performed in two and three timepoints. 
 
-### Exploratory analysis: effects of mean and change in BMI on aggregated FC
-#### RN
-##### Models EA 2.1, 2.2. and 2.3
-```{r "Rew model mean&change of BMI&logmFD", eval = TRUE, echo = FALSE}
+
+## Exploratory Analyses (pre-registered)
+### Whole-brain analysis
+RN FC was not significantly related to neither average nor change in BMI, for either of the denoising pipelines and regardless whether we adjusted for logmFD (EA 1 and EA 2).
+Only in model EA 3 (adjusting for average and change in both BMI and logmFD), we found that more BMI decrease (e.g. weight loss) predicted higher FC between NAcc and a cluster in the posterior-medial frontal region (see Table \@ref(tab:tableBMImodel)). 
+The peak voxel derived from investigating the effect of average logmFD was classified $45$% superior frontal gyrus and $37$% supplementary motor area (SMA) in the Harvard-Oxford atlas (see Table \@ref(tab:tableBMIFDmodel)). Voxel activation at local maximum within this cluster was significant at peak level after FWE-correction ($p = 0.028$), also in AROMA+CC+GSR-denoised data ($p = 0.038$).
+
+```{r "BMIFDagesexNacccgnBMIdeact", fig.cap="Stronger BMI decrease is associated with increased FC between NAcc and posterior-medial frontal region, adjusted for age, sex, average BMI and logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", fig.hold=TRUE, eval=TRUE}
+knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_cngBMI_deact.pdf",
+                          "../report/fig/BMIFDagesex_NACCgsr_cngBMI_deact.pdf"))
+```
+```{r "BMIFDagesexNaccavgFDact", fig.cap="Higher average logmFD is positively associated with FC between NAcc and motor cortex, adjusted for age, sex, average BMI, change in BMI, and change in logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data"), out.width = "50%", eval=TRUE}
+knitr::include_graphics(c("../report/fig/BMIFDagesex_NACCcc_avgFD_act.pdf",
+                          "../report/fig/BMIFDagesex_NACCgsr_avgFD_act.pdf"))
+```
+Moreover, average logmFD was positively associated with FC between NAcc and motor cortex in model EA 3 for both denoising pipelines (see Figure \@ref(fig:BMIFDagesexNaccavgFDact)).  
+
+For the DMN, we found that higher average BMI predicted lower FC of the precuneus/PCC with the lingual gyrus, mid orbital gyrus and temporal gyrus in the images denoised with AROMA+CC. This finding was significant in models EA 1, EA 2 and EA 3 (see Figures \@ref(fig:BMIagesexPCCccavgBMIdeact) and \@ref(fig:BMIFDagesexPCCccavgBMIdeactt) and Table \@ref(tab:tableBMImodel)). Yet, none of the clusters survived when using AROMA+CC+GSR denoised data (see Table \@ref(tab:tableBMIFDmodel).
+
+```{r "BMIagesexPCCccavgBMIdeact",fig.cap="Higher average BMI is associated with lower FC of PCC/precuneus with different regions in AROMA+CC denoised data", fig.subcap = c("adjusted for age and sex (EA 1)", "andjusted for age, sex and logmFD (EA 2)"), fig.hold=TRUE, out.width = "50%", fig.align="center"}
+knitr::include_graphics(c("../report/fig/BMIagesex_PCCcc_avgBMI_deact.pdf", "../report/fig/BMIagesexfd_PCCcc_avgBMI_deact.pdf"))
+```
+```{r "BMIFDagesexPCCccavgBMIdeactt", fig.cap="Higher average BMI is associated with lower FC of  PCC/precuneus with different regions, adjusted for age, sex, average BMI, average logmFD, and change in logmFD in AROMA+CC denoised data", out.width = "50%", fig.align="center"}
+knitr::include_graphics("../report/fig/BMIFDagesex_PCCcc_avgBMI_deact.pdf")
+```
+<!-- Neurovault -->
+Unthresholded maps for the t-tests as well as contrasts of average BMI and change BMI of the main model, and post-hoc contrasts for average logmFD and change in logmFD are published on NeuroVault [https://neurovault.org/collections/9426/](https://neurovault.org/collections/9426/).
+
+
+### Aggregated FC analysis
+As expected, there was no association of average BMI or within-subject BMI change and within RN FC in models EA 1, EA 2 or EA 3 adjusting for age, sex and logmFD (for details see SI).
+```{r "Rew model average&change of BMI&logmFD", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
 R02 = lme4::lmer(mean_Rew_conn ~ within.BMI + mean.logmFD + within.logmFD +  Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -448,11 +342,6 @@ test_vif=lm(mean_Rew_conn ~ mean.BMI + within.BMI + mean.logmFD + within.logmFD 
 vif_res=vif(test_vif)
 ```
 
-As expected from the whole-brain findings, there was no association of average BMI or within-subject BMI change and within RN connectivity in models EA 2.1, 2.2 or 2.3 adjusting for age, sex and logmFD.
-
-#### DMN
-
-##### Models EA 2.1, 2.2. and 2.3
 
 ```{r "DMN model, mean, change BMI", eval = TRUE, include = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
@@ -481,33 +370,68 @@ anvwithinFD=anova(R1,R03)
 
 p_mean_BMI_splitmFD=anvmeanBMI$`Pr(>Chisq)`
 ```
-Corresponding to the whole brain results, there was a negative association of average BMI and aggregated DMN FC, regardless of whether we adjusted for logmFD (model EA 2.1: $p$ = `r round(p_meanBMI,3)` and EA 2.2: $p$ = `r round(p_meanBMI_adjmFD,3)`). 
-The association also remained significant when we split logmFD into average and change in logmFD (EA 2.3) ($p$ = `r round(p_mean_BMI_splitmFD,3)[2]`) and there was no significant association of mean or change in logmFD with DMN FC (see supplements material for overview of all models).
+Like in the whole-brain analysis, higher average BMI was associated with reduced aggregated DMN FC, regardless of whether we adjusted for logmFD (model EA 1: $p$ = `r round(p_meanBMI,3)` and EA 2: $p$ = `r round(p_meanBMI_adjmFD,3)`). 
+The association also remained significant when we split logmFD into average and change in logmFD (EA 3) ($p$ = `r round(p_mean_BMI_splitmFD,3)[2]`) and there was no significant association of average or change in logmFD with DMN FC (see SI for overview of all models).
+
+
+## Exploratory analsis (not pre-registered)
+### Group-by-time interaction in three time points 
+Similarly to the analysis with two time points, there was no significant interaction or main effect when analyzing models EA 4 and EA 5 in the full data set for neither RN nor DMN.
+
+### Average and change in logmFD 
+<!-- #### Reward -->As shown in Table \@ref(tab:tableFDmodel) and Figure \@ref(fig:FDagesexNACCccavgFDact), higher average logmFD was positively associated with FC between NAcc and cluster located in proximity to the central sulcus and motor areas. Cluster co-activation appeared irrespective of the denoising pipeline, differing mainly in cluster size.
+<!-- ### DMN -->We did not find any clusters with a significant association of logmFD and DMN FC.
+```{r "FDagesexNACCccavgFDact", fig.show = "hold", out.width = "50%", fig.cap = "Positive association of average logmFD and FC of Nacc with cluster, adjusted for age, sex, average BMI, change BMI and change logmFD", fig.subcap = c("in AROMA+CC", "in AROMA+CC+GSR data")}
+knitr::include_graphics("../report/fig/FDagesex_NACCcc_avgFD_act.pdf")
+knitr::include_graphics("../report/fig/FDagesex_NACCgsr_avgFD_act.pdf")
+```
+##### Functional decoding
+Functional decoding of the two activation patterns from the pre-registered, exploratory analysis EA 3 showed different top association terms. For the [negative BMI change cluster](https://neurosynth.org/decode/?neurovault=441783) frontal, anterior insula and inferior frontal were the top terms, while for the [average logmFD](https://neurosynth.org/decode/?neurovault=441784) primary motor, motor and premotor cortex were the meta-analytic activation maps most similar to this contract. The FC contrasts were thus somewhat distinct, though the decoding method [does not allow](https://www.talyarkoni.org/blog/tag/neurosynth/) to conclude specificity.
+
+
+```{r tableBMImodel}
+# do not change chunk label as it corresponds to the manually defined (in table.R) table label
+tab_BMImodel <- readRDS(file = "../report/tab/FCTableList.rds")[[1]]
+tab_BMImodel
+```
+```{r tableBMIFDmodel}
+# do not change chunk label as it corresponds to the manually defined (in table.R) table label
+tab_BMIFDmodel <- readRDS(file = "../report/tab/FCTableList.rds")[[2]]
+tab_BMIFDmodel
+```
+```{r tableFDmodel}
+# do not change chunk labelsas it corresponds to the manually defined (in table.R) table label
+tab_FDmodel <- readRDS(file = "../report/tab/FCTableList.rds")[[3]]
+tab_FDmodel
+```
+
+
+
+
 
 # Discussion
 
-In this pre-registered study, we investigated the effects of bariatric surgery on the FC of major resting-state brain networks in a longitudinal controlled design. Moreover, we explored the longitudinal relationship of surgery-induced weight loss and FC, and carefully adjusted for head motion by using two efficient denoising pipelines and controlling for mFD on the group level.
-We found no interaction effect of group and time point on whole-brain FC of the PCC and Nacc. We observed a main effect of time when adjusting for age, sex, average logmFD and BMI, and which pointed to higher FC at baseline compared to followup for both DMN and RN hubs. Furthermore, we did not find significant interaction or main effects of group and time point on within-network FC.
-In an exploratory model disentangling the effects of average and change in BMI, higher BMI was negatively associated with DMN FC for the more lenient denoising pipeline. When we additionally adjusted for average and change in head motion, a significant negative relationship between the individuals' change in BMI across the three time points and the connectivity of Nacc with a posterior-medial frontal cluster emerged. This result was significant in both denoising pipelines. Functional decoding revealed similarities of the connectivity pattern with frontal, anterior insula and inferior frontal activation patterns. Finally, higher average head motion was associated with increased Nacc connectivity with a cluster in precentral gyrus, close to, yet more posterior than the BMI change cluster.
+In this pre-registered study, we investigated the effects of bariatric surgery on the FC of major resting-state brain networks in a longitudinal controlled design. Moreover, we explored the longitudinal relationship of surgery-induced weight loss and FC, and carefully adjusted for head motion by using two efficient denoising pipelines and controlling for head motion on the group level.
+We did not detect significant effects of bariatric surgery compared to waiting on whole-brain FC of the PCC and NAcc, core hubs of the RN and DMN, according to pre-registered whole-brain analyses. This was regardless of whether we adjusted for age, sex and individual head motion. DMN and RN FC was lower at baseline compared to followup for the whole group only when adjusting for age, sex, average logmFD and baseline BMI. 
+In an exploratory model disentangling the effects of average and change in BMI, higher BMI was associated with lower DMN FC for the more lenient denoising pipeline. When we additionally adjusted for both average and change in head motion, decreases in BMI between the three time points were associated with increased connectivity of the NAcc with a posterior-medial frontal cluster. This result was significant in both denoising pipelines. Functional decoding revealed similarities of the connectivity pattern with frontal, anterior insula and inferior frontal activation patterns. Finally, higher average head motion was associated with increased NAcc connectivity with a cluster in precentral gyrus, close to, yet more posterior than the change BMI cluster.
 
-In this study, we could not confirm our pre-registered hypotheses and found no interaction effect between group and time point on DMN and RN FC.   
-Based on previous studies in bariatric surgery patients, we expected within-DMN FC to increase, and DMN FC to other somatosensory and attention networks to decrease, in line with more efficient processing of visceral and bodily signals after surgery [@Li_2018; @McFadden_2013; @Frank_2013]. Further, we expected FC between RN regions to decrease, as bariatric surgery has been previously shown to reduce hyperactivation in RN regions and hedonic motivation to eat  [@Ochner2012_wanting; @Scholtz_2014; @Cerit_2019].     
-However, in an exploratory analysis, stronger BMI decrease predicted higher connectivity of the Nacc and a cluster in a posterior-medial frontal brain region. Based on the Harvard-Oxford atlas and NeuroSynth decoding this region might be part of the salience network and involved in action preparation. The enhanced FC between the Nacc and this regions seems at odds with our expectation of reduced hedonic drive to eat after bariatric surgery. 
-One the other hand, higher connectivity might also indicate a better integration of hedonic drive and salience processing in action planning. Previously, a decrease in local (regional homogeneity and frequency of low-amplitude oscillations) and global connectivity (degree centrality) measures in a similar region of the left SMA was reported after glucose administration [@AlZubaidi_2018]. Reduced connectivity in this region was interpreted as an inhibition of action planning or initiation because of fulfilled energy requirements and reduced need for foraging. Importantly, a global decrease in connectivity might go along with selectively increased connectivity, i.e. a shift from integration towards segregation and more specialized processing. However, this interpretation is highly speculative, and more studies are needed to corroborate these findings.
+In this study, we could not confirm our pre-registered hypotheses. Based on previous studies in bariatric surgery patients, we expected within-DMN FC to increase, and DMN FC to other somatosensory and attention networks to decrease, in line with more efficient processing of visceral and bodily signals after surgery [@Li_2018; @McFadden_2013; @Frank_2013]. Further, we expected FC between RN regions to decrease, as bariatric surgery has been previously shown to reduce hyperactivation in RN regions and hedonic motivation to eat [@Ochner2012_wanting; @Scholtz_2014; @Cerit_2019]. These studies, notably, did not include adequate longitudinal obese control groups, making false-positive findings possible. We thus conclude that surgery-induced heavy weight loss does not strongly affect DMN and RN FC based on the current results.    
+However, in an exploratory analysis, stronger BMI decrease predicted higher connectivity of the NAcc and a cluster in a posterior-medial frontal brain region. Based on the Harvard-Oxford atlas and NeuroSynth decoding this region might be part of the salience network and involved in action preparation. The enhanced FC between the NAcc and this regions seems at odds with our expectation of reduced hedonic drive to eat after bariatric surgery. 
+One the other hand, higher connectivity might also indicate a better integration of hedonic drive and salience processing in action planning. Previously, a decrease in local (regional homogeneity and frequency of low-amplitude oscillations) and global connectivity (degree centrality) measures in a similar region of the left SMA was reported after glucose administration [@AlZubaidi_2018]. Reduced connectivity in this region was interpreted as an inhibition of action planning or initiation because of fulfilled energy requirements and reduced need for foraging. Importantly, a global decrease in connectivity might go along with selectively increased connectivity, i.e. a shift from integration towards segregation and more specialized processing. However, this interpretation is highly speculative, and more studies are needed to corroborate these considerations.
 
-Overall, our results point to the importance of head motion as a confounder in neuroimaging studies in obesity. Previously, we reported multi-collinearity between BMI and head motion in this sample [@Beyer_2020], and therefore conducted careful analyses of the impact of head motion on our results.
-To our surprise, the effect of weight loss on the connectivity of the Nacc with the posterior-medial frontal region was only present when separating average mFD and change in mFC and thereby introducing two instead of one regressor into the model. These results may be due to the presence of multi-collinearity between change in FD and BMI which might appear more pronounced in the split model, and thus lead to unreliable estimations of effects and standard errors. Contrarily, one could argue that only with the careful disentanglement of average and change in BMI and FD the effect of change in BMI could be singled out. This argument is supported by the survival of the cluster when using AROMA+CC+GSR preprocessed data, and the distinct results of the decoding analysis. Further, average FD was associated with a cluster in a similar, yet not identical region, and crucially, this association was positive. Thus, confounding of the negative BMI change effect and the positive average head motion effect on posterior-frontal FC  seems unlikely.
+Overall, our results point to the importance of head motion as a confounder in neuroimaging studies in obesity, challenging definite conclusions on the relationship between weight loss and FC changes. Previously, we reported multi-collinearity between BMI and head motion in this sample [@Beyer_2020], and therefore conducted careful analyses of the impact of head motion on our results.
+To our surprise, the effect of weight loss on the connectivity of the NAcc with the posterior-medial frontal region was only present when separating average mFD and change in mFD and thereby introducing two instead of one regressor into the model. These results may be due to the presence of multi-collinearity between change in FD and BMI which might appear more pronounced in the split model, and thus lead to unreliable estimations of effects and standard errors. Contrarily, one could argue that only with the careful disentanglement of average and change in BMI and FD the effect of change in BMI could be singled out. This argument is supported by the survival of the cluster when using AROMA+CC+GSR denoised data, and the distinct results of the decoding analysis. Further, average FD was associated with a cluster in a similar, yet not identical region, and crucially, this association was positive. Thus, confounding of the negative BMI change effect and the positive average head motion effect on posterior-frontal FC  seems unlikely.
 Head motion also played a role in the association of higher BMI and reduced DMN FC. While this result was no longer significant on a whole-brain level when using stringent denoising, aggregated within-DMN FC was negatively associated with BMI in both denoising schemes. Thereby, this results echoes a previous finding from our group, and may be interpreted as accelerated age-related decline of the DMN in relation to the cardiometabolic risk related to BMI. Yet, midline regions are prone to motion artifacts and doubts regarding the complete removal of motion confounding remain [@Savalia_2017].
 
-The major strength of our study is prospective intervention controlled design. We compared BS patients to an obese control group who did not differ in baseline BMI, comorbidities, treatment history and  treatment recommendation and were scanned after the same time intervals [@Thiese_2014]. Another strength of our study was the pre-registered analysis plan, which was corrected after we realized some major flaws in the first version. In particular, we fixed the number of preprocessing schemes and models and determined that we would use SwE toolbox, a recommended statistical toolbox to deal with longitudinal repeated measures [@Guillaume_2014]. Opposed to the flexible factorial models which is the standard in SPM, marginal models are parsimonious and preserve the degrees of freedom, allowing for the inclusion of covariates and higher power.
-Limitations of our study include the low number of patients who participated in all three time points. In total, only $34$ participants contributed to the estimation of the longitudinal effects with at least two time points. Furthermore, patients in the intervention group were not missing at random over time points, as often, before surgery, they did not fit into the MRI scanner. While this sample size is comparable to previous rsfMRI studies in bariatric surgery, it seems unlikely that our power was high enough to detect small effect sizes.
+The major strength of our study is the prospective intervention controlled design. We compared BS patients to an obese control group who did not differ in baseline BMI, comorbidities, treatment history and  treatment recommendation and were scanned after the same time intervals [@Thiese_2014]. Another strength of our study was the pre-registered analysis plan, which was corrected prior to statistical analysis after we noticed flaws in the first version. In particular, we fixed the number of denoising schemes and models and determined that we would use SwE toolbox, an advanced statistical toolbox to deal with longitudinal repeated measures [@Guillaume_2014]. Opposed to the flexible factorial models which is the standard in SPM, marginal models are parsimonious and preserve the degrees of freedom, allowing for the inclusion of covariates and higher power.
+Limitations of our study include the low number of patients who participated in all three time points. In total, only $34$ participants contributed to the estimation of the longitudinal effects with at least two time points. Patients in the intervention group were not missing at random over time points, as often, before surgery, they did not fit into the MRI scanner. While this sample size is comparable to previous rsfMRI studies in bariatric surgery, it seems unlikely that our power was high enough to detect small effect sizes.
 
-We used seed-based connectivity to derive large-scale brain networks. While this approach yielded reasonable DMN and RN maps, it is a univariate approach not taking into account the interrelatedness of subnetworks and assuming that the connectivity of a central hub reflects the connectivity of the network as a whole. Furthermore, we did not explicitly investigate the FC of the DMN and RN with other large-scale brain networks attention, e.g. cognitive control or sensorimotor networks, which has been previously proposed to be altered by obesity and bariatric surgery [@Lips_2014; @Olivo_2016; @Cerit_2019].
+We used seed-based connectivity to derive large-scale brain networks. While this approach yielded reasonable DMN and RN maps, it is a univariate approach not taking into account the interrelatedness of subnetworks and assuming that the connectivity of a central hub reflects the connectivity of the network as a whole. Furthermore, our rsfMRI was relatively short, which might have further reduced our power.
 
-We did not control for hunger or satiety in our design, although all participants were scanned after the intake of a breakfast following an overnight fast.  Hunger feelings and levels of appetite regulating hormones such as insulin and ghrelin have been shown to predict RN responsivity to food cues, as well as resting-state brain organization [@Kroemer_2013; @Lepping_2015; @Wiemerslage_2016; @Ochner_2012], and might thus have confounded our results [@Li_2019].
-Size and composition of our sample did not allow separate analyses for the sexes. However, the disproportionate sex distribution is reflective of the prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
+We did not monitor hunger or satiety in our design, although all participants were scanned after the intake of a breakfast following an overnight fast.  Hunger feelings and levels of appetite regulating hormones such as insulin and ghrelin have been shown to predict RN responsivity to food cues, as well as resting-state brain organization [@Kroemer_2013; @Lepping_2015; @Wiemerslage_2016; @Ochner_2012], and might thus have confounded our results [@Li_2019].
+Size and composition of our sample did not allow sex-stratified analyses. However, the disproportionate sex distribution is reflective of the prevalence differences and under-utilization of bariatric surgery by men [@Fuchs_2015; @Chooi_2019].
 
-Taken together, this study showed that effects of bariatric surgery on resting-state brain organization are, if at all, subtle, and often confounded by head motion. Yet, changes in BMI might relate to altered reward and salience processing, which might contribute to observed changes in food wanting and choice in patients after bariatric surgery. Further, larger, well-controlled and pre-registered neuroimaging studies are necessary to understand the neural underpinnings of altered gut-brain communication after bariatric surgery.
+Taken together, this prospective well-controlled study did not confirm previous findings claiming strong effects of bariatric surgery on FC of the RN and DMN in obese patients. In our cohort, differential changes in head motion adjustment strongly altered rsfMRI neuroimaging results. We thus recommend to rigorously control head motion at acquisition through online monitoring or prospective motion correction, to acquire longer rsfMRI scans or to investigate brain organization with less motion-prone techniques such as task-based fMRI. Furthermore, to increase validity and power, future studies should include obese control groups, and increase efforts to share and pool valuable patient data into meta-analysis. Finally, pre-registration of concrete and testable hypotheses would help to increase replicability of the field and truely enhance our understanding of the neural underpinnings of altered gut-brain communication after bariatric surgery.
 
 # Code availability
 

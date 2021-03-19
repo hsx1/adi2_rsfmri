@@ -88,57 +88,57 @@ for (r in 1:nrow(result_report)) {
 df1 <- read.csv(file.path(res_fc$result_dir,res_fc$BMImodel_dirs[1],res_fc$deact_csv))
 colnr <- ncol(df1)
 df1$seed <- NULL
-df1[1,"seed"] <- c("PCC (cc)")
+df1[1,"seed"] <- c("PCC (CC)")
 df1$covariates <- NA
 df1$covariates[1] <- "age, sex, log mFD"
 # BMIagesex_PCCcc_avgBMI_deact 
 df2 <- read.csv(file.path(res_fc$result_dir,res_fc$BMImodel_dirs[2],res_fc$deact_csv))
 df2$seed <- NULL
-df2[1,"seed"] <- c("PCC (cc)")
+df2[1,"seed"] <- c("PCC (CC)")
 df2$covariates <- NA
 df2$covariates[1] <- "age, sex"
 
 # BMIFDagesex_NACCcc_cggBMI_deact 
 df3 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[1],res_fc$deact_csv))
 df3$seed <- NULL
-df3[1,"seed"] <- c("NAcc (cc)")
+df3[1,"seed"] <- c("NAcc (CC)")
 df3$covariates <- NA
 df3$covariates[1] <- c("age, sex")
 # BMIFDagesex_NACCcc_avgFD_act
 df4 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[2],res_fc$act_csv))
 df4$seed <- NULL
-df4[1,"seed"] <- c("NAcc (cc)")
+df4[1,"seed"] <- c("NAcc (CC)")
 df4$covariates <- NA
 df4$covariates[1] <- "age, sex"
 # BMIFDagesex_NACCgsr_cggBMI_deact 
 df5 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[3],res_fc$deact_csv))
 df5$seed <- NULL
-df5[1,"seed"] <- c("NAcc (gsr)")
+df5[1,"seed"] <- c("NAcc (GSR)")
 df5$covariates <- NA
 df5$covariates[1] <- "age, sex"
 # BMIFDagesex_NACCgsr_avgFD_act 
 df6 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[4],res_fc$act_csv))
 df6$seed <- NULL
-df6[1,"seed"] <- c("NAcc (gsr)")
+df6[1,"seed"] <- c("NAcc (GSR)")
 df6$covariates <- NA
 df6$covariates[1] <- "age, sex"
 # BMIFDagesex_PCCcc_avgBMI-deact 
 df7 <- read.csv(file.path(res_fc$result_dir,res_fc$FDBMImodel_dirs[5],res_fc$deact_csv))
 df7$seed <- NULL
-df7[1,"seed"] <- c("PCC (cc)")
+df7[1,"seed"] <- c("PCC (CC)")
 df7$covariates <- NA
 df7$covariates[1] <- "age, sex"
 
 # BMIFDagesex_NACCcc_avgFD_act 
 df8 <- read.csv(file.path(res_fc$result_dir,res_fc$FDmodel_dirs[1],res_fc$act_csv))
 df8$seed <- NULL
-df8[1,"seed"] <- c("NAcc (cc)")
+df8[1,"seed"] <- c("NAcc (CC)")
 df8$covariates <- NA
 df8$covariates[1] <- "age, sex"
 # BMIFDagesex_NACCgsr_avgFD_act
 df9 <- read.csv(file.path(res_fc$result_dir,res_fc$FDmodel_dirs[2],res_fc$act_csv))
 df9$seed <- NULL
-df9[1,"seed"] <- c("NAcc (gsr)")
+df9[1,"seed"] <- c("NAcc (GSR)")
 df9$covariates <- NA
 df9$covariates[1] <- "age, sex"
 
@@ -266,10 +266,10 @@ ModelList[[3]]$Hem <- LabelList[[3]]$Hem
 # ------------------------------------------------------------------------------
 
 # hide NA in tables
-fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X sagittal; Y, coronal; Z, axial; cc, preprocessing with AROMA-ICA + CompCor; gsr, preprocessing with AROMA-ICA + CompCor + GSR."
+fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X, sagittal; Y, coronal; Z, axial; CC, preprocessing with AROMA+CC; GSR, preprocessing with AROMA+CC+GSR."
 fn3 <- "To identify significant clusters, we applied a cluster size threshold with p < 0.001 determined by Wild Bootstrap of 1000 samples."
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
-title_vec <- c("models 2a and 2b", "models 2c", "the post-hoc FD model") 
+title_vec <- c("Models EA 2.1 and EA 2.2", "Model EA 2.3", "Model EA 2.4") 
 
 tabnames <- c("tableBMImodel","tableBMIFDmodel","tableFDmodel")
 TableList <- list()
@@ -430,10 +430,10 @@ mk_DetailedLabelTab <- function(){
   #   stringr::str_replace_all('agesexfd', 'age, sex and mFD') %>%
   #   stringr::str_replace_all('agesex', 'age and sex')
   AnatomyResults$label <- AnatomyResults$label %>%
-    stringr::str_replace_all('BMIagesexfd', 'model 2b') %>%
-    stringr::str_replace_all('BMIagesex', 'model 2a') %>%
-    stringr::str_replace_all('BMIFDagesex', 'model 2c') %>%
-    stringr::str_replace_all('FDagesex', 'the FD model') 
+    stringr::str_replace_all('BMIagesexfd', 'model EA 2.2') %>%
+    stringr::str_replace_all('BMIagesex', 'model EA 2.1') %>%
+    stringr::str_replace_all('BMIFDagesex', 'model EA 2.3') %>%
+    stringr::str_replace_all('FDagesex', 'model EA 2.4') 
   
   AnatomyResults$roi <- AnatomyResults$roi %>%
     stringr::str_replace_all('NACC', 'NAcc')
@@ -453,7 +453,7 @@ mk_DetailedLabelTab <- function(){
       label,
       "on", #"model on",
       denoising,
-      "preprocessed data."
+      "denoised data."
     )
   )
   
