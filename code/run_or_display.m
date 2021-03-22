@@ -103,14 +103,14 @@ param.MASK_B = "MNI_resampled_brain_mask.nii,1";
 roi_prep = convertCharsToStrings(readcell(fullfile(param.INFO_DIR,"ROIs.txt"), "Delimiter"," ","Whitespace","'"));
 %% ------------------------------------------------------------------------
 
-param.PRESET = "manual";
+param.PRESET = "test";
 param.ONLY_DISPLAY = true;
 param.OVERWRITE = false; 
 param.WILD_BOOT = true;   
 param.parallel = false;
 
 if param.PRESET == "standard"
-    param.MODEL = ["grouptime","grouptime2tp", "bmi", "bmiIG","bmi2tp", "fd","fdIG"];
+    param.MODEL = ["grouptime", "grouptime2tp", "bmi", "fd"];
     param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
     param.COVARIATES = [11, 12, 13, 14, 21, 22, 31, 32];  
     param.MASK = "brain";           
@@ -166,9 +166,9 @@ elseif param.PRESET == "full"
     param.INFERENCE_TYPE = ["voxel","cluster","tfce"];
     param.VIEW = true;
 elseif param.PRESET == "test"
-    param.MODEL = ["grouptime"];
-    param.ROI_PREP = roi_prep([4, 6, 12, 14]); 
-    param.COVARIATES = [14];  
+    param.MODEL = ["grouptime2tp"];
+    param.ROI_PREP = roi_prep([4]); 
+    param.COVARIATES = [12];  
     param.MASK = "brain";           
     param.EXCLFD = false;        
     param.INFERENCE_TYPE = ["cluster"];

@@ -269,7 +269,7 @@ ModelList[[3]]$Hem <- LabelList[[3]]$Hem
 fn1 <- "Hem, hemisphere; L, left; R, right; FWE-corr., family-wise error corrected; MNI (Montreal Neurological Institute) coordinates of primary peak location: X, sagittal; Y, coronal; Z, axial; CC, preprocessing with AROMA+CC; GSR, preprocessing with AROMA+CC+GSR."
 fn3 <- "To identify significant clusters, we applied a cluster size threshold with p < 0.001 determined by Wild Bootstrap of 1000 samples."
 fn4 <- "Connectivity with maximum three voxels that mark local maxima within the respective custer; more detailed description of anatomical regions that are assigned to overall clusters and and corresponding probability in Supplementary."
-title_vec <- c("Models EA 2.1 and EA 2.2", "Model EA 2.3", "Model EA 2.4") 
+title_vec <- c("Models EA1 and EA2", "Model EA3", "Model EA6") 
 
 tabnames <- c("tableBMImodel","tableBMIFDmodel","tableFDmodel")
 TableList <- list()
@@ -304,14 +304,14 @@ TableList[[1]] <- TableList[[1]] %>%
 
 TableList[[2]] <- TableList[[2]] %>%
   kableExtra::group_rows("change in BMI (decrease)", 1, nrow(df3)) %>%
-  kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
+  kableExtra::group_rows("average logmFD (increase)", nrow(df3)+1, nrow(df3)+nrow(df4)) %>%
   kableExtra::group_rows("change in BMI (decrease)", nrow(df3)+nrow(df4)+1, nrow(df3)+nrow(df4)+nrow(df5)) %>%
-  kableExtra::group_rows("average log mean FD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
+  kableExtra::group_rows("average logmFD (increase)", nrow(df3)+nrow(df4)+nrow(df5)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)) %>%
   kableExtra::group_rows("average BMI (decrease)", nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+1, nrow(df3)+nrow(df4)+nrow(df5)+nrow(df6)+nrow(df7))
 
 TableList[[3]] <- TableList[[3]] %>%
-  kableExtra::group_rows("average log mean FD (increase)", 1, nrow(df8)) %>%
-  kableExtra::group_rows("average log mean FD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
+  kableExtra::group_rows("average logmFD (increase)", 1, nrow(df8)) %>%
+  kableExtra::group_rows("average logmFD (increase)", nrow(df8)+1, nrow(df8)+nrow(df9))
 
 rm(df1,df2,df3,df4,df5,df6,df7,df8)
 return(TableList)

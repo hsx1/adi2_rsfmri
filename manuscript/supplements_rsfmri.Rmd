@@ -1,5 +1,5 @@
 ---
-title: "Supplementary Material for Effects of bariatric surgery and weight loss on resting state functional connectivity"
+title: "Supplementary Information for 'Effects of bariatric surgery on functional connectivity of the reward and default mode network: a pre-registered analysis'"
 author:
 - Hannah Sophie Heinrichs* [1]
 - Frauke Beyer* [1][2]
@@ -58,9 +58,9 @@ knitr::opts_chunk$set(fig.pos = "!ht", out.extra = "")
 \newpage
 
 # Methods
-Table \@ref(tab:tableSample) shows the distribution of data points in the present rsfMRI study, for the bariatric surgery group (BARS) and the waiting-list control group (NBARS).
 
 ## Sample
+Table \@ref(tab:tableSample) shows the distribution of data points in the present rsfMRI study, for the bariatric surgery group (BARS) and the waiting-list control group (NBARS).
 
 ```{r "tableSample", echo=FALSE}
 tableSample <- readRDS(file = "../report/tab/tableSample.rds")
@@ -84,11 +84,11 @@ knitr::kable(
     format = "latex",
     booktabs = T,
     linesep = "",
-    caption = "BMI and mFD of participants acquired in each condition and time point")
+    caption = "BMI and logmFD of participants acquired in each condition and time point")
 ```
 
 ## Denoising Pipelines
-We pre-registered two distinct denoising pipelines which were previously shown to efficiently remove motion artifacts in fMRI. In @Parkes_2018,  ICA-AROMA provided an acceptable trade-off between the mitigation of motion-FC correlation and the introduction of a distance-dependence on motion-FC relationship. @Ciric_2017 showed that GSR is very efficient in removing the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. 
+We pre-registered two distinct denoising pipelines which were previously shown to efficiently remove motion artifacts in fMRI. In @Parkes_2018, ICA-AROMA provided an acceptable trade-off between the mitigation of motion-FC correlation and the introduction of a distance-dependence on motion-FC relationship. @Ciric_2017 showed that GSR is very efficient in removing the correlation of head motion and FC, and outperforms ICA-AROMA alone. Yet, it introduces spatial dependency and spurious correlations. 
 
 ### ICA-AROMA denoising pipeline   
 As described in @pruim2015ica, the minimally preprocessed data underwent independent component analysis (ICA) using FSL's `melodic` and nuisance components were classified according to four spectral and spatial criteria. Finally, the timeseries of the  nuisance components were regressed from the raw rsfMRI timeseries non-aggressively.
@@ -98,7 +98,7 @@ As recommended in the original paper, we performed regression of WM and CSF sign
 The global signal was derived from the average of all voxels in the brain mask. Then, we regressed WM and CSF CompCor components along with the GS from the ICA-AROMA rsfMRI data and high-pass filtered the resulting file as above.
 
 ## Quality Control
-### Individual level resting-state rsfMRI QC
+### Individual level rsfMRI QC
 ```{r carpetplot, out.width="50%", out.height="30%", fig.cap="Carpet plot for quality control", fig.subcap = c("Example 1 with strong amount of structured noise", "Example 2 with less amount of structured noise"), fig.show='hold',fig.align='center', echo=FALSE}
 carpets=c("../report/carpetplotadi006fu2.jpeg","../report/carpetplotadi16fu.jpeg")
 knitr::include_graphics(carpets)
@@ -131,7 +131,7 @@ tab_Qcfc
 ```
 In the minimally preprocessed data, mFD and FC between nodes were significantly positively correlated (mean Spearman's $r$ = `r round(res[1,1],2)`)(see Table \@ref(tab:tableQcfc)). This relationship was negatively associated with distance between nodes (mean Spearman's $r$ = `r round(res[1,5],2)`).  
 Denoising pipelines (AROMA, AROMA+CC, AROMA+CC+GSR) gradually reduced the correlation of mFD and FC, and reduced the distance dependency. Contrary to previous reports, GSR did not exercabate mFD-FC distance dependency [@Power_2015]. Overall, AROMA+CC+GSR performed best, with almost no mFD-FC correlation (mean Spearman's $r$ = `r round(res[4,1],2)`), and minimal positive distance dependence (mean Spearman's $r$ = `r round(res[4,5],2)`)
-In addition, for models showing a significant time-by-group interaction, we planned to perform a sensitivity analysis excluding the 10% data sets with Fhighest mFD. 
+In addition, for models showing a significant time-by-group interaction, we planned to perform a sensitivity analysis excluding the 10% data sets with highest mFD. 
 
 
 ```{r figDvarsmFD, out.width="100%", fig.cap='Summary of quality measures DVARS, mFD and their correlation', fig.show='hold',fig.align='center', echo=FALSE}
@@ -218,7 +218,7 @@ qa_info[qa_info$subj.ID=="ADI111"&qa_info$tp=="fu2",]
 
 
 ### Reward network 
-#### Two time points, without adjustments (Model CA1) 
+**Two time points, without adjustments (Model CA1) **
 
 ```{r calc rew two tp, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -259,9 +259,9 @@ texreg(
 )
 ```
 
-#### Two timepoints, adjusted for age, sex and average mFD (Model CA2)
+**Two timepoints, adjusted for age, sex and average logmFD (Model CA2)**
 
-```{r calc rew two tp adjusted 2, fig.cap="Two timepoints, adjusted for age, sex and average mFD (Model CA2)", eval = TRUE, echo = FALSE}
+```{r calc rew two tp adjusted 2, fig.cap="Two timepoints, adjusted for age, sex and average logmFD (Model CA2)", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 R0 = lme4::lmer(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
 anvRew2tpadj=anova(R1,R0)
@@ -280,7 +280,7 @@ test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + mean.logmFD, data
 vif_res=vif(test_vif)
 ```
 
-```{r Rew2tpadj2 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex and average of mFD", results="asis", echo=FALSE}
+```{r Rew2tpadj2 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex and average of logmFD", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -291,7 +291,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "Timepoint x Group"
   ),
   custom.model.names = c("R0", "R1"),
@@ -307,7 +307,7 @@ texreg(
 )
 ```
 
-#### Two timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
+**Two timepoints, adjusted for age, sex, average of logmFD and baseline BMI (Model CA3)**
 
 ```{r calc rew two tp adjusted 3, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -328,7 +328,7 @@ test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +  BMI
 vif_res=vif(test_vif)
 ```
 
-```{r Rew2tpadj3 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex, average of mFD and baseline BMI", results="asis", echo=FALSE}
+```{r Rew2tpadj3 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex, average of logmFD and baseline BMI", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -339,7 +339,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "baseline BMI",
     "Timepoint x Group"
   ),
@@ -356,7 +356,7 @@ texreg(
 )
 ```
 
-#### Three time points, without adjustments (Model CA1)
+**Three time points, without adjustments (Model CA1)**
 
 ```{r calc rew three tp, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + (1|subj.ID), data=final_FC)
@@ -398,7 +398,7 @@ texreg(
 )
 ```
 
-#### Three timepoints, adjusted for age, sex and average mFD (Model CA2)
+**Three timepoints, adjusted for age, sex and average logmFD (Model CA2)**
 
 ```{r calc rew three tp adjusted 2, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + (1|subj.ID), data=final_FC)
@@ -419,7 +419,7 @@ test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex + mean.logmFD, data
 vif_res=vif(test_vif)
 ```
 
-```{r Rew3tpadj 2 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex and average of mFD", results="asis", echo=FALSE}
+```{r Rew3tpadj 2 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex and average of logmFD", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -431,7 +431,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "Timepoint FU x Group", 
     "Timepoint FU2 x Group"
   ),
@@ -448,7 +448,7 @@ texreg(
 )
 ```
 
-#### Three timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
+**Three timepoints, adjusted for age, sex, average of logmFD and baseline BMI (Model CA3)**
 
 ```{r calc rew three tp adjusted 3, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC)
@@ -469,7 +469,7 @@ test_vif=lm(mean_Rew_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +  BMI
 vif_res=vif(test_vif)
 ```
 
-```{r Rew3tpadj 3 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex, average of mFD and baseline BMI", results="asis", echo=FALSE}
+```{r Rew3tpadj 3 results, caption="Interaction of group and time on reward network connectivity for two time points, adjusted for age, sex, average of logmFD and baseline BMI", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -481,7 +481,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "baseline BMI",
     "Timepoint FU x Group", 
     "Timepoint FU2 x Group"
@@ -506,7 +506,7 @@ fig_Rewconn
 
 
 ### DMN 
-#### Two time points, without adjustments (Model CA1)
+**Two time points, without adjustments (Model CA1)**
 
 ```{r calc rew two tp DMN, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -546,7 +546,7 @@ texreg(
 )
 ```
 
-#### Two timepoints, adjusted for age, sex and average mFD (Model CA2)
+**Two timepoints, adjusted for age, sex and average logmFD (Model CA2)**
 
 ```{r calc DMN two tp adjusted 2, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -567,7 +567,7 @@ test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=fina
 vif_res=vif(test_vif)
 ```
 
-```{r DMN2tpadj2 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex and average of mFD", results="asis", echo=FALSE}
+```{r DMN2tpadj2 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex and average of logmFD", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -578,7 +578,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "Timepoint x Group"
   ),
   custom.model.names = c("R0", "R1"),
@@ -594,7 +594,7 @@ texreg(
 )
 ```
 
-#### Two timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
+**Two timepoints, adjusted for age, sex, average of logmFD and baseline BMI (Model CA3)**
 
 ```{r calc DMN two tp adjusted 3, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC[final_FC$tp!="fu2",])
@@ -615,7 +615,7 @@ test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +  BMI
 vif_res=vif(test_vif)
 ```
 
-```{r DMN2tpadj3 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex, average of mFD and baseline BMI", results="asis", echo=FALSE}
+```{r DMN2tpadj3 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex, average of logmFD and baseline BMI", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -626,7 +626,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "baseline BMI",
     "Timepoint x Group"
   ),
@@ -643,7 +643,7 @@ texreg(
 )
 ```
 
-#### Three time points, without adjustments (Model CA1)
+**Three time points, without adjustments (Model CA1)**
 
 ```{r calc DMN three tp, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + (1|subj.ID), data=final_FC)
@@ -685,7 +685,7 @@ texreg(
 )
 ```
 
-#### Three timepoints, adjusted for age, sex and average mFD (Model CA2)
+**Three timepoints, adjusted for age, sex and average logmFD (Model CA2)**
 
 ```{r calc DMN three tp adjusted 2, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + (1|subj.ID), data=final_FC)
@@ -706,7 +706,7 @@ test_vif=lm(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex + logmFD, data=fina
 vif_res=vif(test_vif)
 ```
 
-```{r DMN3tpadj 2 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex and average of mFD", results="asis", echo=FALSE}
+```{r DMN3tpadj 2 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex and average of logmFD", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -718,7 +718,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "Timepoint FU x Group", 
     "Timepoint FU2 x Group"
   ),
@@ -735,7 +735,7 @@ texreg(
 )
 ```
 
-#### Three timepoints, adjusted for age, sex, average of mFD and baseline BMI (Model CA3)
+**Three timepoints, adjusted for age, sex, average of logmFD and baseline BMI (Model CA3)**
 ```{r calc DMN three tp adjusted 3, eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~ tp*group_factor + Age_BL + Sex + mean.logmFD + BMI_BLi + (1|subj.ID), data=final_FC)
 R0 = lme4::lmer(mean_DMN_conn ~ tp + group_factor + Age_BL + Sex +mean.logmFD +BMI_BLi + (1|subj.ID), data=final_FC)
@@ -752,7 +752,7 @@ table(m.stab$detailed$warnings)
 m.stab$summary
 ```
 
-```{r DMN3tpadj 3 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex, average of mFD and baseline BMI", results="asis", echo=FALSE}
+```{r DMN3tpadj 3 results, caption="Interaction of group and time on DMN connectivity for two time points, adjusted for age, sex, average of logmFD and baseline BMI", results="asis", echo=FALSE}
 #tab_model(R1,R0)
 texreg(
   list(R0, R1),
@@ -764,7 +764,7 @@ texreg(
     "Group BARS",
     "Age",
     "Sex",
-    "av mFD",
+    "av logmFD",
     "baseline BMI",
     "Timepoint FU x Group", 
     "Timepoint FU2 x Group"
@@ -790,7 +790,8 @@ fig_DMNconn
 
 ## Exploratory Analyses: Effects of average and change BMI on FC
 ### Reward network
-#### Model 2.1 and 2.2 (adjusting for mFD)
+
+**Model EA1 (without adjustment) and EA2 (adjusting for logmFD)**
 ```{r "reward model, mean, change BMI", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -821,7 +822,9 @@ texreg(
   use.packages = TRUE
 )
 ```
-#### Model EA 2.3 (adjusting for average and change in mFD)
+
+
+**Model EA 3 (adjusting for average and change in logmFD)**
 ```{r "reward model mean+change of BMI+logmFD", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_Rew_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_Rew_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -838,11 +841,12 @@ p_mean_BMI=anvmeanBMI$`Pr(>Chisq)`
 
 ```{r reward_BMI_splitFD results, caption="Model EA 2.3 for aggregated reward network FC", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average mFD", "change mFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h!",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = TRUE)
+texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average logmFD", "change logmFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h!",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = TRUE)
 ```
 
 ### DMN
-#### Model 2.1 and 2.2 (adjusting for mFD)
+
+**Model EA1 (without adjustment) and EA2 (adjusting for logmFD)**
 ```{r "DMN model, mean, change BMI", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_DMN_conn ~ mean.BMI +  Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -873,7 +877,8 @@ texreg(
   use.packages = TRUE
 )
 ```
-#### Model 2.3 (adjusting for average and change in mFD)
+
+**Model EA3 (adjusting for average and change in logmFD)**
 ```{r "DMN model mean+change of BMI+logmFD", eval = TRUE, echo = FALSE}
 R1 = lme4::lmer(mean_DMN_conn ~  mean.BMI + within.BMI + mean.logmFD + within.logmFD + Age_BL + Sex  + (1|subj.ID), data=final_FC)
 R01 = lme4::lmer(mean_DMN_conn ~ mean.BMI + mean.logmFD + within.logmFD + Age_BL + Sex +(1|subj.ID), data=final_FC)
@@ -890,7 +895,7 @@ p_mean_BMI=anvmeanBMI$`Pr(>Chisq)`
 
 ```{r DMN_BMI_splitFD results, caption="Model 2.3 for aggregated DMN FC", results="asis", echo=FALSE}
 #tab_model(R1,R0)
-texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average mFD", "change mFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h!",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = TRUE)
+texreg(list(R1), custom.coef.names=c("Intercept", "average BMI", "change BMI", "average logmFD", "change logmFD", "Age", "Sex"), custom.model.names = "R1", float.pos = "h!",  center = TRUE, digits = 3, leading.zero = FALSE, single.row = TRUE, include.adjrs = FALSE, include.bic = FALSE, table = FALSE, use.packages = TRUE)
 ```
 
 \newpage
@@ -1017,3 +1022,5 @@ ToolboxOutputList$EntryList[[i]] %>%
   kableExtra::kable_styling(latex_options = c('scale_down'))
     
 ```
+\newpage
+### References
