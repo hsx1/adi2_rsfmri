@@ -351,7 +351,7 @@ mk_figtSNR <- function (final) {
   figtSNR <-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
     geom_violin(aes(fill=roi), alpha=0.5) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
     scale_fill_manual(values=wesanderson::wes_palette("Darjeeling2",5,type="discrete")[2:3]) +
-    theme(axis.text=element_text(size=10),
+    theme_bw() + theme(axis.text=element_text(size=10),
           axis.title=element_text(size=12),
           strip.text = element_text(size=12),
           legend.position="")
@@ -518,7 +518,7 @@ mk_otherplots <- function(final){
 
 }
 
-figDvarsmFD <- function(final){
+mk_figDvarsmFD <- function(final){
 
   # figures --------------------------------------------------------------------
 
@@ -661,3 +661,4 @@ figDvarsmFD <- function(final){
 
   return(FigureList)
 }
+

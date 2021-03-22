@@ -16,6 +16,8 @@ library(VIM)
 
 # Constants ---------------------------------------------------------------
 
+fig_location = "/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/submission/HBM/fig/"
+
 # processes data to report later in manuscript .Rmd file
 ROOT_DIR ="/data/pt_02161/Analysis/Project2_resting_state/seed-based/Second_level /code_and_manuscript/code/"
 aggFCDMN_TAB_PATH="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/DMN/agg_FC_DMN.txt"
@@ -120,19 +122,25 @@ saveRDS(object = tableDescr, file = "../report/tab/tableDescr.rds")
 
 fig_BMIdescr <- mk_figBMIdescr(final)
 saveRDS(object = fig_BMIdescr, file = "../report/fig/fig_BMIdescr.rds")
+ggsave(filename = paste0(fig_location, "fig_BMIdescr",".pdf"), units = "cm", 
+       width=15, height=10)
 
 
 # figFDdescr -------------------------------------------------------------
 
 fig_FDdescr <- mk_figFDdescr_for_OHBM(final)
 saveRDS(object = fig_FDdescr, file = "../report/fig/fig_FDdescr.rds")
-
+ggsave(filename = paste0(fig_location, "fig_FDdescr",".pdf"), units = "cm", 
+       width=15, height=10)
 
 # figDesignmatrix ---------------------------------------------------------
 
 DesignMatricesList <- mk_figDesignMatrix()
 saveRDS(object = DesignMatricesList, file = "../report/fig/DesignMatricesList.rds")
-
+ggsave(plot = DesignMatricesList$plotA, filename = paste0(fig_location, "DesignMatrices",".pdf"), units = "cm", 
+       width=15, height=10)
+ggsave(plot = DesignMatricesList$plotB, filename = paste0(fig_location, "DesignMatricesB",".pdf"), units = "cm", 
+       width=15, height=10)
 
 # mk_tableQcfc ------------------------------------------------------------
 
@@ -154,6 +162,8 @@ colnames(res) <- c('mean FD-QC', 'median FD-QC', 'sig. vertex', 'sig. vertex BH'
 
 fig_tSNR <- mk_figtSNR(final)
 ggsave("../report/tsnr.pdf", height = 6.604, units="cm", fig_tSNR)
+ggsave(filename = paste0(fig_location, "fig_tSNR",".pdf"), units = "cm", 
+       width=15, height=10)
 #saveRDS(object = fig_tSNR, file = "../report/fig/fig_tSNR.rds")
 
 
@@ -197,21 +207,30 @@ write.csv(final_FC,"../report/final_FC.csv", row.names = FALSE)
 
 # figDvarsmFD -------------------------------------------------------------
 
-figDvarsmFDList <- figDvarsmFD(final)
+figDvarsmFDList <- mk_figDvarsmFD(final)
+lay <- rbind(c(1,1,2,2),
+             c(NA,3,3,NA))
+figDvarsmFD <- gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
 saveRDS(object = figDvarsmFDList, file = "../report/fig/figDvarsmFDList.rds")
-
+ggsave(plot = figDvarsmFD, 
+       filename = paste0(fig_location, "figDvarsmFD",".pdf"), units = "cm", 
+       width=23, height=19)
 
 # fig_DMNconn -------------------------------------------------------------
 
 # DMN conn over three time points
 fig_DMNconn <- mk_figDMNdescr(final_FC)
 saveRDS(object = fig_DMNconn, file = "../report/fig/figDMNconn.rds")
+ggsave(filename = paste0(fig_location, "fig_DMNconn",".pdf"), units = "cm", 
+       width=15, height=10)
 
 # fig_RNconn --------------------------------------------------------------
 
 # RN conn over three time points
 fig_Rewconn <- mk_figRewdescr(final_FC)
 saveRDS(object = fig_Rewconn, file = "../report/fig/figRewconn.rds")
+ggsave(filename = paste0(fig_location, "fig_Rewconn",".pdf"), units = "cm", 
+       width=15, height=10)
 
 
 # FCTables ----------------------------------------------------------------
@@ -223,4 +242,19 @@ saveRDS(object = FCTableList, file = "../report/tab/FCTableList.rds")
 # DetailedFCTables ----------------------------------------------------------------
 ToolboxOutputList <- mk_DetailedLabelTab()
 saveRDS(object = ToolboxOutputList, file = "../report/tab/DetailedFCTableList.rds")
+
+#ggsave("/data/pt_02161/Publications/Abstracts/Heinrichs_OHBM2021/bmi.pdf", units = "cm", width=15, height=8)
+fig_list <-
+  list("fig_BMIdescr" = fig_BMIdescr,
+       "fig_FDdescr" = fig_FDdescr,
+       "DesignMatrixA" = DesignMatricesList$plotA,
+       "DesignMatrixB" = DesignMatricesList$plotB,
+       "fig_tSNR" = fig_tSNR,
+       "figDvarsmFD" = figDvarsmFD,
+       "fig_DMNconn" = fig_DMNconn,
+       "fig_Rewconn" = fig_Rewconn
+  )
+
+
+
 

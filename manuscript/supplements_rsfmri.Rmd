@@ -136,11 +136,11 @@ In addition, for models showing a significant time-by-group interaction, we plan
 
 ```{r figDvarsmFD, out.width="100%", fig.cap='Summary of quality measures DVARS, mFD and their correlation', fig.show='hold',fig.align='center', echo=FALSE}
 figList <- readRDS(file = "../report/fig/figDvarsmFDList.rds")
-#(figList$fig1 | figList$fig2) / figList$fig3
-
 lay <- rbind(c(1,1,2,2),
              c(NA,3,3,NA))
-gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
+figDvarsmFD <- gridExtra::grid.arrange(grobs = figList, layout_matrix = lay)
+figDvarsmFD
+
 ```
 
 ```{r fighistograms,fig.cap="Histograms of FC-QC correlations for different denoising pipelines)", out.width="100%", fig.align = "default", echo=FALSE}
@@ -157,7 +157,7 @@ knitr::include_graphics(tsnr)
 Figure \@ref(fig:figNetworks) shows the DMN and reward network average maps which we used for extracting aggregated FC values. Both networks included the typically described brain regions (i.e. medial prefrontal cortex, parietal lobules and posterior hippocampus for the DMN, and anterior cingulate, right amygdala and ventromedial-prefrontal cortex for the reward network).
 Yet, the reward network was less pronounced (overall lower T-values) and less symmetric (no significant connectivity with left amygdala), which might be due to lower SNR in the seeded brain region (see \@ref(fig:figtSNR)).
 Unthresholded maps for the t-tests of the DMN and reward network (which were used for data aggregation) are on Neurovault.
-```{r figNetworks, echo=FALSE, out.width="50%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all time points and participants with bootstrapped clusterwise inference (FWE-corrected $p < 0.05$)", fig.subcap = c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
+```{r figNetworks, echo=FALSE, out.width="50%", out.height="30%", fig.cap="Resting state networks based on AROMA+CC+GSR input data, one-sample t-tests adjusting for age and sex over all time points and participants with bootstrapped clusterwise inference (FWE-corrected $p < 0.05$). Legend denotes empirical Z-values.", fig.subcap = c("DMN seeded from precuneus", "Reward network seeded from Nucleus Accumbens", "tSNR differences between regions"),fig.show='hold',fig.align='center'}
 
 networks = c("../report/fig/DMN_thresholded_for_clusterFWE005.pdf",
              "../report/fig/Rew_thresholded_for_clusterFWE005.pdf")
@@ -166,10 +166,9 @@ knitr::include_graphics(networks)
 
 
 ## Design
-```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "50%", fig.subcap = c('Design matrix with time as categorial factor.','Design matrix with time as continuous variable.'), fig.cap="Possible design matrices of time-by-group model.", echo=FALSE}
+```{r figDesignmatrix, fig.align = 'center', fig.ncol = 2, out.width = "100%",  fig.cap="Design matrices of time-by-group model with time as categorial factor. N, NBARS; B, BARS; numbers indicate month of measurement since beginning, 0 indicates baseline(pre-surgery measurement, 6 and 12 indicate months after baseline/surgery.", echo=FALSE}
 DesignMatricesList <- readRDS(file = "../report/fig/DesignMatricesList.rds")
 DesignMatricesList$plotA
-DesignMatricesList$plotB
 #gridExtra::grid.arrange(plotA, plotB, nrow=1)
 ```
 
@@ -177,11 +176,11 @@ DesignMatricesList$plotB
 
 ## Confirmatory Analysis
 
-```{r "GT2tpagesexmFDBMIblNaccgsrTimeDeact", fig.cap="Main effect of time: Negative Association of FC between NAcc and this cluster in lateral parietal cortex, adjusted for age, sex, avgFD, and baseline BMI in AROMA+CC+GSR preprocessed data", fig.hold=TRUE, out.width = "50%", fig.align="center"}
+```{r "GT2tpagesexmFDBMIblNaccgsrTimeDeact", fig.cap="Main effect of time: Negative Association of FC between NAcc and this cluster in lateral parietal cortex, adjusted for age, sex, avgFD, and baseline BMI in AROMA+CC+GSR preprocessed data. Legend denotes empirical Z-values.", fig.hold=TRUE, out.width = "50%", fig.align="center"}
 knitr::include_graphics(c("../report/fig/GroupTime2tp_NACCgsr_time_deact.pdf"))
 ```
 
-```{r "GT2tpagesexmFDBMIblPCCgsrTimeDeact", fig.cap="Main effect of time: Negative Association of FC between PCC/precuneus and this cluster in ACC, adjusted for age, sex, avgFD, and baseline BMI in AROMA+CC+GSR preprocessed data", fig.hold=TRUE, out.width = "50%", fig.align="center"}
+```{r "GT2tpagesexmFDBMIblPCCgsrTimeDeact", fig.cap="Main effect of time: Negative Association of FC between PCC/precuneus and this cluster in ACC, adjusted for age, sex, avgFD, and baseline BMI in AROMA+CC+GSR preprocessed data. Legend denotes empirical Z-values.", fig.hold=TRUE, out.width = "50%", fig.align="center"}
 knitr::include_graphics(c("../report/fig/GroupTime2tp_PCCgsr_time_deact.pdf"))
 ```
 
