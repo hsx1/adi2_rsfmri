@@ -1,4 +1,13 @@
+# contact: heinrichs@cbs.mpg.de
+# info: creates figures
 
+# Load packages -----------------------------------------------------------
+library(ggplot2)
+
+pink_blue = c("#00305E", "#C00045")
+blue_organge = c("#046C9A", "#D69C4E")
+
+# BMI --------------------------------------------------------------------------
 mk_figBMIdescr <- function(final) {
 
   condition.labs <- c("BARS","NBARS")
@@ -11,19 +20,80 @@ mk_figBMIdescr <- function(final) {
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
       size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) + 
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x),
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+    scale_color_manual(
+      values = c("#046C9A70", "#D69C4E70"),
+      labels = c("intervention", "control")
+    ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
+    xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
+    theme_bw() +  theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      strip.text = element_text(size = 12),
+      legend.text = element_text(size = 10),
+      legend.position = "none"
+    )
+  # ggsave("/data/pt_02161/Publications/Abstracts/Heinrichs_OHBM2021/bmi.pdf", units = "cm", width=15, height=8)
+  return(figBMIdescr)
+}
+
+mk_figBMIdescr_for_OHBM <- function(final) {
+
+  condition.labs <- c("BS","NBS")
+  names(condition.labs) <- c("IG","KG")
+  # BMI over time each group
+  figBMIdescrOHBM <-
+    ggplot(final, aes(
+      x = tp,
+      y = BMI,
+      group = subj.ID,
+      color = condition
+    )) +
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    stat_summary(
+      aes(group = condition),
+      fun = mean,
+      geom  = "line",
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x),
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
     xlab("time points") +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
     xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
@@ -34,9 +104,62 @@ mk_figBMIdescr <- function(final) {
       legend.text = element_text(size = 10),
       legend.position = "none"
     )
-  return(figBMIdescr)
+  #ggsave("/data/pt_02161/Publications/Abstracts/HeinrichsBeyer_OHBM2021/bmi.pdf", units = "cm", width=15, height=8)
+  return(figBMIdescrOHBM)
 }
 
+mk_figFDdescr_for_OHBM <- function(final) {
+  
+  condition.labs <- c("BS","NBS")
+  names(condition.labs) <- c("IG","KG")
+  # BMI over time each group
+  figFDdescrOHBM <-
+    ggplot(final, aes(
+      x = tp,
+      y = meanFD,
+      group = subj.ID,
+      color = condition
+    )) +
+    geom_line(position=position_nudge(x = -0.02)) + geom_point(position=position_nudge(x = -0.02)) +
+    stat_summary(
+      aes(group = condition),
+      fun = mean,
+      geom  = "line",
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) +
+    # geom_errorbar(aes(ymin=BMI-sd(BMI),ymax=BMI+sd(BMI))) +
+    xlab("time points") +
+    scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
+    scale_color_manual(
+      values = c("#046C9A70", "#D69C4E70"),
+      labels = c("intervention", "control")
+    ) +
+    xlab("Time after intervention [months]") + ylab ("mean FD") +
+    theme_bw() +  theme(
+      axis.text = element_text(size = 10),
+      axis.title = element_text(size = 12),
+      strip.text = element_text(size = 12),
+      legend.text = element_text(size = 10),
+      legend.position = "none"
+    )
+  ggsave("/data/pt_02161/Publications/Abstracts/HeinrichsBeyer_OHBM2021/meanfd.pdf", units = "cm", width=15, height=8)
+  return(figFDdescrOHBM)
+}
+
+# Reward -----------------------------------------------------------------------
 mk_figRewdescr <- function(final_FC) {
 
   condition.labs <- c("BARS","NBARS")
@@ -49,22 +172,34 @@ mk_figRewdescr <- function(final_FC) {
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
   figRewdescr=figRewdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time after intervention [months]") + ylab ("mean reward connectivity") +
+    xlab("Time after intervention [months]") + ylab ("mean RN FC [Z-score]") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
@@ -75,6 +210,7 @@ mk_figRewdescr <- function(final_FC) {
   return(figRewdescr)
 }
 
+# DMN --------------------------------------------------------------------------
 mk_figDMNdescr <- function(final_FC) {
 
   condition.labs <- c("BARS","NBARS")
@@ -86,23 +222,35 @@ mk_figDMNdescr <- function(final_FC) {
       y = mean_DMN_conn,
       group = subj.ID,
       color = condition
-    )) +
-    geom_line() + geom_point() +
+    )) +    
+    geom_line(position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      size = 1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 1, width = 0.1,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
   figDMNdescr=figDMNdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time after intervention [months]") + ylab ("mean DMN connectivity") +
+    xlab("Time after intervention [months]") + ylab ("mean DMN FC [Z-score]") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
@@ -113,6 +261,7 @@ mk_figDMNdescr <- function(final_FC) {
   return(figDMNdescr)
 }
 
+# Design matrix ----------------------------------------------------------------
 mk_figDesignMatrix <- function() {
 
   # design matrix time as factor
@@ -186,10 +335,31 @@ mk_figDesignMatrix <- function() {
   return(PlotList)
 }
 
+mk_figtSNR <- function (final) {
+  final$subj.ID_tp=paste0(final$subj.ID,'_', final$tp)
+  
+  tsnr=read.table("/data/pt_02161/Analysis/Preprocessing/qa/rs_qa/group_level_QA/check_tsnr/tsnr_in_ROIs.txt")
+  tsnr=tsnr[tsnr$V1!="subj",]
+  colnames(tsnr)=c("subj.ID_tp","roi","median","mean","sd")
+  tsnr <- tsnr[stringr::str_detect(tsnr$subj.ID_tp, "^ADI\\d{3}_(bl|fu|fu2)$"),]
+  levels(tsnr$roi)=droplevels(tsnr$roi)
+  levels(tsnr$roi)=c("NAcc", "PCC/precuneus")
+  tsnr$mean=as.double(tsnr$mean)
+  
+  final_tsnr=merge(final, tsnr, by="subj.ID_tp", all.x=TRUE)
+  
+  figtSNR <-ggplot(aes(as.factor(roi), mean),data=final_tsnr) +
+    geom_violin(aes(fill=roi), alpha=0.5) + geom_jitter(height = 0, width = 0.1) + xlab("Region of interest") + ylab("average tSNR") +
+    scale_fill_manual(values=wesanderson::wes_palette("Darjeeling2",5,type="discrete")[2:3]) +
+    theme(axis.text=element_text(size=10),
+          axis.title=element_text(size=12),
+          strip.text = element_text(size=12),
+          legend.position="")
+  return(figtSNR)
+}
 
+# exploratory and example plots ------------------------------------------------
 
-# ------------------------------------------------------------------------------
-# exploratory and example plots
 mk_otherplots <- function(final){
   # BMI over time per group
   tspag <-
@@ -199,14 +369,14 @@ mk_otherplots <- function(final){
       fun = mean,
       geom  = "line",
       size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     geom_line(aes(group = subj.ID, color = condition)) +
     geom_point(aes(color = condition))
   tspag +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
     xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
@@ -232,7 +402,7 @@ mk_otherplots <- function(final){
     stat_summary(fun = mean, geom = "point") +
     stat_summary(fun = mean, geom = "line")
   tspag  +
-    scale_color_manual(values = c("#00305E", "#C00045")) +
+    scale_color_manual(values = c("#046C9A", "#D69C4E")) +
     theme_bw() +
     theme(
       axis.text = element_text(size = 10),
@@ -301,7 +471,8 @@ mk_otherplots <- function(final){
     stat_summary(fun = mean, geom = "line", size=1) +
     #scale_color_brewer(values = "Set1") +
     scale_x_discrete(labels=c("bl"= "0", "fu"= "6", "fu2" = "12")) +
-    scale_color_manual(values=c("#00305E","#C00045"),labels = c("intervention", "control")) +
+    scale_color_manual(values=c("#046C9A","#D69C4E"),
+                       labels = c("intervention", "control")) +
     xlab("Time after intervention [months]") + ylab ("BMI [kg/m²]") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10), axis.title = element_text(size = 12),
@@ -334,7 +505,7 @@ mk_otherplots <- function(final){
     guides(alpha=FALSE, size=FALSE,
            color = guide_legend(override.aes = list(size=4))) +
     facet_grid(. ~ condition)
-  tspag + scale_color_manual(values=c("#00305E","#C00045")) +
+  tspag + scale_color_manual(values=c("#046C9A","#D69C4E")) +
     theme_bw() + theme(axis.text=element_text(colour = "black",size=10),
                        axis.title=element_text(size=14),
                        axis.text.x = element_text(size=12),
@@ -362,29 +533,43 @@ figDvarsmFD <- function(final){
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(size = 0.8, position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      size = 0.8,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 0.8, width = 0.15,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
   fig1=fig_DVARSdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time [months]") + ylab ("Mean DVARS") +
+    xlab("Time [months]") + ylab (expression(paste("Mean DVARS in\n 10% BOLD change"))) +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),
       strip.text = element_text(size = 12),
       legend.text = element_text(size = 10),
-      legend.position = "none"
+      legend.position = "none",
+      plot.margin=unit(c(5.5, 5.5, 5.5, 15), "points")
     )
+  
   # mFD over time each group
   fig_mFDdescr <-
     ggplot(final, aes(
@@ -393,19 +578,31 @@ figDvarsmFD <- function(final){
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(size = 0.8, position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      size = 0.8,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 0.8, width = 0.15,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
   fig2=fig_mFDdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
     xlab("Time [months]") + ylab ("mFD in mm") +
@@ -424,22 +621,34 @@ figDvarsmFD <- function(final){
       group = subj.ID,
       color = condition
     )) +
-    geom_line() + geom_point() +
+    geom_line(size = 0.8,position=position_nudge(x = -0.02)) + 
+    geom_point(position=position_nudge(x = -0.02)) +
     stat_summary(
       aes(group = condition),
       fun = mean,
       geom  = "line",
-      size = 2,
-      color = c(rep("#00305E", 3), rep("#C00045", 3))
+      size = 0.8,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
+    ) +
+    stat_summary(
+      aes(group = condition),
+      fun= mean,
+      fun.min = function(x) mean(x) - sd(x), 
+      fun.max = function(x) mean(x) + sd(x),
+      geom  = "errorbar",
+      size = 0.8, width = 0.15,
+      position=position_nudge(x = 0.02, y = 0),
+      color = c(rep("#046C9A", 3), rep("#D69C4E", 3))
     ) +
     facet_grid(. ~ condition, labeller = labeller(condition=condition.labs)) + xlab("time points")
   fig3=fig_mFDDVARSdescr +
     scale_x_discrete(labels = c("bl" = "0", "fu" = "6", "fu2" = "12")) +
     scale_color_manual(
-      values = c("#00305E", "#C00045"),
+      values = c("#046C9A70", "#D69C4E70"),
       labels = c("intervention", "control")
     ) +
-    xlab("Time [months]") + ylab ("DVARS-FD correlation") +
+    xlab("Time [months]") + ylab ("DVARS-FD correlation r") +
     theme_bw() +  theme(
       axis.text = element_text(size = 10),
       axis.title = element_text(size = 12),

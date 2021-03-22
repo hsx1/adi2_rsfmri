@@ -1,16 +1,27 @@
 # absolute paths
 abs_path*
 directories*
+
 # R data + history
 .Rproj.user
 .RData
 .Rhistory
+
 # bib additional data
 *.bib.bak
 *.bib.sav
-# binary files
+
+# binary files, log files and figures
 *.pdf
 *.docx
+*.odt
+*.log
+
+# folders
+report
+submission
+
 # test files
 tryout*
 test*
+sanity_checks

@@ -5,6 +5,10 @@
 
 output_dir="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/aggFC/"
 
+rm -rf $output_dir/DMN/agg_FC_DMN_ID.txt
+rm -rf $output_dir/DMN/agg_FC_DMN.txt
+rm -rf $output_dir/Rew/agg_FC_Rew.txt
+rm -rf $output_dir/Rew/agg_FC_Rew_ID.txt
 
 # DMN
 # threshold: log10(p_FWE=0.05)=-1.30103
@@ -13,9 +17,9 @@ in="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/noExclFD
 
 fslmaths $in -thr 1.30103 -bin "$output_dir/DMN/DMN_swe_clusternorm_Tstat_lpFWE0.05-WB_c01_mask.nii"
 
-fslmerge -t "$output_dir/DMN/DMN_merged.nii.gz" `ls /data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/Individual_scans/PCC_gsr_z/*`
+fslmerge -t "$output_dir/DMN/DMN_merged.nii.gz" `ls /data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity/*/PCC_gsr_z/pcc_cc_gsr_seed_correlation_z_trans.nii`
 
-ls /data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/Individual_scans/PCC_gsr_z/* >> $output_dir/DMN/agg_FC_DMN_ID.txt
+ls /data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity/*/PCC_gsr_z/pcc_cc_gsr_seed_correlation_z_trans.nii >> $output_dir/DMN/agg_FC_DMN_ID.txt
 
 fslstats -t $output_dir/DMN/DMN_merged.nii.gz -k $output_dir/DMN/DMN_swe_clusternorm_Tstat_lpFWE0.05-WB_c01_mask.nii  -m -s >> $output_dir/DMN/agg_FC_DMN.txt
 
@@ -26,9 +30,9 @@ in="/data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/noExclFD
 
 fslmaths $in -thr 1.30103 -bin "$output_dir/Rew/Rew_swe_clusternorm_Tstat_lpFWE0.05-WB_c01_mask.nii"
 
-fslmerge -t "$output_dir/Rew/Rew_merged.nii.gz" `ls /data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/Individual_scans/Nacc_gsr_z/*`
+fslmerge -t "$output_dir/Rew/Rew_merged.nii.gz" `ls /data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity/*/Nacc_gsr_z/nacc_cc_gsr_seed_correlation_z_trans.nii`
 
-ls /data/pt_02161/Results/Project2_resting_state/connectivity/Analysis/Individual_scans/Nacc_gsr_z/* >> $output_dir/Rew/agg_FC_Rew_ID.txt
+ls /data/pt_02161/Results/Project2_resting_state/connectivity/calc_DMN_reward_seed_connectivity/*/Nacc_gsr_z/nacc_cc_gsr_seed_correlation_z_trans.nii >> $output_dir/Rew/agg_FC_Rew_ID.txt
 
 fslstats -t $output_dir/Rew/Rew_merged.nii.gz -k $output_dir/Rew/Rew_swe_clusternorm_Tstat_lpFWE0.05-WB_c01_mask.nii  -m -s >> $output_dir/Rew/agg_FC_Rew.txt
 
